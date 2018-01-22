@@ -1,0 +1,106 @@
+<div class="layer" id="updateTemplateImg">
+	<form name="FormPost" id="pageTemplate-save" class="FormGrid"  method="post"
+		action="${ctxPath}/cmsPage/templateSave">
+		
+		<input type="hidden" value="${pageTemplate.id!}" name="id"/>
+		<table class="EditTable" width="100%">
+			<tbody>
+				<tr class="FormData">
+					<td class="CaptionTD">渠道</td>
+					<td class="DataTD width-100">
+					<select name="channel" style="width:90%" id="p_channel">
+					@if(pageTemplate.channel == 1){
+					<option value="1" selected="selected">pc</option>
+					<option value="2">微信/APP</option>
+					@} else{
+					<option value="1">pc</option>
+					<option value="2" selected="selected">微信/APP</option>
+					@}
+					</select>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">标题</td>
+					<td class="DataTD">
+					<input type="text" value="${pageTemplate.title!}" name="title" id="title" datatype="*"  nullmsg="请输入标题！"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">模板文件</td>
+					<td class="DataTD">
+					<input type="text" value="${pageTemplate.ftlFile!}" name="ftlFile" datatype="*"  nullmsg="请输入模板文件！"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">文件路径</td>
+					<td class="DataTD">
+					<input type="text" value="${pageTemplate.htmlPath!}" name="htmlPath"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">备注</td>
+					<td class="DataTD">
+					<textarea rows="5"  style="width:90%" id="note" name="note">${pageTemplate.note!}</textarea>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">图片</td>
+					<td class="DataTD width-100">
+					<img alt="" class="Img" src="${pageTemplate.snapshot!}" name="type" height="50px" width="150px">
+					<input type="hidden" value="${pageTemplate.snapshot!}" class="heddenImg" name="snapshot"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">上传</td>
+					<td class="DataTD width-100">
+					<input type="file" name="type" id="uploadFile"/>
+					<input type="button" value="上传" onclick="pageTemplateUploadImg()"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">扩展1名称</td>
+					<td class="DataTD">
+					<input type="text" value='${pageTemplate.ex1Name!}' name="ex1Name"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">扩展2名称</td>
+					<td class="DataTD">
+					<input type="text" value='${pageTemplate.ex2Name!}' name="ex2Name"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">扩展3名称</td>
+					<td class="DataTD">
+					<input type="text" value='${pageTemplate.ex3Name!}' name="ex3Name"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">扩展4名称</td>
+					<td class="DataTD">
+					<input type="text" value='${pageTemplate.ex4Name!}' name="ex4Name"/>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+<#save formId="pageTemplate-save"  reloadPage="true"/>
+<script type="text/javascript" src="${ctxPath!}/static/js/ajaxfileupload.js"></script>
+<script type="text/javascript" src="${ctxPath!}/static/js/manageUploadImg.js"></script>
+<script type="text/javascript">
+
+//描述框自动扩张高度
+$('textarea[class*=autosize]').autosize({append: "\n"});
+$("#user-role-update").chosen({width: "100%",search_contains: true}); 
+function pageTemplateUploadImg() {
+	if($("#uploadFile").val() == ""){
+		alert("请选择上传的图片！")
+	}else{
+		uploadImg($("#updateTemplateImg"),"uploadFile","cmsPage/upload/pic");
+	}
+	
+}
+</script>
+
+

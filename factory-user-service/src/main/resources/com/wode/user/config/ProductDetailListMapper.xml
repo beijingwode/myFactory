@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ProductDetailListMapper">
+
+	<resultMap id="ProductDetailList" type="com.wode.factory.model.ProductDetailList">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="num" column="num"/>
+        <result property="unit" column="unit"/>
+        <result property="productId" column="product_id"/>
+        <result property="isdelete" column="isdelete"/>
+        <result property="orders" column="orders"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,name,num,unit,product_id,isdelete,orders
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_detail_list (
+        	id ,
+        	name ,
+        	num ,
+        	unit ,
+        	product_id ,
+        	isdelete ,
+        	orders 
+        ) VALUES (
+        	#{id} ,
+        	#{name} ,
+        	#{num} ,
+        	#{unit} ,
+        	#{productId} ,
+        	#{isdelete} ,
+        	#{orders} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_product_detail_list SET
+	        name = #{name} ,
+	        num = #{num} ,
+	        unit = #{unit} ,
+	        product_id = #{productId} ,
+	        isdelete = #{isdelete} ,
+	        orders = #{orders} 
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_product_detail_list WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="ProductDetailList">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_product_detail_list 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_product_detail_list 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ProductDetailList">
+    	SELECT <include refid="columns" />
+	    FROM t_product_detail_list 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(name)">
+				AND name = #{name}
+			</if>
+	       <if test="@Ognl@isNotEmpty(num)">
+				AND num = #{num}
+			</if>
+	       <if test="@Ognl@isNotEmpty(unit)">
+				AND unit = #{unit}
+			</if>
+	       <if test="@Ognl@isNotEmpty(productId)">
+				AND product_id = #{productId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isdelete)">
+				AND isdelete = #{isdelete}
+			</if>
+	       <if test="@Ognl@isNotEmpty(orders)">
+				AND orders = #{orders}
+			</if>
+		</where>
+	</sql>
+	<!-- 根据productId查询所有包装清单 -->
+	<select id="findByProduct" parameterType="long" resultMap="ProductDetailList">
+		select <include refid="columns" /> from t_product_detail_list where product_id=#{supplierId} order by orders;
+	</select>
+</mapper>
+

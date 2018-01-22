@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="EnterpriseStructureMapper" >
+  <resultMap id="BaseResultMap" type="com.wode.factory.model.EnterpriseStructure" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="enterprise_id" property="enterpriseId" jdbcType="BIGINT" />
+    <result column="related_ent_id" property="relatedEntId" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="EnterpriseStructureVo" type="com.wode.factory.company.query.EnterpriseStructureVo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="enterprise_id" property="enterpriseId" jdbcType="BIGINT" />
+    <result column="name" property="enterpriseName" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, enterprise_id, related_ent_id, type
+  </sql>
+  <!-- 根据企业id和关系类型查询 -->
+  <select id="selectByEntIdAndType" resultMap="EnterpriseStructureVo" parameterType="map" >
+    select 
+    ent.name,ent_str.id,ent_str.related_ent_id as enterprise_id,ent_str.type
+    from t_enterprise ent left join t_ent_structure ent_str on ent.id=ent_str.related_ent_id
+    <where>		
+	      <if test="enterpriseId != null" >
+	        ent_str.enterprise_id= #{enterpriseId,jdbcType=BIGINT}
+	      </if>
+	      <!-- type1 和type2 都不为空，取两个值的数据 -->
+	     <if test="type1 !=null  &amp;&amp; type2!=null" >
+	       and (ent_str.type = #{type1,jdbcType=INTEGER} or ent_str.type = #{type2,jdbcType=INTEGER})
+	      </if>
+	      <!-- 只取type1有值-->
+	      <if test="type1 != null &amp;&amp; type2==null" >
+	        and ent_str.type = #{type1,jdbcType=INTEGER}
+	      </if>
+	    </where>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ent_structure
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByModel" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from t_ent_structure
+	    <where>		
+	      <if test="enterpriseId != null" >
+	        enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+	      </if>
+	     <if test="relatedEntId != null" >
+	       and related_ent_id = #{relatedEntId,jdbcType=BIGINT}
+	      </if>
+	      <if test="type != null" >
+	        and type = #{type,jdbcType=INTEGER}
+	      </if>
+	    </where>
+	</select>
+	 <!-- 批量修改 -->
+  	<update id="batchUpdate" parameterType="list">
+            update t_ent_structure
+            <trim prefix="set" suffixOverrides=",">
+              <trim prefix="related_ent_id =case" suffix="end,">
+                 <foreach collection="list" item="i" index="index">
+                         <if test="i.relatedEntId!=null">
+                          when id=#{i.id} then #{i.relatedEntId}
+                         </if>
+                 </foreach>
+              </trim>
+             </trim>
+            where
+            <foreach collection="list" separator="or" item="i" index="index" >
+              id=#{i.id}
+          </foreach>
+   </update>
+   
+   <!-- 批量删除 -->
+   <delete id = "deleteBatchByPrimaryKey" parameterType="java.util.List">
+        delete from t_ent_structure where id in
+       <foreach collection="list" item = "ent" open="(" separator="," close=")">#{ent.id}
+       </foreach>
+  </delete>      
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_ent_structure
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wode.factory.model.EnterpriseStructure" >
+    insert into t_ent_structure (id, enterprise_id, related_ent_id, 
+      type)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{relatedEntId,jdbcType=BIGINT}, 
+      #{type,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wode.factory.model.EnterpriseStructure" >
+    insert into t_ent_structure
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="enterpriseId != null" >
+        enterprise_id,
+      </if>
+      <if test="relatedEntId != null" >
+        related_ent_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null" >
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="relatedEntId != null" >
+        #{relatedEntId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.wode.factory.model.EnterpriseStructure" >
+    update t_ent_structure
+    <set >
+      <if test="enterpriseId != null" >
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="relatedEntId != null" >
+        related_ent_id = #{relatedEntId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wode.factory.model.EnterpriseStructure" >
+    update t_ent_structure
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      related_ent_id = #{relatedEntId,jdbcType=BIGINT},
+      type = #{type,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

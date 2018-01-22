@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=divice-width,initial-scale=1">
+<title>订单取消流程</title>
+<link rel="stylesheet" type="text/css" href="static_resources/css/public.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/font.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/help_center.css" />
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="static_resources/js/h5_exit.js"></script>
+
+</head>
+
+<body>
+<div class="main-cont" id="main-cont">
+	<div class="top">
+    	<h1><a href="help_center.htm" class="aleft"></a>订单取消流程</h1>
+    </div>
+    <div class="main-box" style="padding-top:10px;">
+    	<div class="box_con">
+        	<p class="con_p1">1、订单取消（待支付和已支付订单）</p>
+        	<p class="con_p2">取消待支付订单的两个入口分别是：</p>
+        	<p class="con_p2">个人中心→待支付</p>
+            <div class="con_img"><img src="static_resources/images/con_img01.png" /></div>
+            <p class="con_p2">个人中心→全部订单</p>
+            <div class="con_img"><img src="static_resources/images/con_img05.png" /></div>
+            <p class="con_p2">取消已支付订单的两个入口分别是：</p>
+            <p class="con_p2">个人中心→待发货</p>
+            <div class="con_img"><img src="static_resources/images/con_img06.png" /></div>
+            <p class="con_p2">个人中心→全部订单</p>
+            <div class="con_img"><img src="static_resources/images/con_img07.png" /></div>
+            <p class="con_p2">已取消的订单，列表显示“已关闭”，详情页面显示“订单已取消”。</p>
+            <div class="con_img"><img src="static_resources/images/con_img08.png" /></div>
+            <p class="con_p1">2、售后申请</p>
+            <p class="con_p2">发货后订单不能直接取消，需买家确认收货后再申请售后，商家对该售后申请做出回应：同意给买家退款，不同意申请被退回。</p>
+            <div class="con_img"><img src="static_resources/images/con_img09.png" /></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	if(isWeiXinH5()) {
+		$(".top").hide();
+		$(".main-box").css("top","0");
+	}
+});
+</script>
+</body>
+</html>

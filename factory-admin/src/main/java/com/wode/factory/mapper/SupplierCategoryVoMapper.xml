@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.SupplierCategoryVoDao">
+
+	<resultMap id="SupplierCategoryVo" type="com.wode.factory.vo.SupplierCategoryVo">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="categoryParentid" column="category_parentid"/>
+        <result property="categoryParentParentid" column="category_parent_parentid"/>
+        <result property="commissionRatio" column="commissionRatio"/>
+        <result property="categoryName" column="categoryName"/>
+	</resultMap>
+	
+    <select id="find" resultMap="SupplierCategoryVo">
+		SELECT SC.id,SC.supplier_id,SC.category_id,SC.category_parentid,SC.category_parent_parentid,SC.commissionRatio,PC.name categoryName
+		FROM t_supplier_category AS SC
+		INNER JOIN t_product_category AS PC
+			ON (PC.id = SC.category_id)
+		WHERE SC.supplier_id = #{supplierId}
+    </select>
+	
+</mapper>
+

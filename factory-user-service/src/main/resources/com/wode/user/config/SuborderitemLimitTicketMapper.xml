@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SuborderitemLimitTicketMapper">
+
+    <resultMap id="SuborderitemLimitTicket" type="com.wode.factory.model.SuborderitemLimitTicket">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="orderId" column="orderId"/>
+        <result property="subOrderId" column="subOrderId"/>
+        <result property="subOrderItemId" column="subOrderItemId"/>
+        <result property="userLimitTicketId" column="user_limit_ticket_id"/>
+        <result property="ticketType" column="ticket_type"/>
+        <result property="productId" column="product_id"/>
+        <result property="skuId" column="sku_id"/>
+        <result property="skuNum" column="sku_num"/>
+        <result property="status" column="status"/>
+        <result property="limitKey" column="limit_key"/>
+        <result property="orderType" column="order_type"/>
+        <result property="benefitCash" column="benefit_cash"/>
+        <result property="benefitTicket" column="benefit_ticket"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,user_id,orderId,subOrderId,subOrderItemId,user_limit_ticket_id,ticket_type,product_id,sku_id,sku_num,status,limit_key,order_type,benefit_cash,benefit_ticket,create_time,update_time
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_suborderitem_limit_ticket (
+            id ,
+            user_id ,
+            orderId ,
+            subOrderId ,
+            subOrderItemId ,
+            user_limit_ticket_id ,
+            ticket_type ,
+            product_id ,
+            sku_id ,
+            sku_num ,
+            status ,
+            limit_key ,
+            order_type ,
+            benefit_cash ,
+            benefit_ticket ,
+            create_time ,
+            update_time
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{orderId} ,
+            #{subOrderId} ,
+            #{subOrderItemId} ,
+            #{userLimitTicketId} ,
+            #{ticketType} ,
+            #{productId} ,
+            #{skuId} ,
+            #{skuNum} ,
+            #{status} ,
+            #{limitKey} ,
+            #{orderType} ,
+            #{benefitCash} ,
+            #{benefitTicket} ,
+            #{createTime} ,
+            #{updateTime}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_suborderitem_limit_ticket SET            
+            user_id = #{userId} ,
+            orderId = #{orderId} ,
+            subOrderId = #{subOrderId} ,
+            subOrderItemId = #{subOrderItemId} ,
+            user_limit_ticket_id = #{userLimitTicketId} ,
+            ticket_type = #{ticketType} ,
+            status = #{status} ,
+            limit_key = #{limitKey} ,
+            order_type = #{orderType} ,
+            benefit_cash = #{benefitCash} ,
+            benefit_ticket = #{benefitTicket} ,
+            create_time = #{createTime} ,
+            update_time = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_suborderitem_limit_ticket WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="SuborderitemLimitTicket">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_suborderitem_limit_ticket 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+	
+	<select id="findBySuborderId" resultMap="SuborderitemLimitTicket">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_suborderitem_limit_ticket 
+            WHERE 
+                subOrderId = #{subOrderId} 
+        ]]>
+    </select>
+    
+    <select id="selectByModel" resultMap="SuborderitemLimitTicket">
+        SELECT <include refid="columns" /> FROM t_suborderitem_limit_ticket 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(orderId)">
+                AND orderId = #{orderId}
+            </if>
+           <if test="@Ognl@isNotEmpty(subOrderId)">
+                AND subOrderId = #{subOrderId}
+            </if>
+           <if test="@Ognl@isNotEmpty(subOrderItemId)">
+                AND subOrderItemId = #{subOrderItemId}
+            </if>
+           <if test="@Ognl@isNotEmpty(userLimitTicketId)">
+                AND user_limit_ticket_id = #{userLimitTicketId}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticketType)">
+                AND ticket_type = #{ticketType}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitKey)">
+                AND limit_key = #{limitKey}
+            </if>
+           <if test="@Ognl@isNotEmpty(orderType)">
+                AND order_type = #{orderType}
+            </if>
+           <if test="@Ognl@isNotEmpty(benefitCash)">
+                AND benefit_cash = #{benefitCash}
+            </if>
+           <if test="@Ognl@isNotEmpty(benefitTicket)">
+                AND benefit_ticket = #{benefitTicket}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND update_time = #{updateTime}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

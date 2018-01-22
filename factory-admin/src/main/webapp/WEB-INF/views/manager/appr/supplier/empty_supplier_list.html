@@ -1,0 +1,94 @@
+<table class="table table-striped table-bordered table-hover nomargin-bottom">
+	<thead>
+		<tr>
+			<th class="center">ID</th>
+			<th class="center">商家名称</th>
+			<th class="center">座机</th>
+			<th class="center">法人姓名</th>
+			<th class="center">创建时间</th>
+			<th class="center">创建用户</th>
+			<th class="center">招商经理</th>
+			<th class="center">状态</th>
+			<th class="center">操作</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@for(item in page.list){
+			<tr>
+				<td class="center">
+					<a data-mode="detail" data-url="${ctxPath}/appr/supplier/toDetail"
+						data-data="{id:'${item.id}'}" href="javascript:void(0);"
+						data-title="详情" data-width="70%">
+						${item.id!}
+					</a>
+				</td>
+				<td class="center">
+					${item.comName! }
+				</td>
+				<td class="center">
+					${item.comTel! }
+				</td>
+				<td class="center">
+					${item.corName! }
+				</td>
+				<td class="center">
+					${item.creatTime!,dateFormat="yyyy-MM-dd HH:mm:ss" }
+				</td>
+				<td class="center">
+					@if(type!="supplier") {
+						${item.creatName! }
+					@}
+				</td>
+				<td class="center">
+					${item.managerName! }
+				</td>
+				<td class="center">
+					@if(type!="supplier") {
+						@if(item.status == 4){
+							运营审核通过
+						@} else if(item.status == 3){
+							法务审核通过
+						@} else if(item.status == 2){
+							招商审核通过
+						@} else if(item.status == -1){
+							审核未通过
+						@} else if(item.status == 1){
+							未审核
+						@} else if(item.status == 0){
+							未完成
+						@}
+					@} else {
+						已入驻
+					@}
+				</td>
+				<td class="center">
+					<div class="hidden-sm hidden-xs action-buttons">
+					<!-- 传值:企业id -->
+					<!-- <a class="green" href="javascript:void(0);"
+							data-mode="page" data-title="企业信息"
+							data-url="${ctxPath}/supplierList/enterprise/showlayer"
+							data-data="{id:'${item.id}'}"
+							data-width="40%"
+							data-height="40%"
+						>
+						<i class="green ace-icon  fa fa-list-alt bigger-120"></i> 绑定企业
+					</a> -->
+					
+					<a class="green" href="javascript:void(0);"
+							data-mode="page" data-title="${item.comName!}"
+							data-url="${ctxPath}/appr/supplier/toSetManager"
+							data-data="{id:'${item.id}'}"
+							data-width="50%"
+							data-height="40%"
+						>
+						<i class="green ace-icon  fa fa-list-alt bigger-120"></i> 设置招商经理
+					</a>
+					</div>
+				</td>
+			</tr>
+		@}
+	</tbody>
+</table>
+<div class="space-8"></div>
+<#paginate page="${page}" />

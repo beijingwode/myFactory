@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.PageTypeDao">
+
+	<resultMap id="PageTypeSetting" type="com.wode.factory.model.PageTypeSetting">
+        <result property="pageTypeId" column="pageTypeId"/>
+        <result property="title" column="title"/>
+        <result property="name" column="name"/>
+        <result property="page" column="page"/>
+        <result property="orders" column="orders"/>
+        <result property="maxNum" column="maxNum"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="channelId" column="channelId"/>
+
+        <collection property="pageDataList" resultMap="PageData"/>
+	</resultMap>
+	
+	<resultMap id="PageTypeSettingVo" type="com.wode.tongji.vo.PageTypeSettingVo">
+        <result property="pageTypeId" column="pageTypeId"/>
+        <result property="title" column="title"/>
+        <result property="name" column="name"/>
+        <result property="page" column="page"/>
+        <result property="orders" column="orders"/>
+        <result property="maxNum" column="maxNum"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="channelId" column="channelId"/>
+        
+	</resultMap>
+	
+	<resultMap type="com.wode.factory.model.PageData" id="PageData">
+		<result property="id" column="pd_id"/>
+	</resultMap>
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		pageTypeId,title,name,page,orders,max_num maxNum,createDate,updateDate,channelId
+	    ]]>
+	</sql>
+	<!-- 根据pid查询频道页位置标题 -->
+	<select id="selectByChannelId" resultMap="PageTypeSetting">
+		<!-- SELECT pageTypeId,title,page,channelId FROM t_page_type_setting WHERE channelId = #{channelId} -->
+		SELECT pts.pageTypeId,pts.title,pts.page,pts.channelId,pts.max_num as maxNum,pd.id as pd_id 
+		FROM t_page_type_setting pts LEFT JOIN t_page_data pd on pts.pageTypeId = pd.pageTypeId 
+		WHERE pts.channelId = #{channelId} and pts.page = #{page}
+	</select>
+
+
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="pageTypeId">
+    <![CDATA[
+        INSERT INTO t_page_type_setting (
+        	pageTypeId ,
+        	title ,
+        	name ,
+        	page ,
+        	orders ,
+        	createDate ,
+        	channelId,
+        	max_num,
+        	updateDate
+        	
+        	
+        ) VALUES (
+        	#{pageTypeId} ,
+        	#{title} ,
+        	#{name} ,
+        	#{page} ,
+        	#{orders} ,
+        	#{createDate} ,
+        	#{channelId} ,
+        	#{maxNum},
+        	#{updateDate}
+        	 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_page_type_setting SET
+				title = #{title},
+				name = #{name} ,
+				orders = #{orders} ,
+				max_num = #{maxNum},
+				updateDate = #{updateDate}
+        WHERE 
+	        pageTypeId = #{pageTypeId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_page_type_setting WHERE
+        pageTypeId = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="PageTypeSetting">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_page_type_setting 
+	        WHERE 
+		        pageTypeId = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_page_type_setting 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findTypeList" resultMap="PageTypeSetting">
+    	SELECT <include refid="columns" />
+	    FROM t_page_type_setting
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(pageTypeId)">
+				AND pageTypeId = #{pageTypeId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(title)">
+				AND title = #{title}
+			</if>
+	       <if test="@Ognl@isNotEmpty(name)">
+				AND name = #{name}
+			</if>
+	       <if test="@Ognl@isNotEmpty(page)">
+				AND page = #{page}
+			</if>
+	       <if test="@Ognl@isNotEmpty(orders)">
+				AND orders = #{orders}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createDateBegin)">
+				AND createDate >= #{createDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createDateEnd)">
+				AND createDate &lt;= #{createDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateDateBegin)">
+				AND updateDate >= #{updateDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateDateEnd)">
+				AND updateDate &lt;= #{updateDateEnd}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(channelId)">
+				AND channelId = #{channelId}
+		   </if>
+		</where>
+	</sql>
+	
+</mapper>
+

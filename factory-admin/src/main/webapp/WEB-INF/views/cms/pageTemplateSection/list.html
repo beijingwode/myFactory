@@ -1,0 +1,59 @@
+<table class="table table-striped table-bordered table-hover nomargin-bottom">
+	<thead>
+		<tr>
+			<th class="center">渠道</th>
+			<th class="center">模板</th>
+			<th class="center">标题</th>
+			<th class="center">位置名称</th>
+			<th class="center">排序</th>
+			<th class="center">最大数量</th>
+			<th class="center">创建时间</th>
+			<th class="center">更新时间</th>
+			<th class="center">操作</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@for(item in page.list){
+			<tr>
+				@if(item.channel == 1){
+					<td class="center">pc</td>
+				@}else {
+					<td class="center">app/微信</td>
+				@}
+				<td class="center">${item.templateTitle!}</td>
+				<td class="center">${item.title!}</td>
+				<td class="center">${item.name!}</td>
+				<td class="center">${item.orders!}</td>
+				<td class="center">${item.maxNum!}</td>
+				<td class="center">${item.createTime!,dateFormat="yyyy-MM-dd HH:mm:ss"}</td>
+				<td class="center">${item.updateTime!,dateFormat="yyyy-MM-dd HH:mm:ss"}</td>
+				<td class="center">
+					<div class="hidden-sm hidden-xs action-buttons">
+						
+						<a class="green" href="javascript:void(0);" title="修改"
+							data-mode="page" data-title="${item.title!}修改"
+							data-url="${ctxPath}/cmsPage/pageTemplateSectionEdit"
+							data-data="{id:'${item.id}'}" data-width="50%">
+							<i class="ace-icon fa fa-pencil bigger-130"></i>
+						</a>
+
+						<a class="red" href="javascript:void(0);" title="删除"
+							data-mode="del" data-title="删除操作"
+							data-msg="删除位置，会删除该位置下的数据。您确定要这样做吗吗?"
+							data-url="${ctxPath}/cmsPage/pageTemplateSectionDel" data-data="{id:'${item.id}'}">
+							<i class="ace-icon fa fa-trash-o bigger-130"></i>
+						</a>
+					</div>
+			</tr>
+		@}
+	</tbody>
+</table>
+<div class="space-8"></div>
+<#paginate page="${page}" urlParas="增加新位置" />
+<script>	
+$("#addContent").on("click",function(){
+	var data = {"mode":"detail","data":{"channel":$("#channel").val(),"templateId":$("#templateId").val()},"url":"${ctxPath}/cmsPage/pageTemplateSectionEdit","title":"增加新位置","width":"40%"};
+	$.cuslayer(data);
+});
+</script>

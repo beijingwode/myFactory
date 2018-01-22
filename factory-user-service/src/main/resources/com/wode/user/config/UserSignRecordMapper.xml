@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserSignRecordMapper">
+
+    <resultMap id="UserSignRecord" type="com.wode.factory.model.UserSignRecord">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="luckyNumber" column="lucky_number"/>
+        <result property="prizeId" column="prize_id"/>
+        <result property="createDate" column="create_date"/>
+        <result property="acticityId" column="acticity_id"/>
+        <result property="type" column="type"/>
+        <result property="ticket" column="ticket"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,user_id,name,phone,lucky_number,prize_id,create_date,acticity_id,type,ticket
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_sign_record (
+            id ,
+            user_id ,
+            name ,
+            phone ,
+            lucky_number ,
+            prize_id ,
+            create_date ,
+            acticity_id ,
+            type ,
+            ticket
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{name} ,
+            #{phone} ,
+            #{luckyNumber} ,
+            #{prizeId} ,
+            #{createDate} ,
+            #{acticityId} ,
+            #{type} ,
+            #{ticket}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_sign_record SET            
+            user_id = #{userId} ,
+            name = #{name} ,
+            phone = #{phone} ,
+            lucky_number = #{luckyNumber} ,
+            prize_id = #{prizeId} ,
+            create_date = #{createDate} ,
+            acticity_id = #{acticityId} ,
+            type = #{type} ,
+            ticket = #{ticket} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_sign_record WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserSignRecord">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_sign_record 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="findMaxLuckyNumber" resultType="java.lang.Integer">
+        SELECT max(lucky_number) FROM t_user_sign_record 
+          where 1=1
+        <if test="@Ognl@isNotEmpty(acticityId)">
+                AND acticity_id = #{acticityId}
+            </if>
+    </select>
+    
+    <select id="getRecordPhoneByMap" resultMap="UserSignRecord">
+        SELECT <include refid="columns" /> FROM t_user_sign_record 
+        where 1=1
+        <if test="@Ognl@isNotEmpty(acticityId)">
+                AND acticity_id = #{acticityId}
+            </if>
+            and prize_id is null
+    </select>
+    
+    <select id="getRecordByMap" resultMap="UserSignRecord">
+        SELECT <include refid="columns" /> FROM t_user_sign_record 
+        <include refid="find_where"/>
+    </select>
+    
+    <select id="selectByModel" resultMap="UserSignRecord">
+        SELECT <include refid="columns" /> FROM t_user_sign_record 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(name)">
+                AND name = #{name}
+            </if>
+           <if test="@Ognl@isNotEmpty(phone)">
+                AND phone = #{phone}
+            </if>
+           <if test="@Ognl@isNotEmpty(luckyNumber)">
+                AND lucky_number = #{luckyNumber}
+            </if>
+           <if test="@Ognl@isNotEmpty(prizeId)">
+                AND prize_id = #{prizeId}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date = #{createDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(acticityId)">
+                AND acticity_id = #{acticityId}
+            </if>
+           <if test="@Ognl@isNotEmpty(type)">
+                AND type = #{type}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticket)">
+                AND ticket = #{ticket}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

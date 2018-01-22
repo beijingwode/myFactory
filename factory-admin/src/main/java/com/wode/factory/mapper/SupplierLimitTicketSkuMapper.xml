@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.SupplierLimitTicketSkuDao">
+
+    <resultMap id="SupplierLimitTicketSku" type="com.wode.factory.model.SupplierLimitTicketSku">
+        <result property="id" column="id"/>
+        <result property="limitTicketId" column="limit_ticket_id"/>
+        <result property="productId" column="productId"/>
+        <result property="productName" column="productName"/>
+        <result property="skuId" column="skuId"/>
+        <result property="image" column="image"/>
+        <result property="itemValues" column="itemValues"/>
+        <result property="skuNum" column="sku_num"/>
+        <result property="price" column="price"/>
+        <result property="salePrice" column="sale_price"/>
+        <result property="ticket" column="ticket"/>
+        <result property="exp1" column="exp1"/>
+        <result property="exp2" column="exp2"/>
+        <result property="exp3" column="exp3"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,limit_ticket_id,productId,productName,skuId,image,itemValues,sku_num,price,sale_price,ticket,exp1,exp2,exp3
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_supplier_limit_ticket_sku (
+            id ,
+            limit_ticket_id ,
+            productId ,
+            productName ,
+            skuId ,
+            image ,
+            itemValues ,
+            sku_num ,
+            price ,
+            sale_price ,
+            ticket ,
+            exp1 ,
+            exp2 ,
+            exp3
+        ) VALUES (
+            #{id} ,
+            #{limitTicketId} ,
+            #{productId} ,
+            #{productName} ,
+            #{skuId} ,
+            #{image} ,
+            #{itemValues} ,
+            #{skuNum} ,
+            #{price} ,
+            #{salePrice} ,
+            #{ticket} ,
+            #{exp1} ,
+            #{exp2} ,
+            #{exp3}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_supplier_limit_ticket_sku SET            
+            limit_ticket_id = #{limitTicketId} ,
+            productId = #{productId} ,
+            productName = #{productName} ,
+            skuId = #{skuId} ,
+            image = #{image} ,
+            itemValues = #{itemValues} ,
+            sku_num = #{skuNum} ,
+            price = #{price} ,
+            sale_price = #{salePrice} ,
+            ticket = #{ticket} ,
+            exp1 = #{exp1} ,
+            exp2 = #{exp2} ,
+            exp3 = #{exp3} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_supplier_limit_ticket_sku WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="SupplierLimitTicketSku">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_supplier_limit_ticket_sku 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="SupplierLimitTicketSku">
+        SELECT <include refid="columns" /> FROM t_supplier_limit_ticket_sku 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitTicketId)">
+                AND limit_ticket_id = #{limitTicketId}
+            </if>
+           <if test="@Ognl@isNotEmpty(productId)">
+                AND productId = #{productId}
+            </if>
+           <if test="@Ognl@isNotEmpty(productName)">
+                AND productName = #{productName}
+            </if>
+           <if test="@Ognl@isNotEmpty(skuId)">
+                AND skuId = #{skuId}
+            </if>
+           <if test="@Ognl@isNotEmpty(image)">
+                AND image = #{image}
+            </if>
+           <if test="@Ognl@isNotEmpty(itemValues)">
+                AND itemValues = #{itemValues}
+            </if>
+           <if test="@Ognl@isNotEmpty(skuNum)">
+                AND sku_num = #{skuNum}
+            </if>
+           <if test="@Ognl@isNotEmpty(price)">
+                AND price = #{price}
+            </if>
+           <if test="@Ognl@isNotEmpty(salePrice)">
+                AND sale_price = #{salePrice}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticket)">
+                AND ticket = #{ticket}
+            </if>
+           <if test="@Ognl@isNotEmpty(exp1)">
+                AND exp1 = #{exp1}
+            </if>
+           <if test="@Ognl@isNotEmpty(exp2)">
+                AND exp2 = #{exp2}
+            </if>
+           <if test="@Ognl@isNotEmpty(exp3)">
+                AND exp3 = #{exp3}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

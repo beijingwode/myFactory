@@ -1,0 +1,9 @@
+.smallPopup {width: 100%;height: auto;position: fixed;right: 0;bottom: 0;z-index: 10000002;overflow: hidden;background: #fff;display: none;}
+.order_btn{background: #fff;margin-top:10px;}
+.odb{border-top:none;}
+.order_btn .specialtreat{float:left;border:none;color:#3a3a3a}
+.e_card {height: 55px;width: 96%;padding-left: 4%;background: #fff;display: none}
+.e_card dl{ height: 55px;width: 100%;}
+.e_card dl dt{height: 24px;width: 24px;float: left;margin-top: 18px;}
+.e_card dl dd {height: 44px;width: 85%;float: right;padding: 6px 10px 10px 0;}
+.e_card dl dd a {height: 40px;width: 100%;display: block;background: url(../images/go_next.png) no-repeat right center;background-size: 10px 16px;line-height: 40px;color: #333333;font-size: 1.4em;}

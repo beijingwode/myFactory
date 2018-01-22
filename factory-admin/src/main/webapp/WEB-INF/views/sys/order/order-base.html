@@ -1,0 +1,68 @@
+<div class="tabbable">
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active">
+		<a data-toggle="tab" href="#order_home"> 
+			<i class="green ace-icon fa fa-users bigger-120"></i> 订单列表
+		</a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/orderList/list" method="post" id="search-form" 
+				target="list-page" class="center clearfix">
+				<div class="row padding-tb-10">
+					<div class="col-sm-4">
+					下单时间区间&nbsp;&nbsp;
+						<label>开始：</label>
+						<input type="text" id="startDate" name="startDate">
+						&nbsp;&nbsp;
+						<label>结束：</label>
+						<input type="text" id="endDate" name="endDate">
+					</div>
+					<div class="col-sm-3">
+						<label>订单ID：</label>
+						<input type="text" name="orderId" id="orderId">
+					</div>
+					<div class="col-sm-3">
+						<label>订单状态：</label>
+						<#select name="status" id="status" width="35%">
+							<option value="">全部</option>
+							<option value="-1">已取消</option>
+							<option value="0">未支付</option>
+							<option value="1">部分支付</option>
+							<option value="2">全部支付</option>
+						</#select>
+					</div>
+				</div>
+				<div class="padding-trb-10 col-sm-12">
+					<span class="btn  btn-primary btn-sm col-sm-6" onclick="exportXls()">导出数据</span>
+					<span class="btn btn-info btn-sm col-sm-6" id="search-btn">条件查询</span>
+				</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	laydate({
+	    elem: '#startDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#endDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	</script>
+<script>
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	
+	function exportXls(){
+		var url = '${ctxPath}/orderList/exportXls?startDate='+$("#startDate").val()+'&endDate='+
+				$("#endDate").val()+'&orderId='+$("#orderId").val()+'&status='+$("#status").val();
+		location.href=url;
+	}
+</script>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ReturnorderMapper">
+
+	<resultMap id="Returnorder" type="com.wode.factory.model.Returnorder">
+        <result property="returnOrderId" column="returnOrderId"/>
+        <result property="subOrderId" column="subOrderId"/>
+        <result property="returnPrice" column="returnPrice"/>
+        <result property="status" column="status"/>
+        <result property="expressType" column="expressType"/>
+        <result property="expressNo" column="expressNo"/>
+        <result property="reason" column="reason"/>
+        <result property="note" column="note"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="lastTime" column="lastTime"/>
+        <result property="userId" column="userId"/>
+        <result property="goodsStatus" column="goods_status"/>
+        <association property="refundorder" javaType="com.wode.factory.model.Refundorder">
+			<result property="refundOrderId" column="refundOrderId"/>
+			<result property="status" column="statusf"/>
+			<result property="reason" column="reasonf"/>
+		</association>
+		<collection property="returnorderAttachmentList" ofType="com.wode.factory.model.ReturnorderAttachment">
+			<result property="id" column="id"/>
+	        <result property="image" column="image"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		returnOrderId,subOrderId,returnPrice,status,expressType,expressNo,reason,note,createTime,updateTime,updateBy,lastTime,userId,goods_status
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="returnOrderId">
+    <![CDATA[
+        INSERT INTO t_returnorder (
+        	returnOrderId ,
+        	subOrderId ,
+        	returnPrice ,
+        	status ,
+        	expressType ,
+        	expressNo ,
+        	reason ,
+        	note ,
+        	createTime ,
+        	updateTime ,
+        	updateBy ,
+        	lastTime ,
+        	userId ,
+        	goods_status
+        ) VALUES (
+        	#{returnOrderId} ,
+        	#{subOrderId} ,
+        	#{returnPrice} ,
+        	#{status} ,
+        	#{expressType} ,
+        	#{expressNo} ,
+        	#{reason} ,
+        	#{note} ,
+        	#{createTime} ,
+        	#{updateTime} ,
+        	#{updateBy} ,
+        	#{lastTime} ,
+        	#{userId} ,
+        	#{goodsStatus} 
+        	
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_returnorder SET
+	        subOrderId = #{subOrderId} ,
+	        returnPrice = #{returnPrice} ,
+	        status = #{status} ,
+	        expressType = #{expressType} ,
+	        expressNo = #{expressNo} ,
+	        reason = #{reason} ,
+	        note = #{note} ,
+	        createTime = #{createTime} ,
+	        updateTime = #{updateTime} ,
+	        updateBy = #{updateBy} ,
+	        lastTime = #{lastTime} ,
+	        userId = #{userId},
+	        goods_status = #{goodsStatus}
+        WHERE 
+	        returnOrderId = #{returnOrderId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_returnorder WHERE
+        returnOrderId = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="Returnorder">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_returnorder 
+	        WHERE 
+		        returnOrderId = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_returnorder 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="Returnorder">
+    	SELECT <include refid="columns" />
+	    FROM t_returnorder 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(returnOrderId)">
+				AND returnOrderId = #{returnOrderId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(subOrderId)">
+				AND subOrderId = #{subOrderId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(returnPrice)">
+				AND returnPrice = #{returnPrice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(expressType)">
+				AND expressType = #{expressType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(expressNo)">
+				AND expressNo = #{expressNo}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reason)">
+				AND reason = #{reason}
+			</if>
+	       <if test="@Ognl@isNotEmpty(note)">
+				AND note = #{note}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createTimeBegin)">
+				AND createTime >= #{createTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createTimeEnd)">
+				AND createTime &lt;= #{createTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+				AND updateTime >= #{updateTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+				AND updateTime &lt;= #{updateTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateBy)">
+				AND updateBy = #{updateBy}
+			</if>
+	       <if test="@Ognl@isNotEmpty(lastTimeBegin)">
+				AND lastTime >= #{lastTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(lastTimeEnd)">
+				AND lastTime &lt;= #{lastTimeEnd}
+		   </if>
+		</where>
+	</sql>
+	
+	<select id="returnOrderById" resultMap="Returnorder">
+		SELECT
+			returnorder.returnOrderId,
+			returnorder.createTime,
+			returnorder.expressType,
+			returnorder.expressNo,
+			returnorder.returnPrice,
+			returnorder.lastTime,
+			returnorder.reason,
+			returnorder.note,
+			returnorder.subOrderId,
+			returnorder.goods_status,
+			returnorder.status,
+			returnorder.userId,
+			returnorderattachment.image,
+			returnorderattachment.id
+		FROM
+			t_returnorder returnorder
+			LEFT JOIN t_returnorder_attachment returnorderattachment ON returnorder.returnOrderId = returnorderattachment.returnOrderId
+		WHERE 
+			returnorder.returnOrderId = #{id}
+    </select>
+    
+    <update id="updatebymap" >
+		UPDATE t_refundorder,
+		 t_returnorder
+		SET t_refundorder.status = 2,t_refundorder.updateTime = NOW(),t_refundorder.updateBy = 'myFactory',
+		 t_returnorder.status = 1,t_returnorder.updateTime = NOW(),t_returnorder.updateBy = 'myFactory',
+		 t_refundorder.reason = '商家同意，退款成功'
+		WHERE t_refundorder.returnOrderId = t_returnorder.returnOrderId
+		AND	t_refundorder.refundOrderId = #{refundOrderId}
+		AND t_returnorder.returnOrderId = #{returnOrderId}
+	</update>
+	
+</mapper>
+

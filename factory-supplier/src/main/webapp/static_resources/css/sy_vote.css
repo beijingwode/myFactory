@@ -1,0 +1,135 @@
+@charset "utf-8";
+/* CSS Document */
+.col_main {
+    display: table-cell;
+    vertical-align: top;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.topbar {
+    margin-top: 26px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 20px;
+}
+
+
+.table_wrp .table {
+    width: 100%;
+    font-size: 14px;
+    background-color: #fff;
+    text-align: center;
+    border: 1px solid #e7e7eb;
+    border-bottom:none;
+    border-spacing: 0;
+}
+.table_wrp .thead {
+    background-color: #f4f5f9;
+}
+.table_wrp .table .table_cell {
+	line-height: 32px;
+    padding: 0;
+    text-align: center;
+    line-height: normal;
+    font-weight: 400;
+    font-style: normal;
+     color: #222;
+}
+
+.table_wrp .table_cell.vote_title {
+    width: 44%;
+   text-align:left;
+}
+.table_wrp .td_panel {
+    padding: 10px 1em;
+}
+.table_wrp .table_cell.vote_num {
+    width: 11%;
+   
+}
+.table_wrp .table tr th{border:none;border-bottom:1px solid #e7e7eb;}
+.table_wrp .table tr td{border:none;border-bottom:1px solid #e7e7eb;}
+.table_cell.vote_state{width: 15%;}
+.table_cell.vote_opr {
+    width: 16%;
+    text-align: right;
+}
+.table_cell.vote_opr a {
+    margin-left: .5em;
+    color: #459ae9;
+
+}
+/*删除提示框*/
+
+.popover {
+    width: 290px;
+    position: absolute;
+    margin-top: 12px;
+    z-index: 999;
+    top:180px;
+    left:1160px;
+    display:block;
+}
+.popover .popover_inner {
+	color: #222;
+    font-size: 14px;
+    border: 1px solid #d9dadc;
+    word-wrap: break-word;
+    word-break: break-all;
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.popover .popover_bar {
+    text-align: center;
+    margin-top: 20px;
+}
+.popover .popover_arrow {
+    position: absolute;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-width: 8px;
+    border-style: dashed;
+    border-color: transparent;
+    border-top-width: 0;
+    border-bottom-color: #d9dadc;
+    border-bottom-style: solid;
+}
+.popover .popover_arrow_out {
+    top: 0;
+}
+.popover .popover_arrow_in {
+    border-bottom-color: #fff;
+    top: 1px;
+}
+.popover_bar .btn {
+    display: inline-block;
+    overflow: visible;
+    padding: 0 22px;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    font-size: 14px;
+    border-width: 1px;
+    border-style: solid;
+    cursor: pointer;
+    color:#fff;background:#5d6781;
+    min-width: 50px;
+}
+.popover_bar a:hover{background:#5d6781;}
+
+
+
+

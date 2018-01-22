@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SupplierTransferMapper">
+
+    <resultMap id="SupplierTransfer" type="com.wode.factory.model.SupplierTransfer">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="financeCode" column="finance_code"/>
+        <result property="amount" column="amount"/>
+        <result property="status" column="status"/>
+        <result property="createDate" column="create_date"/>
+        <result property="createUser" column="create_user"/>
+        <result property="payDate" column="pay_date"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="systemKey" column="system_key"/>
+        <result property="rejectNote" column="reject_note"/>
+        <result property="payFlowCode" column="pay_flow_code"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,supplier_id,finance_code,amount,status,create_date,create_user,pay_date,update_time,update_user,system_key,reject_note,pay_flow_code
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_supplier_transfer (
+            id ,
+            supplier_id ,
+            finance_code ,
+            amount ,
+            status ,
+            create_date ,
+            create_user ,
+            pay_date ,
+            update_time ,
+            update_user ,
+            system_key ,
+            reject_note ,
+            pay_flow_code
+        ) VALUES (
+            #{id} ,
+            #{supplierId} ,
+            #{financeCode} ,
+            #{amount} ,
+            #{status} ,
+            #{createDate} ,
+            #{createUser} ,
+            #{payDate} ,
+            #{updateTime} ,
+            #{updateUser} ,
+            #{systemKey} ,
+            #{rejectNote} ,
+            #{payFlowCode}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_supplier_transfer SET            
+            supplier_id = #{supplierId} ,
+            finance_code = #{financeCode} ,
+            amount = #{amount} ,
+            status = #{status} ,
+            create_date = #{createDate} ,
+            create_user = #{createUser} ,
+            pay_date = #{payDate} ,
+            update_time = #{updateTime} ,
+            update_user = #{updateUser} ,
+            system_key = #{systemKey} ,
+            reject_note = #{rejectNote} ,
+            pay_flow_code = #{payFlowCode} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_supplier_transfer WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="SupplierTransfer">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_supplier_transfer 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="SupplierTransfer">
+        SELECT <include refid="columns" /> FROM t_supplier_transfer 
+        <include refid="find_where"/>
+    </select>
+
+    <select id="getApprIng" resultMap="SupplierTransfer">
+        SELECT <include refid="columns" /> FROM t_supplier_transfer 
+        WHERE supplier_id = #{supplierId} AND status in (1,2)
+    </select>
+    
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(financeCode)">
+                AND finance_code = #{financeCode}
+            </if>
+           <if test="@Ognl@isNotEmpty(amount)">
+                AND amount = #{amount}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date = #{createDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(createUser)">
+                AND create_user = #{createUser}
+            </if>
+           <if test="@Ognl@isNotEmpty(payDate)">
+                AND pay_date = #{payDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND update_time = #{updateTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateUser)">
+                AND update_user = #{updateUser}
+            </if>
+           <if test="@Ognl@isNotEmpty(systemKey)">
+                AND system_key = #{systemKey}
+            </if>
+           <if test="@Ognl@isNotEmpty(rejectNote)">
+                AND reject_note = #{rejectNote}
+            </if>
+           <if test="@Ognl@isNotEmpty(payFlowCode)">
+                AND pay_flow_code = #{payFlowCode}
+            </if>
+        </where>
+    </sql>
+	<select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_supplier_transfer 
+	    <where>	
+	    	1=1
+		  <if test="id != null" >
+        	and id = #{id,jdbcType=BIGINT} 
+	      </if>
+		  <if test="supplierId != null" >
+        	and supplier_id = #{supplierId,jdbcType=BIGINT} 
+	      </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+	       <if test="@Ognl@isNotEmpty(startDate)">
+				AND create_date >= #{startDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endDate)">
+				AND create_date &lt;= #{endDate}
+		   </if>
+	    </where>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="SupplierTransfer">
+		select 
+    	<include refid="columns" />
+    	from t_supplier_transfer
+	    <where>	
+	    	1=1
+		  <if test="id != null" >
+        	and id = #{id,jdbcType=BIGINT} 
+	      </if>
+		  <if test="supplierId != null" >
+        	and supplier_id = #{supplierId,jdbcType=BIGINT} 
+	      </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+	       <if test="@Ognl@isNotEmpty(startDate)">
+				AND create_date >= #{startDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endDate)">
+				AND create_date &lt;= #{endDate}
+		   </if>
+	    </where>
+	    ORDER BY create_date DESC
+    </select>
+</mapper>

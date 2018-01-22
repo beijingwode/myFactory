@@ -1,0 +1,44 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/exchange/recordList" method="post" id="search-form" target="list-page" class="center clearfix">
+					<input type="hidden" name="exchangeProductId" id="pname" value="${pid}">
+					<div class="row padding-tb-10 col-sm-12">
+						<div class="col-sm-4">
+							<label>商品标题：</label>
+								<input type="text" name="productName">
+						</div>
+					</div>
+					<div class="padding-trb-10 col-sm-12">
+						<span class="btn  btn-primary btn-sm col-sm-6" onclick="refreshPage()">全部</span>
+						<span class="btn btn-info btn-sm col-sm-6" id="search-btn">查询</span>
+					</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+	</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script>
+$("#role-select").chosen({width: "80%",search_contains: true});
+$("#role-choose").chosen({width: "100%",search_contains: true}); 
+$("#search-form").getPageList({'submitBtnId':'search-btn'});
+function refreshPage() {
+	$("#pname").empty();	
+	var url = location.href;
+	var endLength = url.indexOf("?");
+	var tourl = url.substr(0,endLength);
+	if(endLength==-1){
+		//刷新页面
+		var pageNo = 1;
+		paging('search-form',pageNo);
+	}else{
+		window.location.href=tourl;
+	} 
+}
+</script>

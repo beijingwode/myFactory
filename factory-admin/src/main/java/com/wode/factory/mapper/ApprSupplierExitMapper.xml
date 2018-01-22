@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.ApprSupplierExitDao">
+
+    <resultMap id="ApprSupplierExit" type="com.wode.factory.model.ApprSupplierExit">
+        <result property="id" column="id"/>
+        <result property="managerId" column="manager_id"/>
+        <result property="managerName" column="manager_name"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="property" column="property"/>
+        <result property="busScope" column="bus_scope"/>
+        <result property="comRegisternum" column="com_registernum"/>
+        <result property="comTel" column="com_tel"/>
+        <result property="comPc" column="com_pc"/>
+        <result property="comState" column="com_state"/>
+        <result property="comCity" column="com_city"/>
+        <result property="comAdd" column="com_add"/>
+        <result property="comAddress" column="com_address"/>
+        <result property="peopleNumber" column="people_number"/>
+        <result property="joinTime" column="join_time"/>
+        <result property="status" column="status"/>
+        <result property="editTime" column="edit_time"/>
+        <result property="exitReason" column="exit_reason"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUser" column="update_user"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,manager_id,manager_name,supplier_id,supplier_name,property,bus_scope,com_registernum,com_tel,com_pc,com_state,com_city,com_add,com_address,people_number,join_time,status,edit_time,exit_reason,update_time,update_user
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_appr_supplier_exit (
+            id ,
+            manager_id ,
+            manager_name ,
+            supplier_id ,
+            supplier_name ,
+            property ,
+            bus_scope ,
+            com_registernum ,
+            com_tel ,
+            com_pc ,
+            com_state ,
+            com_city ,
+            com_add ,
+            com_address ,
+            people_number ,
+            join_time ,
+            status ,
+            edit_time ,
+            exit_reason ,
+            update_time ,
+            update_user
+        ) VALUES (
+            #{id} ,
+            #{managerId} ,
+            #{managerName} ,
+            #{supplierId} ,
+            #{supplierName} ,
+            #{property} ,
+            #{busScope} ,
+            #{comRegisternum} ,
+            #{comTel} ,
+            #{comPc} ,
+            #{comState} ,
+            #{comCity} ,
+            #{comAdd} ,
+            #{comAddress} ,
+            #{peopleNumber} ,
+            #{joinTime} ,
+            #{status} ,
+            #{editTime} ,
+            #{exitReason} ,
+            #{updateTime} ,
+            #{updateUser}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_appr_supplier_exit SET            
+            manager_id = #{managerId} ,
+            manager_name = #{managerName} ,
+            supplier_id = #{supplierId} ,
+            supplier_name = #{supplierName} ,
+            property = #{property} ,
+            bus_scope = #{busScope} ,
+            com_registernum = #{comRegisternum} ,
+            com_tel = #{comTel} ,
+            com_pc = #{comPc} ,
+            com_state = #{comState} ,
+            com_city = #{comCity} ,
+            com_add = #{comAdd} ,
+            com_address = #{comAddress} ,
+            people_number = #{peopleNumber} ,
+            join_time = #{joinTime} ,
+            status = #{status} ,
+            edit_time = #{editTime} ,
+            exit_reason = #{exitReason} ,
+            update_time = #{updateTime} ,
+            update_user = #{updateUser} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_appr_supplier_exit WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getApprSupplierExitBySupplierId" resultMap="ApprSupplierExit">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_appr_supplier_exit 
+            WHERE 
+                supplier_id = #{supplierId}
+        ]]>
+    </select>
+    
+    <select id="getById" resultMap="ApprSupplierExit">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_appr_supplier_exit 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="ApprSupplierExit">
+        SELECT <include refid="columns" /> FROM t_appr_supplier_exit 
+        <include refid="find_where"/>
+    </select>
+    
+    <select id="selectByMap" resultMap="ApprSupplierExit">
+        SELECT <include refid="columns" /> FROM t_appr_supplier_exit 
+        where 1=1
+            <if test="@Ognl@isNotEmpty(managerIds)">
+                AND FIND_IN_SET(manager_id,#{managerIds})
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+    </select>
+    <select id="getApprSupplierList" resultMap="ApprSupplierExit">
+        SELECT <include refid="columns" /> FROM t_appr_supplier_exit 
+        where 1=1
+        <if test="@Ognl@isNotEmpty(managerId)">
+                AND manager_id = #{managerId} 
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                AND FIND_IN_SET(status,#{status})
+            </if>
+    </select>
+    
+    
+    <select id="findCountsByMap" resultMap="ApprSupplierExit">
+    	SELECT count(*) productCnt,0 orderCnt,0 unCloseOrderCnt,0 unClosebillCnt from  t_product tp where tp.supplier_id = #{supplierId} and tp.is_marketable=1
+    	UNION ALL
+    	select 0 productCnt,count(*) orderCnt,0 unCloseOrderCnt,0 unClosebillCnt from t_suborder s where s.supplierid = #{supplierId}
+    	UNION ALL 
+    	select 0 productCnt,0 orderCnt,count(*) unCloseOrderCnt,0 unClosebillCnt from t_suborder ts where
+    	<![CDATA[ 
+    	 ts.close_flg=0 and ts.supplierid = #{supplierId} and ts.status >=1 ]]>
+    	UNION ALL
+    	select 0 productCnt,0 orderCnt,0 unCloseOrderCnt,count(*) unClosebillCnt from t_sale_bill tsb where 
+    	<![CDATA[ tsb.supplierid = #{supplierId} and tsb.payStatus < 4 ]]>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerId)">
+                AND manager_id = #{managerId}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerName)">
+                AND manager_name = #{managerName}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierName)">
+                AND supplier_name = #{supplierName}
+            </if>
+           <if test="@Ognl@isNotEmpty(property)">
+                AND property = #{property}
+            </if>
+           <if test="@Ognl@isNotEmpty(busScope)">
+                AND bus_scope = #{busScope}
+            </if>
+           <if test="@Ognl@isNotEmpty(comRegisternum)">
+                AND com_registernum = #{comRegisternum}
+            </if>
+           <if test="@Ognl@isNotEmpty(comTel)">
+                AND com_tel = #{comTel}
+            </if>
+           <if test="@Ognl@isNotEmpty(comPc)">
+                AND com_pc = #{comPc}
+            </if>
+           <if test="@Ognl@isNotEmpty(comState)">
+                AND com_state = #{comState}
+            </if>
+           <if test="@Ognl@isNotEmpty(comCity)">
+                AND com_city = #{comCity}
+            </if>
+           <if test="@Ognl@isNotEmpty(comAdd)">
+                AND com_add = #{comAdd}
+            </if>
+           <if test="@Ognl@isNotEmpty(comAddress)">
+                AND com_address = #{comAddress}
+            </if>
+           <if test="@Ognl@isNotEmpty(peopleNumber)">
+                AND people_number = #{peopleNumber}
+            </if>
+           <if test="@Ognl@isNotEmpty(joinTime)">
+                AND join_time = #{joinTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(editTime)">
+                AND edit_time = #{editTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(exitReason)">
+           		AND FIND_IN_SET(manager_id,#{exitReason})
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND update_time = #{updateTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateUser)">
+                AND update_user = #{updateUser}
+            </if>
+        </where>
+    </sql>
+
+</mapper>
+

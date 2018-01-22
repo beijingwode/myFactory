@@ -1,0 +1,199 @@
+<div class="layer">
+	<input type="hidden" value="${speId!}" id="speId"/>
+	<table id="speValueTable"
+		class="table table-striped table-bordered table-hover nomargin-bottom">
+		<thead>
+			<tr>
+				<th class="center">序号</th>
+				<th class="center">名称</th>
+				<th class="center">排序</th>
+				<th class="center">操作</th>
+			</tr>
+		<tbody>
+			<tr>添加:<div class="hidden-sm hidden-xs action-buttons">
+					<a id="addSpeValue" class="green" href="javascript:void(0);"> <i
+						class="green ace-icon fa fa-plus bigger-120"></i>
+					</a>
+				</div>
+			</tr>
+			@if(isEmpty(speValue)){
+			<tr class="speValue_class">
+				<input type="hidden" value=""/>
+				<td class="center"></td>
+				<td class="center">
+					<input type="text" value=""	maxlength="50" style="width: 100%"/>
+				</td>
+				<td class="center">
+				<input type="text" value="" maxlength="2" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" style="width: 100%"/>
+				</td>
+				<td class="center">
+					<div class="hidden-sm hidden-xs action-buttons">
+						<a class="green speValueEdit" href="javascript:void(0);"> <i
+							class="ace-icon fa fa-pencil bigger-130"></i>
+						</a> <a class="red speValueDel" href="javascript:void(0);"> <i
+							class="ace-icon fa fa-trash-o bigger-130"></i>
+						</a>
+					</div>
+				</td>
+			</tr>
+			@}else{
+				@for(var spe in speValue){
+				<tr class="speValue_class">
+					<input type="hidden" value="${spe.id!}"/>
+					<td class="center">${speLP.index!}</td>
+					<td class="center">
+						<input type="text" value="${spe.name!}"	maxlength="50" style="width: 100%" disabled="disabled" />
+					</td>
+					<td class="center">
+						<input type="text" maxlength="2" value="${spe.orders!}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" style="width: 100%" disabled="disabled" />
+					</td>
+					<td class="center">
+						<div class="hidden-sm hidden-xs action-buttons">
+							<a class="green speValueEdit" href="javascript:void(0);"> <i
+								class="ace-icon fa fa-pencil bigger-130"></i>
+							</a> <a class="red speValueDel" href="javascript:void(0);"> <i
+								class="ace-icon fa fa-trash-o bigger-130"></i>
+							</a>
+						</div>
+					</td>
+				</tr>
+				@}
+			@}
+
+		</tbody>
+	</table>
+</div>
+<div class="width-100 clearfix" tag-save-btn
+	style="bottom: 0px; left: 0px; position: absolute;">
+	<span id="speVal_submit" class="btn btn-primary btn-sm bigger-110 width-50  pull-left">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i> 确定
+	</span>
+	<span id="speVal_cancel" class="btn btn-yellow btn-sm bigger-110 width-50 pull-right"	>
+		<i class="ace-icon fa fa-times align-top  bigger-125"></i> 取 消
+	</span>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#speVal_cancel").click(function(){
+		layer.closeAll();
+		return false;
+	});
+	
+	//修改输入框为编辑状态
+	$(".action-buttons").on("click",".speValueEdit",function(){
+		$(this).parents(".center").prev().children().removeAttr("disabled");
+		$(this).parents(".center").prev().prev().children().removeAttr("disabled");
+	});
+	//删除	
+	$(".action-buttons").on("click",".speValueDel",function(){
+		$(this).parents(".center").parents(".speValue_class").attr("style","display: none;");
+	});
+	//添加
+	$("#addSpeValue").click(function(){
+		var html_string = "<tr class=\"speValue_class\"><input type=\"hidden\"/><td class=\"center\"></td><td class=\"center\"><input type=\"text\"	maxlength=\"50\" value=\"\" style=\"width: 100%\"/></td><td class=\"center\"><input type=\"text\" maxlength=\"2\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" style=\"width: 100%\"/></td><td class=\"center\"><div class=\"hidden-sm hidden-xs action-buttons\"><a class=\"green speValueEdit\" href=\"javascript:void(0);\"> <i class=\"ace-icon fa fa-pencil bigger-130\"></i></a><a class=\"red speValueDel\" href=\"javascript:void(0);\"> <i class=\"ace-icon fa fa-trash-o bigger-130\"></i></a></div></td></tr>";
+		var speValue = $(".speValue_class").last();
+		if(speValue.attr("style")=="display: none;"){
+			$(".speValue_class").last().after(html_string);
+		}else{
+			//tr标签下的子项
+			var tr_children = speValue.children();
+			//根据输入框中的信息和序号判断信息可用不可用       序号为空标示新添加的信息 . 序号不为空，但是输入框为空，标示修改信息. tr标签style值为none标示删除
+			//输入框信息
+			var input_value = tr_children.eq(2).find("*").val();
+			//序号
+			var index_ = tr_children.eq(0).html();
+			if(input_value!=""){
+				$(".speValue_class").last().after(html_string);
+			}else{
+				if(index_!=""){
+					$(".speValue_class").last().after(html_string);
+				}
+			}
+		}
+		//删除	
+		$(".action-buttons").on("click",".speValueDel",function(){
+			$(this).parents(".center").parents(".speValue_class").attr("style","display: none;");
+		});
+	});
+	//提交信息
+	$("#speVal_submit").click(function(){
+		var speID = $("#speId").val();
+		//所删除数据的id数组
+		var delId = [];
+		//添加数据的内容数组
+		var addName = [];
+		//修改的数据数组
+		var update = [];
+		
+		var speValueClass = $(".speValue_class");
+		$.each(speValueClass,function(i){
+			var spe = speValueClass.eq(i);
+			var spe_find = spe.find("*");
+			//style = none表示该数据已被删除。
+			//已被删除的数据
+			if(spe.attr("style")=="display: none;"){
+				var id = spe_find.eq(0).val();
+				if(id.trim()!=""){
+					delId.push(id);
+				}
+			//下面的数据没有被删除
+			}else{
+				var index_ = spe_find.eq(1).html();
+				//序号为空，表示该数据是新添加的
+				if(index_==""){
+					var name = spe_find.eq(2).find("*").val();
+					var orders = spe_find.eq(2).next().find("*").val();
+					if(name.trim()==""){
+						alert("名称不能为空");
+						return false;
+					}
+					if(orders.trim()==""){
+						alert("排序不能为空");
+						return false;
+					}
+					addName.push(orders+"-"+name);
+				//表示该数据之前就存在
+				}else{
+					//输入框禁用标示去除，标示进行修改
+					if(spe_find.eq(2).find("*").attr("disabled")!="disabled"){
+						var id = spe_find.eq(0).val();
+						var name = spe_find.eq(2).find("*").val();
+						var orders = spe_find.eq(2).next().find("*").val();
+						if(name.trim() == ""){
+							alert("名字不能为空");
+							return false;
+						}
+						if(orders.trim() == ""){
+							alert("排序不能为空");
+							return false;
+						}
+						update.push(id+"-"+orders+"-"+name);
+					}
+				}
+				
+			}
+		});
+		if(addName.length>0||delId.length>0||update.length>0){
+			$.ajax({
+				"dataType":'json',
+				"type":'POST',
+				"url":'${ctxPath}/specification/saveSpeValue',
+				"data":{"add":addName.toString(),"del":delId.toString(),"update":update.toString(),"speId":speID},
+				"success":function(data,response){
+					if(data==1){
+						//关闭弹窗
+						layer.closeAll();
+						//刷新页面
+						location.reload();
+					}else if(data==-1){
+						layer.msg('操作失败', 3, 1);
+					}
+				}
+			});
+		}
+		
+	});
+	
+	
+});
+</script>

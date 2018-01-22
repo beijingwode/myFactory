@@ -1,0 +1,121 @@
+<script type="text/javascript">
+		$(document).ready(function() {
+			$("#example1-1").imgbox();
+		});
+		
+		 function duibi(a, b) {
+			    var arr = a.split("-");
+			    var starttime = new Date(arr[0], arr[1], arr[2]);
+			    var starttimes = starttime.getTime();
+
+			    var arrs = b.split("-");
+			    var lktime = new Date(arrs[0], arrs[1], arrs[2]);
+			    var lktimes = lktime.getTime();
+
+			    if (starttimes >= lktimes) {
+
+			        alert('开始时间大于离开时间，请检查');
+			        return false;
+			    }
+			    else
+			        return true;
+
+			}
+		
+		function GetDateStr(AddDayCount) {
+		    var dd = new Date();
+		    dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期
+		    var y = dd.getFullYear();
+		    var m = dd.getMonth()+1;//获取当前月份的日期
+		    var d = dd.getDate();
+		    return y+"-"+m+"-"+d;
+		}
+		
+		function postUrl(data,url){
+			$.ajax({
+
+				type : 'POST',   
+		        contentType:'application/json',
+				data:JSON.stringify(data),
+				url: url,
+				dataType : 'json',
+				success: function(data, textStatus){
+					location.reload();
+				},
+				error: function(){
+
+				}
+				})
+		}
+		
+	   function updateStatus(id,status,promotionId){
+		   var urlStr = "${ctxPath}/promotionProduct/updateStatus";
+		   var data = {};
+		   data.id = id;
+		   data.promotionId = promotionId;
+		   if(status!=2){
+			   data.status = 2;
+		   }
+		   if(status!=-1){
+			   data.status = -1;
+		   }
+		   postUrl(data, urlStr);
+	   }
+		
+</script>
+<table class="table table-striped table-bordered table-hover nomargin-bottom">
+	<thead>
+		<tr>
+			<th class="center">ID</th>
+			<th class="center">商品名称</th>
+			<th class="center">开始时间</th>
+			<th class="center">审核状态</th>
+			<th class="center">操作</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@for(item in page.list){
+			<tr>
+				<td class="center">
+					${item.id!}
+					<a data-mode="detail" data-url="${ctxPath}/supplierList/detail/showlayer" 
+						data-data="{id:'${item.id}'}" href="javascript:void(0);" 
+						data-title="详情" data-width="50%">
+						
+					</a>
+				</td>
+				<td class="center">
+					${item.productName! }
+				</td>
+				<td class="center">${item.joinStart!,dateFormat="yyyy-MM-dd"}</td>
+				<td class="center">
+					@if(item.status==0){
+						待审核
+					@}else if(item.status==1){
+						审核中
+					@}else if(item.status==2){
+						通过
+					@}else if(item.status==-1){
+						不通过
+					@}
+				</td>
+				@if(item.updateAble){
+					<td class="center">
+						<div class="hidden-sm hidden-xs action-buttons">
+							<a class="green" href="javascript:void(0);" onclick="updateStatus(${item.id!},${item.status!},${item.promotionId!})"
+								 data-width="50%">
+								修改审核状态
+							</a>
+						</div>
+					</td>
+					@}else{
+						<td class="center"></td>
+					@}
+				
+			</tr>
+		@}
+	</tbody>
+</table>
+<div class="space-8"></div>
+<#paginate page="${page}" />

@@ -1,0 +1,93 @@
+<table class="table table-striped table-bordered table-hover nomargin-bottom">
+	<thead>
+		<tr>
+			<th class="center">ID</th>
+			<th class="center" style="width:200px;">商品标题</th>
+			<th class="center">分组</th>
+			<th class="center">分组负责人</th>
+			<th class="center">所属供应商</th>
+			<th class="center">sku价格-内购价-库存-内购券</th>
+			<th class="center">主图</th>
+			<th class="center">标签</th>
+			<th class="center">上下架</th>
+			<th class="center">锁定</th>
+			<th class="center" style="width:100px;">创建时间</th>
+			<th class="center">操作</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@for(item in page.list){
+			<tr>
+				<td class="center">
+					<a data-mode="detail" data-url="${ctxPath}/supplierList/detail/showlayer"
+						data-data="{id:'${item.productId}',viewStatus:'view'}" href="javascript:void(0);"
+						data-title="详情" data-width="70%">
+						${item.productId!}
+					</a>
+				</td>
+				<td class="center">${item.name!}</td>
+				<td class="center">${item.groupName!}</td>
+				<td class="center">${item.groupOperator!}</td>
+				<td class="center">${item.supplierName!}</td>
+				<td class="center">
+				@if(!isEmpty(item.productSpecificationslist)){
+					@for(item2 in item.productSpecificationslist){
+						${item2.price!} - ${item2.internalPurchasePrice!} - ${item2.stock!} - ${item2.maxFucoin!}<br />
+					@}
+				@}
+				@if(isEmpty(item.productSpecificationslist)){
+					${item.minprice!} - ${item.maxprice!}
+				@}
+				</td>
+				<td class="center"><img style="width:50px;height:50px;" src="${item.image!}" /></td>
+				<td class="center">
+					@if(item.saleKbn==1){
+					特省
+					@}else if(item.saleKbn==2){
+					换领
+					@}else{
+					&nbsp;
+					@}
+					@if(!isEmpty(item.productLadderlist)){
+					<br>
+					企采
+					@}
+				</td>
+				<td class="center">
+					@if(item.isMarketable==1){
+					上架
+					@}else if(item.isMarketable==-1){
+					下架
+					@}else if(item.isMarketable==-2){
+					下架
+					@}else if(item.isMarketable==-10){
+					已删除
+					@}
+				</td>
+				<td class="center">
+					@if(item.locked==1){
+					已锁定
+					@}
+				</td>
+				<td class="center">${item.createDate!,dateFormat="yyyy-MM-dd HH:mm:ss"}</td>
+				<td class="center">
+				<a class="red" href="javascript:void(0);" title="删除"
+							data-mode="del" data-title="删除操作"
+							data-msg="你确定删除此数据吗?"
+							data-url="${ctxPath}/productTrial/delProduct" data-data="{id:'${item.id}',productId:'${item.productId}',groupId:'${item.groupId}'}">
+							<i class="ace-icon fa fa-trash-o bigger-130"></i>
+						</a>
+				</td>
+			</tr>
+		@}
+	</tbody>
+</table>
+<div class="space-8"></div>
+<#paginate page="${page}"  urlParas="增加商品" />
+<script>	
+$("#addContent").on("click",function(){
+	var data = {"mode":"detail","data":{},"url":"${ctxPath}/productTrial/toLimitProductAddPage","title":"增加商品","width":"40%","height":"60%"};
+	$.cuslayer(data);
+});
+</script>

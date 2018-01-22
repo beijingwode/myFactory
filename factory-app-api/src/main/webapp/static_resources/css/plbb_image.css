@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+.feedback_pic{height:60px;width:98%;}
+.feedback_pic ul{height:60px;width:75%;float:left;}
+.feedback_pic ul li{height:60px;width:60px;float:left;margin-right:10px;}
+.feedback_pic ul li img{height:60px;width:60px;}
+.pic_up {
+    height: 60px;
+    width: 60px;
+    border: 1px solid #ccc;
+    float: left;
+    margin-right: 10px;
+}
+.pic_up a {
+    height: 60px;
+    width: 60px;
+    display: block;
+}
+.pic_up a span {
+    width: 60px;
+    height: 25px;
+    display: block;
+    text-align: center;
+    line-height: 25px;
+    font-size: 3.0em;
+    color: #a6a6a6;
+}
+.pic_up a p {
+    width: 60px;
+    height: 30px;
+    text-align: center;
+    line-height: 15px;
+    color: #a6a6a6;
+}

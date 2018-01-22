@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SupplierAppSecurityMapper">
+
+    <resultMap id="SupplierAppSecurity" type="com.wode.factory.supplier.model.SupplierAppSecurity">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="securityType" column="security_type"/>
+        <result property="secret" column="secret"/>
+        <result property="clientIp1" column="client_ip1"/>
+        <result property="clientIp2" column="client_ip2"/>
+        <result property="clientIp3" column="client_ip3"/>
+        <result property="clientIp4" column="client_ip4"/>
+        <result property="clientIp5" column="client_ip5"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,supplier_id,security_type,secret,client_ip1,client_ip2,client_ip3,client_ip4,client_ip5
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_supplier_app_security (
+            id ,
+            supplier_id ,
+            security_type ,
+            secret ,
+            client_ip1 ,
+            client_ip2 ,
+            client_ip3 ,
+            client_ip4 ,
+            client_ip5
+        ) VALUES (
+            #{id} ,
+            #{supplierId} ,
+            #{securityType} ,
+            #{secret} ,
+            #{clientIp1} ,
+            #{clientIp2} ,
+            #{clientIp3} ,
+            #{clientIp4} ,
+            #{clientIp5}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_supplier_app_security SET            
+            supplier_id = #{supplierId} ,
+            security_type = #{securityType} ,
+            secret = #{secret} ,
+            client_ip1 = #{clientIp1} ,
+            client_ip2 = #{clientIp2} ,
+            client_ip3 = #{clientIp3} ,
+            client_ip4 = #{clientIp4} ,
+            client_ip5 = #{clientIp5} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_supplier_app_security WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="SupplierAppSecurity">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_supplier_app_security 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="SupplierAppSecurity">
+        SELECT <include refid="columns" /> FROM t_supplier_app_security 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(securityType)">
+                AND security_type = #{securityType}
+            </if>
+           <if test="@Ognl@isNotEmpty(secret)">
+                AND secret = #{secret}
+            </if>
+           <if test="@Ognl@isNotEmpty(clientIp1)">
+                AND client_ip1 = #{clientIp1}
+            </if>
+           <if test="@Ognl@isNotEmpty(clientIp2)">
+                AND client_ip2 = #{clientIp2}
+            </if>
+           <if test="@Ognl@isNotEmpty(clientIp3)">
+                AND client_ip3 = #{clientIp3}
+            </if>
+           <if test="@Ognl@isNotEmpty(clientIp4)">
+                AND client_ip4 = #{clientIp4}
+            </if>
+           <if test="@Ognl@isNotEmpty(clientIp5)">
+                AND client_ip5 = #{clientIp5}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

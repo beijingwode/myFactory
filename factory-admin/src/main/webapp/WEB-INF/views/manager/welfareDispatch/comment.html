@@ -1,0 +1,35 @@
+<div class="layer">
+	<div>
+		<label>买家购买商品并评价后，将按 <input type="text" id="value" value="${value!}" placeholder="内购券返还百分比值">%比例将所使用的内购券再返还给买家。</label>
+	</div>
+	<div>
+		<label>备注 </label> <input type="text" value="${desc!}" id="desc" placeholder="欢迎语" size="80">
+	</div>
+	<div>
+		<button type="submit" class="btn btn-info btn-sm" onclick="findList()">${stop!}</button>
+	</div>
+	<br/>
+	<br/>
+</div>
+<script type="text/javascript">
+
+	function findList(){
+		if (Number($("#value").val()<0)) {
+			alert("内购券返还百分比不能小于0");
+		}else{
+			$.ajax({
+				url:'${ctxPath}/welfareDispatch/saveFirstComment',
+				data:{'value':$("#value").val(),"desc":$("#desc").val()},
+				type:"post",
+				cache:false,
+				dataType:'json',
+				success:function(){
+					alert("保存成功");
+				},
+				error : function(){
+					alert("保存失败");
+				}
+			});
+		}
+	}
+</script>

@@ -1,0 +1,122 @@
+@charset "utf-8";
+/* CSS Document */
+
+.wrap_con1{display:none;}
+.tem_box{width:950px;height:auto;margin-top:15px;}
+.tem_tit{height:25px;width:908px;background:#f5f5f5;padding:0 20px;border:1px solid #eeeeee;border-bottom:none}
+.tem_tit span{height:25px;display:block;line-height:25px;float:left;font-size:12px;color:#131313;}
+.tem_tit p{height:25px;line-height:25px;float:right;font-size:12px;color:#131313;}
+.tem_tit p a{padding:0 10px;color:#3366cc;}
+
+.tab_box{height:auto;width:950px;}
+.tab_box table{width:950px;border-left:1px solid #eeeeee;}
+.tab_box th{height:25px;width:130px;border:1px solid #eeeeee;border-left:none;font-size:12px;color:#7e7e7e;background:#f9fcff;}
+.tab_box td{height:25px;width:130px;border:1px solid #eeeeee;border-top:none;border-left:none;text-align:center;color:#7e7e7e;}
+/*包邮运费模板*/
+.tab_box_shippfree{height:auto;width:810px;}
+.tab_box_shippfree table{width:810px;border-left:1px solid #eeeeee;}
+.tab_box_shippfree th{height:25px;width:60px;border:1px solid #eeeeee;border-left:none;font-size:12px;color:#7e7e7e;background:#f9fcff;}
+.tab_box_shippfree td{height:25px;width:60px;border:1px solid #eeeeee;border-top:none;border-left:none;text-align:center;color:#7e7e7e;}
+
+.add_form{width:950px;height:auto;}
+.form_tit{height:25px;width:950px;font-size:14px;color:#6a6a6a;}
+.add_form ul{width:950px;margin-top:15px;overflow:hidden}
+.form-elem {width:930px;height:auto;float:left;padding-left: 20px;margin-bottom: 8px;color:#6a6a6a;}
+.label-like {height: 25px;width:70px;line-height: 25px;float: left;text-align: right;color:#6a6a6a;margin-right:10px;}
+.fare-time{float:left;}
+.input-address {width: 300px;}
+.input-text {height: 24px;line-height: 24px;padding: 0px 3px;}
+.form-elem select{width:120px;height:25px;line-height: 25px;border:none;border: 1px solid #a1a1ae;margin-right:10px;}
+.form-elem p{height:25px;line-height: 25px;float:left;color:#939393;}
+.calc-method span{margin-right:10px;height:25px;line-height: 25px;display:block;float:left;}
+.calc-method .J_CalcRule{display:block;float:left;margin:7px 0 0 0;*margin:3px 0 0 0 }
+.express p{width:800px;overflow:hidden;}
+.express p input{margin:7px 5px 0 60px;float:left;*margin:3px 5px 0 60px}
+.express p lable{line-height:25px;}
+.span_box{height:55px;width:900px;}
+.postage-detail{width:830px;height:auto;margin-left:80px;padding:10px 5px;border:1px solid #e2e2e2;}
+.postage-detail-con{width:830px;height:auto;}
+.detail-con-top{width:815px;padding-left:15px;line-height:30px;background:#f2f2f2;}
+.detail-con-top input{width:64px;height:18px;line-height:18px;padding:0 2px;margin:6px 4px 0 4px;text-align:right;}
+.postage-detail-con table{width:830px;margin-top:10px;border:1px solid #e2e2e2;border-top:none; border-left:none;}
+.postage-detail-con table tr{height:32px;}
+.postage-detail-con table tr th{background:#f2f2f2;text-align:center;border:1px solid #e2e2e2;border-bottom:none; border-right:none;}
+.postage-detail-con .con_th1{width:240px;}
+.postage-detail-con .con_th2{width:130px;}
+.postage-detail-con .con_th3{width:100px;}
+.postage-detail-con table tr td {vertical-align: middle;text-align: center; display: table-cell;border:1px solid #e2e2e2;border-bottom:none; border-right:none;}
+.postage-detail-con table tr td input{width:64px;height:18px;line-height:18px;text-align:right;padding:0 2px;}
+.postage-detail-con .con_td1 span{width:180px;text-align:left;float:left;margin-left:5px;display:inline}
+.postage-detail-con .con_td1 a{float:right;margin-right:5px;display:inline}
+.postage-detail-con table tr td a{color:#687aaa;}
+
+.add_adr_btn{height:35px;line-height:35px;width:830px;color:#687aaa;}
+.add_adr_btn a{color:#687aaa;}
+.add_adr_btn a:hover{color:#687aaa;}
+.add_adr_btn a:link{color:#687aaa;}
+
+/*地区选择*/
+.detail_tab_box{/*position:relative;z-index:33*/}
+.city_box{width:610px;height:auto;border:1px solid #dbebfe;background:#fff;position:absolute;top:430px;left:510px;z-index:3}
+.city_box_tit{height:25px;width:590px;line-height:25px;background:#f2f2f2;border-bottom:1px solid #dbebfe;padding:0 10px;}
+.city_box_tit span{float:left;color:#000000;}
+.city_box_tit a{float:right;color:#687aaa;} 
+.city_box_con{width:610px;height:420px;}
+.city_box_con dl{width:590px;height:50px;padding:0 10px;}
+.city_box_con dl dt{width:85px;float:left;padding:10px 0;color:#000000;}
+.city_box_con dl dt input{vertical-align:middle; margin-top:-2px; margin-bottom:1px;margin-right:5px;}
+.city_box_con dl dd{width:505px;float:right;padding:0 0 10px 0;}
+.postage-detail-con .city_box_con dl dd ul{width:505px;margin:0;}
+.city_box_con dl dd ul li{float:left;padding:10px 7px 0px 3px;margin-right:8px;position:relative;} 
+.city_box_con dl dd ul li input{vertical-align:middle;margin-bottom:1px;  margin-right:5px;}
+.city_box_con dl dd ul li img{cursor:pointer;margin-left:5px;}
+.city_box_con dl dd ul li em{font-style:normal;color:#ff6600;}
+.city_box_con  .bg_change{background:#eef3f9;}
+.city_box_con dl dd ul .li_bg_change{padding:9px 6px 0px 2px;margin-right:8px;background:#fffec6;border:1px solid #f7e4a5;border-bottom:none;z-index:16}
+.city_box_con dl dd ul .city_ch{padding:0;margin:0;width:210px;height:auto;background:#fffec6;border:1px solid #f7e4a5;position:absolute;top:30px;left:-1px;z-index:15;display:none}
+.city_box_con dl dd ul  .city_ch ul{width:210px;overflow:hidden}
+
+.city_box_con dl dd ul  .city_ch .cle_btn{height:25px;width:210px;margin-top:5px;}
+.city_box_con dl dd ul  .city_ch .cle_btn a{height:20px;width:40px;display:block;float:right;margin-right:5px;text-decoration: none;font: 12px/20px "Microsoft YaHei";color: #fff; text-align: center;background: #5d6781;border-radius: 3px;behavior: url(iecss3/PIE.htc);}
+
+/*指定条件包邮*/
+.ex_postage{width:920px;border-top:1px solid #eeeeee;margin:15px 0 0 20px;}
+.ex_postage_tit{height:30px;padding:15px 0 0 0;color:#6a6a6a;}
+.ex_postage input{vertical-align:middle;margin-bottom:1px;margin-top:-2px;  margin-right:5px;}
+.ex_postage table {width: 842px;margin: 10px 0 0 80px;border: 1px solid #e2e2e2;border-top: none;border-left: none;}
+.ex_postage table tr th {height:32px;background: #f2f2f2;text-align: center;border: 1px solid #e2e2e2;border-bottom: none;border-right: none;color:#6a6a6a}
+.ex_postage table tr td {height:32px;vertical-align: middle;text-align: center;display: table-cell;border: 1px solid #e2e2e2;border-bottom: none;border-right: none;color:#6a6a6a}
+.ex_postage table tr td a{color:#687aaa;margin:0 10px;}
+.ex_postage .con_td1 {width:240px;}
+.ex_postage .con_td1 span{width:180px;text-align:left;float:left;margin-left:5px;display:inline}
+.ex_postage .con_td1 a{float:right;margin-right:5px;display:inline;}
+.ex_postage table tr td select{width:100px;height:20px;}
+.ex_postage .con_td2 {width:450px;}
+
+.slt_wh{margin-top:5px;overflow:hidden;padding:0 5px;}
+.inp_text_wh{padding:0 0 0 5px;}
+.slt_wh select{float:left;margin-right:20px;}
+.inp_text_wh input{width:50px;height:16px;line-height:16px;text-align:right;}
+
+.sale_wrap {width: 950px;padding: 10px 20px 20px;}
+.add_new {float: right;
+    padding: 0 8px;
+    border: 1px solid #2b8dff;
+    height: 23px;
+    text-align: center;
+    border-radius: 3px;
+    behavior: url(iecss3/PIE.htc);
+    position: relative;
+    z-index: 2;
+}
+.add_new a:link, .add_new a:visited {
+    display: block;
+    font: 12px/23px "Microsoft YaHei";
+    color: #2b8dff;
+}
+
+
+
+
+
+

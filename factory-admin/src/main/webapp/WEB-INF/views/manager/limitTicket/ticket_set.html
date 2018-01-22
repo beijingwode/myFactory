@@ -1,0 +1,287 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<div class="profile-info-row">
+		<div class="profile-info-name">企业</div>
+		<div class="profile-info-value">
+			<input type="radio" id="temp" name="em" value="0" checked="checked">临时
+					<select id="suppliertemp" width="45%">
+						@for(item in tempList){
+							@if(item.status == 0){
+								<option value="${item.id! }">${item.comName! }</option>
+							 @} 
+						 @}
+					</select> 
+				<input type="radio" id="temp1" name="em" value="1">已入驻 
+							<#select id="supplier" width="35%">
+								@for(item in supplier){
+								<option value="${item.id! }">
+									@if(item.nickName!=null&&item.nickName!=''){
+										${item.nickName! }
+									@}else{
+										${item.comName! }
+									@}
+								</option>
+								@}
+							</#select>
+				<input type="radio" id="temp2" name="em" value="-1">平台
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">一次使用</div>
+		<div class="profile-info-value">
+			<input type="radio" id="onece_flag1" name="oneceFlag" value="1" checked="checked">限用一次 
+			<input type="radio" id="onece_flag2" name="oneceFlag" value="2">额度限制
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">券类型</div>
+		<div class="profile-info-value">
+			<input type="hidden" id="ticketType" value="${ticketType! }">
+			@if(ticketType==1){
+				内购抵扣券
+			@}else if(ticketType==2) {
+				体验券（免品）
+			@}else if(ticketType==3) {
+				通用现金券
+			@}else if(ticketType==4) {
+				专用现金券
+			@}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">使用范围</div>
+		<div class="profile-info-value">
+			<select id="limitType" width="45%">
+				@for(item in limitTypes){
+					@if(item.val == limitType){
+					<option value="${item.val! }" selected="selected" >${item.txt! }</option>
+					@} else {
+					<option value="${item.val! }" >${item.txt! }</option>
+					@}
+				@}
+			</select>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">免品</div>
+		<div class="profile-info-value">
+			<table border=1>
+					  <thead><tr><th class="center">商品名</th>	<th class="center">规格</th><th class="center">主图</th><th class="center">数量</th>	<th class="center">价格</th><th class="center">删除</th></tr></thead>
+					  <tbody id="p_auto_skus_table">
+						
+				      </tbody>
+					</table><br />
+			skuId:<input type="text" id="p_auto_sku_id" style="width:200px">&nbsp;&nbsp;数量:<input type="text" id="p_auto_sku_num" style="width:50px">
+				  <input type="button" onclick="addAutoBuySku()" value="点击添加">
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">内购券抵扣</div>
+		<div class="profile-info-value">			
+			<input type="text" id="ticket" style="width:90%" value="0">
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">现金券抵扣</div>
+		<div class="profile-info-value">
+			<input type="text" value="0" style="width:90%" id="cash" >
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">总数</div>
+		<div class="profile-info-value">
+			<input type="text" value="" style="width:70%" id="ticketNum">（超过该总数后不能领取）
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">券使用说明</div>
+		<div class="profile-info-value">
+			<input type="text" value="" style="width:90%" id="ticketNote">
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name" id="p_ex1Name">
+			开始时间
+		</div>
+		<div class="profile-info-value"><input type="text" style="width:90%" id="startDate1" name="startDate1"></div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name" id="p_ex2Name">
+			结束时间 
+		</div>
+		<div class="profile-info-value"><input type="text" style="width:90%" id="endDate1" name="endDate1"></div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">券使用链接</div>
+		<div class="profile-info-value">
+			<input type="text" value="" style="width:90%" id="nextAction"></br>（卡券列表用户点击后跳转链接）
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">注册限制</div>
+		<div class="profile-info-value">
+			<input type="checkbox" id="registeflg" name="registeflg"><label for="registeflg">不做注册使用</label>
+			<input type="checkbox" id="registenormalprzie" name="registenormalprzie"><label for="registenormalprzie">不发放500注册奖励</label>
+			<input type="checkbox" id="registeautoplus" name="registeautoplus"><label for="registeautoplus">自动参与注册奖励</label>
+		</div>
+	</div>
+	
+</div>
+<div class="width-100 clearfix" tag-save-btn style="bottom: 0px;left: 0px;position:absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-100  pull-left"  onclick="ajaxSave()" id="submit">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>保存
+	</span>
+</div>
+</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script type="text/javascript">
+laydate({
+    elem: '#startDate1',
+    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+});
+laydate({
+    elem: '#endDate1',
+    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+});
+$("#role-select").chosen({width: "80%",search_contains: true});
+$(function(){
+		$(":radio[name='em']").on("click",function(){
+		var flg = $(this).val();
+		   if(flg==-1){
+			   if($(this).is(':checked')){
+				   $("[name = registeflg]:checkbox").prop("checked", true);
+				   $("[name = registenormalprzie]:checkbox").prop("checked", true);
+				   $("[name = registeautoplus]:checkbox").prop("checked", true);
+			   }
+		   }else{
+			   $("[name = registeflg]:checkbox").removeAttr("checked");
+			   $("[name = registenormalprzie]:checkbox").removeAttr("checked");
+			   $("[name = registeautoplus]:checkbox").removeAttr("checked");
+		   } 
+		});
+	 });
+function trim(str){ //删除左右两端的空格
+    return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+function ajaxSave(){
+	var supplierId = '';
+	var supplierName = '';
+	var reval = $('input:radio[name="em"]:checked').val();
+	if(reval==0){
+		 var seval = $("#suppliertemp").val();
+		  //$("#suppliertemp").text()
+		 supplierName = $("#suppliertemp").find("option:selected").text();
+		 supplierId = seval;
+	}else if(reval==1){
+		 var seval1 = $("#supplier").val();
+		// supplierName = $("#supplier").text()
+		 supplierName = $("#supplier").find("option:selected").text();
+		 supplierId = seval1;
+	}else{
+		supplierId = reval
+	}
+	var oneceFlag = $('input:radio[name="oneceFlag"]:checked').val();
+	var ticketType = $("#ticketType").val();
+	var registeflg = 1;
+	if($('#registeflg').is(':checked')) {
+		registeflg=2;
+	}
+	var registenormalprzie = 1
+	if($('#registenormalprzie').is(':checked')) {
+		registenormalprzie=0;
+	}
+	var registeautoplus = 0;
+	if($('#registeautoplus').is(':checked')) {
+		registeautoplus=1;
+	}
+	 var skuId = "";
+	 var ycid = $("input:hidden[name='skuIdh']");
+	 ycid.each(function(){
+		 skuId+=$(this).val()+",";
+	 })
+	 
+	var ticket = $("#ticket").val();
+	
+	var cash = $("#cash").val();
+	if(supplierId==''){
+		alert("商家id不能为空");
+		return
+	}
+	
+	var ticketNum = $("#ticketNum").val();
+	if(ticketNum==''){
+		alert("总数不能为空");
+		return
+	}
+	var startDate = $("#startDate1").val();
+	var endDate = $("#endDate1").val();
+	if(endDate<=startDate){
+		alert("结束时间不能小于开始时间");
+		return
+	} 
+	var nextAction = $("#nextAction").val();
+	var ticketNote = $("#ticketNote").val();
+	var skuNum = $("#p_auto_sku_num").val();
+	var newsupplierName = trim(supplierName);
+	$.ajax({
+		type: "post",
+		data:{"supplierId":supplierId,"supplierName":newsupplierName,
+			"oneceFlag":oneceFlag,"registeautoplus":registeautoplus,"ticketType":ticketType,"limitType":$("#limitType").val(),
+			"registeflg":registeflg,"registenormalprzie":registenormalprzie,
+			"skuId":skuId,"ticket":ticket,"cash":cash,"ticketNum":ticketNum,
+			"startDate":startDate,"endDate":endDate,"nextAction":nextAction,
+			"ticketNote":ticketNote,"skuNum":skuNum},
+		url: "${ctxPath}/supplierLimitTicket/addLimitTicket",
+		success:function(data){
+			if(data.success){
+				var pageNo = 1;
+				//刷新页面
+				paging('search-form',pageNo);
+				layer.closeAll();
+			}else{
+				alert("系统错误");
+			}
+		},
+		error: function(){
+			alert("error")
+		}
+	})
+}
+function addAutoBuySku(){
+	if($("#p_auto_sku_id").val()=="") {
+		alert("请输入skuId");
+		return;
+	}
+	$.ajax({
+		type: "post",
+		data:{"skuId":$("#p_auto_sku_id").val(),"skuNum":$("#p_auto_sku_num").val()},
+		url: "${ctxPath}/supplierLimitTicket/addAutoBuySku",
+		success:function(res){
+			if(res.success) {
+				var data = res.data.data;
+				var html = '<tr>';
+				html +='<td class="center"><a target="_blank" href="${webUrl !}'+ data.productId +'.html?skuId='+ data.skuId +'">'+data.productName+'</a></td>';
+				html +='<td class="center">'+data.itemValues+'</td>';
+				html +='<td class="center"><img style="width:80px" src="'+data.imgs+'" /></td>';
+				html +='<td class="center">'+data.skuNum+'</td>';
+				html +='<td class="center">'+data.internalPurchasePrice+'+'+data.maxFucoin+'</td>';
+				html +='<td class="center"><a target="_blank" href="javascript:;"><div onclick="delAutoSku(this,\''+data.skuId+'\')">删除</div></a></td>';
+				html +='<input type="hidden" value="'+data.skuId+'" name="skuIdh">';
+				html +='</tr>';
+				$("#p_auto_skus_table").append(html);
+			} else {
+				alert(res.msg)
+			}
+		},
+		error: function(){
+			alert("error")
+		}
+	})
+}
+function delAutoSku(obj,id){
+	$("#"+id+"").val();	
+	$(obj).parent().parent().parent().remove();
+}
+</script>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.wode.factory</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>factory-parent/pom.xml</relativePath>
+    </parent>
+    <artifactId>my-factory</artifactId>
+    <packaging>pom</packaging>
+    <name>my factory project</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <modules>
+        
+        <module>search</module>
+        <module>factory-parent</module>
+        <module>factory-model</module>
+        <module>factory-service</module>
+        <module>factory-user-service</module>
+        <module>factory-user</module>
+        <module>factory-app-api</module>
+        <module>factory-supplier-service</module>
+        <module>factory-supplier</module>
+        <module>factory-admin</module>
+        
+        <module>../common_util</module>
+        <module>../redis_mongo</module>
+    </modules>
+</project>

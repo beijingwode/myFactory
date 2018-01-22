@@ -1,0 +1,666 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<title>我的福利</title>
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+<link rel="stylesheet" type="text/css" href="/css/new-style.css">
+<script type="text/javascript" src="resources/js/jquery1.8.0.js"></script>
+
+<script type="text/javascript" src="/resources/js/shopping.js"></script>
+<script type="text/javascript" src="/resources/js/application.js"></script>
+<script type="text/javascript" src="/resources/js/img_player.js"></script>
+</head>
+<body>
+
+<!--top begin-->
+<!--登录弹出框 begin-->
+<div class="popup_bg"></div>
+<div class="login_popup">
+	<div class="L_popupbox">    	
+    	<div class="L_title">
+        	<p>我的网</p>
+            <div class="close_btn"><img src="../images/close.gif" width="14" height="14" alt="close"></div>
+        </div>
+        <div class="L_cont">
+        	<div id="pError"><span id="error"></span></div>
+        	<input class="L_public_input L_txt" type="text" id="userName" placeholder="用户名/邮箱/手机号">
+            <input class="L_public_input P_txt" type="password" id="password" placeholder="登录密码">
+            <div class="L_lrgst">
+            	<span class="ylt"><a href="/user/forgetPassword" target="_blank">忘记密码？</a></span>
+                <span class="yrt"><a href="/register.html" target="_blank">免费注册</a></span>
+            </div>
+            <input class="L_popbtn" type="button" name="" value="立即登录" onclick="wode.doLogin();"/>
+        </div>
+    </div>
+</div>
+<!--登录弹出框 end-->
+<script>
+/**
+ * 监听输入框的回车操作
+ */  
+$(".login_popup").keydown(function(event){ 
+if(event.keyCode == 13){
+	wode.doLogin();
+} 
+});
+</script><div class="roof_bg">
+    	<div class="roof">
+        	<div class="roof_left">
+            	<span>您好，欢迎来到我的网</span>
+                <ul class="roof_left_list">
+                	<li><a href="/login.html">登录</a><em>|</em></li>
+                    <li><a href="/register.html">免费注册</a></li>
+                </ul>
+            </div>
+            <div class="roof_right">
+            	<ul class="roof_right_list">
+                    <li><a href="/index.html">我的网</a></li>
+                    <li class="bg_li"></li>
+                    <li><a href="/member/myorders">我的订单</a></li>
+                    <li class="bg_li"></li>
+                    <li class="hand_life_li "><a href="http://www.wd-w.com/app.html" target="_blank">掌上生活</a><em></em>
+                    	<div class="ewm_inner">
+                    		<a href="http://www.wd-w.com/app.html" target="_blank"><img src="/images/top_ewm.png" /></a>
+                    		<p>扫一扫，下载<span>我的福利</span>客户端</p>
+                    	</div>
+                    </li>
+                    <li class="bg_li"></li>
+                    <li><a href="http://supplier.wd-w.com">我是商家</a></li>
+                    <li class="bg_li"></li>
+                    <li class="bg_none"><a href="http://www.wd-w.com/help-center.html?from=lxwm" target="_blank">联系我的</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+	<div class="head">
+    	<div class="logo"><a href="/index.html"><img src="http://www.wd-w.com/images/logo.png" alt="logo"></a></div>
+        		<div class="search">
+			<div class="searchbox">
+		            <form action="/product/search" method="get" id="search_form" target="_blank">
+		                <input class="searchinput" type="text" name="key" value="" onBlur="if($.trim(value)==''){value=defaultValue;}" onFocus="if(value==defaultValue){value='';}">
+		                <input  class="search_btn" id="search_btn" type="submit" value="搜索"/>
+		            </form>
+		     </div>
+		     <div class="search_list">
+	               <ul>
+		               <li><a href="http://wd-w.com/product/search?key=%E5%AE%B6%E7%94%A8%E7%94%B5%E5%99%A8&amp;page=1#orders" target="_blank">电器</a></li>
+		               <li><a href="http://wd-w.com/product/search?key=%E6%A2%B5%E7%94%B0" target="_blank">家居</a></li>
+		               <li class="curr"><a href="http://wd-w.com/product/search?key=%E6%80%9D%E5%87%AF%E4%B9%90" target="_blank">思凯乐</a></li>
+		                <!-- <li><a href="http://wd-w.com/product/search?key=%E9%9F%A9%E5%A6%99" target="_blank">韩妙</a></li> -->
+		           </ul>
+		      </div>
+	    </div>    
+        
+   		<div class="shoppingcar"><span class="shopping_amount">0</span><a href="/cart/list">购物车</a></div>
+    	<div class="shoppingcar_cont">
+        	<h2>最近加入的商品</h2>
+            <div class="shoppingcar_list">
+            </div>            
+        </div>
+    </div><!--top end-->
+<!--content begin-->
+<div id="content">
+	<div class="position">
+    	<a href="index.html">首页</a><em>></em><a href="#">电脑办公</a>
+    </div>
+    <div class="shopping_product_wrap">
+    	<div class="shopping_product_left">
+    	<input type="hidden" id="categoryId" value="3" />
+        	<div class="shopping_list_menu">
+					<ul>
+                		<li class="lt"><a class="hcolor" href="#">电脑整机</a>
+                    	<div class="shopping_menu_layer">
+                       	  	<div class="shopping_label_list">
+                            	<ul>
+                                			<li>
+                                    		<span><a href="/product/list?cat=3,6,9">笔记本</a></span>
+                                    		<span><a href="/product/list?cat=3,6,12">超极本</a></span>
+                                    		<span><a href="/product/list?cat=3,6,34">游戏本</a></span>
+                                    		<span><a href="/product/list?cat=3,6,35">平板电脑</a></span>
+											</li>
+                                			<li>
+                                    		<span><a href="/product/list?cat=3,6,36">台式机</a></span>
+                                    		<span><a href="/product/list?cat=3,6,37">服务站</a></span>
+                                    		<span><a href="/product/list?cat=3,6,38">笔记本配件</a></span>
+											</li>
+                                </ul>  
+                                <div class="shopping_product_pic"><a href="#"><img src="images/shopping_product.jpg" width="316" height="87"></a></div>
+                            </div>                            
+                        </div>
+                    	</li>
+                		<li class="lt"><a class="hcolor" href="#">外设产品</a>
+                    	<div class="shopping_menu_layer">
+                       	  	<div class="shopping_label_list">
+                            	<ul>
+                                			<li>
+                                    		<span><a href="/product/list?cat=3,8,39">鼠标</a></span>
+                                    		<span><a href="/product/list?cat=3,8,40">键盘</a></span>
+                                    		<span><a href="/product/list?cat=3,8,41">移动硬盘</a></span>
+                                    		<span><a href="/product/list?cat=3,8,42">U盘</a></span>
+											</li>
+                                			<li>
+                                    		<span><a href="/product/list?cat=3,8,43">鼠标垫</a></span>
+                                    		<span><a href="/product/list?cat=3,8,44">手写板</a></span>
+                                    		<span><a href="/product/list?cat=3,8,45">电脑清洁</a></span>
+                                    		<span><a href="/product/list?cat=3,8,46">电脑工具</a></span>
+											</li>
+                                </ul>  
+                                <div class="shopping_product_pic"><a href="#"><img src="images/shopping_product.jpg" width="316" height="87"></a></div>
+                            </div>                            
+                        </div>
+                    	</li>
+                	</ul>
+            </div>
+        			
+<!--图片轮播 begin-->
+             <div class="shopping_packet" id="shopping_packet">
+                <ol class="shopping_num">
+                    <li class="active">1</li>
+                    <li>2</li>
+                    <li>3</li>
+                </ol>
+                <ul class="shopping_img_list">
+                    <li style="display:block;"><a href="#"><img src="newimg/bnn1.jpg" width="700" height="307" alt="shopping_banner01" /></a></li>
+                    <li><a href="#"><img src="newimg/bnn2.jpg" width="700" height="307" alt="shopping_banner02" /></a></li>
+                    <li><a href="#"><img src="newimg/bnn3.jpg" width="700" height="307" alt="shopping_banner03" /></a></li>
+                </ul>
+            </div>
+            <!--图片轮播 end-->
+            
+            <!--左右按钮图片滚动 begin-->
+                        <div class="shopping_showpro">
+            	<h2>品牌街</h2>
+            	<div class="img-scroll">
+                    <span class="prev" onmousedown="ISL_GoUp()" onmouseup="ISL_StopUp()" onmouseout="ISL_StopUp()"></span>
+                    <span class="next" onmousedown="ISL_GoDown()" onmouseup="ISL_StopDown()" onmouseout="ISL_StopDown()"></span>
+                    <div class="img-list" id="ISL_Cont">
+                    	<div class="ScrCont">
+                        <ul id="List1">
+                            <li><a href="http://www.wd-w.com/shop/88336407267003" target="_blank"><img src="newimg/lg01.jpg" width="139" height="121"></a></li>
+                            <li><a href="http://www.wd-w.com/shop/91213165626714" target="_blank"><img src="newimg/lg02.jpg" width="139" height="121"></a></li>
+                            <li><a href="#" target="_blank"><img src="newimg/lg03.jpg" width="139" height="121"></a></li>
+                            <li><a href="#" target="_blank"><img src="newimg/lg04.jpg" width="139" height="121"></a></li>
+                            <li><a href="#" target="_blank"><img src="newimg/lg05.jpg" width="139" height="121"></a></li>
+                            <li><a href="#" target="_blank"><img src="newimg/lg06.jpg" width="139" height="121"></a></li>
+                        </ul>
+                        <ul id="List2"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--左右图片滚动 end-->
+        </div>
+
+            <div class="shopping_product_right">
+        	<h2>热销排行榜</h2>
+            <div class="shopping_pro_list">
+            	<ul>
+                	<li class="surr"><a href="#">笔记本</a></li>
+                    <li><a href="#">平板电脑</a></li>
+                    <li><a href="#">台式机</a></li>
+                </ul>
+            </div>
+            <!--平板电脑 begin-->
+            <ul class="shopping_hotpro" style="display:block;">
+            	<li>
+                	<div class="num nred">1</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="http://www.wd-w.com/93754290079310.html"><img src="newimg/ps01.jpg" width="49" height="58" alt="shopping_hotpro_01"></a>
+                        <p>联想(Lenovo)YOGA3</p>
+                        <strong>¥7499.00</strong>
+                    </div>
+                </li>
+                <li>
+                	<div class="num npink">2</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="http://www.wd-w.com/94591842682072.html"><img src="newimg/ps02.jpg" width="49" height="58" alt="shopping_hotpro_01"></a>
+                        <p>联想(Lenovo) B50-80</p>
+                        <strong>¥3965.30</strong></div>
+                </li>
+                <li>
+                	<div class="num nlightred">3</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="http://www.wd-w.com/94155382031466.html"><img src="newimg/ps03.jpg" width="49" height="58" alt="shopping_hotpro_01"></a>
+                        <p>联想(Lenovo)YOGA3</p>
+                        <strong>¥5979.99</strong>
+                    </div>
+                </li>
+                <li>
+                	<div class="num ngray">4</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="http://www.wd-w.com/107963662468752.html"><img src="newimg/ps04.jpg" width="49" height="58" alt="shopping_hotpro_01"></a>
+                        <p>联想（Lenovo）FLEX2-14</p>
+                        <strong>¥3446.02</strong>
+                    </div>
+                </li>
+                <li>
+                	<div class="num ngray">5</div>
+                    <div class="shopping_hotinfo" style="border-bottom:none;">
+                    	<a href="http://www.wd-w.com/91671041214210.html"><img src="newimg/ps05.jpg" width="49" height="58" alt="shopping_hotpro_01"></a>
+                        <p>联想（Lenovo） Y50-70 </p>
+                        <strong>¥8999.00</strong>
+                    </div>
+                </li>
+            </ul>
+            <!--平板电脑 end-->
+            
+            <!--笔记本 begin-->
+            <ul class="shopping_hotpro">
+            	<li>
+                	<div class="num nred">1</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="#"><img src="images/shopping_hotpro_01.jpg" width="49" height="58" alt="shopping_hotpro_01"></a>
+                        <p>苹果iPad mini2</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+                <li>
+                	<div class="num npink">2</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="#"><img src="images/shopping_hotpro_01.jpg" width="49" height="58" alt="shopping_hotpro_01"></a>
+                        <p>苹果iPad mini2</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+                <li>
+                	<div class="num nlightred">3</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="#"><img src="images/shopping_hotpro_01.jpg" width="49" height="58" alt="shopping_hotpro_01"></a>
+                        <p>苹果iPad mini2</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+                <li>
+                	<div class="num ngray">4</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="#"><img src="images/shopping_hotpro_01.jpg" width="49" height="58" alt="shopping_hotpro_01"></a>
+                        <p>苹果iPad mini2</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+                <li>
+                	<div class="num ngray">5</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="#"><img src="images/shopping_hotpro_01.jpg" width="49" height="58" alt="shopping_hotpro_01"></a>
+                        <p>苹果iPad mini2</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+            </ul>
+            <!--笔记本 end-->
+            
+            <!--台式机 begin-->
+            <ul class="shopping_hotpro">
+            	<li>
+                	<div class="num nred">1</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="#"><img src="images/shopping_hotpro_01.jpg" width="49" height="58" alt="shopping_hotpro_01"></a>
+                        <p>苹果iPad mini3</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+                <li>
+                	<div class="num npink">2</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="#"><img src="images/shopping_hotpro_01.jpg" width="49" height="58" alt="shopping_hotpro_01"></a>
+                        <p>苹果iPad mini2</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+                <li>
+                	<div class="num nlightred">3</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="#"><img src="images/shopping_hotpro_01.jpg" width="49" height="58" alt="shopping_hotpro_01"></a>
+                        <p>苹果iPad mini2</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+                <li>
+                	<div class="num ngray">4</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="#"><img src="images/shopping_hotpro_01.jpg" width="49" height="58" alt="shopping_hotpro_01"></a>
+                        <p>苹果iPad mini2</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+                <li>
+                	<div class="num ngray">5</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="#"><img src="images/shopping_hotpro_01.jpg" width="49" height="58" alt="shopping_hotpro_01"></a>
+                        <p>苹果iPad mini2</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+            </ul>
+            <!--台式机 end-->
+        </div>
+        </div>
+    </div>
+    
+       <!--1F begin-->
+    <div class="shopping_if">
+    	<div class="shopping_if_title">
+        	<h2><span>1F</span>&nbsp;电脑整机</h2>
+            <ul class="shoppingif_r_list">
+            	<li><a href="#">联想</a><em>|</em></li>
+                <li><a href="#">华硕</a><em>|</em></li>
+                <li><a href="#">ThinkPad</a><em>|</em></li>
+                <li><a href="#">戴尔</a><em>|</em></li>
+                <li><a href="#">三星</a></li>
+                <p class="more"><a href="#">更多</a></p>
+            </ul>            
+        </div>
+        <div class="shopping_wrap">
+        	<div class="shopping_info">            	
+                <div class="shopping_info_list">
+                	<ul>
+                    	<li>
+                        	<span><a href="#">笔记本</a></span>
+                            <span><a href="#">超极本</a></span>
+                        </li>
+                        <li>
+                        	<span><a href="#">游戏本</a></span>
+                            <span><a href="#">平板电视</a></span>
+                        </li>
+                        <li>
+                        	<span><a href="#">台式机</a></span>
+                            <span><a href="#">服务器</a></span>
+                        </li>
+                        <li>
+                        	<span><a href="#">工作站</a></span>
+                        </li>                        
+                    </ul>
+                </div>
+                <div class="shopping_info_img"><img src="newimg/shopping_info_img.jpg" width="203" height="204" alt="pro_info_img"></div>
+            </div>
+            <div class="shopping_list_wrap">
+            	<div class="shopping_list">
+                	<ul>
+                    	<li>
+                        	<a href="http://www.wd-w.com/91671041214210.html"><img src="newimg/pc01.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="http://www.wd-w.com/91671041214210.html">联想（Lenovo） Y50-70 15.6英寸笔记本电脑联盟版</a></p>
+                            <strong>¥8999.00</strong>
+                        </li>
+                        <li>
+                        	<a href="http://www.wd-w.com/107963662468752.html"><img src="newimg/pc02.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="http://www.wd-w.com/107963662468752.html">联想（Lenovo）FLEX2-14 14英寸笔记本电脑 埃及黄</a></p>
+                            <strong>¥3446.02</strong>
+                        </li>
+                        <li>
+                        	<a href="http://www.wd-w.com/108368129361459.html"><img src="newimg/pc03.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="http://www.wd-w.com/108368129361459.html">联想(Lenovo)YOGA3 11 11.6英寸超级本</a></p>
+                            <strong>¥3499.00</strong>
+                        </li>
+                        <li>
+                        	<a href="http://www.wd-w.com/108381393880655.html"><img src="newimg/pc04.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="http://www.wd-w.com/108381393880655.html">联想（Lenovo）Y430p 14.0英寸笔记本电脑 黑色</a></p>
+                            <strong>¥3699.00</strong>
+                        </li>
+                        <li>
+                        	<a href="http://www.wd-w.com/94155382031466.html"><img src="newimg/pc05.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="http://www.wd-w.com/94155382031466.html">联想(Lenovo)YOGA3 11 11.6英寸超级本</a></p>
+                            <strong>¥5979.99</strong>
+                        </li>
+                        <li>
+                        	<a href="http://www.wd-w.com/91637703214705.html"><img src="newimg/pc06.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="http://www.wd-w.com/91637703214705.html">联想(LENOVO)G510AM 15.6英寸笔记本电脑</a></p>
+                            <strong>¥5199.00</strong>
+                        </li>
+                        <li>
+                        	<a href="http://www.wd-w.com/91623686538812.html"><img src="newimg/pc07.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="http://www.wd-w.com/91623686538812.html">联想(Lenovo) B50-80 联想15.6寸笔记本</a></p>
+                            <strong>¥4200.00</strong>
+                        </li>
+                        <li>
+                        	<a href="http://www.wd-w.com/94591842682072.html"><img src="newimg/pc08.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="http://www.wd-w.com/94591842682072.html">联想(Lenovo) B50-80 联想15.6寸笔记本</a></p>
+                            <strong>¥3965.30</strong>
+                        </li>
+                        <li>
+                        	<a href="http://www.wd-w.com/107926777824835.html"><img src="newimg/pc09.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="http://www.wd-w.com/107926777824835.html">联想(Lenovo)M4450A 14英寸笔记本电脑</a></p>
+                            <strong>¥3197.00</strong>
+                        </li>
+                        <li>
+                        	<a href="http://www.wd-w.com/93754290079310.html"><img src="newimg/pc10.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="http://www.wd-w.com/93754290079310.html">联想(Lenovo)YOGA3 14英寸超极本</a></p>
+                            <strong>¥7499.00</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!--1F end-->
+    
+    <!--2F begin-->
+    <div class="shopping_if">
+    	<div class="shopping_if_title">
+        	<h2><span>2F</span>&nbsp;电脑配件</h2>
+            <ul class="shoppingif_r_list">
+            	<li><a href="#">联想</a><em>|</em></li>
+                <li><a href="#">华硕</a><em>|</em></li>
+                <li><a href="#">ThinkPad</a><em>|</em></li>
+                <li><a href="#">戴尔</a><em>|</em></li>
+                <li><a href="#">三星</a></li>
+                <p class="more"><a href="#">更多</a></p>
+            </ul>            
+        </div>
+        <div class="shopping_wrap">
+        	<div class="shopping_info">            	
+                <div class="shopping_info_list">
+                	<ul>
+                    	<li>
+                        	<span><a href="#">笔记本</a></span>
+                            <span><a href="#">超极本</a></span>
+                        </li>
+                        <li>
+                        	<span><a href="#">游戏本</a></span>
+                            <span><a href="#">平板电视</a></span>
+                        </li>
+                        <li>
+                        	<span><a href="#">台式机</a></span>
+                            <span><a href="#">服务器</a></span>
+                        </li>
+                        <li>
+                        	<span><a href="#">工作站</a></span>
+                            <span><a href="#">笔记本配件</a></span>
+                        </li>                        
+                    </ul>
+                </div>
+                <div class="shopping_info_img"><img src="newimg/shopping_info_img1.jpg" width="203" height="204" alt="pro_info_img"></div>
+            </div>
+            <div class="shopping_list_wrap">
+            	<div class="shopping_list">
+                	<ul>
+                    	<li>
+                        	<a href="#"><img src="newimg/pj01.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="#">华硕笔记本本发455LDX10 黑色记本</a></p>
+                            <strong>¥ 2949</strong>
+                        </li>
+                        <li>
+                        	<a href="#"><img src="newimg/pj02.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="#">华硕笔记本本发455L5552X10 黑色记本</a></p>
+                            <strong>¥ 2949</strong>
+                        </li>
+                        <li>
+                        	<a href="#"><img src="newimg/pj03.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="#">华硕笔记本本发4530-5552X10 黑色记本</a></p>
+                            <strong>¥ 2949</strong>
+                        </li>
+                        <li>
+                        	<a href="#"><img src="newimg/pj04.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="#">华硕笔记本本发455LD40 黑色记本</a></p>
+                            <strong>¥ 2949</strong>
+                        </li>
+                        <li>
+                        	<a href="#"><img src="newimg/pj05.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="#">华硕笔记本本发4530-5552X10 黑色记本</a></p>
+                            <strong>¥ 2949</strong>
+                        </li>
+                        <li>
+                        	<a href="#"><img src="newimg/pj06.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="#">华硕笔记本本发455LD4030- 黑色记本</a></p>
+                            <strong>¥ 2949</strong>
+                        </li>
+                        <li>
+                        	<a href="#"><img src="newimg/pj07.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="#">华硕笔记本本发-5552X10 黑色记本</a></p>
+                            <strong>¥ 2949</strong>
+                        </li>
+                        <li>
+                        	<a href="#"><img src="newimg/pj08.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="#">华硕笔记本本发4-5552X10 黑色记本</a></p>
+                            <strong>¥ 2949</strong>
+                        </li>
+                        <li>
+                        	<a href="#"><img src="newimg/pj09.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="#">华硕笔记本本发455LD4030-5552X10 黑色记本</a></p>
+                            <strong>¥ 2949</strong>
+                        </li>
+                        <li>
+                        	<a href="#"><img src="newimg/pj10.jpg" width="104" height="104" alt="shopping_list_img01"></a>
+                            <p><a href="#">华硕笔记本本发455LD4030-5552X10 黑色记本</a></p>
+                            <strong>¥ 2949</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!--2F end-->
+    
+    
+</div>
+<!--content end-->
+<!--footer begin-->
+<link rel="stylesheet" href="/css/global.css" type="text/css" />
+<div id="footer">
+	<div class="footer_box">
+        <ul class="footer_list">
+           <li><a href="http://www.wo-de.com/about.html" target="_blank">关于我的</a></li>
+            <li><a href="http://www.wd-w.com/help-center.html?from=lxwm" target="_blank">联系我的</a></li>
+            <li><a href="http://www.wo-de.com/index.html" target="_blank">友情链接</a></li>
+            <li><a href="http://www.wo-de.com/about.html" target="_blank">人才招聘</a></li>
+            <li><a href="http://www.wd-w.com/help-center.html" target="_blank">帮助中心</a></li>
+            <li><a href="http://supplier.wd-w.com/" target="_blank">商家平台</a></li>
+            <li><a href="http://www.wd-w.com/app.html" target="_blank">掌上生活</a></li>
+            <li><a href="http://www.wd-w.com/legal-notice.html" target="_blank">法律申明</a></li>
+            <li><a href="http://www.wd-w.com/feedback.html" target="_blank">用户反馈</a></li>
+            <li><a href="http://www.wd-w.com/union_rules.html" target="_blank">平台交易规则</a></li>
+        </ul>
+        <div class="foter">
+        	<span>京ICP证150591号</span>              
+            <span><a href="http://www.miitbeian.gov.cn/"  target="_blank">京ICP备14054543号-1</a></span>  
+            <span>京公网安备11010802017481号</span>              
+            <span>我的旗下网站：我的团  我的美  我的码 我的快递</span>
+        </div>
+        <ul class="footer_info">
+        	<li><a href="#">经营性网站<br>备案信息</a></li>
+            <li><a href="#">可信网站<br>信用评价</a></li>
+            <li><a href="#">朝阳区网络<br>警察提醒您</a></li>
+            <li><a style="line-height:38px;" href="#">诚信网站</a></li>
+        </ul>
+    </div>
+    <div class="floatwrap">
+		<a href="javascript:" class="cd-top">Top</a>
+		<a href="feedback.html" target="_blank" class="cd-help">Help</a>
+	</div>
+</div><!--footer end-->
+<script type="text/javascript">
+//带按钮的图片左右滚动效果
+var Speed = 10; //速度(毫秒)
+var Space = 5; //每次移动(px)
+var PageWidth = 839; //翻页宽度
+var fill = 0; //整体移位
+var MoveLock = false;
+var MoveTimeObj;
+var Comp = 0;
+var AutoPlayObj = null;
+GetObj("List2").innerHTML = GetObj("List1").innerHTML;
+GetObj('ISL_Cont').scrollLeft = fill;
+GetObj("ISL_Cont").onmouseover = function(){clearInterval(AutoPlayObj);};
+GetObj("ISL_Cont").onmouseout = function(){AutoPlay();};
+AutoPlay();
+function GetObj(objName){if(document.getElementById){return eval('document.getElementById("'+objName+'")')}else{return eval('document.all.'+objName)}}
+function AutoPlay(){ //自动滚动
+ clearInterval(AutoPlayObj);
+ AutoPlayObj = setInterval('ISL_GoDown();ISL_StopDown();',3000); //间隔时间
+}
+function ISL_GoUp(){ //上翻开始
+ if(MoveLock) return;
+ clearInterval(AutoPlayObj);
+ MoveLock = true;
+ MoveTimeObj = setInterval('ISL_ScrUp();',Speed);
+}
+function ISL_StopUp(){ //上翻停止
+ clearInterval(MoveTimeObj);
+ if(GetObj('ISL_Cont').scrollLeft % PageWidth - fill != 0){
+  Comp = fill - (GetObj('ISL_Cont').scrollLeft % PageWidth);
+  CompScr();
+ }else{
+  MoveLock = false;
+ }
+ AutoPlay();
+}
+function ISL_ScrUp(){ //上翻动作
+ if(GetObj('ISL_Cont').scrollLeft <= 0){GetObj('ISL_Cont').scrollLeft = GetObj('ISL_Cont').scrollLeft + GetObj('List1').offsetWidth}
+ GetObj('ISL_Cont').scrollLeft -= Space ;
+}
+function ISL_GoDown(){ //下翻
+ clearInterval(MoveTimeObj);
+ if(MoveLock) return;
+ clearInterval(AutoPlayObj);
+ MoveLock = true;
+ ISL_ScrDown();
+ MoveTimeObj = setInterval('ISL_ScrDown()',Speed);
+}
+function ISL_StopDown(){ //下翻停止
+ clearInterval(MoveTimeObj);
+ if(GetObj('ISL_Cont').scrollLeft % PageWidth - fill != 0 ){
+  Comp = PageWidth - GetObj('ISL_Cont').scrollLeft % PageWidth + fill;
+  CompScr();
+ }else{
+  MoveLock = false;
+ }
+ AutoPlay();
+}
+function ISL_ScrDown(){ //下翻动作
+ if(GetObj('ISL_Cont').scrollLeft >= GetObj('List1').scrollWidth){GetObj('ISL_Cont').scrollLeft = GetObj('ISL_Cont').scrollLeft - GetObj('List1').scrollWidth;}
+ GetObj('ISL_Cont').scrollLeft += Space ;
+}
+function CompScr(){
+ var num;
+ if(Comp == 0){MoveLock = false;return;}
+ if(Comp < 0){ //上翻
+  if(Comp < -Space){
+   Comp += Space;
+   num = Space;
+  }else{
+   num = -Comp;
+   Comp = 0;
+  }
+  GetObj('ISL_Cont').scrollLeft -= num;
+  setTimeout('CompScr()',Speed);
+ }else{ //下翻
+  if(Comp > Space){
+   Comp -= Space;
+   num = Space;
+  }else{
+   num = Comp;
+   Comp = 0;
+  }
+  GetObj('ISL_Cont').scrollLeft += num;
+  setTimeout('CompScr()',Speed);
+ }
+}
+</script>
+<script type="text/javascript" src="resources/js/top_ewm.js"></script>
+</body>
+</html>

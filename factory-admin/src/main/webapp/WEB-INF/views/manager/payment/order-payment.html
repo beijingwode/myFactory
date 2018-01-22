@@ -1,0 +1,99 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/payment/listOrderPayment" method="post" id="search-form" target="list-page" class="center clearfix">
+					<div class="row col-sm-12">
+						<div class="col-sm-4">
+							<label>操作：</label>
+							<input type="checkbox" value="1" name="payType" id="payType1"><label for="payType1">支付</label>
+							<input type="checkbox" value="11" name="payType" id="payType11"><label for="payType11">现金券抵扣</label>
+							<input type="checkbox" value="-1" name="payType" id="payType-1"><label for="payType-1">订单取消</label>
+							<input type="checkbox" value="-2" name="payType" id="payType-2"><label for="payType-2">售后退款</label>
+							<input type="checkbox" value="-3" name="payType" id="payType-3"><label for="payType-3">团购退款</label>				
+						</div>
+						<div class="col-sm-4">
+							<label>订单id：</label>
+							<input type="text" id="subOrderId" name="subOrderId">
+							<label>支付流水：</label>
+							<input type="text" id="thirdNo" name="thirdNo">
+						</div>
+						<div class="col-sm-4">
+							<label>订单类型：</label>
+							<input type="checkbox" value="0" name="orderType" id="orderType0"><label for="orderType0">订单</label>
+							<input type="checkbox" value="1" name="orderType" id="orderType1"><label for="orderType1">团购单</label>
+							<input type="checkbox" value="5" name="orderType" id="orderType2"><label for="orderType2">换领单</label>
+						</div>
+						<div style="width:100px;float: right;margin-right: 10px;margin-top: -30px" onclick="exportExcel()">
+							<span class="btn fa fa-file-excel-o" id="excel-btn">&nbsp;&nbsp;导出订单</span>
+						</div>
+					</div>
+					<div class="row col-sm-12">
+						<div class="col-sm-4">
+							<label>操作日期：</label>
+							<input type="text" id="startPayTime" name="startPayTime">
+							<label>-</label>
+							<input type="text" id="endPayTime" name="endPayTime">
+							&nbsp;&nbsp;
+						</div>
+						<div class="col-sm-4">
+							<label>对账状态：</label>
+							<select name="payConfirm">
+								<option value="">到款状态</option>
+								<option value="0">未到款</option>
+								<option value="1">已到款</option>
+							</select>
+							<select name="way">
+								<option value="">支付方式</option>
+								<option value="zhifubao">支付宝</option>
+								<option value="wxgz">微信(公众号)</option>
+								<option value="wxapp">微信(app)</option>
+								<option value="unionpay">银联</option>
+								<option value="pingtaiyue">现金券</option>
+							</select>
+						</div>
+						<div class="col-sm-4">
+							&nbsp;&nbsp;
+						</div>
+					</div>
+					<div class="padding-trb-10 col-sm-12">
+						<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">全部</span>
+						<span class="btn btn-info btn-sm col-sm-6" id="search-btn">查询</span>
+					</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+	</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script>
+	laydate({
+	    elem: '#startPayTime',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#endPayTime',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	$("#role-select").chosen({width: "80%",search_contains: true});
+	$("#role-choose").chosen({width: "100%",search_contains: true}); 
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	
+	function exportExcel() {
+		var action,target;
+		var thisform=document.getElementById('search-form');
+		action=thisform.action;
+		target=thisform.target;
+		
+		thisform.action="${ctxPath}/payment/exportExcelOrderPayment";
+		thisform.target="_blank";
+		thisform.submit();
+		
+		thisform.action=action;
+		thisform.target=target;
+	}
+</script>

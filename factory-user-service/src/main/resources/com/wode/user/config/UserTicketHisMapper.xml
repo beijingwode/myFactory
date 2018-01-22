@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserTicketHisMapper">
+
+    <resultMap id="UserTicketHis" type="com.wode.factory.model.UserTicketHis">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="opDate" column="op_date"/>
+        <result property="opCode" column="op_code"/>
+        <result property="ticketId" column="ticket_id"/>
+        <result property="ticket" column="ticket"/>
+        <result property="ticketBalance" column="ticket_balance"/>
+        <result property="note" column="note"/>
+        <result property="keyId" column="key_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="supplierId" column="supplier_id"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,user_id,op_date,op_code,ticket_id,ticket,ticket_balance,note,key_id,user_name,supplier_id
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_ticket_his (
+            id ,
+            user_id ,
+            op_date ,
+            op_code ,
+            ticket_id ,
+            ticket ,
+            ticket_balance ,
+            note ,
+            key_id ,
+            user_name ,
+            supplier_id
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{opDate} ,
+            #{opCode} ,
+            #{ticketId} ,
+            #{ticket} ,
+            #{ticketBalance} ,
+            #{note} ,
+            #{keyId} ,
+            #{userName} ,
+            #{supplierId}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_ticket_his SET            
+            user_id = #{userId} ,
+            op_date = #{opDate} ,
+            op_code = #{opCode} ,
+            ticket_id = #{ticketId} ,
+            ticket = #{ticket} ,
+            ticket_balance = #{ticketBalance} ,
+            note = #{note} ,
+            key_id = #{keyId} ,
+            user_name = #{userName} ,
+            supplier_id = #{supplierId} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_ticket_his WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserTicketHis">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_ticket_his 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="UserTicketHis">
+        SELECT <include refid="columns" /> FROM t_user_ticket_his 
+        <include refid="find_where"/>
+    </select>
+	
+	<!-- 带分页的换领币使用列表 -->
+	<select id="findPageListByUserid" resultMap="UserTicketHis">
+    	SELECT <include refid="columns" />
+	    FROM t_user_ticket_his 
+		<include refid="find_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns} desc
+		</if>
+    </select>
+	
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(opDate)">
+                AND op_date = #{opDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(opCode)">
+                AND op_code = #{opCode}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticketId)">
+                AND ticket_id = #{ticketId}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticket)">
+                AND ticket = #{ticket}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticketBalance)">
+                AND ticket_balance = #{ticketBalance}
+            </if>
+           <if test="@Ognl@isNotEmpty(note)">
+                AND note = #{note}
+            </if>
+           <if test="@Ognl@isNotEmpty(keyId)">
+                AND key_id = #{keyId}
+            </if>
+           <if test="@Ognl@isNotEmpty(userName)">
+                AND user_name = #{userName}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+        </where>
+    </sql>
+	
+</mapper>

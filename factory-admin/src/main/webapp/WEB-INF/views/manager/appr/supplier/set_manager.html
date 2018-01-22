@@ -1,0 +1,60 @@
+<div class="layer">
+	<input type="hidden" id="id" value="${id}">
+	<table id="formUseFeeTable"
+		class="table table-striped table-bordered table-hover nomargin-bottom">
+		<thead>
+			<tr>
+				<th class="center">招商经理</th>
+				<td class="center">
+					<select id="manager">						
+					@for(item in list){
+						<option value="${item.id! },${item.name! }">${item.name! }</option>
+					@}
+					</select>
+				</td>
+			</tr>
+		<tbody>
+		</tbody>
+	</table>
+</div>
+<div class="width-100 clearfix" tag-save-btn
+	style="bottom: 0px; left: 0px; position: absolute;">
+	<span id="speVal_submit" onclick="setCashDeposit()" class="btn btn-primary btn-sm bigger-110 width-100  pull-left">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i> 确定
+	</span>
+</div>
+<script type="text/javascript">
+
+function setCashDeposit(){
+	
+	$.ajax({
+
+		type: "post",
+		data:{
+			manager:$("#manager").val(),
+				id:$("#id").val()
+			},
+		url: "${ctxPath}/appr/supplier/setManager",
+		dataType: "json",
+		success: function(data, textStatus){
+			var $form = $("#search-form");
+			var pageNo = 1;
+			var pageNoInput = $form.find('input[name="pageNum"]');
+			if(pageNoInput.size() != 0){
+				pageNo = pageNoInput.val();
+			}
+			
+			//刷新页面
+			paging('search-form',pageNo);
+			layer.closeAll();
+		},
+		error: function(){
+
+		}
+		})
+}
+
+$(document).ready(function() {
+	
+});
+</script>

@@ -1,0 +1,67 @@
+.mainbody{width:1200px;height:auto;overflow:hidden;margin:0 auto;margin-top:10px;}
+.pay_con{width:1124px;height:164px;background:#f8fffa;padding:38px;}
+.pay_con_lt{width:800px;height:164px;float:left;}
+.p1{height:38px;width:100%;line-height:38px;font-size:24px;color:#2aa515;background:url(../images/hl_pay_icon.png) no-repeat left center;padding-left:50px;}
+.p2{height:55px;width:100%;line-height:30px;font-size:16px;color:#aaaaaa;padding-left:50px;}
+.pay_con_lt dl{height:82px;width:100%;margin-top:10px;}
+.pay_con_lt dl dt{height:82px;width:82px;border:1px solid #eef5f0;float:left;margin-right:15px;}
+.pay_con_lt dl dt img{height:82px;width:82px;}
+.pay_con_lt dl dd{height:30px;width:620px;line-height:30px;float:left;font-size:16px;}
+.pay_con_lt dl .dd1{margin-top:10px;}
+.pay_con_lt dl dd a{color:#6b6b6b;}
+.pay_con_lt dl dd span{color:#aaaaaa;margin-right:40px;font-size:14px;}
+.pay_con_lt dl dd em{font-style:normal;color:#aaaaaa;font-size:14px;}
+
+.see_more{width:324px;height:40px;float:left;margin-top:114px;}
+.see_more a{width:142px;height:38px;display:block;float:right;margin-left:12px;text-align:center;line-height:38px;border:1px solid #aaaaaa;color:#aaaaaa;font-size:16px;background:#f8fffa;border-radius:3px;}
+.see_more .see_list{border:1px solid #ff4040;color:#ff4040;position:relative;}
+.see_more .see_list span{width:20px;height:20px;display:block;position:absolute;top:-10px;right:-10px;background:#ff4040;color:#fff;text-align:center;line-height:20px;font-size:12px;border-radius:10px;}
+
+.hl_box{width:1198px;height:auto;overflow:hidden;border:1px solid #f1f1f1;margin-top:25px;}
+.tit{height:34px;width:1185px;padding-left:13px;border-bottom:1px solid #f1f1f1;background:#f8f8f8;line-height:34px;font-size:14px;color:#333333;}
+.hl_con{width:1168px;height:auto;overflow:hidden;padding:15px 15px 0 15px;}
+.hl_con ul{width:1184px;margin-left:-16px;}
+.hl_con ul li{width:278px;height:372px;border:1px solid #f2f2f2;float:left;margin:0 0 16px 16px;}
+.hl_con ul li:hover{border:1px solid #ff4040;}
+.hl_con ul li dl{width:258px;height:352px;padding:10px;}
+.hl_con ul li dl dt{width:258px;height:258px;}
+.hl_con ul li dl dt img{width:258px;height:258px;}
+.hl_con ul li dl dd{width:258px;height:22px;line-height:22px;font-size:14px;overflow:hidden;white-space: nowrap;text-overflow: ellipsis;}
+.hl_con ul li dl dd em{font-style:normal;color:#ff4040;}
+.hl_con ul li dl .dd1{margin-top:15px;}
+.hl_con ul li dl .dd2{color:#ff4040;}
+.hl_con ul li dl .dd3 {margin-top:7px;}
+.hl_con ul li dl .dd3 a{color:#333333;text-decoration:underline}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

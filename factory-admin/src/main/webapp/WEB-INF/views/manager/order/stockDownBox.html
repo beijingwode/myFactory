@@ -1,0 +1,93 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<div class="profile-info-row">
+		<div class="profile-info-name">订单id:</div>
+		<div class="profile-info-value">${order.subOrderId}</div>
+		<input type="hidden" value="${order.subOrderId}" id="checkBox_id" name="id"/>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">下单日期:</div>
+		<div class="profile-info-value">${order.createTime!,dateFormat="yyyy-MM-dd"}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">订单状态:</div>
+		<div class="profile-info-value">
+			@if(order.status==1){
+				未发货
+			@}else if(order.status==2){
+				<font color="red">已发货</font>
+			@}else if(order.status==3){
+				申请退货
+			@}else if(order.status==4){
+				已收货
+			@}else if(order.status==5){
+				申请退款
+			@}else if(order.status==11){
+				已退货
+			@}else if(order.status==12){
+				已退款
+			@}else {
+			@}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">备货:</div>
+		<div class="profile-info-value">
+			@if(order.stockUp==1){
+				备货中
+			@}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">订单金额:</div>
+		<div class="profile-info-value">￥${order.realPrice}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">注意:</div>
+		<div class="profile-info-value"><font color="red">取消备货30分钟后，如未进行关闭，会再次进入备货状态</font></div>		
+	</div>
+	
+	<div class="width-100 clearfix" tag-save-btn style="bottom: 0px;left: 0px;position:absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-100  pull-left" id="submit">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>确定
+	</span>
+	
+	
+</div>
+<script type="text/javascript">
+
+$(function(){
+	
+	$("#submit").click(function(){
+			//获取id值
+		var id = $("#checkBox_id").val();
+	
+		$.ajax({
+			dataType:'json',
+			type:'POST',
+			url:'${ctxPath}/orderList/stockDown?id='+id,
+			contentType: 'application/json',
+			success:function(data){
+				if(data.success){
+					var $form = $("#search-form");
+					var pageNo = 1;
+					var pageNoInput = $form.find('input[name="pageNum"]');
+					if(pageNoInput.size() != 0){
+						pageNo = pageNoInput.val();
+					}
+					
+					//刷新页面
+					paging('search-form',pageNo);
+					layer.closeAll();
+				} else {
+					layer.msg(data.msg, 3, 1);
+				}
+			}
+		});	
+		
+	});
+})
+
+</script>
+</div>
+</div>

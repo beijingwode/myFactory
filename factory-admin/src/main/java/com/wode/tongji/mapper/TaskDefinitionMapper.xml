@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wode.tongji.mapper.TaskDefinitionMapper">
+	
+	<sql id="taskDefinitionColumns">
+		id,bean_class,bean_name,cron,description,is_start,method_name,name,creat_time
+	</sql>
+	
+	<select id="findTaskDefinitionList" resultType="com.wode.tongji.model.TaskDefinition">
+	select <include refid="taskDefinitionColumns"/>
+		from sys_task_definition a
+		<where>
+			<if test="@Ognl@isNotBlank(name)">
+				a.name like concat( '%' , #{name} , '%' )
+			</if>
+			<if test="@Ognl@isNotBlank(bean_class)">
+				a.bean_class like concat( '%' , #{bean_class} , '%' )
+			</if>
+			<if test="@Ognl@isNotBlank(bean_name)">
+				a.bean_name like concat( '%' , #{bean_name} , '%' )
+			</if>
+		</where>
+		ORDER BY a.cron
+	</select>
+	
+</mapper>

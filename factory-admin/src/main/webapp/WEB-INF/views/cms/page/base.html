@@ -1,0 +1,121 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/cmsPage/pageList" method="post" id="search-form" target="list-page" class="center clearfix">
+					<!-- <input type="hidden" name="payType" value="2"> -->
+					<div class="row col-sm-12">
+						<div class="col-sm-4">
+							<label>渠道：</label>
+							<select name="channel" id="channel" onchange="getTemplates()">
+								<option value="1">pc</option>
+								<option value="2">微信/APP</option>
+							</select>
+						</div>
+						<div class="col-sm-4">
+							<label>负责人：</label>
+							<select name="createUserId" id="createUserId">
+								<option value=""></option>
+								@for(item in mlist){
+									@if(item.id == uid){
+									<option value="${item.id! }" selected="selected" >${item.name! }</option>
+									@} else{
+									<option value="${item.id! }" >${item.name! }</option>
+									@}
+								@}
+							</select>
+						</div>
+						<div class="col-sm-4">
+							<label>标题：</label>
+							<input type="text" name="title" id="title">
+						</div>
+					</div>
+					<div class="row col-sm-12">
+						<div class="col-sm-4">
+							<label>模板：</label>
+							<select name="templateId" id="templateId">
+								<option value="">全部</option>
+							</select>
+						</div>
+						<div class="col-sm-4">
+							<label>关键字：</label>
+							<input type="text" name="pageKey" id="pageKey">
+						</div>
+						
+						<div class="col-sm-4">							
+							<label>专属企业：</label>
+							<#select name="supplierId" width="45%" id="supplierId">
+								<option value="">全部</option>
+								@for(item in supplierList){
+								<option value="${item.id! }">${item.comName! }</option>
+								@}
+							</#select>
+						</div>
+					</div>
+					<div class="padding-trb-10 col-sm-12">
+							<span class="btn  btn-primary btn-sm col-sm-6" id="search-clr" onclick="$curmenu.trigger('click');">全部</span>
+							<span class="btn btn-info btn-sm col-sm-6" id="search-btn">查询</span>
+							
+					</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+	</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script>
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	var initSearch=false;
+	$(function(){		
+		if(sessionStorage.hasSeach) {
+			$("#channel").val(sessionStorage.channel);
+			$("#createUserId").val(sessionStorage.createUserId);
+			$("#title").val(sessionStorage.title);
+			$("#templateId").val(sessionStorage.templateId);
+			$("#pageKey").val(sessionStorage.pageKey);
+			$("#supplierId").val(sessionStorage.supplierId);
+			$("input[name=pageNum]").val(sessionStorage.pageNum);
+			
+			initSearch=true;
+		}
+		getTemplates();	
+	});
+	
+	function getTemplates()
+	{
+		$.ajax( {  
+		    url:'${ctxPath}/cmsPage/getTemplates?channel='+$("#channel").val(),
+		    type:'post',
+		    dataType:'json',
+		    success:function(data) {
+				var html='<option value="">全部</option>';
+		    	//再添加
+		    	for(var i =0;i<data.length;i++){
+		    		html += '<option value="'+ data[i].id +'">'+ data[i].title +'</option>';
+		    	}
+		    	
+		    	$("#templateId").html(html);
+				
+				if(initSearch) {
+					$("#templateId").val(sessionStorage.templateId);
+					initSearch=false;
+					rePage();
+				}
+		    },  
+		     error : function() {  
+		     }  
+		});
+	}
+	
+	function rePage() {
+		var $form = $("#search-form")
+		var pageNoInput = $form.find('input[name="pageNum"]');
+		if(pageNoInput && pageNoInput.length>0) {
+			paging('search-form',pageNoInput.val());
+		}
+	}
+</script>

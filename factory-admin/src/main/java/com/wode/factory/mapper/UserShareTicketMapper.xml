@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.UserShareTicketDao">
+
+    <resultMap id="UserShareTicket" type="com.wode.factory.model.UserShareTicket">
+        <result property="id" column="id"/>
+        <result property="shareId" column="share_id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="ticketId" column="ticket_id"/>
+        <result property="saleKbn" column="sale_kbn"/>
+        <result property="shareType" column="share_type"/>
+        <result property="wxTempQrUrl" column="wx_temp_qr_url"/>
+        <result property="wxTempLimitEnd" column="wx_temp_limit_end"/>
+        <result property="createUserName" column="create_user_name"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,share_id,supplier_id,ticket_id,sale_kbn,share_type,wx_temp_qr_url,wx_temp_limit_end,create_user_name,create_time
+        ]]>
+    </sql>
+    <select id="getByShareId" resultMap="UserShareTicket">
+    	select <include refid="columns" /> from t_user_share_ticket where share_id = #{shareId}
+    </select>
+	<select id="findByTicketIdBySuppliderId" resultMap="UserShareTicket">
+		select * from t_user_share_ticket where ticket_id = #{ticketId} and supplier_id = #{supplierId}
+	</select>
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_share_ticket (
+            id ,
+            share_id ,
+            supplier_id ,
+            ticket_id ,
+            sale_kbn ,
+            share_type ,
+            wx_temp_qr_url ,
+            wx_temp_limit_end ,
+            create_user_name ,
+            create_time
+        ) VALUES (
+            #{id} ,
+            #{shareId} ,
+            #{supplierId} ,
+            #{ticketId} ,
+            #{saleKbn} ,
+            #{shareType} ,
+            #{wxTempQrUrl} ,
+            #{wxTempLimitEnd} ,
+            #{createUserName} ,
+            #{createTime}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_share_ticket SET            
+            share_id = #{shareId} ,
+            supplier_id = #{supplierId} ,
+            ticket_id = #{ticketId} ,
+            sale_kbn = #{saleKbn} ,
+            share_type = #{shareType} ,
+            wx_temp_qr_url = #{wxTempQrUrl} ,
+            wx_temp_limit_end = #{wxTempLimitEnd} ,
+            create_user_name = #{createUserName} ,
+            create_time = #{createTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_share_ticket WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserShareTicket">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_share_ticket 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="UserShareTicket">
+        SELECT <include refid="columns" /> FROM t_user_share_ticket 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(shareId)">
+                AND share_id = #{shareId}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticketId)">
+                AND ticket_id = #{ticketId}
+            </if>
+           <if test="@Ognl@isNotEmpty(saleKbn)">
+                AND sale_kbn = #{saleKbn}
+            </if>
+           <if test="@Ognl@isNotEmpty(shareType)">
+                AND share_type = #{shareType}
+            </if>
+           <if test="@Ognl@isNotEmpty(wxTempQrUrl)">
+                AND wx_temp_qr_url = #{wxTempQrUrl}
+            </if>
+           <if test="@Ognl@isNotEmpty(wxTempLimitEnd)">
+                AND wx_temp_limit_end = #{wxTempLimitEnd}
+            </if>
+           <if test="@Ognl@isNotEmpty(createUserName)">
+                AND create_user_name = #{createUserName}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+        </where>
+    </sql>
+
+</mapper>
+
+

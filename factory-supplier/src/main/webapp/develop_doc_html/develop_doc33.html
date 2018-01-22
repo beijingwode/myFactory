@@ -1,0 +1,525 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>我的网商家中心</title>
+    <link rel="stylesheet" type="text/css" href="../static_resources/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../static_resources/css/box.css" />
+</head>
+
+<body>
+<header class="headercolor">
+    <!--top begin-->
+    <div id="top">
+        <div class="top_cont">
+            <div class="top_cont_left_fl" style="float:left;">
+                <span>你好，欢迎来到我的网商家中心！</span>
+                
+            </div>
+            <div class="top_cont_right">
+                <ul>
+                	<li><a href="http://supplier.wd-w.com/develop_doc_html/develop_doc11.html">开发文档</a></li>
+                    <li style="margin-left:20px;"><a href="http://supplier.wd-w.com/user/login.html">商家平台首页</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <!--top end-->
+
+    <!--header begin-->
+    <div id="header">
+        <div class="header_cont">
+            <div class="logo">
+                <a href="http://supplier.wd-w.com/user/tosuppliermain.html"><img src="http://supplier.wd-w.com/static_resources/images/logo.jpg" width="200" height="50" alt="logo"></a>
+            </div>
+            <div class="nav">
+                <ul>
+                    <li id="sy_header"><a href="http://supplier.wd-w.com/user/tosuppliermain.html">首页</a></li>
+                    <li id="wddp_header" class="active"><a href="http://supplier.wd-w.com/shopSetting.html">我的店铺</a></li>
+                    <li id="spgl_header"><a href="http://supplier.wd-w.com/product/toSelectProducttype.html">商品管理</a></li>
+                    <li id="ddgl_header"><a href="http://supplier.wd-w.com/suborder/gotoSelllist.html">订单管理</a></li>
+                    <li id="psgl_header"><a href="http://supplier.wd-w.com/shippingAddress/todeliver.html">配送管理</a></li>
+                    <li id="hdgl_header"><a href="http://supplier.wd-w.com/activity/qicai/page.html">活动管理</a></li>
+                    <li id="jsgl_header"><a href="http://supplier.wd-w.com/saleBill/gotoSaleBillList.html">结算管理</a></li>
+                    <li id="qygl_header"><a href="http://supplier.wd-w.com/company/emp/page.html">员工福利</a></li>
+                    <li id="permissions_header"><a href="http://supplier.wd-w.com/permissions_role.html">权限管理</a></li>
+                    </ul>
+            </div>
+        </div>
+    </div>
+   
+    <!--header end-->
+</header>
+<!--content begin-->
+<div id="content">
+    <!--left begin-->
+    <div class="left">
+        <div class="left_store_list">
+            <ul>
+				<li><a href="javascript:;"><i class="icon01"></i>文档说明</a>
+					<ul class="twomenu" >
+				 		<li><a href="develop_doc11.html">阅读对象</a></li>
+				 
+				     	<li><a href="develop_doc12.html">版本说明</a></li>
+				   </ul>
+				</li>
+				<li><a href="javascript:;"><i class="icon01"></i>接口规则</a>
+				    <ul class="twomenu">        
+				         <li><a href="develop_doc21.html">协议规则</a></li>	
+				         <li><a href="develop_doc22.html">安全规范</a></li>		         
+				    </ul>
+				</li> 
+				<li><a href="javascript:;"><i class="icon01"></i>接口列表</a>
+				    <ul class="twomenu" style="display:block;">        
+				         <li><a href="develop_doc31.html">商品、sku 接口</a></li>	
+				         <li><a href="develop_doc32.html">订单、物流 接口</a></li>  
+				         <li class="active"><a href="JavaScript:;">售后 接口</a></li>     
+				    </ul>
+				</li>                 
+            </ul>
+        </div>
+    </div>
+    <!--left end-->
+
+    <!--right begin-->
+    <div class="right" >
+        <div class="position">
+            <span>您所在的位置：</span>
+            <a href="javascript:void(0);">商家中心</a><em>></em>
+            <a href="javascript:void(0);">开发文档</a><em>></em>
+            <a href="javascript:;">订单、物流 接口</a>
+        </div>
+        <div class="doc_box">
+			<h5 id="jyshddlb">简易售后订单列表 supplier.refunds.get </h5>
+			<p style="text-indent:0em;"><span>a) API描述</span></p>
+			<p><span>名称：</span>简易售后订单列表</p>
+			<p><span>描述：</span>获取商家单位售后数据，返回数据结果以售后申请创建时间倒序排列，返回结果仅包含：售后单id、订单id、状态，等信息。更多信息可通过<a href="#dbsh">单笔售后部分信息接口</a>获取</p>
+			<p><span>数据格式：</span>JSON</p>
+			<p><span>请求URL：</span> http://supplier.wd-w.com/open	(统一开放接口)</p>
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>b) 请求参数</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th3">必填</th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>appid</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">应用唯一标识，我的网商家平台-->首页-->API安全 <a href="../user/app_security.html">查看</a></td>
+					</tr>
+					<tr class="bg_1">
+						<td>method</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">supplier.refunds.get</td>
+					</tr>
+					<tr>
+						<td>timestamp</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">时间戳，格式为yyyy-MM-dd HH:mm:ss，时区为GMT+8，例如：2017-01-01 12:00:00</td>
+					</tr>
+					<tr class="bg_1">
+						<td>start_created</td>
+						<td>date</td>
+						<td>非必填</td>
+						<td class="td4">查询三个月内售后申请时间开始。格式:yyyy-MM-dd HH:mm:ss</td>
+					</tr>
+					<tr>
+						<td>end_created</td>
+						<td>date</td>
+						<td>非必填</td>
+						<td class="td4">查询售后申请时间结束。格式:yyyy-MM-dd HH:mm:ss</td>
+					</tr>
+					<tr class="bg_1">
+						<td>status</td>
+						<td>string</td>
+						<td>非必填</td>
+						<td class="td4">售后状态：默认为等待卖家确认（WAIT_SELLER_CONFIRM）</td>
+					</tr>
+					<tr>
+						<td>refund_type</td>
+						<td>string</td>
+						<td>非必填</td>
+						<td class="td4">售后类型: 默认为全部类型</td>
+					</tr>
+					<tr class="bg_1">
+						<td>goods_status</td>
+						<td>string</td>
+						<td>非必填</td>
+						<td class="td4">退货物流状态（退货退款时适用）：默认为全部状态</td>
+					</tr>
+					<tr>
+						<td>sign</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">API输入参数签名结果，签名算法介绍<a href="develop_doc22.html">请点击这里</a>。</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			<p style="font-size:12px;color:#aaa9a9;">注：售后状态（status）可传入以下值：<br /><em>WAIT_SELLER_CONFIRM：等待卖家确认</em><br /><em>REFUND_FINISHED：售后完成</em><br /><em>REFUND_CLOSED：售后关闭</em></p>
+			<p style="font-size:12px;color:#aaa9a9;">注：售后类型（refund_type）说明：<br /><em>REFUDN_FEE_ONLY：仅退款</em><br /><em>RETURN_OF_GOODS：退货并退款</em></p>
+			<p style="font-size:12px;color:#aaa9a9;">注：退货物流状态（goods_status）说明：<br /><em>BUYER_SEND_GOODS：买家退货已发出</em><br /><em>SELLER_SIGNED_GOODS：卖家已签收退货</em></p>
+			
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>c) 返还结果</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>success</td>
+						<td>bool</td>
+						<td class="td4">true：成功  false：失败</td>
+					</tr>
+					<tr class="bg_1">
+						<td>message</td>
+						<td>string</td>
+						<td class="td4">失败时，错误信息</td>
+					</tr>
+					<tr>
+						<td>data</td>
+						<td>JsonArray</td>
+						<td class="td4">数组元素：<br />refund_id:售后单id <br />trade_id:订单id <br />status:售后状态<br />refund_type:售后类型<br />goods_status：退货物流状态 （退货退款时适用）<br />created:创建时间<br />payment：订单金额<br />shipping_fee：订单运费<br />refund_fee:退款金额</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			
+			
+			<h5 style="margin-top:40px;" id="dbsh">单笔售后部分信息 supplier.refund.get</h5>
+			<p style="text-indent:0em;"><span>a) API描述</span></p>
+			<p><span>名称：</span>单笔售后部分信息</p>
+			<p><span>描述：</span>获取单笔售后部分信息</p>
+			<p><span>数据格式：</span>JSON</p>
+			<p><span>请求URL：</span> http://supplier.wd-w.com/open	(统一开放接口)</p>
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>b) 请求参数</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th3">必填</th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>appid</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">应用唯一标识，我的网商家平台-->首页-->API安全 <a href="../user/app_security.html">查看</a></td>
+					</tr>
+					<tr class="bg_1">
+						<td>method</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">supplier.refund.get</td>
+					</tr>
+					<tr>
+						<td>timestamp</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">时间戳，格式为yyyy-MM-dd HH:mm:ss，时区为GMT+8，例如：2017-01-01 12:00:00</td>
+					</tr>
+					<tr class="bg_1">
+						<td>refund_id</td>
+						<td>string</td>
+						<td>选填</td>
+						<td class="td4">售后单id 可通过 <a href="#jyshddlb">简易售后订单列表接口</a>获取 （与订单id 二选一）</td>
+					</tr>
+					<tr>
+						<td>trade_id</td>
+						<td>string</td>
+						<td>选填</td>
+						<td class="td4">订单id 可通过<a href="develop_doc32.html">简易订单列表接口</a>获取（与售后单id 二选一）</td>
+					</tr>
+					<tr class="bg_1">
+						<td>sign</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">API输入参数签名结果，签名算法介绍<a href="develop_doc22.html">请点击这里</a>。</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>c) 返还结果</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>success</td>
+						<td>bool</td>
+						<td class="td4">true：成功  false：失败</td>
+					</tr>
+					<tr class="bg_1">
+						<td>message</td>
+						<td>string</td>
+						<td class="td4">失败时，错误信息</td>
+					</tr>
+					<tr>
+						<td>data</td>
+						<td>JsonObject</td>
+						<td class="td4">json元素：<br />
+							refund_id:售后单id<br />
+							trade_id:订单id <br />
+							status:售后状态<br />
+							refund_type:售后类型<br />
+							goods_status：退货物流状态 （退货退款时适用）<br />
+							created:创建时间<br />
+							payment：订单金额<br />
+							shipping_fee：订单运费<br />
+							refund_fee:退款金额<br />
+							reason:退款原因<br />
+							note:退款说明<br />
+							attachment1:凭证1 图片url<br />
+							attachment2:凭证2 图片url<br />
+							attachment3:凭证3 图片url<br />
+							express_com:快递公司简称    （退货退款时适用）<br />
+							express_no:快递单号    （退货退款时适用）<br />
+							skus:{ <br />
+								　　商品信息       （退货退款时适用）<br />
+								　　sku_id:skuID<br />
+								　　outer_id:Sku的商家外部id<br />
+								　　p_title:商品标题<br />
+								　　spec:规格信息 （例：红色，M）<br />
+								　　sku_code:条码<br />
+								　　num:数量<br />
+								　　price:单价<br />
+								　　image: 主图url （例：http://img2.wo-de.com/upload//xxx/xx.jpg ）<br />
+								 }
+						</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			
+			
+			<h5 id="thqscl" style="margin-top:40px;">退货签收处理 supplier.refund.goods.sign</h5>
+			<p style="text-indent:0em;"><span>a) API描述</span></p>
+			<p><span>名称：</span>退货签收处理</p>
+			<p><span>描述：</span>卖家收到买家退货后，更新售后单退货物流状态至“卖家已签收退货”，但不更新售后单状态</p>
+			<p><span>请求URL：</span> http://supplier.wd-w.com/open	(统一开放接口)</p>
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>b) 请求参数</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th3">必填</th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>appid</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">应用唯一标识，我的网商家平台-->首页-->API安全 <a href="../user/app_security.html">查看</a></td>
+					</tr>
+					<tr class="bg_1">
+						<td>method</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">supplier.refund.goods.sign</td>
+					</tr>
+					<tr>
+						<td>timestamp</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">时间戳，格式为yyyy-MM-dd HH:mm:ss，时区为GMT+8，例如：2017-01-01 12:00:00</td>
+					</tr>
+					<tr class="bg_1">
+						<td>refund_id</td>
+						<td>string</td>
+						<td>选填</td>
+						<td class="td4">售后单id 可通过<a href="#jyshddlb">简易售后订单列表接口</a>获取</td>
+					</tr>
+					<tr>
+						<td>sign</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">API输入参数签名结果，签名算法介绍<a href="develop_doc22.html">请点击这里</a>。</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>c) 返还结果</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>success</td>
+						<td>bool</td>
+						<td class="td4">true：成功  false：失败</td>
+					</tr>
+					<tr class="bg_1">
+						<td>message</td>
+						<td>string</td>
+						<td class="td4">失败时，错误信息</td>
+					</tr>
+					<tr>
+						<td>data</td>
+						<td>string</td>
+						<td class="td4">未定</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			
+			
+			<h5 style="margin-top:40px;">同意售后处理 supplier.refund.confirm</h5>
+			<p style="text-indent:0em;"><span>a) API描述</span></p>
+			<p><span>名称：</span>同意售后处理</p>
+			<p><span>描述：</span>卖家同意买家的售后处理申请，并将售后单状态更新至“售后完成”，平台将退款返还至买家支付账户，并在下次结算时从卖家货款中扣除</p>
+			<p><span>请求URL：</span> http://supplier.wd-w.com/open	(统一开放接口)</p>
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>b) 请求参数</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th3">必填</th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>appid</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">应用唯一标识，我的网商家平台-->首页-->API安全 <a href="../user/app_security.html">查看</a></td>
+					</tr>
+					<tr class="bg_1">
+						<td>method</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">supplier.refund.confirm</td>
+					</tr>
+					<tr>
+						<td>timestamp</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">时间戳，格式为yyyy-MM-dd HH:mm:ss，时区为GMT+8，例如：2017-01-01 12:00:00</td>
+					</tr>
+					<tr class="bg_1">
+						<td>refund_id</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">售后单id 可通过<a href="#jyshddlb">简易售后订单列表接口</a>获取</td>
+					</tr>
+					
+					<tr>
+						<td>sign</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">API输入参数签名结果，签名算法介绍<a href="develop_doc22.html">请点击这里</a>。</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>c) 返还结果</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>success</td>
+						<td>bool</td>
+						<td class="td4">true：成功  false：失败</td>
+					</tr>
+					<tr class="bg_1">
+						<td>message</td>
+						<td>string</td>
+						<td class="td4">失败时，错误信息</td>
+					</tr>
+					<tr>
+						<td>data</td>
+						<td>string</td>
+						<td class="td4">未定</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			
+			
+        </div>
+    </div>
+    <!--right end-->
+</div>
+<!--content end-->
+
+<!--footer begin-->
+<footer>
+<!--footer begin-->
+<div id="footer">
+	<div class="footer_box">
+    	<ul class="footer_list">   
+    			 <li><a href="http://www.wo-de.com/about.html" target="_blank">关于我的</a></li>
+            <li><a href="http://www.wd-w.com/help-center.html?from=lxwm" target="_blank">联系我的</a></li>
+            <li><a href="http://www.wo-de.com/index.html" target="_blank">友情链接</a></li>
+            <li><a href="http://www.wo-de.com/about.html" target="_blank">人才招聘</a></li>
+            <li><a href="http://www.wd-w.com/help-center.html" target="_blank">帮助中心</a></li>
+            <li><a href="http://supplier.wd-w.com/" target="_blank">商家平台</a></li>
+            <li><a href="http://www.wd-w.com/app.html" target="_blank">掌上生活</a></li>
+            <li><a href="http://www.wd-w.com/legal-notice.html" target="_blank">法律申明</a></li>
+            <li><a href="http://www.wd-w.com/feedback.html" target="_blank">用户反馈</a></li>
+            <li><a href="http://www.wd-w.com/union_rules.html" target="_blank">平台交易规则</a></li>
+        </ul>
+        <div class="foter">
+        	<span>京ICP证150591号</span>              
+            <span><a href="http://www.miitbeian.gov.cn/" target="_blank">京ICP备14054543号-1</a></span>  
+            <span>京公网安备11010802017481号</span>              
+            <span>我的旗下网站：我的团  我的美  我的码 我的快递</span>
+        </div>
+        <ul class="footer_info">
+        	<li><a href="javascript:void(0);">经营性网站<br>备案信息</a></li>
+            <li><a href="javascript:void(0);">可信网站<br>信用评价</a></li>
+            <li><a href="javascript:void(0);">朝阳区网络<br>警察提醒您</a></li>
+            <li><a href="javascript:void(0);" style="line-height:38px;">诚信网站</a></li>
+        </ul>
+    </div>
+</div>
+<!--footer end-->
+</footer>
+<!--footer end-->
+<script type="text/javascript" src="../static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="../static_resources/js/menu_min.js"></script>
+
+
+
+</body>
+</html>

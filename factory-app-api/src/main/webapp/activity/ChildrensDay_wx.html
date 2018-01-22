@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+
+<link rel="stylesheet" type="text/css" href="../static_resources/css/wx_dm.css" />
+<link rel="stylesheet" type="text/css" href="../static_resources/css/alert.css" />
+<script type="text/javascript" src="../static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="../static_resources/js/wxGetUid.js"></script>
+<script type="text/javascript" src="../cart/activityLog?app=wx&url=ChildrensDay"></script>
+<title>我的福利</title>
+<style type="text/css">
+.theme-poptit{font-size:1.4em}
+</style>
+</head>
+
+<body style="background:#f6b117;">
+
+	<input type="hidden" id="firstLoad" value="1">
+	<div class="main_box">
+	    <div class="main_one">
+	    	<img src="../static_resources/images/ChildrensDay_app/banner1.jpg?2" />
+	    	<img src="../static_resources/images/ChildrensDay_app/banner2.jpg?2" />	
+	    	<img src="../static_resources/images/ChildrensDay_app/banner3.jpg?2" /> 
+	    </div>	
+	    <div class="tit"><img src="../static_resources/images/ChildrensDay_app/tit0.jpg?2" /></div>      
+	    <div class="main_two">
+	    	<a href="http://api.wd-w.com/productm?productId=2075694736607065"><img src="../static_resources/images/ChildrensDay_app/main_pic1.jpg?2" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2078542191953846"><img src="../static_resources/images/ChildrensDay_app/main_pic1_2.jpg?2" /></a>	    	
+	    </div>
+	    <div class="tit"><img src="../static_resources/images/ChildrensDay_app/tit2.jpg?2" /></div>
+	    <div class="main_two">
+	    	<a href="http://api.wd-w.com/productm?productId=1914162232952316"><img src="../static_resources/images/ChildrensDay_app/main_pic2.jpg?2" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=1929099948328449"><img src="../static_resources/images/ChildrensDay_app/main_pic3.jpg?2" /></a>	    	
+	    	<a href="http://api.wd-w.com/productm?productId=1948619495573148"><img src="../static_resources/images/ChildrensDay_app/main_pic4.jpg?2" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=1948731392001775"><img src="../static_resources/images/ChildrensDay_app/main_pic5.jpg?2" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=1857935529707163"><img src="../static_resources/images/ChildrensDay_app/main_pic6.jpg?2" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2234637151962288"><img src="../static_resources/images/ChildrensDay_app/main_pic7.jpg?2" /></a>
+	    </div>
+	    
+	    <div class="tit"><img src="../static_resources/images/ChildrensDay_app/tit4.jpg?2" /></div>
+	    <div class="main_two">
+	    	<a href="http://api.wd-w.com/productm?productId=2234569040200847"><img src="../static_resources/images/ChildrensDay_app/main_pic15.jpg?2" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2234506495591502"><img src="../static_resources/images/ChildrensDay_app/main_pic16.jpg?2" /></a>
+	    </div>
+	    
+	    <div class="tit"><img src="../static_resources/images/ChildrensDay_app/tit5.jpg?2" /></div>
+	    <div class="main_two">
+	    	<a href="http://api.wd-w.com/productm?productId=2188796301084301"><img src="../static_resources/images/ChildrensDay_app/main_pic17.jpg?2" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2188784586884716"><img src="../static_resources/images/ChildrensDay_app/main_pic18.jpg?2" /></a>
+	    </div>
+	    
+	    <div class="main_three"><a href="http://api.wd-w.com/index_m.htm"><img src="../static_resources/images/ChildrensDay_app/footer.jpg?2" /></a></div>
+	</div>
+
+<div class="theme-popover" id="msgShowDiv" style="display: none">
+     <div class="theme-poptit"></div>
+     <div class="theme-popbod1" >
+        <a href="javascript:void(0);">确定</a>
+     </div>
+</div>
+<div class="theme-popover-mask" style="display: none"></div>
+<script type="text/javascript">
+function closeMsg(){ 
+	$(".theme-popover-mask").hide();
+	$("#msgShowDiv").hide();
+}
+
+function msgShow(){
+	$(".theme-popover-mask").show();
+	$("#msgShowDiv").show();
+}
+
+function goIndex(){
+	window.location = "/index_m.htm?wxOpen=1";
+}
+
+
+function showInfoBox(msg,act){
+	$(".theme-popover .theme-poptit").html(msg);
+	$(".theme-popover .theme-popbod1").show();
+	if(act != null && act!="") {
+		$(".theme-popbod1 a").attr("onclick",act + ";closeMsg();");
+	} else {
+		$(".theme-popbod1 a").attr("onclick","closeMsg();");		
+	}
+	msgShow();
+}
+
+
+
+function offLine() {
+	showInfoBox("线下内购会专供");
+}
+
+$(document).ready(function() {	
+	var uid=GetUidCookie();
+	if(uid=='') {
+		goIndex();
+	} else {
+		if($("#firstLoad").val() == "1") {
+			$("#firstLoad").val("0");
+			var msg = window.location.href;
+			var i=msg.indexOf("msg=");
+			if(i>-1) {
+				msg = msg.substring(i+4);
+				if(msg.indexOf("&")>-1) {
+					msg = msg.substring(0,msg.indexOf("&"));
+				}
+				
+				showInfoBox(decodeURI(msg));	
+			}
+		}
+	}
+});
+
+
+</script>
+</body>
+</html>

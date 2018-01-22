@@ -1,0 +1,107 @@
+ <!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+<meta content="telephone=no" name="format-detection" />
+<title>企业员工 邮箱注册</title>
+<link rel="stylesheet" type="text/css" href="css/public.css" />
+<link rel="stylesheet" type="text/css" href="css/binding_phone.css" />
+</head>
+
+<body>
+<div class="main-cont" id="main-cont">
+	<div class="top">   	
+        <h1 style="width:100%;text-align:center;">企业员工 邮箱注册</h1>
+    </div>
+    <div class="main-box">
+    	<div class="main_con">
+            <div class="int_box" >
+            	<span>企业邮箱:</span>
+                <input type="text"  class="email_text" />
+                <form action="" method="post">
+                    <div id="divselect">
+                          <cite>请选择邮箱后缀</cite>
+                          <ul>
+                             <li><a href="javascript:;" selectid="1">@wode1.com.cn</a></li>
+                             <li><a href="javascript:;" selectid="2">@wode2.com</a></li>                             <li><a href="javascript:;" selectid="3">@wode3.com</a></li>    
+                          </ul>
+                    </div>
+                    <input name="" type="hidden" value="" id="inputselect"/>
+                    
+                    </form>
+            </div>
+            <div class="int_box">
+            	<span>请输入密码(*):</span>
+                <input type="password" value="" class="pass_text1"  />
+            </div>
+            <div class="int_box">
+            	<span>请确认密码(*):</span>
+                <input type="password" value="" class="pass_text2" />
+            </div>
+            <div class="int_box">
+            	<span>我是(姓名):</span>
+                <input type="text" value="" class="my_name"  />
+            </div>
+        </div>
+        <p><input type="checkbox" /> <em>我已认真阅读并同意我的网</em>&nbsp;<a href="protocol.html">《服务协议》</a></p> 
+        <div class="btn_box" >立即注册</div>
+        <div class="href_login">已有账号，<a href="">登录</a></div>
+    
+    </div>
+     
+</div>
+
+<script type="text/javascript" src="js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="js/divselect.js"></script>
+<script type="text/javascript">
+$(function(){
+	$.divselect("#divselect","#inputselect");//模拟下拉
+
+	$(".btn_box").click(function(){
+		var re_email=/^\w+$/i;	
+		var re_password=/^[a-z0-9A-Z]{4,16}$/i;
+		var re_name=/^[\u4e00-\u9fa5]{2,8}$/i;
+		var email_text=$.trim($(".email_text").val());
+		var pass_text1=$.trim($(".pass_text1").val());
+		var pass_text2=$.trim($(".pass_text2").val());
+		var name_text=$.trim($(".my_name").val());
+		if(!re_email.test(email_text)||email_text==''){
+          alert('请输入合法的邮箱地址');
+		  return false;
+        }else{
+          alert('对了');
+        };
+		
+		if(!re_password.test(pass_text1)||pass_text1==''){
+          alert('请输入正确的密码并且不能少于四位');
+		  return false;
+        }else{
+          alert('对了');
+        };
+		
+		if(pass_text2==pass_text1){
+          return true;
+        }else{
+          alert('请确认密码并与之前输入的密码保持一致');
+		  return false;
+        };
+		
+		if(!re_name.test(name_text)||name_text==''){
+          alert('请输入您的名字');
+		  return false;
+        }else{
+          alert('对了');
+        };
+		
+	})
+	
+	
+	
+	
+});
+</script>
+
+
+</body>
+</html>

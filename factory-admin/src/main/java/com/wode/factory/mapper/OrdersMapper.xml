@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.OrdersMapper">
+
+    <resultMap id="orders" type="com.wode.factory.model.Orders">
+        <id property="orderId" column="orderId"/>
+        <result property="userId" column="userId"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="mobile" column="mobile"/>
+        <result property="address" column="address"/>
+        <result property="totalProduct" column="totalProduct"/>
+        <result property="totalShipping" column="totalShipping"/>
+        <result property="totalAdjustment" column="totalAdjustment"/>
+        <result property="realPrice" column="realPrice"/>
+        <result property="status" column="status"/>
+        <result property="invoiceTitle" column="invoiceTitle"/>
+        <result property="note" column="note"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="selfDelivery" column="self_delivery"/>
+    </resultMap>
+    
+    <resultMap id="suborderVo" type="com.wode.factory.vo.SuborderOrderVo">
+        <id property="subOrderId" column="subOrderId"/>
+        <result property="userId" column="userId"/>
+        <result property="orderId" column="orderId"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="totalProduct" column="totalProduct"/>
+        <result property="totalShipping" column="totalShipping"/>
+        <result property="totalAdjustment" column="totalAdjustment"/>
+        <result property="realPrice" column="realPrice"/>
+        <result property="status" column="status"/>
+        <result property="expressNo" column="expressNo"/>
+        <result property="expressType" column="expressType"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="sendAddress" column="sendAddress"/>
+        <result property="returnedAddress" column="returnedAddress"/>
+        <result property="afterserviceStatus" column="afterserviceStatus"/>
+        <result property="commentStatus" column="commentStatus"/>
+        <result property="takeTime" column="takeTime"/>
+        <result property="lasttakeTime" column="lasttakeTime"/>
+        <result property="sendTime" column="sendTime"/>
+        <result property="payTime" column="payTime"/>
+        <result property="cancelTime" column="cancelTime"/>
+        <result property="closeReason" column="closeReason"/>
+        <result property="urgeNumber" column="urgeNumber"/>
+        <result property="urgeTime" column="urgeTime"/>
+        <result property="deleteFlag" column="deleteFlag"/>
+        <result property="returnOrderId" column="returnOrderId"/>
+        <result property="closeFlg" column="close_flg"/>
+        <result property="saleBillId" column="sale_bill_id"/>
+        <result property="managerName" column="managerName"/>
+        <result property="supplierName" column="supplierName"/>
+        <result property="productName" column="product_name"/>
+        <result property="cashPay" column="cashPay"/>
+        <result property="cashNo" column="cashNo"/>
+        <result property="thirdPay" column="thirdPay"/>
+        <result property="thirdType" column="thirdType"/>
+        <result property="thirdNo" column="thirdNo"/>
+        <result property="payConfirm" column="pay_confirm"/>
+        <result property="payConfirmDate" column="pay_confirm_date"/>
+        <result property="companyTicket" column="companyTicket"/>
+        <result property="benefitType" column="benefit_type"/>
+        <result property="benefitAmount" column="benefit_amount"/>
+        <result property="noto" column="noto"/>
+        <result property="stockUp" column="stock_up"/>        
+        <result property="invoiceStatus" column="invoice_status"/>      
+        <result property="orderType" column="order_type"/>
+        <result property="relationId" column="relation_id"/>  
+    </resultMap>
+    
+    <resultMap id="suborder" type="com.wode.factory.model.Suborder">
+        <id property="subOrderId" column="subOrderId"/>
+        <result property="orderId" column="orderId"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="totalProduct" column="totalProduct"/>
+        <result property="totalShipping" column="totalShipping"/>
+        <result property="totalAdjustment" column="totalAdjustment"/>
+        <result property="realPrice" column="realPrice"/>
+        <result property="status" column="status"/>
+        <result property="expressNo" column="expressNo"/>
+        <result property="expressType" column="expressType"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="sendAddress" column="sendAddress"/>
+        <result property="returnedAddress" column="returnedAddress"/>
+        <result property="afterserviceStatus" column="afterserviceStatus"/>
+        <result property="commentStatus" column="commentStatus"/>
+        <result property="takeTime" column="takeTime"/>
+        <result property="lasttakeTime" column="lasttakeTime"/>
+        <result property="sendTime" column="sendTime"/>
+        <result property="payTime" column="payTime"/>
+        <result property="closeReason" column="closeReason"/>
+        <result property="urgeNumber" column="urgeNumber"/>
+        <result property="urgeTime" column="urgeTime"/>
+        <result property="deleteFlag" column="deleteFlag"/>
+        <result property="returnOrderId" column="returnOrderId"/>
+        <result property="cashPay" column="cashPay"/>
+        <result property="cashNo" column="cashNo"/>
+        <result property="thirdPay" column="thirdPay"/>
+        <result property="thirdType" column="thirdType"/>
+        <result property="thirdNo" column="thirdNo"/>
+        <result property="payConfirm" column="pay_confirm"/>
+        <result property="payConfirmDate" column="pay_confirm_date"/>
+        <result property="companyTicket" column="companyTicket"/>
+        <result property="benefitType" column="benefit_type"/>
+        <result property="noto" column="noto"/>
+        <result property="invoiceStatus" column="invoice_status"/>  
+        <result property="orderType" column="order_type"/>
+        <result property="relationId" column="relation_id"/>
+        <result property="productName" column="product_name"/>
+        <association property="returnorder" select="getReturnOrder" column="returnOrderId" javaType="com.wode.factory.model.Returnorder"/>
+        <collection property="suborderItems" ofType="HashMap" javaType="ArrayList" select="getSuborderItems" column="subOrderId"/>
+    </resultMap>
+    
+    <resultMap type="com.wode.factory.model.Returnorder" id="returnorder">
+    	<result property="expressNo" column="expressNo"/>
+    	<result property="expressType" column="expressType"/>
+    </resultMap>
+
+    <resultMap id="ordersWithItems" type="com.wode.factory.model.Orders" extends="orders">
+        <collection property="items" javaType="ArrayList" ofType="com.wode.factory.model.Suborder" select="getSuborders" column="orderId"/>
+    </resultMap>
+
+	<select id="getReturnOrder"  resultType="com.wode.factory.model.Returnorder" parameterType="java.lang.String" flushCache="false" useCache="true">
+		SELECT
+        	*
+        FROM
+            t_returnorder r
+        WHERE
+            r.returnOrderId = #{returnOrderId}
+	</select>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+		orderId,userId,name,phone,mobile,address,totalProduct,totalShipping,totalAdjustment,realPrice,status,invoiceTitle,note,createTime,updateTime,updateBy,self_delivery
+	    ]]>
+    </sql>
+
+    <select id="findOrdersBySelective" resultMap="orders">
+        SELECT <include refid="columns" /> FROM t_orders
+        <where>
+            <if test="@Ognl@isNotEmpty(startDate)">
+                <![CDATA[ AND createTime >= #{startDate}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(endDate)">
+                <![CDATA[ AND createTime <= #{endDate}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                <![CDATA[ AND status = #{status}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(orderId)">
+                <![CDATA[ AND orderId = #{orderId}]]>
+            </if>
+        </where>
+            order by createTime DESC
+    </select>
+    
+
+    <select id="findOwnOrders" resultMap="orders">
+        SELECT <include refid="columns" /> FROM t_orders
+         WHERE EXISTS (
+         	select 1 FROM t_sale_detail dtl INNER JOIN t_suborder sub on(sub.subOrderId=dtl.subOrderId) 
+         	WHERE dtl.own=0 AND t_orders.orderId=sub.orderId and sub.supplierId=#{supplierId} 
+          	<if test="@Ognl@isNotEmpty(productId)">
+          		<![CDATA[ AND dtl.productId=#{productId}]]>
+         	</if>
+         )
+    </select>
+    
+    <select id="findByUserId" resultMap="orders">
+        SELECT <include refid="columns" /> FROM t_orders
+         WHERE userId = #{userId}
+    </select>
+    
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_orders WHERE orderId = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getHeaders" resultType="String">
+    	select CASE COLUMN_NAME
+		    WHEN 'orderId' THEN '订单Id_getOrderId'
+		    WHEN 'name' THEN '收货人_getName'
+		    WHEN 'mobile' THEN '收货人手机号_getMobile'
+		    WHEN 'address' THEN '收货地址_getAddress'
+		    WHEN 'realPrice' THEN '应付款_getRealPrice'
+		    WHEN 'totalShipping' THEN '总运费_getTotalShipping'
+		    WHEN 'status' THEN '状态_getStatus'
+		    WHEN 'createTime' THEN '下单时间_getCreateTime'
+	    END columnStr  from Information_schema.columns   where TABLE_SCHEMA = 'factory' and table_Name = 't_orders' 
+	    AND COLUMN_NAME IN ('orderId','name','mobile','address','realPrice','totalShipping','status','createTime')
+    </select>
+
+    <select id="getOrderByIdWithItems" resultMap="ordersWithItems">
+        SELECT <include refid="columns" />
+        <![CDATA[
+		    FROM t_orders
+	        WHERE
+		        orderId = #{id}
+	    ]]>
+    </select>
+
+   <select id="getSuborders" resultMap="suborder">
+        SELECT
+        	suborder.*
+        FROM
+            t_suborder suborder
+        WHERE
+            suborder.orderId = #{orderId}
+    </select>
+
+   <select id="getSuborderList" resultMap="suborderVo">
+        SELECT suborder.subOrderId,
+				O.userId,
+				O.mobile,
+				suborder.orderId,
+				suborder.supplierId,
+				suborder.shop_id,
+				suborder.totalProduct,
+				suborder.totalShipping,
+				suborder.totalAdjustment,
+				suborder.realPrice,
+				suborder.status,
+				suborder.expressNo,
+				suborder.expressType,
+				suborder.createTime,
+				suborder.updateTime,
+				suborder.updateBy,
+				suborder.sendAddress,
+				suborder.returnedAddress,
+				suborder.afterserviceStatus,
+				suborder.commentStatus,
+				suborder.takeTime,
+				suborder.userExetendCount,
+				suborder.lasttakeTime,
+				suborder.sendTime,
+				suborder.payTime,
+				suborder.closeReason,
+				suborder.urgeNumber,
+				suborder.urgeTime,
+				suborder.deleteFlag,
+				suborder.returnOrderId,
+				suborder.refundOrderId,
+				suborder.refuseNote,
+				suborder.close_flg,
+				suborder.sale_bill_id,
+				suborder.pay_confirm,
+				suborder.pay_confirm_date,
+				suborder.noto,        
+        		s.com_name supplierName,s.manager_name managerName        
+		 		,suborder.cashPay
+		 		,suborder.cashNo
+		 		,IFNULL(suborder.thirdPay,0) thirdPay
+		 		,suborder.thirdType
+		 		,suborder.thirdNo
+		 		,suborder.companyTicket
+		 		,suborder.benefit_type
+		 		,suborder.benefit_amount
+		 		,suborder.cancelTime
+		 		,suborder.stock_up
+		 		,suborder.invoice_status
+		 		,suborder.order_type
+		 		,suborder.relation_id
+		 		,suborder.product_name
+        FROM t_suborder suborder
+        INNER JOIN t_supplier s ON(s.id=suborder.supplierId)
+        INNER JOIN t_orders O ON(O.orderId=suborder.orderId)
+        <where>	
+            <if test="@Ognl@isNotEmpty(status)">
+				AND (FIND_IN_SET(suborder.status,#{status})
+				<if test="@Ognl@isNotEmpty(payStatus)">
+					OR (suborder.status>0 OR suborder.status &lt;-1)
+	             </if>
+				)
+             </if>
+            <if test="@Ognl@isEmpty(status)">
+            <if test="@Ognl@isNotEmpty(payStatus)">
+				AND (suborder.status>0 || suborder.status &lt;-1)
+             </if>
+             </if>
+			<if test="@Ognl@isNotEmpty(closeFlg)">
+				AND suborder.close_flg = #{closeFlg}
+			</if>
+			<if test="@Ognl@isNotEmpty(payConfirm)">
+				AND suborder.pay_confirm = #{payConfirm}
+			</if>
+			<if test="@Ognl@isNotEmpty(subOrderId)">
+				AND suborder.subOrderId like CONCAT(CONCAT('%',#{subOrderId}),'%')
+			</if>
+			<if test="@Ognl@isNotEmpty(startDate)">
+				AND suborder.createTime >= #{startDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endDate)">
+				AND suborder.createTime &lt;= #{endDate}
+		   </if>
+			<if test="@Ognl@isNotEmpty(startPayTime)">
+				AND suborder.payTime >= #{startPayTime}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endPayTime)">
+				AND suborder.payTime &lt;= #{endPayTime}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(financeSearch)">
+				AND suborder.payTime IS NOT NULL
+		   </if>
+			<if test="@Ognl@isNotEmpty(startCancelDate)">
+				AND suborder.cancelTime >= #{startCancelDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endCancelDate)">
+				AND suborder.cancelTime &lt;= #{endCancelDate}
+		   </if>		   
+		   <if test="@Ognl@isNotEmpty(saleBillId)">
+				AND suborder.sale_bill_id = #{saleBillId}
+		   </if>		   
+		   <if test="@Ognl@isNotEmpty(managerId)">
+				AND s.manager_id= #{managerId}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(supplierId)">
+				AND s.id= #{supplierId}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(thirdType)">
+				AND suborder.thirdType= #{thirdType}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(thirdNo)">
+				AND suborder.thirdNo like CONCAT(CONCAT('%',#{thirdNo}),'%')
+		   </if>
+		   <if test="@Ognl@isNotEmpty(benefitType)">
+		   		AND suborder.benefit_type = #{benefitType}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(realPrice)">
+				AND suborder.realPrice > #{realPrice}   
+		   </if>
+		   <if test="@Ognl@isNotEmpty(durationKey)">
+				AND EXISTS (SELECT 1 FROM t_supplier_duration d where d.supplierId=s.id AND FIND_IN_SET(d.saleDurationKey,#{durationKey}))
+		   </if>
+		   <if test="@Ognl@isNotEmpty(noTest)">
+		   		AND s.id &lt;> 88550328206355 AND s.id &lt;>700321969341826
+		   </if>
+		   <if test="@Ognl@isNotEmpty(relevanceKey)">
+		   		AND (suborder.subOrderId = #{relevanceKey} or suborder.relation_id = #{relevanceKey})
+		   </if>
+		   <if test="@Ognl@isNotEmpty(mobile)">
+		   		AND O.mobile = #{mobile}
+		   </if>
+		</where>
+		ORDER BY suborder.createTime DESC
+    </select>
+
+    <select id="getById" resultMap="orders">
+        SELECT <include refid="columns" />
+        <![CDATA[
+		    FROM t_orders
+	        WHERE
+		        orderId = #{id}
+	    ]]>
+    </select>
+
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_orders SET
+	        userId = #{userId} ,
+	        name = #{name} ,
+	        phone = #{phone} ,
+	        mobile = #{mobile} ,
+	        address = #{address} ,
+	        totalProduct = #{totalProduct} ,
+	        totalShipping = #{totalShipping} ,
+	        totalAdjustment = #{totalAdjustment} ,
+	        status = #{status} ,
+	        invoiceTitle = #{invoiceTitle} ,
+	        note = #{note} ,
+	        createTime = #{createTime} ,
+	        updateTime = #{updateTime} ,
+	        updateBy = #{updateBy} 
+        WHERE 
+	        orderId = #{orderId} 
+    ]]>
+	</update>
+
+    <sql id="findPage_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+            <if test="@Ognl@isNotEmpty(orderId)">
+                AND orderId = #{orderId}
+            </if>
+            <if test="@Ognl@isNotEmpty(userId)">
+                AND userId = #{userId}
+            </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                AND name = #{name}
+            </if>
+            <if test="@Ognl@isNotEmpty(phone)">
+                AND phone = #{phone}
+            </if>
+            <if test="@Ognl@isNotEmpty(mobile)">
+                AND mobile = #{mobile}
+            </if>
+            <if test="@Ognl@isNotEmpty(address)">
+                AND address = #{address}
+            </if>
+            <if test="@Ognl@isNotEmpty(totalProduct)">
+                AND totalProduct = #{totalProduct}
+            </if>
+            <if test="@Ognl@isNotEmpty(totalShipping)">
+                AND totalShipping = #{totalShipping}
+            </if>
+            <if test="@Ognl@isNotEmpty(totalAdjustment)">
+                AND totalAdjustment = #{totalAdjustment}
+            </if>
+            <if test="@Ognl@isNotEmpty(realPrice)">
+                AND realPrice = #{realPrice}
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+            <if test="@Ognl@isNotEmpty(invoiceTitle)">
+                AND invoiceTitle = #{invoiceTitle}
+            </if>
+            <if test="@Ognl@isNotEmpty(note)">
+                AND note = #{note}
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                AND createTime >= #{createTimeBegin}
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                AND createTime &lt;= #{createTimeEnd}
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                AND updateTime >= #{updateTimeBegin}
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                AND updateTime &lt;= #{updateTimeEnd}
+            </if>
+            <if test="@Ognl@isNotEmpty(updateBy)">
+                AND updateBy = #{updateBy}
+            </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="orderId">
+    <![CDATA[
+        INSERT INTO t_orders (
+        	orderId ,
+        	userId ,
+        	name ,
+        	phone ,
+        	mobile ,
+        	address ,
+        	totalProduct ,
+        	totalShipping ,
+        	totalAdjustment ,
+        	realPrice ,
+        	status ,
+        	invoiceTitle ,
+        	note ,
+        	createTime ,
+        	updateTime ,
+        	updateBy ,
+        	self_delivery
+        ) VALUES (
+        	#{orderId} ,
+        	#{userId} ,
+        	#{name} ,
+        	#{phone} ,
+        	#{mobile} ,
+        	#{address} ,
+        	#{totalProduct} ,
+        	#{totalShipping} ,
+        	#{totalAdjustment} ,
+        	#{realPrice} ,
+        	#{status} ,
+        	#{invoiceTitle} ,
+        	#{note} ,
+        	#{createTime} ,
+        	#{updateTime} ,
+        	#{updateBy} ,
+        	#{selfDelivery}
+        )
+    ]]>
+    </insert>
+
+</mapper>
+

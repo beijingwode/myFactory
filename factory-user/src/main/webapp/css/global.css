@@ -1,0 +1,33 @@
+@charset "utf-8";
+/*footer begin*/
+#footer { width:100%; background:#4a4a4a; margin:30px auto 0; height:215px;clear:both }
+.footer_box { width:990px; margin:0 auto; padding:30px;}
+.footer_list { width:914px; margin:0 auto; overflow:hidden; }
+.footer_list li { float:left; margin:0 17px; }
+.footer_list li a:link { font:13px "Microsoft YaHei"; color:#fff; }
+.footer_list li a:visited { font:13px "Microsoft YaHei"; color:#fff; }
+.footer_list li a:hover { font:13px "Microsoft YaHei"; color:#ff6161; }
+.copyright { width:1030px; margin:22px auto 0; overflow:hidden; }
+.copyright li { float:left; margin-right:48px; }
+.copyright li p { font:13px/22px "Microsoft YaHei"; color:#959595; }
+.footer_info { width:498px; margin:30px auto 0; overflow:hidden; text-align:center; }
+.footer_info a:link,.footer_info a:visited{color:#959595}
+.footer_info li { float:left; height:30px; border:1px solid #959595; cursor:pointer; padding:4px 22px 14px; *padding-bottom:16px; margin-right:20px; border-radius:8px; behavior:url(iecss3/PIE.htc); position:relative; z-index:2; }
+.foter{text-align:center;color:#959595;padding-top:10px;}
+.foter span{padding:10px;}
+.foter span a{color:#959595;}
+
+
+
+/**********************************漂浮代码 begin***************************************/
+.floatwrap { display:inline-block; height:auto; width:52px; position:fixed; bottom:10px; right:0px; text-indent:100%; visibility:hidden; opacity:0; }
+.floatwrap.cd-is-visible { visibility:visible; opacity:1; }
+.floatwrap.cd-fade-out { opacity:0.5; }
+.cd-top,.cd-help,.cd-app { width:52px; height:52px; display:block; background:url(../images/backtop.jpg) no-repeat; }
+.cd-top { background-position:0 0; }
+.cd-top:hover { background-position:-52px 0px; }
+.cd-help { background-position:0 -52px; margin-top:10px; }
+.cd-help:hover { background-position:-52px -52px; }
+.cd-app { background-position:0 -104px; margin-top:10px; position:relative; }
+.cd-app:hover { background-position:-52px -104px; }
+.toolbar-layer { width:160px; height:160px; padding:10px; background:#fff url(https://img2.wd-w.com/upload/regular/wdc/apk.png) no-repeat center center; display:block; position:absolute; bottom:0; right:54px; box-shadow:0px 2px 4px rgba(0,0,0,0.3); opacity:0; filter:alpha(opacity=0); transform-origin:right bottom; transform: scale(0.01); transition:all 1s; }

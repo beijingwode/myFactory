@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/transaction_management.css" />
+<title>商品</title>
+</head>
+
+<body>
+<div class="main_box" style="padding-bottom:42px;">
+	<div class="main_top">
+    	<ul>
+        	<li class="thisOne"><a href="javascript:;">在售中</a></li>
+            <li><a href="javascript:;">待上架</a></li>
+            <li><a href="javascript:;">待审核</a></li>
+            <li style="border:none;"><a href="javascript:;">有问题</a></li>
+        </ul>
+        <span>批量下架</span>
+    </div>
+    
+    <div class="commodity_con">
+    	<ul>
+        	<li>
+            	<dl>
+                	<a href="javascript:;">
+                	<dt>
+                    	<img src="static_resources/images/shop_dt.png" />
+                    	<div class="picon"><img src="static_resources/images/picon_c2.png" /></div>
+                    </dt>
+                    <dd class="dd1">特想测试商品</dd>
+                    <dd class="dd2">￥100.00-1000.00</dd>
+                    <dd class="dd3">全部库存：222</dd>
+                    </a>
+                </dl>
+                <span>下架</span>
+                <em></em>
+            </li>
+            <li>
+            	<dl>
+                	<a href="javascript:;">
+                	<dt>
+                    	<img src="static_resources/images/shop_dt.png" />
+                    	<div class="picon"><img src="static_resources/images/picon_c2.png" /></div>
+                    </dt>
+                    <dd class="dd1">特想测试商品</dd>
+                    <dd class="dd2">￥100.00-1000.00</dd>
+                    <dd class="dd3">全部库存：222</dd>
+                    </a>
+                </dl>
+                <span>下架</span>
+                <em></em>
+            </li>
+            <li>
+            	<dl>
+                	<a href="javascript:;">
+                	<dt>
+                    	<img src="static_resources/images/shop_dt.png" />
+                    	<div class="picon"><img src="static_resources/images/picon_c2.png" /></div>
+                    </dt>
+                    <dd class="dd1">特想测试商品</dd>
+                    <dd class="dd2">￥100.00-1000.00</dd>
+                    <dd class="dd3">全部库存：222</dd>
+                    </a>
+                </dl>
+                <span>下架</span>
+                <em></em>
+            </li>
+            <li>
+            	<dl>
+                	<a href="javascript:;">
+                	<dt>
+                    	<img src="static_resources/images/shop_dt.png" />
+                    	<div class="picon"><img src="static_resources/images/picon_c2.png" /></div>
+                    </dt>
+                    <dd class="dd1">特想测试商品</dd>
+                    <dd class="dd2">￥100.00-1000.00</dd>
+                    <dd class="dd3">全部库存：222</dd>
+                    </a>
+                </dl>
+                <span>下架</span>
+                <em></em>
+            </li>
+            <li>
+            	<dl>
+                	<a href="javascript:;">
+                	<dt>
+                    	<img src="static_resources/images/shop_dt.png" />
+                    	<div class="picon"><img src="static_resources/images/picon_c2.png" /></div>
+                    </dt>
+                    <dd class="dd1">特想测试商品</dd>
+                    <dd class="dd2">￥100.00-1000.00</dd>
+                    <dd class="dd3">全部库存：222</dd>
+                    </a>
+                </dl>
+                <span>下架</span>
+                <em></em>
+            </li>
+            <li>
+            	<dl>
+                	<a href="javascript:;">
+                	<dt>
+                    	<img src="static_resources/images/shop_dt.png" />
+                    	<div class="picon"><img src="static_resources/images/picon_c2.png" /></div>
+                    </dt>
+                    <dd class="dd1">特想测试商品</dd>
+                    <dd class="dd2">￥100.00-1000.00</dd>
+                    <dd class="dd3">全部库存：222</dd>
+                    </a>
+                </dl>
+                <span>下架</span>
+                <em></em>
+            </li>
+        </ul>
+    </div>
+    <div class="bottom_con">没有更多内容了</div>
+    <div class="bm_btn"><a href="javascript:;">确认操作</a></div>
+</div>
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+<script>
+$(function(){
+	$(".main_top ul li").each(function(index){
+		$(this).click(function(){//先把所有的隐藏掉
+			
+			$(".main_top ul li").removeClass("thisOne");
+			$(this).addClass("thisOne");
+		});
+	});	
+	
+	$(".main_top span").toggle(
+	  function(){
+	  	$(".commodity_con ul li span").hide();
+	  	$(".commodity_con ul li em").show();
+		$(".bm_btn").show();
+	  },
+	  function(){
+	  	$(".commodity_con ul li span").show();
+	  	$(".commodity_con ul li em").hide();
+		$(".bm_btn").hide();	
+	  }
+	);
+	
+	
+})
+</script>
+</body>
+</html>

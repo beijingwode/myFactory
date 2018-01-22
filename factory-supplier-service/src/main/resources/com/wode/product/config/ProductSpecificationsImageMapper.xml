@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ProductSpecificationsImageMapper">
+
+	<resultMap id="ProductSpecificationsImage" type="com.wode.factory.model.ProductSpecificationsImage">
+        <result property="id" column="id"/>
+        <result property="specificationsId" column="specifications_id"/>
+        <result property="orders" column="orders"/>
+        <result property="source" column="source"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="supplyId" column="supply_id"/>
+        <result property="size" column="size"/>
+        <result property="height" column="height"/>
+        <result property="width" column="width"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,specifications_id,orders,source,createDate,updateDate,supply_id,size,height,width
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_specifications_image (
+        	id ,
+        	specifications_id ,
+        	orders ,
+        	source ,
+        	createDate ,
+        	updateDate ,
+        	supply_id ,
+        	size ,
+        	height ,
+        	width 
+        ) VALUES (
+        	#{id} ,
+        	#{specificationsId} ,
+        	#{orders} ,
+        	#{source} ,
+        	#{createDate} ,
+        	#{updateDate} ,
+        	#{supplyId} ,
+        	#{size} ,
+        	#{height} ,
+        	#{width} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_product_specifications_image SET
+	        specifications_id = #{specificationsId} ,
+	        orders = #{orders} ,
+	        source = #{source} ,
+	        createDate = #{createDate} ,
+	        updateDate = #{updateDate} ,
+	        supply_id = #{supplyId} ,
+	        size = #{size} ,
+	        height = #{height} ,
+	        width = #{width} 
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_product_specifications_image WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <delete id="deleteApprRelation">
+    <![CDATA[
+        DELETE FROM t_product_specifications_image WHERE
+        specifications_id IN (SELECT id from t_product_specifications where product_id=#{productId})
+    ]]>
+    </delete>
+    
+   <delete id="removeByMap">
+        DELETE FROM t_product_specifications_image
+        <include refid="findPage_where"/> 
+    </delete>
+    
+    <select id="getById" resultMap="ProductSpecificationsImage">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_product_specifications_image 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+	 <select id="getByProductId" resultMap="ProductSpecificationsImage">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_product_specifications_image 
+	        WHERE 
+		        specifications_id = #{specificationsId} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_product_specifications_image 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ProductSpecificationsImage">
+    	SELECT <include refid="columns" />
+	    FROM t_product_specifications_image 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+    <select id="getSkuImglistByProductId" resultMap="ProductSpecificationsImage">
+    	SELECT <include refid="columns" />
+	    FROM t_product_specifications_image 
+		WHERE specifications_id IN (SELECT id from t_product_specifications where isDelete=0 AND product_id = #{productId})
+		ORDER BY specifications_id,orders
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(specificationsId)">
+				AND specifications_id = #{specificationsId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(orders)">
+				AND orders = #{orders}
+			</if>
+	       <if test="@Ognl@isNotEmpty(source)">
+				AND source = #{source}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createDateBegin)">
+				AND createDate >= #{createDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createDateEnd)">
+				AND createDate &lt;= #{createDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateDateBegin)">
+				AND updateDate >= #{updateDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateDateEnd)">
+				AND updateDate &lt;= #{updateDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(supplyId)">
+				AND supply_id = #{supplyId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(size)">
+				AND size = #{size}
+			</if>
+	       <if test="@Ognl@isNotEmpty(height)">
+				AND height = #{height}
+			</if>
+	       <if test="@Ognl@isNotEmpty(width)">
+				AND width = #{width}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
+

@@ -1,0 +1,81 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/entBenefitFlow/empList" method="post" id="search-form" target="list-page" class="center clearfix">
+					<input type="hidden" name="cash" value="0">
+					<input type="hidden" name="opCode" value="296">
+					<div class="row col-sm-12">
+						
+						<div class="col-sm-4">
+							<label>时间：</label>
+							<input type="text" id="startDate" name="startDate">
+							<label>-</label>
+							<input type="text" id="endDate" name="endDate">
+							&nbsp;&nbsp;
+						</div>
+						<div class="col-sm-4">
+							<label>订单ID：</label>
+							<input type="text" id="keyId" name="keyId">
+						</div>
+						<div class="col-sm-4">
+							<label>用户ID：</label>
+							<input type="text" id="empId" name="empId">
+						</div>
+						<div style="width:100px;float: right;margin-right: 10px;margin-top: -30px" onclick="exportEmpExcel()">
+							<span class="btn fa fa-file-excel-o" id="excel-btn">&nbsp;&nbsp;导出EXCEL</span>
+						</div>
+					</div>
+					<div class="padding-trb-10 col-sm-12">
+						<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">全部</span>
+						<span class="btn btn-info btn-sm col-sm-6" id="search-btn">查询</span>
+					</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+	</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script>
+	laydate({
+	    elem: '#startDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#endDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	
+	function exportExcel() {
+		var action,target;
+		var thisform=document.getElementById('search-form');
+		action=thisform.action;
+		target=thisform.target;
+		
+		thisform.action="${ctxPath}/entBenefitFlow/exportExcel";
+		thisform.target="_blank";
+		thisform.submit();
+		
+		thisform.action=action;
+		thisform.target=target;
+	}
+
+	function exportEmpExcel() {
+		var action,target;
+		var thisform=document.getElementById('search-form');
+		action=thisform.action;
+		target=thisform.target;
+		
+		thisform.action="${ctxPath}/entBenefitFlow/exportEmpExcel";
+		thisform.target="_blank";
+		thisform.submit();
+		
+		thisform.action=action;
+		thisform.target=target;
+	}
+</script>

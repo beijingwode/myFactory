@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="CommissionRefundMapper">
+
+	<resultMap id="CommissionRefund" type="com.wode.factory.model.CommissionRefund">
+        <result property="id" column="id"/>
+        <result property="refundId" column="refundId"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="amount" column="amount"/>
+        <result property="freight" column="freight"/>
+        <result property="commissionAmount" column="commission_amount"/>
+        <result property="commissionTotal" column="commissionTotal"/>
+        <result property="currentCommission" column="currentCommission"/>
+        <result property="fuli" column="fuli"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="saleAmount" column="sale_amount"/>
+        <result property="dedCash" column="ded_cash"/>
+        <result property="giveCashSum" column="give_cash_sum"/>
+        <result property="dedCashSum" column="ded_cash_sum"/>
+        <result property="dedCashCommission" column="ded_cash_commission"/>
+        <result property="buyCommission" column="buy_commission"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,refundId,supplierId,amount,freight,commission_amount,commissionTotal,currentCommission,fuli,
+		create_time,update_time,sale_amount,ded_cash,give_cash_sum,ded_cash_sum,ded_cash_commission,buy_commission
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_commission_refund (
+        	id ,
+        	refundId,
+        	supplierId,
+        	amount ,
+        	freight ,
+        	commission_amount ,
+        	commissionTotal ,
+        	fuli ,
+        	create_time ,
+        	update_time ,
+        	currentCommission
+        ) VALUES (
+        	#{id} ,
+        	#{refundId},
+        	#{supplierId},
+        	#{amount},
+        	#{freight},
+        	#{commissionAmount} ,
+        	#{commissionTotal} ,
+        	#{fuli} ,
+        	#{createTime} ,
+        	#{updateTime} ,
+        	#{currentCommission}
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_commission_refund SET
+	        amount = #{amount} ,
+	       	refundId = #{refundId},
+        	supplierId = #{supplierId},
+	        freight = #{freight} ,
+	        commission_amount = #{commissionAmount} ,
+	        commissionTotal = #{commissionTotal} ,
+	        fuli = #{fuli} ,
+	        create_time = #{createTime} ,
+	        update_time = #{updateTime} ,
+	        currentCommission = #{currentCommission}
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_commission_refund WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="CommissionRefund">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_commission_refund 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_commission_refund 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="CommissionRefund">
+    	SELECT <include refid="columns" />
+	    FROM t_commission_refund 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	<!-- 查询list分页 -->
+    <select id="getRecentSum" resultType="java.math.BigDecimal">
+        SELECT sum(commission_amount) FROM t_commission_refund 
+		WHERE supplierId = #{supplierId}
+	    <if test="@Ognl@isNotEmpty(createTimeBegin)">
+			AND create_time >= #{createTimeBegin}
+		</if>
+	    <if test="@Ognl@isNotEmpty(createTimeEnd)">
+			AND create_time &lt;= #{createTimeEnd}
+	    </if>
+    </select>
+	
+	<!-- 查询list分页 -->
+    <select id="findlistPageCount" resultType="long">
+        SELECT count(*) FROM t_commission_refund 
+		<include refid="findPage_where"/>   
+    </select>
+    <select id="findlistPage" resultMap="CommissionRefund">
+    	SELECT <include refid="columns" />
+	    FROM t_commission_refund 
+		<include refid="findPage_where"/>
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns} desc
+		</if>
+		LIMIT #{startnum},#{size}
+    </select>
+    
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+        	<if test="@Ognl@isNotEmpty(refundId)">
+				AND refundId = #{refundId}
+			</if>
+			 <if test="@Ognl@isNotEmpty(supplierId)">
+				AND supplierId = #{supplierId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(amount)">
+				AND amount = #{amount}
+			</if>
+	       <if test="@Ognl@isNotEmpty(freight)">
+				AND freight = #{freight}
+			</if>
+	       <if test="@Ognl@isNotEmpty(commissionAmount)">
+				AND commission_amount = #{commissionAmount}
+			</if>
+	       <if test="@Ognl@isNotEmpty(commissionScale)">
+				AND commission_scale = #{commissionScale}
+			</if>
+	       <if test="@Ognl@isNotEmpty(fuli)">
+				AND fuli = #{fuli}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createTimeBegin)">
+				AND create_time >= #{createTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createTimeEnd)">
+				AND create_time &lt;= #{createTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+				AND update_time >= #{updateTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+				AND update_time &lt;= #{updateTimeEnd}
+		   </if>
+		</where>
+	</sql>
+	
+</mapper>
+

@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.SuborderDao">
+
+	<resultMap id="Suborder" type="com.wode.factory.model.Suborder">
+        <result property="subOrderId" column="subOrderId"/>
+        <result property="orderId" column="orderId"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="totalProduct" column="totalProduct"/>
+        <result property="totalShipping" column="totalShipping"/>
+        <result property="totalAdjustment" column="totalAdjustment"/>
+        <result property="realPrice" column="realPrice"/>
+        <result property="status" column="status"/>
+        <result property="expressNo" column="expressNo"/>
+        <result property="expressType" column="expressType"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="sendAddress" column="sendAddress"/>
+        <result property="returnedAddress" column="returnedAddress"/>
+        <result property="afterserviceStatus" column="afterserviceStatus"/>
+        <result property="commentStatus" column="commentStatus"/>
+        <result property="takeTime" column="takeTime"/>
+        <result property="lasttakeTime" column="lasttakeTime"/>
+        <result property="sendTime" column="sendTime"/>
+        <result property="payTime" column="payTime"/>
+        <result property="closeReason" column="closeReason"/>
+        <result property="urgeNumber" column="urgeNumber"/>
+        <result property="urgeTime" column="urgeTime"/>
+        <result property="deleteFlag" column="deleteFlag"/>
+        <result property="returnOrderId" column="returnOrderId"/>
+        <result property="closeFlg" column="close_flg"/>
+        <result property="saleBillId" column="sale_bill_id"/>
+        <result property="payConfirm" column="pay_confirm"/>
+        <result property="payConfirmDate" column="pay_confirm_date"/>    
+        <result property="cashPay" column="cashPay"/>
+        <result property="cashNo" column="cashNo"/>
+        <result property="thirdPay" column="thirdPay"/>
+        <result property="thirdType" column="thirdType"/>
+        <result property="thirdNo" column="thirdNo"/>
+        <result property="cancelTime" column="cancelTime"/>
+        <result property="stockUp" column="stock_up"/>
+        <result property="companyTicket" column="companyTicket"/>
+        <result property="benefitType" column="benefit_type"/>
+        <result property="benefitAmount" column="benefit_amount"/>
+        <result property="e_cardInfo" column="e_card_info"/>
+        <result property="orderType" column="order_type"/>
+        <result property="relationId" column="relation_id"/>
+        <result property="limitTicketCnt" column="limit_ticket_cnt"/>
+        <result property="userId" column="user_id"/>
+	</resultMap>
+	
+	<resultMap id="SuborderVo" type="com.wode.factory.vo.SuborderOrderVo">
+        <result property="subOrderId" column="subOrderId"/>
+        <result property="orderId" column="orderId"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="totalProduct" column="totalProduct"/>
+        <result property="totalShipping" column="totalShipping"/>
+        <result property="totalAdjustment" column="totalAdjustment"/>
+        <result property="realPrice" column="realPrice"/>
+        <result property="status" column="status"/>
+        <result property="expressNo" column="expressNo"/>
+        <result property="expressType" column="expressType"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="sendAddress" column="sendAddress"/>
+        <result property="returnedAddress" column="returnedAddress"/>
+        <result property="afterserviceStatus" column="afterserviceStatus"/>
+        <result property="commentStatus" column="commentStatus"/>
+        <result property="takeTime" column="takeTime"/>
+        <result property="lasttakeTime" column="lasttakeTime"/>
+        <result property="sendTime" column="sendTime"/>
+        <result property="payTime" column="payTime"/>
+        <result property="closeReason" column="closeReason"/>
+        <result property="urgeNumber" column="urgeNumber"/>
+        <result property="urgeTime" column="urgeTime"/>
+        <result property="deleteFlag" column="deleteFlag"/>
+        <result property="returnOrderId" column="returnOrderId"/>
+        <result property="closeFlg" column="close_flg"/>
+        <result property="saleBillId" column="sale_bill_id"/>
+        <result property="payConfirm" column="pay_confirm"/>
+        <result property="payConfirmDate" column="pay_confirm_date"/>    
+        <result property="cashPay" column="cashPay"/>
+        <result property="cashNo" column="cashNo"/>
+        <result property="thirdPay" column="thirdPay"/>
+        <result property="thirdType" column="thirdType"/>
+        <result property="thirdNo" column="thirdNo"/>
+        <result property="cancelTime" column="cancelTime"/>
+        <result property="stockUp" column="stock_up"/>
+        <result property="companyTicket" column="companyTicket"/>
+        <result property="benefitType" column="benefit_type"/>
+        <result property="benefitAmount" column="benefit_amount"/>
+        <result property="e_cardInfo" column="e_card_info"/>
+        <result property="orderType" column="order_type"/>
+        <result property="relationId" column="relation_id"/>
+        <result property="limitTicketCnt" column="limit_ticket_cnt"/>
+        <result property="userId" column="userId"/>
+	</resultMap>
+	
+	
+	<select id="getMsgBySupplierId" resultMap="Suborder">
+	select <include refid="columns" />
+	    <![CDATA[
+		    FROM t_suborder 
+	        WHERE 
+		        supplierId = #{supplierId} 
+	    ]]>
+	</select>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		subOrderId,orderId,supplierId,shop_id,totalProduct,totalShipping,totalAdjustment,realPrice,status,expressNo,expressType,createTime,
+			updateTime,updateBy,sendAddress,returnedAddress,afterserviceStatus,commentStatus,takeTime,lasttakeTime,sendTime,payTime,
+			closeReason,urgeNumber,urgeTime,deleteFlag,returnOrderId,close_flg,sale_bill_id,pay_confirm,pay_confirm_date
+			,cashPay,cashNo,thirdPay,thirdType,thirdNo,cancelTime,stock_up,companyTicket,benefit_type,benefit_amount,order_type
+			,relation_id,limit_ticket_cnt
+			
+	    ]]>
+	</sql>
+	
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <select id="findByProductId" resultMap="Suborder">
+    	SELECT s.* FROM t_suborder s INNER JOIN t_suborderitem subitem ON subitem.subOrderId=s.subOrderId  WHERE s.`status`=1 and subitem.productId =#{id} 
+    </select>
+    <select id="findByRelationId" resultMap="Suborder">
+    	select * from t_suborder where order_type in (1,4,5) and relation_id = #{groupId}
+    </select>
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_suborder SET
+	        orderId = #{orderId} ,
+	        supplierId = #{supplierId} ,
+	        totalProduct = #{totalProduct} ,
+	        totalShipping = #{totalShipping} ,
+	        totalAdjustment = #{totalAdjustment} ,
+	        realPrice = #{realPrice} ,
+	        status = #{status} ,
+	        expressNo = #{expressNo} ,
+	        expressType = #{expressType} ,
+	        createTime = #{createTime} ,
+	        updateTime = #{updateTime} ,
+	        updateBy = #{updateBy} ,
+	        sendAddress = #{sendAddress} ,
+	        returnedAddress = #{returnedAddress} ,
+	        afterserviceStatus = #{afterserviceStatus} ,
+	        commentStatus = #{commentStatus} ,
+	        takeTime = #{takeTime} ,
+	        lasttakeTime = #{lasttakeTime} ,
+	        sendTime = #{sendTime} ,
+	        payTime = #{payTime} ,
+	        closeReason = #{closeReason} ,
+	        urgeNumber = #{urgeNumber} ,
+	        urgeTime = #{urgeTime} ,
+	        deleteFlag = #{deleteFlag} ,
+	        returnOrderId = #{returnOrderId}  ,
+	        close_flg = #{closeFlg}  ,
+	        sale_bill_id = #{saleBillId} ,
+	        pay_confirm = #{payConfirm} ,
+	        pay_confirm_date = #{payConfirmDate}, 
+	        e_card_info = #{e_cardInfo}
+        WHERE 
+	        subOrderId = #{subOrderId} 
+    ]]>
+	</update>
+
+	<update id="updateToClose" >
+    <![CDATA[
+        UPDATE t_suborder SET
+	        close_flg = '2' ,
+	        sale_bill_id = #{saleBillId}
+        WHERE 
+	        subOrderId = #{subOrderId} 
+    ]]>
+	</update>
+
+	<update id="updateToStockUp" >
+    <![CDATA[
+        UPDATE t_suborder SET
+	        stock_up = #{stockUp} 
+        WHERE 
+	        subOrderId = #{subOrderId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_suborder WHERE
+        subOrderId = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="Suborder">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_suborder 
+	        WHERE 
+		        subOrderId = #{id} 
+	    ]]>
+	</select>
+	
+	 <select id="getsuborderIdByOrderId" resultMap="Suborder">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_suborder 
+	        WHERE 
+		        orderId = #{orderId} 
+	    ]]>
+	</select>
+		
+	<select id="findByOrderId" resultMap="Suborder">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_suborder 
+	        WHERE 
+		        orderId = #{orderId} 
+	    ]]>
+	</select>
+	
+	<select id="findByStatusAndCreate" resultMap="Suborder">
+		SELECT <include refid="columns" /> FROM t_suborder 
+		<where>
+			<if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+			<if test="@Ognl@isNotEmpty(createTime)">
+				AND createTime &lt; #{createTime}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(lasttakeTime)">
+				AND lasttakeTime &lt;= #{lasttakeTime}
+		   </if>
+		</where>	        
+	</select>
+	
+	<select id="findSelfDeliveryPayTime" resultMap="Suborder">
+		SELECT sub.* 
+		FROM t_suborder sub
+		INNER JOIN t_orders o ON (o.orderId = sub.orderId) 
+		<where>
+			o.self_delivery=1
+		  	AND sub.`status`=1
+			<if test="@Ognl@isNotEmpty(payTime)">
+				AND sub.payTime &lt; #{payTime}
+		   </if>
+		</where>	        
+	</select>
+	
+	<select id="findByStatusAndPayTime" resultMap="Suborder">
+		SELECT <include refid="columns" /> FROM t_suborder 
+		<where>
+			<if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+			<if test="@Ognl@isNotEmpty(stockUp)  and stockUp==0">
+				AND (stock_up = #{stockUp} OR stock_up IS NULL)
+		    </if>
+			<if test="@Ognl@isNotEmpty(stockUp)  and stockUp==1">
+				AND stock_up = #{stockUp}
+		    </if>
+			<if test="@Ognl@isNotEmpty(payTime)">
+				AND payTime &lt; #{payTime}
+		   </if>
+		</where>	        
+	</select>
+	
+	<select id="selectByDay" resultType="com.wode.tongji.vo.SubOrdersVo" parameterType="java.lang.String" >
+		SELECT SUM(totalProduct) AS totalSalesAmount,SUM(totalShipping) AS freightPrice, SUM(realPrice) AS totalDealAmount,
+		DATE_FORMAT(createTime, '%Y-%m-%d') AS month,COUNT(1) cnt from t_suborder so  
+		where createTime <![CDATA[>=]]> date_sub( curdate(), interval 1 day) AND supplierId <![CDATA[<>]]> 88550328206355
+		GROUP BY DATE_FORMAT(createTime, '%Y-%m-%d') 
+  	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_suborder 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <select id="findForCommission" resultMap="Suborder">
+    	SELECT <include refid="columns" />
+	    FROM t_suborder where
+	    status>#{status} AND
+		takeTime >= #{takeTimeBegin} AND
+		takeTime &lt; #{takeTimeEnd}
+		ORDER BY takeTime
+    </select>
+    <select id="queryByMonth" resultType="long">
+         SELECT SUM(totalProduct) AS totalSalesAmount,SUM(totalShipping) AS freightPrice,  
+         SUM(realPrice) AS totalDealAmount, DATE_FORMAT(createTime, '%Y-%d') AS month,supplierId from t_suborder so 
+         <if test="@Ognl@isNotEmpty(month)">
+         	where DATE_FORMAT(createTime, '%Y-%d') = #{month}
+		 </if>
+		 GROUP BY supplierId,DATE_FORMAT(createTime, '%Y-%d')
+          
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="Suborder">
+    	SELECT <include refid="columns" />
+	    FROM t_suborder 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(subOrderId)">
+				AND subOrderId = #{subOrderId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(orderId)">
+				AND orderId = #{orderId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(supplierId)">
+				AND supplierId = #{supplierId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(totalProduct)">
+				AND totalProduct = #{totalProduct}
+			</if>
+	       <if test="@Ognl@isNotEmpty(totalShipping)">
+				AND totalShipping = #{totalShipping}
+			</if>
+	       <if test="@Ognl@isNotEmpty(totalAdjustment)">
+				AND totalAdjustment = #{totalAdjustment}
+			</if>
+	       <if test="@Ognl@isNotEmpty(realPrice)">
+				AND realPrice = #{realPrice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(expressNo)">
+				AND expressNo = #{expressNo}
+			</if>
+	       <if test="@Ognl@isNotEmpty(expressType)">
+				AND expressType = #{expressType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createTimeBegin)">
+				AND createTime >= #{createTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createTimeEnd)">
+				AND createTime &lt;= #{createTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+				AND updateTime >= #{updateTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+				AND updateTime &lt;= #{updateTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateBy)">
+				AND updateBy = #{updateBy}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sendAddress)">
+				AND sendAddress = #{sendAddress}
+			</if>
+	       <if test="@Ognl@isNotEmpty(returnedAddress)">
+				AND returnedAddress = #{returnedAddress}
+			</if>
+	       <if test="@Ognl@isNotEmpty(afterserviceStatus)">
+				AND afterserviceStatus = #{afterserviceStatus}
+			</if>
+	       <if test="@Ognl@isNotEmpty(commentStatus)">
+				AND commentStatus = #{commentStatus}
+			</if>
+	       <if test="@Ognl@isNotEmpty(takeTimeBegin)">
+				AND takeTime >= #{takeTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(takeTimeEnd)">
+				AND takeTime &lt;= #{takeTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(lasttakeTimeBegin)">
+				AND lasttakeTime >= #{lasttakeTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(lasttakeTimeEnd)">
+				AND lasttakeTime &lt;= #{lasttakeTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(sendTimeBegin)">
+				AND sendTime >= #{sendTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(sendTimeEnd)">
+				AND sendTime &lt;= #{sendTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(payTimeBegin)">
+				AND payTime >= #{payTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(payTimeEnd)">
+				AND payTime &lt;= #{payTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(closeReason)">
+				AND closeReason = #{closeReason}
+			</if>
+	       <if test="@Ognl@isNotEmpty(urgeNumber)">
+				AND urgeNumber = #{urgeNumber}
+			</if>
+	       <if test="@Ognl@isNotEmpty(urgeTimeBegin)">
+				AND urgeTime >= #{urgeTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(urgeTimeEnd)">
+				AND urgeTime &lt;= #{urgeTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(deleteFlag)">
+				AND deleteFlag = #{deleteFlag}
+			</if>
+	       <if test="@Ognl@isNotEmpty(returnOrderId)">
+				AND returnOrderId = #{returnOrderId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(returnOrderId)">
+				AND close_flg = #{closeFlg}
+			</if>
+	       <if test="@Ognl@isNotEmpty(returnOrderId)">
+				AND sale_bill_id = #{saleBillId}
+			</if>
+		</where>
+	</sql>
+	
+	
+	  <select id="getSumCashPayByProduct" resultType="BigDecimal">
+	    select sum(i.real_pay) from t_suborderitem i inner join t_suborder sub on (sub.subOrderId=i.subOrderId) 
+	    where i.productId = #{productId}
+	    AND sub.status>0
+	    AND i.sale_kbn=2
+	    AND sub.payTime >= #{firstDate};
+	  </select>
+	  
+	 <select id="getNoClearOrderByProduct" resultType="Long">
+	    SELECT COUNT(1) FROM t_suborderitem i INNER JOIN t_suborder sub on (sub.subOrderId=i.subOrderId) 
+	    WHERE i.productId = #{productId}
+	    AND sub.close_flg=0 AND sub.status>-1
+	    AND i.sale_kbn=2
+	    AND sub.payTime BETWEEN #{startDate} AND #{endDate}
+	 </select>
+	 
+	 <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="subOrderId">
+    <![CDATA[
+        INSERT INTO t_suborder (
+        	subOrderId ,
+        	orderId ,
+        	supplierId,
+        	shop_id,
+        	totalProduct ,
+        	totalShipping ,
+        	totalAdjustment ,
+        	realPrice ,
+        	status ,
+        	expressNo ,
+        	expressType ,
+        	createTime ,
+        	updateTime ,
+        	updateBy ,
+        	afterserviceStatus,
+        	takeTime,
+        	lasttakeTime,
+        	sendTime,
+        	closeReason,
+        	urgeNumber ,
+        	urgeTime ,
+        	deleteFlag,
+        	returnOrderId,
+        	refundOrderId,
+        	userExetendCount,
+        	cashPay,
+        	cashNo,
+        	companyTicket,
+        	benefit_type,
+        	benefit_amount,
+        	noto,
+        	invoice_status,
+        	e_card_info,
+        	order_type,
+        	relation_id
+        ) VALUES (
+        	#{subOrderId} ,
+        	#{orderId} ,
+        	#{supplierId} ,
+        	#{shopId} ,
+        	#{totalProduct} ,
+        	#{totalShipping} ,
+        	#{totalAdjustment} ,
+        	#{realPrice} ,
+        	#{status} ,
+        	#{expressNo} ,
+        	#{expressType} ,
+        	#{createTime} ,
+        	#{updateTime} ,
+        	#{updateBy} ,
+        	#{afterserviceStatus},
+        	#{takeTime},
+        	#{lasttakeTime},
+        	#{sendTime},
+        	#{closeReason},
+        	#{urgeNumber} ,
+        	#{urgeTime} ,
+        	#{deleteFlag},
+        	#{returnOrderId},
+        	#{refundOrderId},
+        	#{userExetendCount},
+        	#{cashPay},
+        	#{cashNo},
+        	#{companyTicket},        	
+        	#{benefitType},
+        	#{benefitAmount},
+        	#{noto},
+        	#{invoiceStatus},
+        	#{e_cardInfo},
+        	#{orderType},
+        	#{relationId}
+        )
+    ]]>
+    </insert>
+    <select id="findNoComment" resultMap="SuborderVo">
+		SELECT suborder.*,O.userId FROM t_suborder suborder
+		INNER JOIN t_orders O ON(O.orderId=suborder.orderId)
+		<where>
+			<if test="@Ognl@isNotEmpty(status)">
+				AND suborder.status = #{status}
+			</if>
+			<if test="@Ognl@isNotEmpty(takeTime)">
+				AND suborder.takeTime &lt;= #{takeTime}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(commentStatus)">
+				AND suborder.commentStatus = #{commentStatus}
+		   </if>
+		</where>	        
+	</select>
+</mapper>
+

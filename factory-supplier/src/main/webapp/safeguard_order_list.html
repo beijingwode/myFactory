@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/swiper.min.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/transaction_management.css" />
+
+<title>维权订单</title>
+</head>
+
+<body>
+<div class="main_box"  style="padding-top:42px;">
+	<div id="header">
+      <ul class="swiper-wrapper">
+        <li class="swiper-slide this"><a href="javascript:;">仅退款申请中</a></li>
+        <li class="swiper-slide"><a href="javascript:;">退款退货申请中</a></li>
+        <li class="swiper-slide"><a href="javascript:;">仅退款完毕</a></li>
+        <li class="swiper-slide"><a href="javascript:;">退款退货完毕</a></li>
+      </ul>
+    </div>
+    <div class="main_two">
+    	
+        <div class="main_two_con">
+        	<div class="con_top"><span>订单编号：1736117107426996-1</span><em>退款退货申请中</em></div>
+            <div class="con_time">创建时间：2016-12-20 13:29:07</div>
+            <div class="con_details">
+            	<dl>
+                	<dt><a href="javascript:void(0);"><img src="static_resources/images/shop_dt.png" /></a>
+                    	<div class="picon"><img src="static_resources/images/picon_c2.png" /></div>
+                    </dt>
+                    <dd class="dd1"><a href="javascript:void(0);">使用商品测试</a></dd>
+                    <dd class="dd2">尺码：35  颜色：绿</dd>
+                </dl>
+                <div class="ds_rt"><span>￥10.00</span><em>x1</em></div>
+            </div>
+            <div class="con_details">
+            	<dl>
+                	<dt><a href="javascript:void(0);"><img src="static_resources/images/shop_dt.png" /></a>
+                    	<div class="picon"><img src="static_resources/images/picon_c2.png" /></div>
+                    </dt>
+                    <dd class="dd1"><a href="javascript:void(0);">使用商品测试</a></dd>
+                    <dd class="dd2">尺码：35  颜色：绿</dd>
+                </dl>
+                <div class="ds_rt"><span>￥10.00</span><em>x1</em></div>
+            </div>
+            <div class="clearing">实付款：￥123.00(含运费：0.00元)</div>
+            <div class="btns"><div class="btns_rt"><span style="margin:0;">查看退款申请详情</span></div></div>
+            
+        </div>
+        
+        <div class="main_two_con">
+        	<div class="con_top"><span>订单编号：1736117107426996-1</span><em>仅退款申请中</em></div>
+            <div class="con_time">创建时间：2016-12-20 13:29:07</div>
+           
+            <div class="con_details">
+            	<dl>
+                	<dt><a href="javascript:void(0);"><img src="static_resources/images/shop_dt.png" /></a>
+                    	<div class="picon"><img src="static_resources/images/picon_c2.png" /></div>
+                    </dt>
+                    <dd class="dd1"><a href="javascript:void(0);">使用商品测试</a></dd>
+                    <dd class="dd2">尺码：35  颜色：绿</dd>
+                </dl>
+                <div class="ds_rt"><span>￥10.00</span><em>x1</em></div>
+            </div>
+            <div class="clearing">实付款：￥123.00(含运费：0.00元)</div>
+            <div class="btns"><div class="btns_rt"><span style="margin:0;">查看退款申请详情</span></div></div>
+            
+        </div>
+    </div>
+    <div class="bottom_con">没有更多内容了</div>
+</div>
+</body>
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="static_resources/js/swiper.min.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+  var mySwiper1 = new Swiper('#header',{
+	  freeMode : true,
+	  slidesPerView : 'auto',
+  });
+  
+}
+</script>
+
+<script>
+$(function(){
+	$(".top_tab ul li").each(function(index){
+		$(this).click(function(){//先把所有的隐藏掉
+			
+			$(".top_tab ul li").removeClass("this");
+			$(this).addClass("this");
+		});
+	});	
+})
+</script>
+</html>

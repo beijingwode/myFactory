@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.SuborderitemDao">
+
+
+	<resultMap id="Suborderitem" type="com.wode.factory.model.Suborderitem">
+        <result property="subOrderItemId" column="subOrderItemId"/>
+        <result property="subOrderId" column="subOrderId"/>
+        <result property="partNumber" column="partNumber"/>
+        <result property="price" column="price"/>
+        <result property="number" column="number"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="productId" column="productId"/>
+        <result property="skuId" column="skuId"/>
+        <result property="commentFlag" column="commentFlag"/>
+        <result property="promotionId" column="promotion_id"/>
+        <result property="promotionProductId" column="promotion_product_id"/>
+        <result property="realPay" column="real_pay"/>
+        <result property="shipping" column="shipping"/>
+        <result property="orderId" column="order_id"/>
+        <result property="saleBillId" column="sale_bill_id"/>
+        <result property="commissionRatio" column="commissionRatio"/>
+        <result property="companyTicket" column="companyTicket"/>
+        <result property="benefitType" column="benefit_type"/>
+        <result property="benefitAmount" column="benefit_amount"/>
+        <result property="saleKbn" column="sale_kbn"/>
+        <result property="productName" column="productName"/>
+        <result property="empPrice" column="emp_price"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="categoryName" column="categoryName"/>
+        <result property="productCode" column="product_code"/>
+        <result property="itemValues" column="itemValues"/>
+        <result property="image" column="image"/>
+        <result property="internalPurchasePrice" column="internal_purchase_price"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		subOrderItemId,subOrderId,partNumber,price,number,createTime,updateTime,updateBy,productId,skuId,commentFlag,promotion_id,
+		promotion_product_id,real_pay,shipping,order_id,sale_bill_id,commissionRatio,companyTicket,benefit_type,benefit_amount,sale_kbn,
+		productName,emp_price,categoryId,categoryName,product_code,itemValues,image,internal_purchase_price
+	    ]]>
+	</sql>
+	
+	<select id="selectByModel" resultMap="Suborderitem">
+        SELECT <include refid="columns" /> FROM t_suborderitem 
+        <include refid="find_where"/>
+    </select>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_suborderitem WHERE
+        subOrderItemId = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="selectByDay" resultMap="Suborderitem" >
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_suborderitem 
+	        WHERE 
+		        DATE_FORMAT(createTime, '%y-%m-%d') = #{day} 
+	    ]]>
+	</select>
+	
+	<select id="findBySubId" resultMap="Suborderitem" >
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_suborderitem 
+	        WHERE 
+		        subOrderId = #{subOrderId} 
+		    LIMIT 1
+	    ]]>
+	</select>
+	    
+	<select id="findBySubIdForView" resultMap="Suborderitem" >
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_suborderitem soi
+	        WHERE 
+		        soi.subOrderId = #{subOrderId} 
+	    ]]>
+	</select>
+    
+    <select id="findTrialByDate" resultMap="Suborderitem" >
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_suborderitem soi 
+			INNER JOIN t_suborder so ON (soi.subOrderId=so.subOrderId)
+			WHERE soi.sale_kbn=5 AND emp_price>0 AND DATE_FORMAT(so.takeTime,'%Y-%m-%d') = #{takeTime} AND soi.commentFlag=0
+	    ]]>
+	</select>
+	
+	<select id="findBySubIdAndSaleKbn" resultMap="Suborderitem" >
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_suborderitem soi
+	        WHERE 
+		        soi.subOrderId = #{subOrderId} 
+	    ]]>
+      	 <if test="@Ognl@isNotEmpty(saleKbn)">
+			AND soi.sale_kbn = #{saleKbn}
+		</if>
+	</select>
+	
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="Suborderitem">
+    	SELECT <include refid="columns" />
+	    FROM t_suborderitem 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(subOrderItemId)">
+				AND subOrderItemId = #{subOrderItemId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(subOrderId)">
+				AND subOrderId = #{subOrderId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(partNumber)">
+				AND partNumber = #{partNumber}
+			</if>
+	       <if test="@Ognl@isNotEmpty(price)">
+				AND price = #{price}
+			</if>
+	       <if test="@Ognl@isNotEmpty(number)">
+				AND number = #{number}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createTimeBegin)">
+				AND createTime >= #{createTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createTimeEnd)">
+				AND createTime &lt;= #{createTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+				AND updateTime >= #{updateTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+				AND updateTime &lt;= #{updateTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateBy)">
+				AND updateBy = #{updateBy}
+			</if>
+		</where>
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="subOrderItemId">
+    <![CDATA[
+        INSERT INTO t_suborderitem (
+        	subOrderItemId ,
+        	subOrderId ,
+        	partNumber ,
+        	price ,
+        	number ,
+        	createTime ,
+        	updateTime ,
+        	updateBy ,
+        	productId,
+        	skuId,
+        	commentFlag,
+        	promotion_id,
+        	promotion_product_id,
+        	real_pay,
+        	shipping,
+        	order_id,
+        	sale_bill_id,
+        	commissionRatio,
+        	companyTicket,
+        	benefit_type,
+        	benefit_amount,
+        	sale_kbn,
+        	productName,
+        	emp_price,
+        	categoryId,
+        	categoryName,
+        	product_code,
+        	itemValues,
+        	image,
+        	benefit_ticket,
+        	benefit_self,
+        	internal_purchase_price
+        ) VALUES (
+        	#{subOrderItemId} ,
+        	#{subOrderId} ,
+        	#{partNumber} ,
+        	#{price} ,
+        	#{number} ,
+        	#{createTime} ,
+        	#{updateTime} ,
+        	#{updateBy} ,
+        	#{productId} ,
+        	#{skuId} ,
+        	#{commentFlag},
+        	#{promotionId},
+        	#{promotionProductId},
+        	#{realPay},
+        	#{shipping},
+        	#{orderId},
+        	#{saleBillId},
+        	#{commissionRatio},
+        	#{companyTicket},
+        	#{benefitType},
+        	#{benefitAmount},
+        	#{saleKbn},
+        	#{productName},
+        	#{empPrice},
+        	#{categoryId},
+        	#{categoryName},
+        	#{productCode},
+        	#{itemValues},
+        	#{image},
+        	#{benefitTicket},
+        	#{benefitSelf},
+        	#{internalPurchasePrice}
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+	
+	<select id="findSubCountByProId" resultMap="Suborderitem">
+		SELECT soi.number,soi.price,soi.internal_purchase_price FROM t_suborderitem soi 
+			INNER JOIN t_suborder so ON (soi.subOrderId=so.subOrderId)
+				where 1=1
+				<if test="@Ognl@isNotEmpty(productId)">
+					AND soi.productId = #{productId}
+				</if>
+				<if test="stockLockType == 2">
+					AND so.status >= 0 
+				</if>
+	</select>
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_suborderitem SET
+	        subOrderItemId = #{subOrderItemId} ,
+	        subOrderId = #{subOrderId} ,
+	        partNumber = #{partNumber} ,
+	        price = #{price} ,
+	        number = #{number} ,
+	        createTime = #{createTime} ,
+	        updateTime = #{updateTime} ,
+	        expressNo = #{expressNo} ,
+	        expressType = #{expressType} ,
+	        createTime = #{createTime} ,
+	        updateTime = #{updateTime} ,
+	        updateBy = #{updateBy} ,
+	        productId = #{productId} ,
+	        skuId = #{skuId} ,
+	        commentFlag = #{commentFlag} ,
+	        promotion_id = #{promotionId} ,
+	        promotion_product_id = #{promotionProductId} ,
+	        real_pay = #{realPay} ,
+	        shipping = #{shipping} ,
+	        order_id = #{orderId} ,
+	        sale_bill_id = #{saleBillId} ,
+	        commissionRatio = #{commissionRatio} ,
+	        companyTicket = #{companyTicket} ,
+	        benefit_type = #{benefitType} ,
+	        benefit_amount = #{benefitAmount}  ,
+	        sale_kbn = #{saleKbn}  ,
+	        productName = #{productName} ,
+	        emp_price = #{empPrice} ,
+	        categoryId = #{categoryId}, 
+	        categoryName = #{categoryName}, 
+	        product_code = #{productCode}, 
+	        itemValues = #{itemValues}, 
+	        image = #{image}, 
+	        internal_purchase_price = #{internalPurchasePrice}
+        WHERE 
+	        subOrderItemId = #{subOrderItemId} 
+    ]]>
+	</update>
+	<sql id="find_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(subOrderItemId)">
+				AND subOrderItemId = #{subOrderItemId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(subOrderId)">
+				AND subOrderId = #{subOrderId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(partNumber)">
+				AND partNumber = #{partNumber}
+			</if>
+	       <if test="@Ognl@isNotEmpty(price)">
+				AND price = #{price}
+			</if>
+	       <if test="@Ognl@isNotEmpty(number)">
+				AND number = #{number}
+			</if>
+	       <if test="@Ognl@isNotEmpty(productId)">
+				AND productId = #{productId}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateBy)">
+				AND updateBy = #{updateBy}
+			</if>
+			<if test="@Ognl@isNotEmpty(skuId)">
+				AND skuId = #{skuId}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(commentFlag)">
+				AND commentFlag = #{commentFlag}
+			</if>
+		</where>
+	</sql>
+</mapper>
+

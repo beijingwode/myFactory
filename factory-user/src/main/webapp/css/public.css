@@ -1,0 +1,61 @@
+@charset "utf-8";
+/* CSS Document */
+* { margin:0px; padding:0px; font-family:"Microsoft YaHei"; }
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, form, fieldset, input, textarea, p { padding:0; margin:0; }
+body { background:#fff; }
+fieldset, img { border:0px; }
+h1, h2, h3, h4 { font-weight:bold; font-size:100%; }
+
+li { list-style:none; }
+ul, ol, p { line-height:20px; }
+
+.clear:after { content:''; display:block; clear:both; }
+
+/* 字体样式 */
+body,td, input, select { font:12px Arial,"SimSun"; line-height:24px; }
+a:link { color:#434343; text-decoration:none; }
+a:visited { color:#434343; text-decoration:none; }
+a:hover { color:#ff6161; text-decoration:none; }
+
+h1 { font:18px "Microsoft YaHei"; }
+h2 { font:16px "Microsoft YaHei"; }
+h3 { font:14px "Microsoft YaHei"; }
+h4 { font:12px "Microsoft YaHei"; }
+
+/************************************购物车-公用头部-底部*******************************************/
+/*top begin*/
+#top { width:100%; margin:0 auto; border-bottom:2px solid #ff4040;}
+.roof_bg { width:100%; margin:0 auto; height:27px; background: #f7f7f7;}
+.roof { width:990px; height:28px; margin:0 auto; }
+.roof_left { float:left; }
+.roof_left span { float:left; font:12px/28px "Microsoft YaHei"; color:#959595; }
+.roof_left_list { float:left; margin-left:52px; }
+.roof_left_list li { float:left; }
+.roof_left_list li em { font:12px/28px "Microsoft YaHei"; color:#959595; margin:0 15px; }
+.roof_left_list li a:link { font:12px/28px "Microsoft YaHei"; color:#959595; }
+.roof_left_list li a:visited { font:12px/28px "Microsoft YaHei"; color:#959595; }
+.roof_left_list li a:hover {}
+
+.roof_right { float:right; }
+.roof_right_list { float:right; }.roof_right_list li {	float: left;	padding:0 14px;	border-left:1px solid #f7f7f7;border-right:1px solid #f7f7f7;}
+.roof_right_list .bg_li{padding:0;height:14px;width:1px;margin-top:6px;background:url(../images/top_li_bg.png) no-repeat right center;}.hand_life_li{position: relative;z-index:10;}.hand_life_li_hover{padding:0 14px;background:#fff;border-left:1px solid #ebeaea;border-right:1px solid #ebeaea;}.ewm_inner{display:none;height:170px;width:170px;background:#fff;position:absolute;top:28px;left:-1px;border:1px solid #ebeaea;border-top:none;}.ewm_inner a{height:120px;width:150px;display:block;padding:15px 10px 0px 10px;}.ewm_inner p{text-align:center}.ewm_inner p span{color:red}.hand_life_li em {	width:10px;	height:8px;	display:block;	float:right;	margin:10px 0 0 8px;	background:url(../images/top_li_bg_02.png) no-repeat right center;}
+.roof_right_list li a:link { font:12px/28px "Microsoft YaHei"; color:#959595; }
+.roof_right_list li a:visited { font:12px/28px "Microsoft YaHei"; color:#959595; }
+.roof_right_list li a:hover {}
+
+.head { width:990px; height:104px; margin:0 auto; overflow:hidden; }
+.logo {float:left; margin-top:16px; }
+.progress { float:right; margin-top:17px; width:800px; }
+.progress .progress_list { height:61px; float:right; }
+.progress .progress_list li { height:30px; text-align:right; float:left; font:14px/30px "Microsoft YaHei"; color:#b8b8b8; }
+.progress .progress_list li.current { font:16px/30px "Microsoft YaHei"; color:#2b8dff; }
+.progress .progress_list li.history { font:14px/30px "Microsoft YaHei"; color:#83bcff; }
+.progress .progress_list li.Li01 { margin-right:55px; }
+.progress .progress_list li.Li02 { margin-right:50px; }
+.progress .progress_list li.Li01-1 { margin-right:40px; }
+.progress .progress_list li.Li02-1 { margin-right:44px; }
+.progress .progress_list li.Li02-2 { margin-right:38px; }
+.progress .progress_list li.Li03 {}
+.progress-1 { background:url(../images/step.png) no-repeat center 0; }
+.progress-2 { background:url(../images/step.png) no-repeat center -61px; }
+.progress-3 { background:url(../images/step.png) no-repeat center -122px; }.bill .edit_bill_wrap .bill_info .hinterror{color:#ff6161;margin-top:10px;}

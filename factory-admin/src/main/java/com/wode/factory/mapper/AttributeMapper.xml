@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.AttributeDao">
+
+	<resultMap id="Attribute" type="com.wode.factory.model.Attribute">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="orders" column="orders"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="inputtype" column="inputtype"/>
+        <result property="ismust" column="ismust"/>
+        <result property="defaultDisplay" column="default_display"/>
+        <result property="defaultVal" column="default_val"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="forSearch" column="for_search"/>
+	</resultMap>
+	
+	<resultMap id="AttributeVo" type="com.wode.factory.vo.AttributeVo">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="orders" column="orders"/>
+        <result property="inputtype" column="inputtype"/>
+        <result property="ismust" column="ismust"/>
+        <result property="defaultDisplay" column="default_display"/>
+        <result property="defaultVal" column="default_val"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="forSearch" column="for_search"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="categoryName" column="categoryName"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,name,orders,category_id,inputtype,ismust,default_display,default_val,createDate,updateDate,for_search
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_attribute (
+        	id ,
+        	name ,
+        	orders ,
+        	category_id ,
+        	inputtype ,
+        	ismust ,
+        	default_display ,
+        	default_val ,
+        	createDate ,
+        	updateDate ,
+        	for_search 
+        ) VALUES (
+        	#{id} ,
+        	#{name} ,
+        	#{orders} ,
+        	#{categoryId} ,
+        	#{inputtype} ,
+        	#{ismust} ,
+        	#{defaultDisplay} ,
+        	#{defaultVal} ,
+        	#{createDate} ,
+        	#{updateDate} ,
+        	#{forSearch} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_attribute SET
+	        name = #{name} ,
+	        orders = #{orders} ,
+	        category_id = #{categoryId} ,
+	        inputtype = #{inputtype} ,
+	        ismust = #{ismust} ,
+	        default_display = #{defaultDisplay} ,
+	        default_val = #{defaultVal} ,
+	        createDate = #{createDate} ,
+	        updateDate = #{updateDate} ,
+	        for_search = #{forSearch} 
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_attribute WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="AttributeVo">
+		SELECT a.id,a.`name`,pc.`name` categoryName,pc.id categoryId,a.orders,a.ismust,a.inputtype,
+    	a.default_display,a.default_val,a.for_search,a.createDate,a.updateDate 
+    	from t_attribute a LEFT JOIN t_product_category pc ON a.category_id = pc.id
+	    WHERE a.id = #{id} 
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_attribute 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findList" resultMap="AttributeVo">
+    
+    	SELECT a.id,a.`name`,pc.`name` categoryName,a.orders,a.ismust,a.inputtype,
+    	a.default_display,a.default_val,a.for_search,a.createDate,a.updateDate 
+    	from t_attribute a LEFT JOIN t_product_category pc ON a.category_id = pc.id
+		<include refid="findPage_where"/>
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+    
+    <!-- 查询规格的类别 -->
+	<select id="selectAttrCategory" resultMap="AttributeVo">
+		select distinct(pro.name) as categoryName,pro.id as category_id from t_attribute spe  left join t_product_category pro on pro.id = spe.category_id
+	</select>
+    
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND a.id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(name)">
+				AND a.name = #{name}
+			</if>
+	       <if test="@Ognl@isNotEmpty(orders)">
+				AND a.orders = #{orders}
+			</if>
+	       <if test="@Ognl@isNotEmpty(categoryId)">
+				AND a.category_id = #{categoryId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(inputtype)">
+				AND a.inputtype = #{inputtype}
+			</if>
+	       <if test="@Ognl@isNotEmpty(ismust)">
+				AND a.ismust = #{ismust}
+			</if>
+	       <if test="@Ognl@isNotEmpty(defaultDisplay)">
+				AND a.default_display = #{defaultDisplay}
+			</if>
+	       <if test="@Ognl@isNotEmpty(defaultVal)">
+				AND a.default_val = #{defaultVal}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createDateBegin)">
+				AND a.createDate >= #{createDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createDateEnd)">
+				AND a.createDate &lt;= #{createDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateDateBegin)">
+				AND a.updateDate >= #{updateDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateDateEnd)">
+				AND a.updateDate &lt;= #{updateDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(forSearch)">
+				AND a.for_search = #{forSearch}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
+

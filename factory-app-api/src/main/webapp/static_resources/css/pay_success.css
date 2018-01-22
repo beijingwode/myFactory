@@ -1,0 +1,78 @@
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, iframe,h1, h2, h3, h4, h5, h6,p,pre,a,del, em, font, ins, q, s, samp,dl, dt, dd, ol, ul, li, form,label, legend, caption,textarea, tbody{ margin:0; padding:0; }
+
+body{font-size:62.5%;font-family:Arial, 'Microsoft YaHei', sans-serif;  width:100%;background:#eeecf3;}
+
+ol,ul,li {	list-style: none; }
+
+blockquote:before, blockquote:after,q:before, q:after {	content: ""; }
+
+blockquote, q { quotes: "" ""; }
+
+a img {	border: 0; }
+
+article, aside, details, figcaption, figure,
+
+footer, header, hgroup, menu, nav, section { display: block; }
+
+h1,h2,h3,h4,h5,h6{font-weight:700}
+
+strong{font-weight:700}
+
+cite,em{font-style:normal}
+
+i{font-style:italic}
+
+img,objiect{ max-width:100%;vertical-align:middle/* 此样式会控制前端图片属性所以去掉*/ }
+
+a { text-decoration:none;border:none;-webkit-tap-highlight-color:transparent;outline:none;-webkit-touch-callout: none;-webkit-user-select: none; }
+a:focus {outline:none; -moz-outline:none}
+input,textarea{ outline:none; resize:none;-webkit-appearance:none;}
+@font-face{font-family: myFirstFont;src:url('font/hyqihei-45s_0-webfont.ttf'),url('font/hyqihei-45s_0-webfont.eot');}
+
+.main_box{width:100%;height:auto;overflow:hidden;}
+.pay_success_hint{width:80%;height:auto;padding:5% 10%;overflow:hidden;background:url(../images/pay_success_bg.png) no-repeat;background-size:100%;}
+.pay_success_hint ul{width:85%;float:left;}
+.pay_success_hint ul li{width:100%;color:#fff;line-height:24px;}
+.pay_success_hint ul .li1{font-size:1.4em;}
+.pay_success_hint ul .li2{font-size:1.2em;}
+.duigou{width:15%;float:right;}
+
+.pay_details{width:100%;height:auto;background:#fff;padding-bottom:10px;}
+.consignee{width:92%;height:auto;padding:10px 4%;overflow:hidden;border-bottom:1px solid #e7e6ec;}
+.cons_name,.address{width:100%;height:auto;overflow:hidden;margin-top:5px;}
+.consignee span{float:left;font-size:1.4em;color:#333333;line-height:20px;}
+.consignee p{float:left;font-size:1.4em;color:#333333;line-height:20px;}
+.cons_name em{float:right;font-style:normal;line-height:20px;font-size:1.4em;}
+.address p{width:75%;}
+
+.pay_amount{width:92%;height:auto;padding:10px 4%;overflow:hidden;}
+.pay_amount ul{width:100%;height:auto;}
+.pay_amount ul li{width:100%;height:auto;overflow:hidden;margin-top:5px;}
+.pay_amount ul li span{width:40%;display:block;float:left;line-height:20px;font-size:1.3em;}
+.pay_amount ul li em{width:40%;display:block;text-align:right;font-style:normal;float:right;line-height:20px;font-size:1.3em;}
+.pay_amount ul .li2 span{font-size:1.4em;} 
+.pay_amount ul .li2 em{font-size:2.0em;color:#c22936;} 
+.pay_amount ul .li2 em i{font-style:normal;font-size:0.5em;}
+.btns {width:100%;height:auto;overflow:hidden;margin-top:15px;}
+.btns a{float:right;padding:4px 8px;font-size:1.2em;color:#c22936;border:1px solid #c22936;margin-left:10px;border-radius:3px;}
+
+.TogetherToBuy_help{width: 92%;height: 40px;margin: 0 auto;background: #c22936;margin-top: 15px;margin-bottom: 15px;border-radius: 4px;}
+.TogetherToBuy_help a{width: 100%;height: 40px;display: block;line-height: 40px;text-align: center;color: #fff;font-size: 1.4em;font-weight: 600;}
+
+
+.ewm{width:100%;height:auto;padding:20px 0%;background:#fff;margin-top:10px;overflow:hidden;}
+.ewm p{text-align:center;line-height:24px;font-size:1.4em;color:#999}
+.ewm .img_box{width:60%;height:auto;margin:0 auto;}
+.ewm .img_box img{width:100%}
+
+
+
+
+
+
+
+
+
+

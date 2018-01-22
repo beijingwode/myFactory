@@ -1,0 +1,251 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<input value="${page.id!}" type="hidden" id="p_id">
+	<div class="profile-info-row">
+		<div class="profile-info-name">渠道</div>
+		<div class="profile-info-value">
+			<select id="p_channel" onchange="getPageTemplates()" style="width:90%">
+				@if(channel == 1){
+					<option value="1" selected="selected">pc</option>
+					<option value="2">微信/APP</option>
+				@} else{
+					<option value="1">pc</option>
+					<option value="2" selected="selected">微信/APP</option>
+				@}
+			</select>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name" style="height: 63px">模板</div>
+		<div class="profile-info-value">
+			<select id="p_templateId" style="width:70%"  onchange="setSnapshot()">
+				@if(templates!=null && !isEmpty(templates)){
+				@for(item in templates){
+					@if(item.id== templateId){
+						<option value='${item.id!},${item.snapshot!}*_*${item.ex1Name!}*_*${item.ex2Name!}*_*${item.ex3Name!}*_*${item.ex4Name!}' selected="selected">${item.title!}</option>
+					@}else{
+						<option value='${item.id!},${item.snapshot!}*_*${item.ex1Name!}*_*${item.ex2Name!}*_*${item.ex3Name!}*_*${item.ex4Name!}'>${item.title!}</option>
+					@}
+				@}
+				@}
+	  		</select>
+	  		<a href="#" target="_blank" id="tempLateSnapshot" title="快照">
+	  			<img id="imgSnapshot" alt="快照" src="" style="width:100px;height: 50px"/>
+	  		</a>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">标题</div>
+		<div class="profile-info-value"><input type="text"  style="width:90%" id="p_title" value="${page.title!}" /></div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">关键字</div>
+		<div class="profile-info-value"><input type="text"  style="width:90%" id="p_pageKey" value="${page.pageKey!}" placeholder="只能输入字符、数字、下划线,统计用不能重复" onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"/></div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">专属企业</div>
+		<div class="profile-info-value">			
+			<#select width="90%" id="p_supplierId">
+				<option value="">无</option>
+				@for(item in supplierList){
+					@if(page!=null && item.id== page.supplierId){
+						<option value="${item.id!}" selected="selected">${item.comName!}</option>
+					@}else{
+						<option value="${item.id! }">${item.comName! }</option>
+					@}
+				@}
+			</#select>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">备注</div>
+		<div class="profile-info-value">
+			<textarea rows="5"  style="width:90%" id="p_note">${page.note!}</textarea>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name" id="p_ex1Name">
+			扩展1
+		</div>
+		<div class="profile-info-value"><input type="text"  style="width:90%" id="p_ex1Value" value='${page.ex1Value!}' /></div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name" id="p_ex2Name">
+			扩展2
+		</div>
+		<div class="profile-info-value"><input type="text"  style="width:90%" id="p_ex2Value" value='${page.ex2Value!}' /></div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name" id="p_ex3Name">
+			扩展3
+		</div>
+		<div class="profile-info-value"><input type="text"  style="width:90%" id="p_ex3Value" value='${page.ex3Value!}' /></div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name" id="p_ex4Name">
+			扩展4
+		</div>
+		<div class="profile-info-value"><input type="text"  style="width:90%" id="p_ex4Value" value='${page.ex4Value!}' /></div>
+	</div>
+</div>
+<div class="width-100 clearfix" tag-save-btn style="bottom: 0px;left: 0px;position:absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-100  pull-left" id="submit">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>保存
+	</span>
+</div>
+</div>
+
+<script>
+	function getPageTemplates()
+	{
+		$.ajax( {  
+		    url:'${ctxPath}/cmsPage/getTemplates?channel='+$("#p_channel").val(),
+		    type:'post',
+		    dataType:'json',
+		    success:function(data) {
+				var html='';
+		    	//再添加
+		    	for(var i =0;i<data.length;i++){
+		    		var val=data[i].id+",";
+		    		if(data[i].snapshot !=null && data[i].snapshot!=undefined) {
+		    			val += data[i].snapshot;
+		    		}
+		    		val += "*_*";
+		    		if(data[i].ex1Name != null && data[i].ex1Name!="undefined") {
+			    		val += data[i].ex1Name;
+		    		}
+		    		val += "*_*";
+		    		if(data[i].ex2Name != null && data[i].ex2Name!="undefined") {
+			    		val += data[i].ex2Name;
+		    		}
+		    		val += "*_*";
+		    		if(data[i].ex3Name != null && data[i].ex3Name!="undefined") {
+			    		val += data[i].ex3Name;
+		    		}
+		    		val += "*_*";
+		    		if(data[i].ex4Name != null && data[i].ex4Name!="undefined") {
+			    		val += data[i].ex4Name;
+		    		}
+		    		html += '<option value=\''+ val +'\'>'+ data[i].title +'</option>';
+		    	}
+		    	
+		    	$("#p_templateId").html(html);
+		    	setSnapshot();
+		    },  
+		     error : function() {  
+		     }  
+		});
+	}
+	
+	function setSnapshot()
+	{
+		var ss= $("#p_templateId").val();
+		if(ss == null || $.trim(ss)==""){
+			$("#tempLateSnapshot").hide();
+		}else{
+			ss=ss.substring(ss.indexOf(",")+1,ss.indexOf("*_*"));
+		}
+		if($.trim(ss) == "") {
+			$("#tempLateSnapshot").hide();
+		} else {
+			$("#tempLateSnapshot").attr("href",ss);
+			$("#imgSnapshot").attr("src",ss);
+			$("#tempLateSnapshot").show();
+		}
+		
+		var val = $("#p_templateId").val();
+		val = val.substring(val.indexOf("*_*")+3);
+		var ex1Name = val.substring(0,val.indexOf("*_*"));
+		val = val.substring(val.indexOf("*_*")+3);
+		var ex2Name = val.substring(0,val.indexOf("*_*"));
+		val = val.substring(val.indexOf("*_*")+3);
+		var ex3Name = val.substring(0,val.indexOf("*_*"));
+		val = val.substring(val.indexOf("*_*")+3);
+		var ex4Name = val;
+		
+		setEx(1,ex1Name);
+		setEx(2,ex2Name);
+		setEx(3,ex3Name);
+		setEx(4,ex4Name);
+	}
+	
+	function setEx(i,ex1Name) {
+		if(ex1Name=="") {
+			$("#p_ex"+i+"Name").html("扩展"+i);
+			$("#p_ex"+i+"Value").attr("placeholder","");
+			$("#p_ex"+i+"Value").val("");
+		} else {
+			if(ex1Name.indexOf("{")>-1) {
+				var o = JSON.parse(ex1Name);
+				
+				if(o.name != null && typeof(o.name) != "undefined") {
+					$("#p_ex"+i+"Name").html(o.name);						
+				} else {
+					$("#p_ex"+i+"Name").html("扩展"+i);
+				}
+	
+				if(o.placeholder != null && typeof(o.placeholder) != "undefined") {
+					$("#p_ex"+i+"Value").attr("placeholder",o.placeholder);
+				} else {
+					$("#p_ex"+i+"Value").attr("placeholder","");
+				}
+	
+				if(o.value != null && typeof(o.value) != "undefined") {
+					$("#p_ex"+i+"Value").val(o.value);
+				} else {
+					$("#p_ex"+i+"Value").val("");
+				}					
+				
+			} else {
+				$("#p_ex"+i+"Name").html(ex1Name);
+				$("#p_ex"+i+"Value").attr("placeholder","");
+				$("#p_ex"+i+"Value").val("");
+			}	
+		}
+	}
+		
+	$(function(){
+		setSnapshot();
+		
+		$("#submit").click(function(){
+			if($.trim($("#p_title").val())==''){
+				layer.msg('标题必须输入', 1, 1);
+			} else if ($.trim($("#p_pageKey").val())==''){
+				layer.msg('关键字必须输入', 1, 1);
+			} else if ($.trim($("#p_templateId").val())==''||$("#p_templateId").val()==null){
+				layer.msg('模板必须选择', 1, 1);
+			}else{
+				var templateId = $("#p_templateId").val();
+				templateId=templateId.substring(0,templateId.indexOf(","));
+				
+				$.ajax({
+					"type":'POST',
+					url:'${ctxPath}/cmsPage/pageSave',
+					"data":{"id":$("#p_id").val(),"channel":$("#p_channel").val(),"templateId":templateId,"title":$.trim($("#p_title").val()),
+						"pageKey":$.trim($("#p_pageKey").val()),"supplierId":$("#p_supplierId").val(),"note":$("#p_note").val(),"ex1Value":$("#p_ex1Value").val()
+						,"ex2Value":$("#p_ex2Value").val(),"ex3Value":$("#p_ex3Value").val(),"ex4Value":$("#p_ex4Value").val()
+					},
+					"success":function(data,response){
+						if(data.success){
+							layer.msg('操作成功', 1, 1,function(){
+								var $form = $("#search-form");
+								var pageNo = 1;
+								var pageNoInput = $form.find('input[name="pageNum"]');
+								if(pageNoInput.size() != 0){
+									pageNo = pageNoInput.val();
+								}
+								
+								//刷新页面
+								paging('search-form',pageNo);
+								
+								layer.closeAll();
+							});
+						}else{
+							layer.msg(data.msg, 3, 1);
+						}
+					}
+				});
+			}
+		});
+	});
+</script>

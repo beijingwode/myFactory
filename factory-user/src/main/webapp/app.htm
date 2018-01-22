@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-itunes-app" content="app-id=1063257059">
+  <title>我的福利客户端下载</title>
+  <style>.browser-tips{position:fixed;top:0;left:0;width:100%}.browser-tips-content{position:relative;z-index:1;margin:0 10px;padding:5px;background-color:#fff;border-radius:0 0 5px 5px}.browser-tips-content label{position:relative;z-index:1;padding:0 6px;line-height:42px;/*background-color:#fff;*/font-size:14px;color:#707070;}.browser-tips-content .line-with-bg{display:block;/*background-color:#d7eaf6;*/border-radius:2px</style>
+  <script type="text/javascript">
+
+    window.onload = function(){
+        if(isWeiXin()){ 
+            if(window.location.href.indexOf("d=1")>-1) {
+            	window.location.href='http://a.app.qq.com/o/simple.jsp?pkgname=com.wode.myo2o'; 
+            } else {
+            	window.location.href='http://api.wd-w.com/a2.htm'; 
+            }
+        } else if(is_ios()) {
+            window.location.href='https://itunes.apple.com/us/app/wo-de-chang/id1063257059';
+	} else {
+            window.location.href='http://img0.wo-de.com/upload/apk/my_welfare_35.apk';
+        }
+    }
+
+    function isWeiXin(){
+        var browser = window.browser;
+        if (browser && browser.isWechatBrowser) return true;
+
+        var ua = window.navigator.userAgent.toLowerCase();
+        return (ua.match(/MicroMessenger/i) == 'micromessenger');
+    }
+
+    //判断终端类型 android  or  ios
+    function is_ios(){
+        var sUserAgent = navigator.userAgent.toLowerCase();
+	var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+	var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+
+        return (bIsIpad || bIsIphoneOs);
+     } 
+  </script> 
+</head>
+<body>
+<div class="browser-tips">
+    <div class='browser-tips-content'>
+        <label id="nomarl" class='line-with-bg' style="display:block;text-align:center">我的福利APP已经开始下载，请稍后...</label>
+    </div>
+</div>
+</body>
+</html>

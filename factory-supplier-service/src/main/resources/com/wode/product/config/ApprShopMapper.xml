@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ApprShopMapper">
+
+    <resultMap id="ApprShop" type="com.wode.factory.model.ApprShop">
+        <result property="id" column="id"/>
+        <result property="apprType" column="appr_type"/>
+        <result property="status" column="status"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="oldId" column="old_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="logo" column="logo"/>
+        <result property="shopname" column="shopname"/>
+        <result property="introduce" column="introduce"/>
+        <result property="banner" column="banner"/>
+        <result property="type" column="type"/>
+        <result property="topImage" column="top_image"/>
+        <result property="brandIntroduce" column="brand_introduce"/>
+        <result property="introImage" column="intro_image"/>
+        <result property="cusTel" column="cus_tel"/>
+        <result property="cusPhone" column="cus_phone"/>
+        <result property="cusEmail" column="cus_email"/>
+        <result property="cusContact" column="cus_contact"/>
+        <result property="serTel" column="ser_tel"/>
+        <result property="serPhone" column="ser_phone"/>
+        <result property="serEmail" column="ser_email"/>
+        <result property="serContact" column="ser_contact"/>
+        <result property="shopTel" column="shop_tel"/>
+        <result property="shopPhone" column="shop_phone"/>
+        <result property="shopEmail" column="shop_email"/>
+        <result property="shopContact" column="shop_contact"/>
+        <result property="qq" column="qq"/>
+        <result property="creatTime" column="creat_time"/>
+        <result property="creatUser" column="creat_user"/>
+        <result property="creatName" column="creat_name"/>
+        <result property="toEmail" column="to_email"/>
+        <result property="managerId" column="manager_id"/>
+        <result property="managerName" column="manager_name"/>
+        <result property="managerChkTime" column="manager_chk_time"/>
+        <result property="managerChkId" column="manager_chk_id"/>
+        <result property="managerChkDesc" column="manager_chk_desc"/>
+        <result property="managerChkImg" column="manager_chk_img"/>
+        <result property="lawChkTime" column="law_chk_time"/>
+        <result property="lawChkId" column="law_chk_id"/>
+        <result property="lawChkDesc" column="law_chk_desc"/>
+        <result property="lawChkImg" column="law_chk_img"/>
+        <result property="busChkTime" column="bus_chk_time"/>
+        <result property="busChkId" column="bus_chk_id"/>
+        <result property="busChkDesc" column="bus_chk_desc"/>
+        <result property="busChkImg" column="bus_chk_img"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateName" column="update_name"/>
+        <result property="updateDesc" column="update_desc"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,appr_type,status,shop_id,old_id,user_id,supplier_id,logo,shopname,introduce,banner,type,top_image,brand_introduce,intro_image,cus_tel,cus_phone,cus_email,cus_contact,ser_tel,ser_phone,ser_email,ser_contact,shop_tel,shop_phone,shop_email,shop_contact,qq,creat_time,creat_user,creat_name,to_email,manager_id,manager_name,manager_chk_time,manager_chk_id,manager_chk_desc,manager_chk_img,law_chk_time,law_chk_id,law_chk_desc,law_chk_img,bus_chk_time,bus_chk_id,bus_chk_desc,bus_chk_img,update_time,update_user,update_name,update_desc
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_appr_shop (
+            id ,
+            appr_type ,
+            status ,
+            shop_id ,
+            old_id ,
+            user_id ,
+            supplier_id ,
+            logo ,
+            shopname ,
+            introduce ,
+            banner ,
+            type ,
+            top_image ,
+            brand_introduce ,
+            intro_image ,
+            cus_tel ,
+            cus_phone ,
+            cus_email ,
+            cus_contact ,
+            ser_tel ,
+            ser_phone ,
+            ser_email ,
+            ser_contact ,
+            shop_tel ,
+            shop_phone ,
+            shop_email ,
+            shop_contact ,
+            qq ,
+            creat_time ,
+            creat_user ,
+            creat_name ,
+            to_email ,
+            manager_id ,
+            manager_name ,
+            manager_chk_time ,
+            manager_chk_id ,
+            manager_chk_desc ,
+            manager_chk_img ,
+            law_chk_time ,
+            law_chk_id ,
+            law_chk_desc ,
+            law_chk_img ,
+            bus_chk_time ,
+            bus_chk_id ,
+            bus_chk_desc ,
+            bus_chk_img ,
+            update_time ,
+            update_user ,
+            update_name ,
+            update_desc
+        ) VALUES (
+            #{id} ,
+            #{apprType} ,
+            #{status} ,
+            #{shopId} ,
+            #{oldId} ,
+            #{userId} ,
+            #{supplierId} ,
+            #{logo} ,
+            #{shopname} ,
+            #{introduce} ,
+            #{banner} ,
+            #{type} ,
+            #{topImage} ,
+            #{brandIntroduce} ,
+            #{introImage} ,
+            #{cusTel} ,
+            #{cusPhone} ,
+            #{cusEmail} ,
+            #{cusContact} ,
+            #{serTel} ,
+            #{serPhone} ,
+            #{serEmail} ,
+            #{serContact} ,
+            #{shopTel} ,
+            #{shopPhone} ,
+            #{shopEmail} ,
+            #{shopContact} ,
+            #{qq} ,
+            #{creatTime} ,
+            #{creatUser} ,
+            #{creatName} ,
+            #{toEmail} ,
+            #{managerId} ,
+            #{managerName} ,
+            #{managerChkTime} ,
+            #{managerChkId} ,
+            #{managerChkDesc} ,
+            #{managerChkImg} ,
+            #{lawChkTime} ,
+            #{lawChkId} ,
+            #{lawChkDesc} ,
+            #{lawChkImg} ,
+            #{busChkTime} ,
+            #{busChkId} ,
+            #{busChkDesc} ,
+            #{busChkImg} ,
+            #{updateTime} ,
+            #{updateUser} ,
+            #{updateName} ,
+            #{updateDesc}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_appr_shop SET            
+            status = #{status} ,
+            shop_id = #{shopId} ,
+            old_id = #{oldId} ,
+            user_id = #{userId} ,
+            supplier_id = #{supplierId} ,
+            logo = #{logo} ,
+            shopname = #{shopname} ,
+            introduce = #{introduce} ,
+            banner = #{banner} ,
+            type = #{type} ,
+            top_image = #{topImage} ,
+            brand_introduce = #{brandIntroduce} ,
+            intro_image = #{introImage} ,
+            cus_tel = #{cusTel} ,
+            cus_phone = #{cusPhone} ,
+            cus_email = #{cusEmail} ,
+            cus_contact = #{cusContact} ,
+            ser_tel = #{serTel} ,
+            ser_phone = #{serPhone} ,
+            ser_email = #{serEmail} ,
+            ser_contact = #{serContact} ,
+            shop_tel = #{shopTel} ,
+            shop_phone = #{shopPhone} ,
+            shop_email = #{shopEmail} ,
+            shop_contact = #{shopContact} ,
+            qq = #{qq} ,
+            creat_time = #{creatTime} ,
+            creat_user = #{creatUser} ,
+            creat_name = #{creatName} ,
+            to_email = #{toEmail} ,
+            update_user = #{updateUser} ,
+            update_name = #{updateName}  ,
+            update_desc = #{updateDesc}
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_appr_shop WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="ApprShop">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_appr_shop 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="getShopApprIng" resultMap="ApprShop">
+        SELECT <include refid="columns" /> FROM t_appr_shop 
+        WHERE supplier_id = #{supplierId} AND status &lt; 4
+    </select>
+    
+    <select id="selectByModel" resultMap="ApprShop">
+        SELECT <include refid="columns" /> FROM t_appr_shop 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopId)">
+                AND shop_id = #{shopId}
+            </if>
+           <if test="@Ognl@isNotEmpty(oldId)">
+                AND old_id = #{oldId}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(logo)">
+                AND logo = #{logo}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopname)">
+                AND shopname = #{shopname}
+            </if>
+           <if test="@Ognl@isNotEmpty(introduce)">
+                AND introduce = #{introduce}
+            </if>
+           <if test="@Ognl@isNotEmpty(banner)">
+                AND banner = #{banner}
+            </if>
+           <if test="@Ognl@isNotEmpty(type)">
+                AND type = #{type}
+            </if>
+           <if test="@Ognl@isNotEmpty(topImage)">
+                AND top_image = #{topImage}
+            </if>
+           <if test="@Ognl@isNotEmpty(brandIntroduce)">
+                AND brand_introduce = #{brandIntroduce}
+            </if>
+           <if test="@Ognl@isNotEmpty(introImage)">
+                AND intro_image = #{introImage}
+            </if>
+           <if test="@Ognl@isNotEmpty(cusTel)">
+                AND cus_tel = #{cusTel}
+            </if>
+           <if test="@Ognl@isNotEmpty(cusPhone)">
+                AND cus_phone = #{cusPhone}
+            </if>
+           <if test="@Ognl@isNotEmpty(cusEmail)">
+                AND cus_email = #{cusEmail}
+            </if>
+           <if test="@Ognl@isNotEmpty(cusContact)">
+                AND cus_contact = #{cusContact}
+            </if>
+           <if test="@Ognl@isNotEmpty(serTel)">
+                AND ser_tel = #{serTel}
+            </if>
+           <if test="@Ognl@isNotEmpty(serPhone)">
+                AND ser_phone = #{serPhone}
+            </if>
+           <if test="@Ognl@isNotEmpty(serEmail)">
+                AND ser_email = #{serEmail}
+            </if>
+           <if test="@Ognl@isNotEmpty(serContact)">
+                AND ser_contact = #{serContact}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopTel)">
+                AND shop_tel = #{shopTel}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopPhone)">
+                AND shop_phone = #{shopPhone}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopEmail)">
+                AND shop_email = #{shopEmail}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopContact)">
+                AND shop_contact = #{shopContact}
+            </if>
+           <if test="@Ognl@isNotEmpty(qq)">
+                AND qq = #{qq}
+            </if>
+           <if test="@Ognl@isNotEmpty(creatTime)">
+                AND creat_time = #{creatTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(creatUser)">
+                AND creat_user = #{creatUser}
+            </if>
+           <if test="@Ognl@isNotEmpty(creatName)">
+                AND creat_name = #{creatName}
+            </if>
+           <if test="@Ognl@isNotEmpty(toEmail)">
+                AND to_email = #{toEmail}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerId)">
+                AND manager_id = #{managerId}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerName)">
+                AND manager_name = #{managerName}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerChkTime)">
+                AND manager_chk_time = #{managerChkTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerChkId)">
+                AND manager_chk_id = #{managerChkId}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerChkDesc)">
+                AND manager_chk_desc = #{managerChkDesc}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerChkImg)">
+                AND manager_chk_img = #{managerChkImg}
+            </if>
+           <if test="@Ognl@isNotEmpty(lawChkTime)">
+                AND law_chk_time = #{lawChkTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(lawChkId)">
+                AND law_chk_id = #{lawChkId}
+            </if>
+           <if test="@Ognl@isNotEmpty(lawChkDesc)">
+                AND law_chk_desc = #{lawChkDesc}
+            </if>
+           <if test="@Ognl@isNotEmpty(lawChkImg)">
+                AND law_chk_img = #{lawChkImg}
+            </if>
+           <if test="@Ognl@isNotEmpty(busChkTime)">
+                AND bus_chk_time = #{busChkTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(busChkId)">
+                AND bus_chk_id = #{busChkId}
+            </if>
+           <if test="@Ognl@isNotEmpty(busChkDesc)">
+                AND bus_chk_desc = #{busChkDesc}
+            </if>
+           <if test="@Ognl@isNotEmpty(busChkImg)">
+                AND bus_chk_img = #{busChkImg}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND update_time = #{updateTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateUser)">
+                AND update_user = #{updateUser}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateName)">
+                AND update_name = #{updateName}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

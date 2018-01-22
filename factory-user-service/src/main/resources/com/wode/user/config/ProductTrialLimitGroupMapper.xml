@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ProductTrialLimitGroupMapper">
+
+    <resultMap id="ProductTrialLimitGroup" type="com.wode.factory.model.ProductTrialLimitGroup">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="remark" column="remark"/>
+        <result property="operator" column="operator"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,name,remark,operator,update_time
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_trial_limit_group (
+            id ,
+            name ,
+            remark ,
+            operator ,
+            update_time
+        ) VALUES (
+            #{id} ,
+            #{name} ,
+            #{remark} ,
+            #{operator} ,
+            #{updateTime}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_product_trial_limit_group SET            
+            name = #{name} ,
+            remark = #{remark} ,
+            operator = #{operator} ,
+            update_time = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_product_trial_limit_group WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="ProductTrialLimitGroup">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_product_trial_limit_group 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="ProductTrialLimitGroup">
+        SELECT <include refid="columns" /> FROM t_product_trial_limit_group 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(name)">
+                AND name = #{name}
+            </if>
+           <if test="@Ognl@isNotEmpty(remark)">
+                AND remark = #{remark}
+            </if>
+           <if test="@Ognl@isNotEmpty(operator)">
+                AND operator = #{operator}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND update_time = #{updateTime}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

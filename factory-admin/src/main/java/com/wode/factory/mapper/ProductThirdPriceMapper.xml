@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.ProductThirdPriceDao">
+
+    <resultMap id="ProductThirdPrice" type="com.wode.factory.model.ProductThirdPrice">
+        <result property="id" column="id"/>
+        <result property="productId" column="product_id"/>
+        <result property="thirdType" column="third_type"/>
+        <result property="price" column="price"/>
+        <result property="itemUrl" column="item_url"/>
+        <result property="confrimDate" column="confrim_date"/>
+        <result property="lastPrice" column="last_price"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="urlStatus" column="url_status"/>
+        <result property="itemValues" column="itemValues"/>
+    </resultMap>
+
+    <resultMap id="ProductThirdPriceVo" type="com.wode.factory.vo.ProductThirdPriceVO">
+        <result property="id" column="id"/>
+        <result property="productId" column="product_id"/>
+        <result property="thirdType" column="third_type"/>
+        <result property="price" column="price"/>
+        <result property="itemUrl" column="item_url"/>
+        <result property="confrimDate" column="confrim_date"/>
+        <result property="lastPrice" column="last_price"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="urlStatus" column="url_status"/>
+        <result property="itemValues" column="itemValues"/>
+                
+        <result property="supplierName" column="supplierName"/>
+        <result property="proName" column="proName"/>
+    </resultMap>
+    
+    <delete id="deleteProductQuestionnaireBySupplierId">
+    delete from t_product_questionnaire where supplier_id = #{supplierId}
+    </delete>
+    
+    <delete id="deleteQuestionnaireAnswerBySupplierId">
+    delete from t_questionnaire_answer where questionnaire_id in (SELECT id from t_product_questionnaire where supplier_id = #{supplierId}) 
+    </delete>
+    
+    <delete id="deleteQuestionnaireOptionBySupplierId">
+    delete from t_questionnaire_option where questionnaire_id in (SELECT id from t_product_questionnaire where supplier_id = #{supplierId}) 
+    </delete>
+    
+    <delete id="deleteQuestionnaireQuestionBySupplierId">
+    delete from t_questionnaire_question where questionnaire_id in (SELECT id from t_product_questionnaire where supplier_id = #{supplierId})
+    </delete>
+    
+    <delete id="deleteBySupplierId">
+    delete from t_product_third_price where product_id in (SELECT id from t_product where supplier_id = #{supplierId})
+    </delete>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,product_id,third_type,price,item_url,confrim_date,last_price,update_date,url_status,itemValues
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_third_price (
+            id ,
+            product_id ,
+            third_type ,
+            price ,
+            item_url ,
+            confrim_date ,
+            last_price ,
+            update_date ,
+            url_status ,
+            itemValues
+        ) VALUES (
+            #{id} ,
+            #{productId} ,
+            #{thirdType} ,
+            #{price} ,
+            #{itemUrl} ,
+            #{confrimDate} ,
+            #{lastPrice} ,
+            #{updateDate} ,
+            #{urlStatus} ,
+            #{itemValues}
+        )
+    ]]>
+    </insert>
+    
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_third_price (
+            id ,
+            product_id ,
+            third_type ,
+            price ,
+            item_url ,
+            confrim_date ,
+            last_price ,
+            update_date ,
+            url_status ,
+            itemValues
+        ) VALUES (
+            #{id} ,
+            #{productId} ,
+            #{thirdType} ,
+            #{price} ,
+            #{itemUrl} ,
+            #{confrimDate} ,
+            #{lastPrice} ,
+            #{updateDate} ,
+            #{urlStatus} ,
+            #{itemValues}
+        )
+    ]]>
+    </insert>
+    
+    
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_product_third_price SET            
+            product_id = #{productId} ,
+            third_type = #{thirdType} ,
+            price = #{price} ,
+            item_url = #{itemUrl} ,
+            confrim_date = #{confrimDate} ,
+            last_price = #{lastPrice} ,
+            update_date = #{updateDate} ,
+            url_status = #{urlStatus} ,
+            itemValues = #{itemValues}
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM t_product_third_price WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="ProductThirdPrice">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_product_third_price 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="ProductThirdPrice">
+        SELECT <include refid="columns" /> FROM t_product_third_price 
+        <include refid="find_where"/>
+    </select>
+
+	<select id="selectyByProductId" resultMap="ProductThirdPrice">
+		SELECT <include refid="columns" /> FROM t_product_third_price 
+        <![CDATA[
+        WHERE  product_id = #{productId}
+        ]]>
+	</select>
+	
+    <select id="select5DaysAgo" resultMap="ProductThirdPrice">
+        SELECT <include refid="columns" /> FROM t_product_third_price 
+        <![CDATA[
+        WHERE url_status= 1 AND update_date<DATE_ADD(now(),INTERVAL -5 DAY) AND EXISTS (select 1 from t_product where t_product.id=t_product_third_price.product_id  AND t_product.is_marketable=1)
+        ]]>
+        <if test="@Ognl@isNotEmpty(type)">
+             AND third_type = #{type}
+        </if>
+    </select>
+
+    <select id="findNotifyList" resultMap="ProductThirdPriceVo">
+		SELECT ptp.*,pro.full_name proName,pro.is_marketable isMark,sup.com_name as supplierName
+	    FROM t_product pro INNER JOIN t_supplier sup ON pro.supplier_id = sup.id
+	    INNER JOIN t_product_third_price ptp ON (ptp.product_id = pro.id)
+	    <where>
+	       (ptp.url_status IN(-1,-2) OR ptp.price > ptp.last_price)
+		   <if test="@Ognl@isNotEmpty(name)">
+				AND pro.full_name like CONCAT(CONCAT('%',#{name}),'%')
+		   </if>
+		   <if test="@Ognl@isNotEmpty(isMark)">
+		   		AND pro.is_marketable=#{isMark}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(isMarket)">
+		   		AND pro.is_marketable in (0,-1,-2,-10)
+		   </if>
+		   <if test="@Ognl@isNotEmpty(supplierId)">
+				AND pro.supplier_id= #{supplierId}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(managerId)">
+				AND sup.manager_id= #{managerId}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(id)">
+				AND pro.id like CONCAT(CONCAT('%',#{id}),'%')
+		   </if>
+			<if test="@Ognl@isNotEmpty(startDate)">
+				AND ptp.confrim_date >= #{startDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endDate)">
+				AND ptp.confrim_date &lt;= #{endDate}
+		   </if>
+			<if test="@Ognl@isNotEmpty(startUpdDate)">
+				AND ptp.update_date >= #{startUpdDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endUpdDate)">
+				AND ptp.update_date &lt;= #{endUpdDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(thirdType)">
+				AND ptp.third_type =#{thirdType}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(urlStatus)">
+		   		AND ptp.url_status =#{urlStatus}
+		   </if>
+		</where>
+		ORDER BY ptp.update_date DESC
+    </select>
+    
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(productId)">
+                AND product_id = #{productId}
+            </if>
+           <if test="@Ognl@isNotEmpty(thirdType)">
+                AND third_type = #{thirdType}
+            </if>
+           <if test="@Ognl@isNotEmpty(price)">
+                AND price = #{price}
+            </if>
+           <if test="@Ognl@isNotEmpty(itemUrl)">
+                AND item_url = #{itemUrl}
+            </if>
+           <if test="@Ognl@isNotEmpty(confrimDate)">
+                AND confrim_date = #{confrimDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(lastPrice)">
+                AND last_price = #{lastPrice}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateDate)">
+                AND update_date = #{updateDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(urlStatus)">
+                AND url_status = #{urlStatus}
+            </if>
+        </where>
+    </sql>
+</mapper>

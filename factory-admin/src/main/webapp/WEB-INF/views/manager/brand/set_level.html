@@ -1,0 +1,60 @@
+<div class="layer">
+	<input type="hidden" id="id" value="${id}">
+	<table id="formUseFeeTable"
+		class="table table-striped table-bordered table-hover nomargin-bottom">
+			<tr>
+				<th class="center">品牌级别</th>
+				<td class="center">
+					<select id="categoryId">
+						<option value="">全部</option>
+						<option value="1">一类品牌</option>
+						<option value="2">二类品牌</option>
+						<option value="3">三类品牌</option>
+						<option value="4">四类品牌</option>
+						<option value="0">未知</option>
+					</select>
+				</td>
+			</tr>
+	</table>
+</div>
+<div class="width-100 clearfix" tag-save-btn
+	style="bottom: 0px; left: 0px; position: absolute;">
+	<span id="speVal_submit" onclick="setCashDeposit()" class="btn btn-primary btn-sm bigger-110 width-100  pull-left">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i> 确定
+	</span>
+</div>
+<script type="text/javascript">
+
+function setCashDeposit(){
+	
+	$.ajax({
+
+		type: "post",
+		data:{
+			categoryId:$("#categoryId").val(),
+				id:$("#id").val()
+			},
+		url: "${ctxPath}/brand/setLevel",
+		dataType: "json",
+		success: function(data, textStatus){
+			var $form = $("#search-form");
+			var pageNo = 1;
+			var pageNoInput = $form.find('input[name="pageNum"]');
+			if(pageNoInput.size() != 0){
+				pageNo = pageNoInput.val();
+			}
+			
+			//刷新页面
+			paging('search-form',pageNo);
+			layer.closeAll();
+		},
+		error: function(){
+
+		}
+		})
+}
+
+$(document).ready(function() {
+	
+});
+</script>

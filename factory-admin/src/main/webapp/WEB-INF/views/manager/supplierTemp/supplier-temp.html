@@ -1,0 +1,66 @@
+<div class="tabbable">
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active">
+		<a data-toggle="tab" href="#order_home"> 
+			<i class="green ace-icon fa fa-users bigger-120"></i> 商家列表
+		</a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/supplierTemp/list" method="post" id="search-form" 
+				target="list-page" class="center clearfix">
+				<div class="row padding-tb-10">
+				<div class="col-sm-4">
+						<label>商家名称：</label>
+						<input type="text" id="comName" name="comName">
+						@if(!isEmpty(mlist)){
+						<#select name="managerId" width="45%">
+							<option value="-1">招商经理</option>
+							@for(item in mlist){
+								@if(item.id == uid){
+								<option value="${item.id! }" selected="selected" >${item.name! }</option>
+								@}
+								@if(item.status != 2){
+								<option value="${item.id! }" >${item.name! }</option>
+								@}
+							@}
+						</#select>
+						@}
+				</div>
+				<div class="col-sm-4">
+					<label>创建日期：</label>
+					<input type="text" id="startDate" name="startDate">
+					<label>-</label>
+					<input type="text" id="endDate" name="endDate">
+					&nbsp;&nbsp;
+					<div class="padding-trb-10 col-sm-12">
+						<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">商家列表</span>
+						<span class="btn btn-info btn-sm col-sm-6" id="search-btn">条件查询</span>
+					</div>
+				</div>
+				</div>
+				
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	laydate({
+	    elem: '#startDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#endDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	</script>
+<script>
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	
+</script>

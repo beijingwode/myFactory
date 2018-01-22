@@ -1,0 +1,204 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>我的网商家中心-权限管理</title>
+<link rel="stylesheet" type="text/css" href="static_resources/css/style.css" />
+<style>
+.sale_option select,.c-r-box select{width:184px;height:30px;padding-left: 10px;border: 1px solid #bebebe;box-shadow: inset 0px 1px 4px rgba(0,0,0,0.15);border-radius: 2px;line-height: 28px;outline: none;}
+.sale_option select{width:226px;}
+</style>
+
+</head>
+
+<body>
+
+<!--content begin-->
+<div id="content">
+	<!--left begin-->
+    <div class="left">
+    	<ul class="left_list">
+        	<li class="curr"><a href="#">角色</a></li>
+        	<li style="border-bottom-style: none;"><a href="user.html">用户</a></li>
+	    </ul>
+    </div>
+    <!--left end-->
+    <!--right begin-->
+     
+	
+    <div class="right">
+    	<div class="position">
+        	<span>您所在的位置：</span>
+            <a href="javascript:void(0);">商家中心</a><em>&gt;</em>
+            <a href="javascript:void(0);">首页</a><em>&gt;</em>
+            <a href="javascript:void(0);">权限管理</a>      
+        </div>
+        <div class="sale_wrap">
+        	<form id="sub_form" action="http://localhost:8080/supplier/saleBill/findSaleBillList.html" method="post">
+        	 <input type="hidden" id="pages" name="pages" value="1">
+     	     <input type="hidden" id="sizes" name="sizes" value="5">
+     	     
+            <div class="sale_info">
+            	<div class="sale_one" style="width:660px;">
+                	<div class="sale_option">
+                    	<div class="title">角色：</div>
+                        <select >
+                            <option>商家</option>
+                            <option>商家</option>
+                            <option>商家</option>
+                            <option>商家</option>
+                            <option>商家</option>                
+                        </select>
+                    </div>
+                	<div class="sale_option">
+                    	<div class="title">用户：</div>
+                        <input class="pubilc_input f218" type="text" id="supplierName" name="supplierName" value="" maxlength="20">
+                    </div>
+
+                </div>
+               
+                <div class="btnwrap" style="float:left;">
+                	<div class="checkbtn"><a href="javascript:void(0);" onclick="formSubmit(&#39;1&#39;);">查询</a></div>
+                    <div class="resetbtn"><a href="role_add.html" onclick="formReset();">添加</a></div>
+                </div>
+            </div>
+           </form>
+            <div class="sale_list_wrap">
+                <div class="sale_content">
+	                    <table class="table-c" border="0" cellpadding="0" cellspacing="0">
+	                     <thead>
+	                        <tr><th style="min-width:130px;">角色</th>
+	                        <th style="width:200px;">用户</th>
+	                        <th style="width:300px;">描述</th>
+	                        <th style="min-width:320px;">操作</th>
+	                    </tr></thead>
+                    	<tbody>
+                    	<tr class="td_bor">
+	                        <td></td>
+	                        <td></td>
+	                        <td></td>
+	                        <td><div class="operate">
+	                        <a href="javascript:void(0);" class="alter_btn">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="del_btn">删除</a></div></td>
+                    		</tr>
+                    	</tbody>
+                    </table>
+                </div>
+                <div class="page"><a class="disabled" href="javascript:void(0);">前一页</a><a class="page_curr" href="javascript:void(0);" onclick="formSubmit(&#39;1&#39;);">1</a><a href="javascript:void(0);" onclick="formSubmit(&#39;2&#39;);">2</a><a href="javascript:void(0);" onclick="formSubmit(&#39;2&#39;);">后一页</a><span>共2页</span><input maxlength="8" onkeyup="this.value=this.value.replace(/\D/g,&#39;&#39;)" onafterpaste="this.value=this.value.replace(/\D/g,&#39;&#39;)" type="text" id="pagenum" name="pagenum" class="input_text"><span>页</span><input type="button" value="确定" class="input_btn" onclick="gotoPage();"></div></div>       
+        </div>
+    </div>
+    <!--right end-->
+</div>
+<!--content end-->
+
+
+<script src="js/jquery1.8.0.js"></script>
+<div class="popup_bg"></div>
+<!--修改-->
+<div class="public_popup" id="alter_pop" style="height:auto;">
+    <div class="pop-title">
+    	<span>修改角色信息</span>
+        <div class="add-close-btn" id="provide-close"><i class="add-close-icon"></i></div>
+    </div>
+    <div class="pop-cont">
+    	<ul class="change-list">
+        	<li>
+            	<span>角色</span>
+                <div class="c-r-box">
+                	<input class="p-red" type="text" name="" value="">
+                	<span id="add_empNumber_error">烦烦烦</span>
+                </div>
+            </li>
+            <li>
+            	<span>用户</span>
+                <div class="c-r-box">
+                	<input type="text" name="" value="">
+                	<span id="add_empNumber_error">烦烦烦</span>
+                </div>
+            </li>  
+            <li>
+            	<span>描述</span>
+                <div class="c-r-box">
+                	<input type="text" name="" value="">
+                	<span id="add_empNumber_error">烦烦烦</span>
+                </div>
+            </li>            
+        </ul>
+        <div class="add-btn-box"><a class="cansel-btn" id="provide-cansel-btn" href="#">取消</a><a class="true-btn" href="#">确认</a></div>
+    </div>
+</div>
+<!--删除-->
+<div class="public_popup" id="delete_pop" style="height:auto;">
+    <div class="pop-title">
+    	<span>删除角色信息</span>
+        <div class="add-close-btn" id="provide-close"><i class="add-close-icon"></i></div>
+    </div>
+    <div class="pop-cont">
+    	<p>确定删除此角色信息？</p>
+        <div class="add-btn-box"><a class="cansel-btn" id="provide-cansel-btn" href="#">取消</a><a class="true-btn" href="#">确认</a></div>
+    </div>
+</div>
+<footer>
+<!--footer begin-->
+<div id="footer">
+	<div class="footer_box">
+    	<ul class="footer_list">   
+    			 <li><a href="http://www.wo-de.com/about.html" target="_blank">关于我的</a></li>
+            <li><a href="http://www.wd-w.com/help-center.html?from=lxwm" target="_blank">联系我的</a></li>
+            <li><a href="http://www.wo-de.com/index.html" target="_blank">友情链接</a></li>
+            <li><a href="http://www.wo-de.com/about.html" target="_blank">人才招聘</a></li>
+            <li><a href="http://www.wd-w.com/help-center.html" target="_blank">帮助中心</a></li>
+            <li><a href="http://supplier.wd-w.com/" target="_blank">商家平台</a></li>
+            <li><a href="http://www.wd-w.com/app.html" target="_blank">掌上生活</a></li>
+            <li><a href="http://www.wd-w.com/legal-notice.html" target="_blank">法律申明</a></li>
+            <li><a href="http://www.wd-w.com/feedback.html" target="_blank">用户反馈</a></li>
+            <li><a href="http://www.wd-w.com/union_rules.html" target="_blank">平台交易规则</a></li>
+        </ul>
+        <div class="foter">
+        	<span>北京市公安局朝阳分局备案编号110105014669</span>              
+            <span>京ICP证14047715号</span>              
+            <span>我的旗下网站：我的团  我的美  我的码 我的快递</span>
+        </div>
+        <ul class="footer_info">
+        	<li><a href="javascript:void(0);">经营性网站<br>备案信息</a></li>
+            <li><a href="javascript:void(0);">可信网站<br>信用评价</a></li>
+            <li><a href="javascript:void(0);">朝阳区网络<br>警察提醒您</a></li>
+            <li><a href="javascript:void(0);" style="line-height:38px;">诚信网站</a></li>
+        </ul>
+    </div>
+</div>
+<!--footer end-->
+</footer>
+<script>
+$(function(){
+	//修改弹层
+	$('.alter_btn').click(function(){
+		$('.popup_bg').show();
+		$('#alter_pop').show();
+		$('#provide-close').click(function(){
+			$('.popup_bg').hide();
+			$('#alter_pop').hide();	
+		});
+		$('#provide-cansel-btn').click(function(){
+			$('.popup_bg').hide();
+			$('#alter_pop').hide();	
+		});	
+	})
+	
+	//确认删除
+	$('.del_btn').click(function(){
+		$('.popup_bg').show();
+		$('#delete_pop').show();
+		$('.add-close-icon').click(function(){
+			$('.popup_bg').hide();
+			$('#delete_pop').hide();	
+		});
+		$('.cansel-btn').click(function(){
+			$('.popup_bg').hide();
+			$('#delete_pop').hide();	
+		})	
+	})	
+})
+
+</script>
+</body>
+</html>

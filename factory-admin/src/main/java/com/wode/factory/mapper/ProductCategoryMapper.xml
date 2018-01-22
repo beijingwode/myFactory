@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wode.factory.mapper.ProductCategoryDao">
+	<resultMap id="ProductCategory" type="com.wode.factory.model.ProductCategory">
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="orders" property="orders" jdbcType="TINYINT" />
+	    <result column="name" property="name" jdbcType="VARCHAR" />
+	    <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+	    <result column="updateDate" property="updateDate" jdbcType="TIMESTAMP" />
+	    <result column="deep" property="deep" jdbcType="INTEGER" />
+	    <result column="url" property="url" jdbcType="VARCHAR" />
+	    <result column="rootId" property="rootId" jdbcType="BIGINT" />
+	    <result column="image" property="image" jdbcType="VARCHAR" />
+	    <result column="brotherOrderAll" property="brotherOrderAll" jdbcType="VARCHAR" />
+	    <result column="childCount" property="childCount" jdbcType="INTEGER" />
+	    <result column="pid" property="pid" jdbcType="BIGINT" />
+	    <result column="special" property="special" jdbcType="TINYINT" />
+	    <result column="commissionScale" property="commissionScale" jdbcType="FLOAT" />
+  </resultMap>
+  
+	<resultMap id="ProductCategoryVo" type="com.wode.factory.vo.ProductCategoryVo">
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="orders" property="orders" jdbcType="TINYINT" />
+	    <result column="name" property="name" jdbcType="VARCHAR" />
+	    <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+	    <result column="updateDate" property="updateDate" jdbcType="TIMESTAMP" />
+	    <result column="deep" property="deep" jdbcType="INTEGER" />
+	    <result column="url" property="url" jdbcType="VARCHAR" />
+	    <result column="rootId" property="rootId" jdbcType="BIGINT" />
+	    <result column="image" property="image" jdbcType="VARCHAR" />
+	    <result column="brotherOrderAll" property="brotherOrderAll" jdbcType="VARCHAR" />
+	    <result column="childCount" property="childCount" jdbcType="INTEGER" />
+	    <result column="pid" property="pid" jdbcType="BIGINT" />
+	    <result column="special" property="special" jdbcType="TINYINT" />
+	    <result column="parentName" property="parentName" jdbcType="VARCHAR" />
+	    <result column="icon" property="icon" jdbcType="VARCHAR" />
+	    <result column="parentId" property="parentId" jdbcType="BIGINT" />
+	    <result column="commissionScale" property="commissionScale" jdbcType="FLOAT" />
+    
+  </resultMap>
+  
+  
+	<resultMap id="CategoryBrandVo" type="com.wode.factory.vo.CategoryBrandVo">
+        <result property="id" column="id"/>
+        <result property="name1" column="name1"/>
+        <result property="name2" column="name2"/>
+        <result property="name3" column="name3"/>
+        <result property="id1" column="id1"/>
+        <result property="brandNo" column="brandNo"/>
+        <result property="name" column="name"/>
+        <result property="nameEN" column="nameEN"/>
+        <result property="natural" column="natural"/>
+        <result property="brandType" column="brandType"/>
+        <result property="importFlg" column="importFlg"/>
+        <result property="createDate" column="createDate"/>
+        <result property="pbLevel" column="pbLevel"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="supplierName" column="supplierName"/>
+        <result property="property" column="property"/>
+        <result property="managerName" column="managerName"/>
+        <result property="shopName" column="shopName"/>
+        <result property="proCnt" column="proCnt"/>
+        <result property="createDatef" column="createDatef"/>
+        <result property="sale" column="sale"/>
+	</resultMap>
+	
+  <!-- 商品分类树信息 -->
+  <select id="selectProductCategoryTree" resultMap="ProductCategoryVo">
+  		select pro2.id,pro2.pid ,pro2.commissionScale,pro2.name,pro2.image as icon,pro2.rootId,pro2.brotherOrderAll from t_product_category pro2  left join t_product_category pro1 on pro1.id = pro2.pid
+	     order by pro2.orders asc
+  </select>
+  <!-- 商品分类信息，分页 -->
+  <select id="selectProductCategory" resultMap="ProductCategoryVo" parameterType="map">
+  		select pro2.createDate,pro2.commissionScale,pro2.updateDate,pro2.id,pro2.pid,pro2.name,pro2.image as icon,pro1.name as parentName,pro2.orders,pro2.url,pro2.rootId,pro2.brotherOrderAll from t_product_category pro2  left join t_product_category pro1 on pro1.id = pro2.pid
+  		<if test="name!=null" >
+	       where pro2.name like '%${name}%'
+	    </if>
+	     order by pro2.orders asc
+  </select>
+  
+  <select id="selectByPrimarkey" resultMap="ProductCategoryVo">
+  		select pro2.id,pro2.pid ,pro2.commissionScale,pro2.name,pro2.image as icon,pro1.name as parentName,pro2.orders,pro2.url,pro2.deep,pro2.rootId,pro2.brotherOrderAll,pro2.special,pro2.childCount from t_product_category pro2  left join t_product_category pro1 on pro1.id = pro2.pid where pro2.id= #{id}
+  </select>
+  
+  <!-- 根据节点查询(节点及子节点) -->
+  <select id="selectByNode" resultMap="ProductCategoryVo" parameterType="map">
+	select pro2.createDate,pro2.commissionScale,pro2.updateDate,pro2.id,pro2.pid,pro2.name,pro2.image as icon,pro1.name as parentName,pro2.orders,pro2.url,pro2.rootId,pro2.brotherOrderAll from t_product_category pro2  left join t_product_category pro1 on pro1.id = pro2.pid  where pro2.rootId=#{rootId} and pro2.brotherOrderAll like '${brotherOrderAll}%'
+  </select>
+  <!-- 根据deep升序查询 -->
+  <select id="selectByDeep" resultMap="ProductCategory">
+  	select * from t_product_category where deep = #{deep} order by orders asc
+  </select>
+  <!-- 查询所有的商品分类数据 -->
+  <select id="selectAll" resultMap="ProductCategory">
+  	select * from t_product_category
+  </select>
+  <!-- 根据pid查询子节点信息 -->
+  <select id="selectByPid" resultMap="ProductCategory">
+  	select * from t_product_category where pid=#{pId} order by orders asc
+  </select>
+  
+  <!-- 批量删除 -->
+  <delete id = "deleteBatch" parameterType="java.util.List">
+       <![CDATA[
+        delete from t_product_category where id in
+       ]]>
+       <foreach collection="list" item = "vo" open="(" separator="," close=")">#{vo.id}
+       </foreach>
+  </delete>
+  
+    <select id="findProductCount" resultType="long">
+        SELECT count(*) FROM t_product  where categoryId=#{id}
+    </select>
+    
+    <select id="getParentCategoryByid" resultMap="ProductCategory">
+        SELECT * FROM t_product_category  where id= (select pid from t_product_category where id = #{categoryId})
+    </select>
+    
+    <select id="findLastLevel" resultMap="ProductCategory">
+    	SELECT * from t_product_category where 
+    	<if test="@Ognl@isNotEmpty(rootId)" >
+	        rootId = #{rootId} and deep in (select max(deep) from t_product_category where rootId = #{rootId})
+	    </if>
+	    <if test="@Ognl@isEmpty(rootId)">
+	    	deep in (select max(deep) from t_product_category)
+	    </if>
+    </select>
+    
+   <!-- 删除 -->
+  <delete id = "delete" >
+       <![CDATA[
+        delete from t_product_category where id =#{id}
+       ]]>
+      
+  </delete>
+  
+  
+  <update id="updateProductCategory" parameterType="com.wode.factory.model.ProductCategory" >
+    update t_product_category
+    <set >
+      <if test="@Ognl@isNotEmpty(orders)" >
+	        orders = #{orders},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(name)" >
+	        name = #{name},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(createDate)" >
+	        createDate = #{createDate},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(updateDate)" >
+	        updateDate = #{updateDate},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(deep)" >
+	        deep = #{deep},
+	      </if>
+	     
+	      <if test="@Ognl@isNotEmpty(url)" >
+	        url = #{url},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(rootId)" >
+	        rootId = #{rootId},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(image)" >
+	        image = #{image},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(brotherOrderAll)" >
+	        brotherOrderAll = #{brotherOrderAll},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(childCount)" >
+	        childCount = #{childCount},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(pid)" >
+	        pid = #{pid},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(special)" >
+	        special = #{special},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(commissionScale)" >
+	        commissionScale=#{commissionScale},
+	      </if>
+    </set>
+    where id = #{id}
+  </update>
+  
+  
+  <insert id="insertProductCategory" parameterType="com.wode.factory.model.ProductCategory">
+		insert into t_product_category
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="@Ognl@isNotEmpty(orders)" >
+	        orders,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(name)" > 
+	        name,
+	      </if>
+	       <if test="@Ognl@isNotEmpty(createDate)" >
+	        createDate,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(deep)" >
+	        deep,
+	      </if>
+	     
+	      <if test="@Ognl@isNotEmpty(url)" >
+	        url,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(rootId)" >
+	        rootId,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(image)" >
+	        image,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(brotherOrderAll)" >
+	        brotherOrderAll,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(childCount)" >
+	        childCount,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(pid)" >
+	        pid,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(special)" >
+	        special,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(commissionScale)" >
+	        commissionScale,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	      <if test="@Ognl@isNotEmpty(orders)" >
+	        #{orders},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(name)" >
+	        #{name},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(createDate)" >
+	        #{createDate},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(deep)" >
+	        #{deep},
+	      </if>
+	     
+	      <if test="@Ognl@isNotEmpty(url)" >
+	        #{url},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(rootId)" >
+	        #{rootId},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(image)" >
+	        #{image},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(brotherOrderAll)" >
+	        #{brotherOrderAll},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(childCount)" >
+	        #{childCount},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(pid)" >
+	        #{pid},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(special)" >
+	        #{special},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(commissionScale)" >
+	        #{commissionScale},
+	      </if>
+	    </trim>
+	</insert>
+		
+    <select id="findCountList" resultMap="CategoryBrandVo">
+    	select category.*,cws.brandNo,cws.nameEN,cws.`name`,cws.naturall `natural`,cws.import_flg importFlg,cws.createDate,cws.proCnt,cws.pbLevel,cws.supplierName,cws.property,cws.managerName,cws.sale,cws.createDatef from 
+		(select pc.id,pc.pid,pc.rootId,pcff.`name` name1,pcf.`name` name2,pc.`name` name3 
+		FROM t_product_category pc 
+		INNER JOIN t_product_category pcf ON (pcf.id=pc.pid and pcf.deep=2)
+		INNER JOIN t_product_category pcff ON (pcff.id=pc.rootId and pcff.deep=1)
+		where pc.deep = 3) category
+		LEFT JOIN t_category_week_statistical cws
+		 ON cws.category_id = category.id and cws.use_flg=1
+		<where>	
+			<if test="@Ognl@isNotEmpty(rootId)">
+				AND category.rootId = #{rootId}
+			</if>
+			<if test="@Ognl@isNotEmpty(pid)">
+				AND category.pid = #{pid}
+			</if>
+			<if test="@Ognl@isNotEmpty(id)">
+				AND category.id = #{id}
+			</if>
+            <if test="@Ognl@isNotEmpty(name)">
+                AND cws.name = #{name}
+             </if>
+            <if test="@Ognl@isNotEmpty(natural)">
+                AND cws.naturall = #{naturall}
+             </if>
+            <if test="@Ognl@isNotEmpty(brandType)">
+                AND cws.brandType = #{brandType}
+             </if>
+			<if test="@Ognl@isNotEmpty(importFlg)">
+				AND cws.import_flg = #{importFlg}
+			</if>
+			<if test="@Ognl@isNotEmpty(startDate)">
+				AND cws.createDate >= #{startDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endDate)">
+				AND cws.createDate &lt;= #{endDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(pbLevel)">
+				AND cws.pbLevel= #{pbLevel}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(pbLevel) and pbLevel!=-1">
+				AND cws.pbLevel= #{pbLevel}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(pbLevel) and pbLevel==-1">
+				AND cws.pbLevel IS NULL
+		   </if>
+		   <if test="@Ognl@isNotEmpty(supplierId)">
+				AND cws.supplierName= #{supplierId}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(managerId)">
+				AND cws.managerName= #{managerId}
+		   </if>
+		</where>
+		order by category.id,cws.createDate
+    </select>
+		
+    <select id="findPCountList" resultMap="CategoryBrandVo">
+    	SELECT category.*, p.cnt proCnt FROM
+    	(select pc.id,pc.pid,pc.rootId,pcff.`name` name1,pcf.`name` name2,pc.`name` name3 
+		 FROM t_product_category pc 
+		 INNER JOIN t_product_category pcf ON (pcf.id=pc.pid and pcf.deep=2)
+		 INNER JOIN t_product_category pcff ON (pcff.id=pc.rootId and pcff.deep=1)
+		 WHERE pc.deep = 3) category
+		LEFT JOIN (SELECT categoryId,count(1) cnt from t_product where is_marketable =1 GROUP BY categoryId) p ON(category.id=p.categoryId)
+		<where>	
+			<if test="@Ognl@isNotEmpty(rootId)">
+				AND category.rootId = #{rootId}
+			</if>
+			<if test="@Ognl@isNotEmpty(pid)">
+				AND category.pid = #{pid}
+			</if>
+			<if test="@Ognl@isNotEmpty(id)">
+				AND category.id = #{id}
+			</if>
+		   <if test="@Ognl@isNotEmpty(pCnt) and pCnt==0">
+				AND p.cnt IS NULL
+		   </if>
+		   <if test="@Ognl@isNotEmpty(pCnt) and pCnt==1">
+				AND p.cnt > 0
+		   </if>
+		</where>
+		order by category.rootId,category.pid, category.id
+    </select>
+  
+</mapper>

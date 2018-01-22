@@ -1,0 +1,155 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="tab-content">
+		<div id="payment_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/payment/listPayment" method="post" id="search-form" target="list-page" class="center clearfix">
+					<input type="hidden" name="viewStatus" value="${status!}">
+					<input type="hidden" name="financeSearch" value="1">
+					<div class="row col-sm-12">
+						<div class="col-sm-4">
+							<label>支付操作：</label>
+								<input type="checkbox" value="1" name="payType" id="status1"><label for="status1">支付</label>
+								<input type="checkbox" value="11" name="payType" id="status11"><label for="status11">现金券抵扣</label>
+								<input type="checkbox" value="-1" name="payType" id="status-1"><label for="status-1">订单取消</label>
+								<input type="checkbox" value="-2" name="payType" id="status-2"><label for="status-2">售后退款</label>
+								<input type="checkbox" value="-3" name="payType" id="status-3"><label for="status-3">团购退款</label><br />
+								<input type="checkbox" value="2" name="payType" id="status2" ><label for="status2">现金券充值(买家)</label>
+								<input type="checkbox" value="3" name="payType" id="status3"><label for="status3">现金账户充值(商家)</label>
+						</div>
+						<div class="col-sm-4">
+							<label>订单id：</label>
+							<input type="text" id="subOrderId" name="subOrderId">
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<label>支付流水：</label>
+							<input type="text" id="tradeNo" name="tradeNo">
+						</div>
+						<div class="col-sm-4">
+							<label>订单类型：</label>
+							<input type="checkbox" value="0" name="orderType" id="orderType0"><label for="orderType0">订单</label>
+							<input type="checkbox" value="1" name="orderType" id="orderType1"><label for="orderType1">团购单</label>
+							<input type="checkbox" value="5" name="orderType" id="orderType2"><label for="orderType2">换领单</label>						
+						</div>
+						<div style="width:100px;float: right;margin-right: 10px;margin-top: -30px" onclick="exportExcel()">
+							<span class="btn fa fa-file-excel-o" id="excel-btn">&nbsp;&nbsp;导出数据</span>
+						</div>
+					</div>
+					<div class="row col-sm-12">
+						<div class="col-sm-4">
+							<label>操作日期：</label>
+							<input type="text" id="startPayTime" name="startPayTime">
+							<label>-</label>
+							<input type="text" id="endPayTime" name="endPayTime">
+							&nbsp;&nbsp;
+						</div>
+						<div class="col-sm-4">
+							<label>处理状态：</label>
+							<select name="status">
+								<option value="">全部</option>
+								<option value="2">成功</option>
+								<option value="0">处理中</option>
+							</select>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<label>支付方式：</label>
+							<select name="way">
+								<option value="">全部</option>
+								<option value="zhifubao">支付宝</option>
+								<option value="wxgz">微信(公众号)</option>
+								<option value="wxapp">微信(app)</option>
+								<option value="pingtaiyue">现金券</option>
+								<option value="unionpay">银联</option>
+							</select>
+							&nbsp;&nbsp;
+						</div>
+						<div class="col-sm-4">
+							<label>到款状态：</label>
+							<select name="payConfirm">
+								<option value="">全部</option>
+								<option value="0">未到款</option>
+								<option value="1">已到款</option>
+							</select>
+						</div>
+					</div>
+					<div class="padding-trb-10 col-sm-12">
+						<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">全部</span>
+						<span class="btn btn-info btn-sm col-sm-6" id="search-btn">查询</span>
+					</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<span class="btn btn-primary btn-sm bigger-110 width-10  pull-left" id="selectAll">
+				<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>全选
+			</span>
+			<span class="btn btn-primary btn-sm bigger-110 width-10  pull-left" id="selectNone">
+				<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>全不选
+			</span>
+			
+			<a href="javascript:;" data-title="统一操作" id="mergeOrder">统一操作</a>
+			<div id="list-page"></div>
+		</div>
+	</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script>
+	$(function(){
+		//全选
+		$("#selectAll").click(function(){
+			$("input[name='chk_list']:enabled").prop("checked",true);
+		});
+
+		//全不选  checked="checked"
+		$("#selectNone").click(function(){
+			$("input[name='chk_list']:enabled").prop("checked",false);
+		});
+		$("#mergeOrder").click(function(){
+			var orderType="";
+			var ids = "";
+			var hasErr = false;
+			$("input[name='chk_list']:checked").each(function(index){
+				
+				//索引0  是id,索引1是商家id
+				var data = $(this).val().split(",");
+				//将id值方入集合中
+				ids +=data[0]+",";
+				orderType += data[1]+",";
+			});
+			
+
+			if(ids=="") {
+				//商家id不相同，报错提示
+				layer.msg('请选择要处理的订单', 3, 1);	
+				return false;	
+			}
+			var data = {"mode":"detail","data":{"ids":ids},
+				"url":"payment/tobatchOperation","title":"操作","width":"20%","height":"20%"};
+			$.cuslayer(data);
+			
+		});
+	})
+	laydate({
+	    elem: '#startPayTime',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#endPayTime',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	$("#role-select").chosen({width: "80%",search_contains: true});
+	$("#role-choose").chosen({width: "100%",search_contains: true}); 
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	
+	function exportExcel() {
+		var action,target;
+		var thisform=document.getElementById('search-form');
+		action=thisform.action;
+		target=thisform.target;
+		
+		thisform.action="${ctxPath}/payment/exportExcelPayFinance";
+		thisform.target="_blank";
+		thisform.submit();
+		
+		thisform.action=action;
+		thisform.target=target;
+	}
+</script>

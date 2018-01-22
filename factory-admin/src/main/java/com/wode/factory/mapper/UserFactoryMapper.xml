@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.UserFactoryDao">
+
+	<resultMap id="User" type="com.wode.factory.model.UserFactory">
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="type" column="type"/>
+        <result property="address" column="address"/>
+        <result property="loginTime" column="login_time"/>
+        <result property="creatTime" column="creat_time"/>
+        <result property="status" column="status"/>
+        <result property="avatar" column="avatar"/>
+        <result property="birthday" column="birthday"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="realName" column="real_name"/>
+        <result property="usable" column="usable"/>
+        <result property="userSignature" column="user_signature"/>
+        <result property="userLevel" column="user_level"/>
+        <result property="enabled" column="enabled"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="district" column="district"/>
+        <result property="gender" column="gender"/>
+        <result property="employeeType" column="employee_type"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="role" column="role"/>        
+	</resultMap>
+	
+	<resultMap id="UserFactoryVo" type="com.wode.factory.vo.UserFactoryVo">
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="type" column="type"/>
+        <result property="address" column="address"/>
+        <result property="loginTime" column="login_time"/>
+        <result property="creatTime" column="creat_time"/>
+        <result property="status" column="status"/>
+        <result property="avatar" column="avatar"/>
+        <result property="birthday" column="birthday"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="realName" column="real_name"/>
+        <result property="usable" column="usable"/>
+        <result property="userSignature" column="user_signature"/>
+        <result property="userLevel" column="user_level"/>
+        <result property="enabled" column="enabled"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="district" column="district"/>
+        <result property="gender" column="gender"/>
+        <result property="employeeType" column="employee_type"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="role" column="role"/>
+        <result property="supplierName" column="supplierName"/>
+        <result property="roleName" column="roleName"/>
+        <result property="roleDescription" column="roleDescription"/>
+	</resultMap>
+	
+    <resultMap id="UserIm" type="com.wode.factory.model.UserIm">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="openimId" column="openim_id"/>
+        <result property="openimPw" column="openim_pw"/>
+        <result property="createTime" column="create_time"/>
+        <result property="appType" column="app_type"/>
+        <result property="appKey" column="app_key"/>
+    </resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,user_name,email,phone,type,address,login_time,creat_time,status,coin,avatar,birthday,nick_name,real_name,usable,user_signature,user_level,enabled,province,city,district,gender,employee_type,supplierId,role
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user (
+        	id ,
+        	user_name ,
+        	email ,
+        	phone ,
+        	type ,
+        	address ,
+        	login_time ,
+        	creat_time ,
+        	status ,        	
+        	avatar ,
+        	birthday ,
+        	nick_name ,
+        	real_name ,
+        	usable ,
+        	user_signature ,
+        	user_level ,
+        	enabled ,
+        	province ,
+        	city ,
+        	district ,
+        	gender ,
+        	employee_type
+        ) VALUES (
+        	#{id} ,
+        	#{userName} ,
+        	#{email} ,
+        	#{phone} ,
+        	#{type} ,
+        	#{address} ,
+        	#{loginTime} ,
+        	#{creatTime} ,
+        	#{status} ,        	
+        	#{avatar} ,
+        	#{birthday} ,
+        	#{nickName} ,
+        	#{realName} ,
+        	#{usable} ,
+        	#{userSignature} ,
+        	#{userLevel} ,
+        	#{enabled} ,
+        	#{province} ,
+        	#{city} ,
+        	#{district} ,
+        	#{gender} ,
+        	#{employeeType}
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" parameterType="com.wode.factory.model.UserFactory">
+        UPDATE t_user 
+        <trim prefix="SET" suffixOverrides=",">
+        	<if test="@Ognl@isNotEmpty(userName)">
+	       		user_name = #{userName} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(email)">
+	        	email = #{email} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(phone)">
+	        	phone = #{phone} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(type)">
+	        	type = #{type} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(address)">
+	        	address = #{address} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(loginTime)">
+	        	login_time = #{loginTime} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(status)">
+	        	status = #{status} ,
+	        </if>	       
+	        <if test="@Ognl@isNotEmpty(avatar)">
+	        	avatar = #{avatar} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(birthday)">
+	        	birthday = #{birthday} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(nickName)">
+	        	nick_name = #{nickName} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(realName)">
+	        	real_name = #{realName} ,
+	        </if>	        
+	        <if test="@Ognl@isNotEmpty(userSignature)">
+	        	user_signature = #{userSignature} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(userLevel)">
+	        	user_level = #{userLevel} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(enabled)">
+	       		enabled = #{enabled} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(province)">
+	        	province = #{province} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(city)">
+	       		city = #{city} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(district)">
+	        	district = #{district} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(gender)">
+	        	gender = #{gender} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(role)">
+	        	role = #{role} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(employeeType)">
+	        	employee_type = #{employeeType} 
+	        </if>
+	    </trim>
+        WHERE id = #{id} 
+	</update>
+
+    
+    <select id="getById" resultMap="User">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_user 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+    <select id="getSupplierUser" resultMap="User">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_user u
+	        WHERE 
+		        u.supplierId = #{supplierId} and u.type=2
+		    limit 1
+	    ]]>
+	</select>
+	
+    <select id="getYYTUser" resultMap="User">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_user u
+	        WHERE user_name in ('yyt1@wo-de.com','yyt2@wo-de.com','yyt3@wo-de.com','yyt4@wo-de.com','yyt5@wo-de.com','yyt6@wo-de.com','yyt7@wo-de.com','yyt8@wo-de.com','yyt9@wo-de.com','yyt10@wo-de.com','yyt11@wo-de.com','yyt12@wo-de.com','yyt13@wo-de.com','yyt13@wo-de.com','yyt15@wo-de.com','yyt1@wo-de.com','yyt16@wo-de.com','yyt17@wo-de.com','yyt18@wo-de.com','yyt19@wo-de.com','yyt20@wo-de.com','13311240781','15511766402','15335593383','15311438267','13391987668')
+	    ]]>
+	</select>
+	
+    <delete id="deleteUserWeixinByUserId">
+    	delete from t_user_weixin where user_id = #{userId}
+    </delete>
+    
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user WHERE id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getSupplierUserVo" resultMap="UserFactoryVo">
+		SELECT u.* ,s.com_name supplierName,CASE WHEN u.role=0 THEN '管理员' ELSE r.`name` END roleName,CASE WHEN u.role=0 THEN '商家注册账号' ELSE r.description END roleDescription
+	    <![CDATA[
+			FROM t_user u
+			LEFT JOIN t_supplier s ON (s.id = u.supplierId)
+			LEFT JOIN t_roles r ON (r.id=u.role)
+			WHERE u.type=2
+	    ]]>
+	    <if test="@Ognl@isNotEmpty(id)">
+			AND u.id = #{id}
+		</if>
+	    <if test="@Ognl@isNotEmpty(supplierId)">
+			AND u.supplierId = #{supplierId}
+		</if>
+        <if test="@Ognl@isNotEmpty(phone)">
+			AND u.phone = #{phone}
+		</if>
+        <if test="@Ognl@isNotEmpty(email)">
+			AND (u.email like  CONCAT(CONCAT('%',#{email}),'%') or u.user_name like  CONCAT(CONCAT('%',#{email}),'%'))
+		</if>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_user 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="User">
+    	SELECT <include refid="columns" />
+	    FROM t_user 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(userName)">
+				AND user_name = #{userName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(email)">
+				AND email = #{email}
+			</if>
+	       <if test="@Ognl@isNotEmpty(phone)">
+				AND phone = #{phone}
+			</if>
+	       <if test="@Ognl@isNotEmpty(type)">
+				AND type = #{type}
+			</if>
+	       <if test="@Ognl@isNotEmpty(address)">
+				AND address = #{address}
+			</if>
+	       <if test="@Ognl@isNotEmpty(loginTimeBegin)">
+				AND login_time >= #{loginTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(loginTimeEnd)">
+				AND login_time &lt;= #{loginTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(creatTimeBegin)">
+				AND creat_time >= #{creatTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(creatTimeEnd)">
+				AND creat_time &lt;= #{creatTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(coin)">
+				AND coin = #{coin}
+			</if>
+	       <if test="@Ognl@isNotEmpty(avatar)">
+				AND avatar = #{avatar}
+			</if>
+	       <if test="@Ognl@isNotEmpty(birthdayBegin)">
+				AND birthday >= #{birthdayBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(birthdayEnd)">
+				AND birthday &lt;= #{birthdayEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(nickName)">
+				AND nick_name = #{nickName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(realName)">
+				AND real_name = #{realName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(usable)">
+				AND usable = #{usable}
+			</if>
+	       <if test="@Ognl@isNotEmpty(userSignature)">
+				AND user_signature = #{userSignature}
+			</if>
+	       <if test="@Ognl@isNotEmpty(userLevel)">
+				AND user_level = #{userLevel}
+			</if>
+	       <if test="@Ognl@isNotEmpty(enabled)">
+				AND enabled = #{enabled}
+			</if>
+	       <if test="@Ognl@isNotEmpty(province)">
+				AND province = #{province}
+			</if>
+	       <if test="@Ognl@isNotEmpty(city)">
+				AND city = #{city}
+			</if>
+	       <if test="@Ognl@isNotEmpty(district)">
+				AND district = #{district}
+			</if>
+	       <if test="@Ognl@isNotEmpty(gender)">
+				AND gender = #{gender}
+			</if>
+			<if test="@Ognl@isNotEmpty(employeeType)">
+	        	employee_type = #{employeeType} 
+	        </if>
+		</where>
+	</sql>
+	<!--根据phone查询用户-->
+	<select id="findByPhone" parameterType="String" resultMap="User">
+		select * from t_user where phone=#{userName}
+	</select>
+	<!--根据email查询用户 -->
+	<select id="findByEmail" parameterType="String" resultMap="User">
+		select * from t_user where email=#{userName}
+	</select>
+	<select id="findByOrderId" resultMap="User">
+		SELECT u.employee_type,u.user_name,u.id from t_user u LEFT JOIN t_orders o ON u.id = o.userId where o.orderId = #{orderId} 
+	</select>
+	
+	
+  	<select id="selectByModel" resultMap="User">
+	 select 
+	    <include refid="columns" />
+	    from t_user
+	    <where>						
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(usable)">
+				AND usable = #{usable}
+			</if>
+	       <if test="@Ognl@isNotEmpty(enabled)">
+				AND enabled = #{enabled}
+			</if>
+	       <if test="@Ognl@isNotEmpty(type)">
+				AND type = #{type}
+			</if>
+	       <if test="@Ognl@isNotEmpty(employeeType) and employeeType!=-1">
+				AND employee_type = #{employeeType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(supplierId)">
+				AND supplierId = #{supplierId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(phone)">
+				AND phone = #{phone}
+			</if>
+	       <if test="@Ognl@isNotEmpty(email)">
+				AND email = #{email}
+			</if>
+	       <if test="@Ognl@isNotEmpty(birthday)">
+	       		 <![CDATA[
+				AND DATE_FORMAT(birthday,'%m-%d') = DATE_FORMAT(#{birthday},'%m-%d')
+				]]>
+		   </if>
+	    </where>
+	</select>
+		
+	<select id="selectNoPhone" resultMap="User">
+	 select 
+	    <include refid="columns" />
+	    from t_user
+	    <where>						
+	       phone is NULL AND email is null AND type=1
+	       <if test="@Ognl@isNotEmpty(type)">
+	       	<![CDATA[
+				AND RIGHT(DATE_FORMAT(creat_time,'%d'),1) = #{type}
+			]]>
+		   </if>
+	    </where>
+	</select>
+	<select id="selectNoNickName" resultMap="User">
+	 select 
+	    <include refid="columns" />
+	    from t_user
+	    <where>						
+	       (nick_name IS NULL OR nick_name=phone) 
+	       AND phone IS NOT NULL AND type=1
+	       	<![CDATA[
+				AND RIGHT(DATE_FORMAT(creat_time,'%d'),1) = #{type}
+			]]>
+	    </where>
+	</select>
+	
+	<select id="selectByUserId" resultMap="UserIm">
+        SELECT * FROM t_user_im 
+        <where>
+	       user_id=#{userId}
+	    </where>
+    </select>
+	
+</mapper>
+

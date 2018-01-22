@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="CmsContentMapper">
+
+	<resultMap id="CmsContent" type="com.wode.factory.model.CmsContent">
+        <result property="id" column="id"/>
+        <result property="channelid" column="channelid"/>
+        <result property="creatorid" column="creatorid"/>
+        <result property="typeid" column="typeid"/>
+        <result property="creatdate" column="creatdate"/>
+        <result property="title" column="title"/>
+        <result property="source" column="source"/>
+        <result property="author" column="author"/>
+        <result property="txt" column="txt"/>
+        <result property="topLevel" column="topLevel"/>
+        <result property="image" column="image"/>
+        <result property="isRecommend" column="isRecommend"/>
+        <result property="allowcomment" column="allowcomment"/>
+        <result property="status" column="status"/>
+        <result property="views" column="views"/>
+        <result property="downs" column="downs"/>
+        <result property="ups" column="ups"/>
+        <result property="ranking" column="ranking"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,channelid,creatorid,typeid,creatdate,title,source,author,txt,topLevel,image,isRecommend,allowcomment,status,views,downs,ups,ranking
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_cms_content (
+        	id ,
+        	channelid ,
+        	creatorid ,
+        	typeid ,
+        	creatdate ,
+        	title ,
+        	source ,
+        	author ,
+        	txt ,
+        	topLevel ,
+        	image ,
+        	isRecommend ,
+        	allowcomment ,
+        	status ,
+        	views ,
+        	downs ,
+        	ups ,
+        	ranking 
+        ) VALUES (
+        	#{id} ,
+        	#{channelid} ,
+        	#{creatorid} ,
+        	#{typeid} ,
+        	#{creatdate} ,
+        	#{title} ,
+        	#{source} ,
+        	#{author} ,
+        	#{txt} ,
+        	#{topLevel} ,
+        	#{image} ,
+        	#{isRecommend} ,
+        	#{allowcomment} ,
+        	#{status} ,
+        	#{views} ,
+        	#{downs} ,
+        	#{ups} ,
+        	#{ranking} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_cms_content SET
+	        channelid = #{channelid} ,
+	        creatorid = #{creatorid} ,
+	        typeid = #{typeid} ,
+	        creatdate = #{creatdate} ,
+	        title = #{title} ,
+	        source = #{source} ,
+	        author = #{author} ,
+	        txt = #{txt} ,
+	        topLevel = #{topLevel} ,
+	        image = #{image} ,
+	        isRecommend = #{isRecommend} ,
+	        allowcomment = #{allowcomment} ,
+	        status = #{status} ,
+	        views = #{views} ,
+	        downs = #{downs} ,
+	        ups = #{ups} ,
+	        ranking = #{ranking} 
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_cms_content WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="CmsContent">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_cms_content 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_cms_content 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="CmsContent">
+    	SELECT <include refid="columns" />
+	    FROM t_cms_content 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(channelid)">
+				AND channelid = #{channelid}
+			</if>
+	       <if test="@Ognl@isNotEmpty(creatorid)">
+				AND creatorid = #{creatorid}
+			</if>
+	       <if test="@Ognl@isNotEmpty(typeid)">
+				AND typeid = #{typeid}
+			</if>
+	       <if test="@Ognl@isNotEmpty(creatdateBegin)">
+				AND creatdate >= #{creatdateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(creatdateEnd)">
+				AND creatdate &lt;= #{creatdateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(title)">
+				AND title = #{title}
+			</if>
+	       <if test="@Ognl@isNotEmpty(source)">
+				AND source = #{source}
+			</if>
+	       <if test="@Ognl@isNotEmpty(author)">
+				AND author = #{author}
+			</if>
+	       <if test="@Ognl@isNotEmpty(txt)">
+				AND txt = #{txt}
+			</if>
+	       <if test="@Ognl@isNotEmpty(topLevel)">
+				AND topLevel = #{topLevel}
+			</if>
+	       <if test="@Ognl@isNotEmpty(image)">
+				AND image = #{image}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isRecommend)">
+				AND isRecommend = #{isRecommend}
+			</if>
+	       <if test="@Ognl@isNotEmpty(allowcomment)">
+				AND allowcomment = #{allowcomment}
+			</if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(views)">
+				AND views = #{views}
+			</if>
+	       <if test="@Ognl@isNotEmpty(downs)">
+				AND downs = #{downs}
+			</if>
+	       <if test="@Ognl@isNotEmpty(ups)">
+				AND ups = #{ups}
+			</if>
+	       <if test="@Ognl@isNotEmpty(ranking)">
+				AND ranking = #{ranking}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
+

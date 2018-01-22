@@ -1,0 +1,77 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<div class="profile-info-row">
+		<input type="hidden" id="id" value="${st.id}">
+		<div class="profile-info-name">财务代码:</div>
+		<div class="profile-info-value">${st.financeCode}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">申请日期:</div>
+		<div class="profile-info-value">${st.createDate!,dateFormat="yyyy-MM-dd" }</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">提现金额:</div>
+		<div class="profile-info-value">${st.amount}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">收款方:</div>
+		<div class="profile-info-value">${s.comName}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">账户余额:</div>
+		<div class="profile-info-value">${balance}</div>
+	</div>
+
+	<input type="hidden" id="status" value="${rst}">
+	@if(rst == '-1'){
+	<div class="profile-info-row">
+		<div class="profile-info-name">拒绝理由:</div>
+		<div class="profile-info-value">
+		<input type="text" id="rejectNote" maxlength="80">
+		</div>
+	</div>
+	@}
+	<div class="width-100 clearfix" tag-save-btn style="bottom: 0px;left: 0px;position:absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-100  pull-left" id="submit">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>确定
+	</span>
+</div>
+<script type="text/javascript">
+
+$(function(){
+	
+	$("#submit").click(function(){
+		if($("#status").val()=='-1' && $("#rejectNote").val()==''){
+			layer.msg('请输入拒绝理由', 3, 1);
+		}else{
+			$.ajax({
+					dataType:'json',
+					type:'POST',
+					url:'${ctxPath}/saleBill/comfirmTransfer?id='+$("#id").val()+'&status='+$("#status").val()+'&rejectNote='+$("#rejectNote").val(),
+					contentType: 'application/json',
+					success:function(data){
+						if(data.success){
+							layer.msg('操作成功', 3, 1,function(){
+								location.reload();
+								layer.closeAll();
+							});
+						}else{
+							layer.msg('操作失败', 3, 1,function(){
+								location.reload();
+								layer.closeAll();
+							});
+						}
+					},
+					error:function() {
+						layer.msg('系统异常', 3, 1,function(){
+							location.reload();
+							layer.closeAll();
+						});
+					}
+				});
+		}
+});
+});
+</script>
+</div>
+</div>

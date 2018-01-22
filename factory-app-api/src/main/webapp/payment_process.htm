@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=divice-width,initial-scale=1">
+<title>支付流程</title>
+<link rel="stylesheet" type="text/css" href="static_resources/css/public.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/font.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/help_center.css" />
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="static_resources/js/h5_exit.js"></script>
+
+</head>
+
+<body>
+<div class="main-cont" id="main-cont">
+	<div class="top">
+        <h1><a href="help_center.htm" class="aleft"></a>支付流程</h1>
+    </div>
+    <div class="main-box" style="padding-top:10px;">
+    	<div class="box_con">
+    		<p class="con_p1">买家提交订单分两种情况：提交订单时不需再支付（提交时订单合计总金额为0）和提交订单时需支付（提交订单时订单合计总金额大于0）。</p>
+    		<p class="con_p1" style="padding:5px 0;">1、提交订单时不需再支付的订单，买家提交订单时会弹出支付确认对话框，买家选择确认支付成功，选择取消返回确认订单页面。</p>
+            <div class="con_img" style="margin-top:0"><img src="static_resources/images/con_img04.png" /></div>
+            <p class="con_p1">2、提交订单时需支付的订单，买家提交订单时跳到在线支付页面，选择余额支付（现金余额够支付订单），确认支付后订单支付成功。如果买家账户余额不足，该支付方式不可选。</p>
+            <div class="con_img" style="margin-top:10px"><img src="static_resources/images/con_img10.png" /></div>
+            <p class="con_p1">在线支付页面选择支付宝或微信方式支付，如已安装客户端直接跳到对应的客户端支付，未安装客户端，选择支付宝支付可以跳到网页版继续操作，选择微信支付提示用户未安装。</p>
+            <p class="con_p1" style="padding:5px 0">说明：</p>
+            <p class="con_p2" style="font-size:1.2em">订单不需再支付：是买家在确认订单页面使用资产中的内购券、现金券和换领币（购买换领商品，且买家自己有换领币）抵扣商品售价，最终使订单的合计金额为0。</p>
+            <p class="con_p1" style="padding:5px 0">换领币使用规则：</p>
+            <p class="con_p1" style="padding:5px 0">如果买家账户有换领币，购买换领商品可以使用换领币抵扣。</p>
+        	<div class="con_img" style="margin-top:10px"><img src="static_resources/images/con_img11.png" /></div>
+        	<p class="con_p1" style="padding:0px 0">单个商品换购券使用数量上限等于商品内购价，内购券、邮费和内购券不足部分都需要现金补齐；如果换领币不足只能使用现金补齐。</p>
+        	<div class="con_img" style="margin-top:10px"><img src="static_resources/images/con_img25.png" /></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	if(isWeiXinH5()) {
+		$(".top").hide();
+		$(".main-box").css("top","0");
+	}
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<div class="layer">
+	<form name="FormPost" id="pageExit-save" class="FormGrid"  method="post"action="${ctxPath}/supplierList/exitSave">
+		<input type="hidden" value="${apprSupExit.id!}" name="id"/>
+		<table class="EditTable" width="100%">
+			<tbody>
+				<tr class="FormData">
+					<td class="CaptionTD">商家id：</td>
+					<td class="DataTD">
+					<input type="hidden" value="${apprSupExit.supplierId!}" name="supplierId" readonly="true"/>
+					${apprSupExit.supplierId!}
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">商家名称：</td>
+					<td class="DataTD">
+					<input type="hidden" value="${apprSupExit.supplierName!}" name="supplierName" readonly="true"/>
+					${apprSupExit.supplierName!}
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">入驻时间：</td>
+					<td class="DataTD">
+					<input type="hidden" id="sta" value="${apprSupExit.status!}" name="status" readonly="true"/>
+					<input type="hidden" value="${apprSupExit.joinTime}" name="joinTime" readonly="true"/>
+					${apprSupExit.joinTime!,dateFormat="yyyy-MM-dd HH:mm:ss"}
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">退出理由：</td>
+					<td class="DataTD">
+					<input type="hidden" id="cashBalance" value="${apprSupExit.cashBalance!}" name="cashBalance" readonly="true"/>
+					<input type="hidden"  id="unClosebillCnt" value="${apprSupExit.unClosebillCnt!}" name="unClosebillCnt" readonly="true"/>
+					<input type="hidden" id="unCloseOrderCnt" value="${apprSupExit.unCloseOrderCnt!}" name="unCloseOrderCnt" readonly="true"/>
+					<input type="hidden" id="productCnt" value="${apprSupExit.productCnt!}" name="productCnt" readonly="true"/>
+					<input type="hidden" id="sta" value="${apprSupExit.exitReason!}" name="exitReason" readonly="true"/>
+					${apprSupExit.exitReason!}
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">审核意见：</td>
+					<td class="DataTD">
+					<textarea rows="5" cols="80" name="checkOpinion"></textarea>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+		<table class="table table-striped table-bordered table-hover nomargin-bottom">
+	<thead>
+		<tr>
+			<th class="center">审核人</th>
+			<th class="center">审核时间</th>
+			<th class="center">审核结果</th>
+			<th class="center">审核意见</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@for(item in checkList){
+			<tr>
+				<td class="center">
+					${item.username!}
+				</td>
+				<td class="center">
+					${item.time!,dateFormat="yyyy-MM-dd HH:mm:ss"}
+				</td>
+				<td class="center">
+					@if(item.result == 2){ 
+						审核通过
+					@} 
+					@if(item.result == -1){ 
+						审核未通过 
+					@} 
+				</td>
+				<td class="center">
+					${item.opinion!}
+				</td>
+			</tr>
+		@}
+	</tbody>
+	</table>
+</table>
+<div class="width-100 clearfix" tag-save-btn
+	style="bottom: 0px; left: 0px; position: absolute;">
+	<span id="speVal_submit" onclick="ajaxSave(5)" class="btn btn-primary btn-sm bigger-110 width-50  pull-left">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i> 执行
+	</span>
+	<span id="speVal_submit" onclick="ajaxSave(1)" class="btn btn-yellow btn-sm bigger-110 width-50 pull-right">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i> 驳回
+	</span>
+</div>
+<script type="text/javascript">
+//描述框自动扩张高度
+//$('textarea[class*=autosize]').autosize({append: "\n"});
+//$("#user-role-update").chosen({width: "100%",search_contains: true}); 
+function ajaxSave(value){
+	$("#sta").val(value);
+	if(value == 1){
+		if(confirm("您确定要驳回该商家的退出申请吗？")){
+			submit();
+		}
+	}else{
+		submit();
+	}
+}
+
+function submit(){
+	$.ajax({
+		type: "post",
+		data:$("#pageExit-save").serialize(),
+		url: "${ctxPath}/supplierList/exitSave",
+		success:function(data){
+			if(data.success == false){
+				alert(data.msg)
+			}
+			var pageNo = 1;
+			//刷新页面
+			paging('search-form',pageNo);
+			layer.closeAll();
+		},
+		error: function(){
+			alert("error")
+			layer.closeAll();
+		}
+	})
+}
+</script>

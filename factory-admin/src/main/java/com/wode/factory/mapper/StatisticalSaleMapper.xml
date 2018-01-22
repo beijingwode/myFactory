@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.StatisticalSaleDao">
+
+    <resultMap id="StatisticalSale" type="com.wode.factory.model.StatisticalSale">
+        <result property="id" column="id"/>
+        <result property="month" column="month"/>
+        <result property="createTime" column="create_time"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="supplierManager" column="supplier_manager"/>
+        <result property="orderCnt" column="order_cnt"/>
+        <result property="shipping" column="shipping"/>
+        <result property="adjustment" column="adjustment"/>
+        <result property="realPrice" column="realPrice"/>
+        <result property="companyTicket" column="companyTicket"/>
+        <result property="benefitAmount" column="benefit_amount"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,month,create_time,supplier_id,supplier_name,supplier_manager,order_cnt,shipping,adjustment,realPrice,companyTicket,benefit_amount
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_statistical_sale (
+            month ,
+            create_time ,
+            supplier_id ,
+            supplier_name ,
+            supplier_manager ,
+            order_cnt ,
+            shipping ,
+            adjustment ,
+            realPrice ,
+            companyTicket ,
+            benefit_amount
+        ) VALUES (
+            #{month} ,
+            #{createTime} ,
+            #{supplierId} ,
+            #{supplierName} ,
+            #{supplierManager} ,
+            #{orderCnt} ,
+            #{shipping} ,
+            #{adjustment} ,
+            #{realPrice} ,
+            #{companyTicket} ,
+            #{benefitAmount}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_statistical_sale SET            
+            month = #{month} ,
+            create_time = #{createTime} ,
+            supplier_id = #{supplierId} ,
+            supplier_name = #{supplierName} ,
+            supplier_manager = #{supplierManager} ,
+            order_cnt = #{orderCnt} ,
+            shipping = #{shipping} ,
+            adjustment = #{adjustment} ,
+            realPrice = #{realPrice} ,
+            companyTicket = #{companyTicket} ,
+            benefit_amount = #{benefitAmount} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_statistical_sale WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="StatisticalSale">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_statistical_sale 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="StatisticalSale">
+        SELECT <include refid="columns" /> FROM t_statistical_sale 
+        <include refid="find_where"/>
+    </select>
+
+    <select id="selectByModelEmpty" resultMap="StatisticalSale">
+        SELECT s.id supplier_id,s.com_name supplier_name,s.manager_id supplier_manager, c.month,c.order_cnt,c.shipping,c.realPrice
+    	FROM t_supplier s 
+    	LEFT JOIN (
+    	SELECT month,supplier_id,order_cnt,shipping,realPrice
+    	FROM t_statistical_sale 
+        <include refid="find_where"/>
+    	) c ON (c.supplier_id=s.id)
+    	<where>
+           <if test="@Ognl@isNotEmpty(supplierManager)">
+                AND s.manager_id = #{supplierManager}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND s.id = #{supplierId}
+            </if>
+        </where>        
+    </select>
+    
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(month)">
+				AND month like CONCAT(#{month},'%')
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierName)">
+                AND supplier_name = #{supplierName}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierManager)">
+                AND supplier_manager = #{supplierManager}
+            </if>
+           <if test="@Ognl@isNotEmpty(orderCnt)">
+                AND order_cnt = #{orderCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(shipping)">
+                AND shipping = #{shipping}
+            </if>
+           <if test="@Ognl@isNotEmpty(adjustment)">
+                AND adjustment = #{adjustment}
+            </if>
+           <if test="@Ognl@isNotEmpty(realPrice)">
+                AND realPrice = #{realPrice}
+            </if>
+           <if test="@Ognl@isNotEmpty(companyTicket)">
+                AND companyTicket = #{companyTicket}
+            </if>
+           <if test="@Ognl@isNotEmpty(benefitAmount)">
+                AND benefit_amount = #{benefitAmount}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="countByDate" resultMap="StatisticalSale">
+    	SELECT so.supplierId,COUNT(1) order_cnt,SUM(so.totalShipping) shipping,SUM(so.totalAdjustment) adjustment,SUM(so.realPrice) realPrice,SUM(so.companyTicket) companyTicket,SUM(so.benefit_amount) benefit_amount
+		FROM t_suborder so 
+		WHERE DATE_FORMAT(so.takeTime,'%Y-%m')=#{countDate}
+		GROUP BY so.supplierId 
+    </select>
+</mapper>

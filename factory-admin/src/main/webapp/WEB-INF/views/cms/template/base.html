@@ -1,0 +1,56 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="tabbable">
+	<div class="tab-content">
+		<div id="home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/cmsPage/templateList" method="post" id="search-form" 
+				target="list-page" class="center clearfix">
+				<div class="row padding-tb-10">
+					<div class="col-sm-4">
+						<label class="inline">渠道:</label>
+						<select name="channel" class="width-50">
+							<option value="">全部</option>
+							<option value="1">pc</option>
+							<option value="2">app/微信</option>
+						</select>
+					</div>
+					<div class="col-sm-4">
+						<label class="inline">标题：</label>
+						<input type="text" class="width-40"  name="title"/>
+					</div>
+					<div class="col-sm-4">
+						<label class="inline">模板文件：</label>
+						<input type="text" class="width-40"  name="ftlFile"/>
+					</div>
+				</div>
+				<div class="padding-trb-10 col-sm-12">
+					<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">全部</span>
+					<span class="btn btn-info btn-sm col-sm-6" id="search-btn">查询</span>
+				</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+		
+	<!-- 	-->
+	</div>
+</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<#save isHide="yes" subBtnId="sysuser-save-btn" formId="sysuser-save-form" 
+validId="sysuserForm" config="true">
+	sysuserForm.config({
+		beforeCheck:function(curform){
+		},
+		beforeSubmit:function(curform){
+		}
+	});
+</#save>
+<script>
+	$("#role-select").chosen({width: "80%",search_contains: true});
+	$("#role-choose").chosen({width: "100%",search_contains: true}); 
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+</script>

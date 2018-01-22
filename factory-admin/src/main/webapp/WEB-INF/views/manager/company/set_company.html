@@ -1,0 +1,62 @@
+<div class="layer">
+	<input type="hidden" id="id" value="${id!}">
+	<table id="formUseFeeTable"
+		class="table table-striped table-bordered table-hover nomargin-bottom">
+		<thead>
+			<tr>
+				<th class="center">品牌商</th> 
+				<td class="center">
+					<#select id="business" width="45%">
+								<option value="" selected="selected" >选择品牌商</option>
+							@for(item in companys){
+					    @if(item.id == selectId){
+						<option value="${item.id! }" selected="selected" >${item.comName! }</option>
+						@} else{
+						<option value="${item.id! }" >${item.comName! }</option>
+						@}
+					    @}
+					</#select>
+				</td>
+			</tr>
+		<tbody>
+		</tbody>
+	</table>
+</div>
+<div class="width-100 clearfix" tag-save-btn
+	style="bottom: 0px; left: 0px; position: absolute;">
+	<span id="speVal_submit" onclick="ajaxSave()" class="btn btn-primary btn-sm bigger-110 width-100  pull-left">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i> 确定
+	</span>
+</div>
+<script type="text/javascript">
+
+function ajaxSave(){
+	
+	$.ajax({
+
+		type: "post",
+		data:{
+			business:$("#business").val(),
+				id:$("#id").val()
+			},
+		url: "${ctxPath}/company/setCompany",
+		dataType: "json",
+		success: function(data, textStatus){
+			var $form = $("#search-form");
+			var pageNo = 1;
+			var pageNoInput = $form.find('input[name="pageNum"]');
+			if(pageNoInput.size() != 0){
+				pageNo = pageNoInput.val();
+			}
+			
+			//刷新页面
+			paging('search-form',pageNo);
+			layer.closeAll();
+		},
+		error: function(){
+
+		}
+		})
+}
+
+</script>

@@ -1,0 +1,109 @@
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, iframe,h1, h2, h3, h4, h5, h6,p,pre,a,del, em, font, ins, q, s, samp,dl, dt, dd, ol, ul, li, form,label, legend, caption,textarea, tbody{ margin:0; padding:0; }
+
+body{font-size:62.5%;font-family:Arial, 'Microsoft YaHei', sans-serif;  width:100%;background:#efeff4;}
+
+ol,ul,li {	list-style: none; }
+
+blockquote:before, blockquote:after,q:before, q:after {	content: ""; }
+
+blockquote, q { quotes: "" ""; }
+
+a img {	border: 0; }
+
+article, aside, details, figcaption, figure,
+
+footer, header, hgroup, menu, nav, section { display: block; }
+
+h1,h2,h3,h4,h5,h6{font-weight:700}
+
+strong{font-weight:700}
+
+cite,em{font-style:normal}
+
+i{font-style:italic}
+
+img,objiect{ max-width:100%;vertical-align:middle/* 此样式会控制前端图片属性所以去掉*/ }
+img{width:100%;}
+a { text-decoration:none; }
+
+input,textarea{ outline:0; resize:none;}
+
+.main_body{width:100%;margin:0 auto;background:#fff;padding-bottom:30px;}
+.top_pic{width:100%;overflow:hidden;}
+.at_tit{width:100%;padding-bottom:1px;background:#e0e0e0}
+.main_one{width:100%;overflow:hidden;}
+.main_one_lt{width:50%;float:left;}
+.main_one_rt{width:50%;float:right;}
+.main_one_rt .rt_top{width:100%;}
+.main_one_rt .rt_btm{width:100%;}
+.main_one_rt .rt_btm .btm_img1{width:50%;float:left;}
+.main_one_rt .rt_btm .btm_img2{width:50%;float:left;}
+
+.main_two{width:100%;overflow:hidden;}
+.main_two ul{width:100%;}
+.main_two ul li{width:25%;float:left;}
+
+.ewm{width:206px;height:234px;margin:0 auto;margin-top:30px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

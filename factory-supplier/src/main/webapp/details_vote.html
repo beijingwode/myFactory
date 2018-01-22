@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="static_resources/css/style.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/details_vote.css" />
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+
+</head>
+<body>
+<!--content begin-->
+<div id="content">
+    <!--left begin-->
+    <div class="left">
+        <div class="left_list">
+            <ul>
+               <li><a href="${basePath}/suborder/gotoSelllist.html">已售出的商品</a></li>
+               <li><a href="${basePath}/comments/toevaluation.html?commentDegree=all">评价管理</a></li> 
+                <li class="curr"><a href="javascript:;">投票管理</a></li>       	
+            </ul>
+        </div>
+    </div>
+    <!--left end-->
+
+    <!--right begin-->
+    <div class="right">
+        <div class="position">
+            <span>您所在的位置：</span>
+            <a href="javascript:void(0);">商家中心</a><em>></em>
+            <a href="${basePath}/suborder/gotoSelllist.html">订单管理</a><em>></em>
+            <a href="JavaScript:void(0);">投票管理</a><em>></em>
+            <a href="JavaScript:void(0);">投票详情</a>
+        </div>
+        <div class="sale_wrap">
+	        <div class="main_bd main_bd_con">
+	            <div class="msg_pre_view js_msg_pre_view">
+					<ul>
+						<li class="group">
+							<span class="title">投票名称</span>
+							<div class="msg">线下内购会反馈<br><span class="dec">只用于投票管理后台，不显示在下发的投票内容中</span></div>
+						</li>
+						<li class="group">
+							<span class="title">有效时间</span>					
+							<div class="msg vote_date_select_msg">2016年12月21日 12:03 至 
+								<div id="showDiv">
+									<span id="endTime">2016年12月31日 00:00</span><span class="dec">&nbsp;&nbsp;进行中</span>&nbsp;<input type="text" class="js_datecontainer hasDatepicker" style="ime-mode:disabled;visibility:hidden;width:1px;" onpaste="return false" id="dp1482716330463">
+									<a href="javascript:;" class="js_modify dn" style="display: inline;">修改截止时间</a>
+								</div>						                
+							</div>					
+						</li>
+						<li class="group">
+							<span class="title">投票权限</span>
+							<div class="msg">所有人都可参与</div>
+						</li>
+						<li class="group">
+							<span class="title">投票人数</span>
+							<div class="msg">1人</div>
+						</li>				
+					</ul>
+			   </div>
+				
+				<div class="vote_list js_vote_list">
+
+				    <div class="vote_item">
+				    	<div class="vote_item_hd">
+				        	<h4 class="vote_title">1. 内购会商品是否丰富</h4>
+				        </div>
+				    	<div class="vote_item_bd">
+				            <ul class="vote_option_list">
+				            
+				                <li cla-ss="vote_option">
+				                    <div class="vote_option_msg group">
+				                    
+				                    	<strong class="vote_option_title" title="丰富，很多商品都可买到">丰富，很多商品都可买到</strong>
+				                    </div>
+				                    <div class="vote_result_meta">
+				                        <div class="vote_graph">
+				                        <em w="100" style="background-color:#7DADE1" class="vote_progress"></em>
+				                        </div>
+				                        <span class="vote_result_tips vote_number">1票</span>
+				                        <span class="vote_result_tips vote_percent">100%</span>
+				                    </div>
+				                </li>
+				        
+				                <li class="vote_option">
+				                    <div class="vote_option_msg group">
+				                    
+				                    	<strong class="vote_option_title" title="东西还是太少，找不到想要的东西">东西还是太少，找不到想要的东西</strong>
+				                    </div>
+				                    <div class="vote_result_meta">
+				                        <div class="vote_graph">
+				                        <em w="10" style="background-color:#7DADE1" class="vote_progress"></em>
+				                        </div>
+				                        <span class="vote_result_tips vote_number">0票</span>
+				                        <span class="vote_result_tips vote_percent">10%</span>
+				                    </div>
+				                </li>
+				            
+				                <li class="vote_option">
+				                    <div class="vote_option_msg group">
+				                    
+				                    	<strong class="vote_option_title" title="不咋地，每一样是有用的">不咋地，每一样是有用的</strong>
+				                    </div>
+				                    <div class="vote_result_meta">
+				                        <div class="vote_graph">
+				                            <em w="45" style="background-color:#7DADE1" class="vote_progress"></em>
+				                        </div>
+				                        <span class="vote_result_tips vote_number">0票</span>
+				                        <span class="vote_result_tips vote_percent">45%</span>
+				                    </div>
+				                </li>
+				            
+				            </ul>
+				        </div>
+					</div>
+				
+				   <div class="vote_item">
+				    	<div class="vote_item_hd">
+				        	<h4 class="vote_title">2. 内购会商品是否丰富</h4>
+				        </div>
+				    	<div class="vote_item_bd">
+				            <ul class="vote_option_list">
+				            
+				                <li class="vote_option">
+				                    <div class="vote_option_msg group" >
+				                    	<span class="img_panel">
+											<span class="preview bg_img" style="background-image:url(images/img_png200.png);"></span>
+										</span>
+				                    	<strong class="vote_option_title" title="丰富，很多商品都可买到">丰富，很多商品都可买到</strong>
+				                    </div>
+				                    <div class="vote_result_meta">
+				                        <div class="vote_graph">
+				                        <em w="60" style="background-color:#7DADE1" class="vote_progress"></em>
+				                        </div>
+				                        <span class="vote_result_tips vote_number">1票</span>
+				                        <span class="vote_result_tips vote_percent">60%</span>
+				                    </div>
+				                </li>
+				        
+				                <li class="vote_option">
+				                    <div class="vote_option_msg group">
+				                    	<span class="img_panel">
+											<span class="preview bg_img" style="background-image:url(images/img_png200.png);"></span>
+										</span>
+				                    	<strong class="vote_option_title" title="东西还是太少，找不到想要的东西">东西还是太少，找不到想要的东西</strong>
+				                    </div>
+				                    <div class="vote_result_meta">
+				                        <div class="vote_graph">
+				                        <em w="0" style="background-color:#7DADE1" class="vote_progress"></em>
+				                        </div>
+				                        <span class="vote_result_tips vote_number">0票</span>
+				                        <span class="vote_result_tips vote_percent">0%</span>
+				                    </div>
+				                </li>
+				            
+				                <li class="vote_option">
+				                    <div class="vote_option_msg group">
+				                    	<span class="img_panel">
+											<span class="preview bg_img" style="background-image:url(images/img_png200.png);"></span>
+										</span>
+				                    	<strong class="vote_option_title" title="不咋地，每一样是有用的">不咋地，每一样是有用的</strong>
+				                    </div>
+				                    <div class="vote_result_meta">
+				                        <div class="vote_graph">
+				                            <em w="80" style="background-color:#7DADE1" class="vote_progress"></em>
+				                        </div>
+				                        <span class="vote_result_tips vote_number">0票</span>
+				                        <span class="vote_result_tips vote_percent">80%</span>
+				                    </div>
+				                </li>
+				            
+				            </ul>
+				        </div>
+					</div>
+				
+					
+				</div>	
+						
+			</div>
+	                  
+		</div>	
+    </div>
+    <!--right end-->
+</div>
+<!--content end-->
+
+ <script type="text/javascript">
+ 
+ function animate(){
+ 	$(".vote_progress").each(function(i,item){
+ 		var a=parseInt($(item).attr("w"));
+ 		$(item).animate({
+ 			width: a+"%"
+ 		},1000);
+ 	});
+ }
+ animate();
+
+  </script>
+</body>
+</html>

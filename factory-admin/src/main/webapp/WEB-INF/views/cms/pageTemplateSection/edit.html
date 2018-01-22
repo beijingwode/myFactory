@@ -1,0 +1,138 @@
+<div class="layer">
+	<form name="FormPost" id="pageTemplateSection-save" class="FormGrid"  method="post"action="${ctxPath}/cmsPage/pageTemplateSectionSave">
+		
+		<input type="hidden" value="${pageTemplateSection.id!}" name="id"/>
+		<table class="EditTable" width="100%">
+			<tbody>
+				<tr class="FormData">
+					<td class="CaptionTD">渠道</td>
+					<td class="DataTD width-100">
+					<select name="channel" style="width:50%" id="pts_channel" onchange="getPTSTemplates()">
+					@if(channel == 1){
+					<option value="1" selected="selected">pc</option>
+					<option value="2">微信/APP</option>
+					@} else{
+					<option value="1">pc</option>
+					<option value="2" selected="selected">微信/APP</option>
+					@}
+					</select>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">模板</td>
+					<td class="DataTD">
+					<select id="pts_templateId" name="templateId" style="width: 50%">
+					@for(item in templates){
+						@if(item.id== templateId){
+						<option value="${item.id!}" selected="selected">${item.title!}</option>
+						@}else{
+						<option value="${item.id!}">${item.title!}</option>
+						@} 
+					@}
+					</select>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">标题</td>
+					<td class="DataTD">
+					<input type="text" value="${pageTemplateSection.title!}" name="title" id="pts_title" datatype="*"  nullmsg="请输入标题！"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">名称</td>
+					<td class="DataTD">
+					<input type="text" value="${pageTemplateSection.name!}" name="name" datatype="*"  nullmsg="请输入名称！"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">排序</td>
+					<td class="DataTD">
+					<input type="text" value="${pageTemplateSection.orders!}" name="orders"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">最大数量</td>
+					<td class="DataTD">
+					<input type="text" value="${pageTemplateSection.maxNum!}" name="maxNum" datatype="*"  nullmsg="请输入最大数量！"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">副标题1名称</td>
+					<td class="DataTD">
+					<input type="text" value='${pageTemplateSection.title1Name!}' name="title1Name"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">副标题2名称</td>
+					<td class="DataTD">
+					<input type="text" value='${pageTemplateSection.title2Name!}' name="title2Name"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">扩展1名称</td>
+					<td class="DataTD">
+					<input type="text" value='${pageTemplateSection.ex1Name!}' name="ex1Name"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">扩展2名称</td>
+					<td class="DataTD">
+					<input type="text" value='${pageTemplateSection.ex2Name!}' name="ex2Name"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">扩展3名称</td>
+					<td class="DataTD">
+					<input type="text" value='${pageTemplateSection.ex3Name!}' name="ex3Name"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">扩展4名称</td>
+					<td class="DataTD">
+					<input type="text" value='${pageTemplateSection.ex4Name!}' name="ex4Name"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">扩展5名称</td>
+					<td class="DataTD">
+					<input type="text" value='${pageTemplateSection.ex5Name!}' name="ex5Name"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">扩展6名称</td>
+					<td class="DataTD">
+					<input type="text" value='${pageTemplateSection.ex6Name!}' name="ex6Name"/>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+<#save formId="pageTemplateSection-save"  reloadPage="true"/>
+<script type="text/javascript">
+
+//描述框自动扩张高度
+$('textarea[class*=autosize]').autosize({append: "\n"});
+$("#user-role-update").chosen({width: "100%",search_contains: true}); 
+
+function getPTSTemplates()
+{
+	$.ajax( {  
+	    url:'${ctxPath}/cmsPage/getTemplates?channel='+$("#pts_channel").val(),
+	    type:'post',
+	    dataType:'json',
+	    success:function(data) {
+			var html='';
+	    	//再添加
+	    	for(var i =0;i<data.length;i++){
+	    		var val=data[i].id+",";
+	    		html += '<option value="'+ val +'">'+ data[i].title +'</option>';
+	    	}
+	    	
+	    	$("#pts_templateId").html(html);
+	    },  
+	     error : function() {  
+	     }  
+	});
+}
+</script>

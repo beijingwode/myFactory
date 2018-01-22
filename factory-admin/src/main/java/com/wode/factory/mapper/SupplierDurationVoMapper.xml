@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.SupplierDurationVoDao">
+
+	<resultMap id="SupplierDurationVo" type="com.wode.factory.model.SupplierDuration">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="saleDurationKey" column="saleDurationKey"/>
+        <result property="startTime" column="startTime"/>
+        <result property="createTime" column="createTime"/>
+        <result property="createUserid" column="createUserid"/>
+        <result property="financeCode" column="finance_code"/>
+        <result property="accountType" column="account_type"/>
+        <result property="alipayAccount" column="alipay_account"/>
+        <result property="wechatAccount" column="wechat_account"/>
+        <result property="phone" column="phone"/>
+        <result property="contacts" column="contacts"/>
+        <result property="scale" column="scale"/>
+        <result property="roundMode" column="round_mode"/>
+        <result property="billType" column="billType"/>
+        <result property="taxpayerNumber" column="taxpayerNumber"/>
+        <result property="addressNumber" column="addressNumber"/>
+        <result property="openingBanNumber" column="openingBanNumber"/>
+	</resultMap>
+	
+	<delete id="deleteBySupplierId">
+	delete from t_supplier_duration where supplierId = #{supplierId}
+	</delete>
+	
+	<!-- 查询妥投订单 -->
+    <select id="getById" resultMap="SupplierDurationVo">
+		SELECT id,supplierId,saleDurationKey,startTime,createTime,createUserid,finance_code,account_type,
+		alipay_account,wechat_account,phone,contacts,scale,round_mode,
+		billType,taxpayerNumber,addressNumber,openingBanNumber 
+		FROM t_supplier_duration
+		WHERE supplierId = #{supplierId}
+    </select>
+    <insert id="saveDurationVo">
+        INSERT INTO t_supplier_duration (
+			id,
+			supplierId,
+			saleDurationKey,
+			startTime,
+			createTime,
+			createUserid,
+			finance_code,
+			scale,
+			round_mode
+        ) VALUES (
+			#{id} ,
+			#{supplierId} ,
+			#{saleDurationKey} ,
+			#{startTime} ,
+			#{createTime} ,
+			#{createUserid} ,
+			#{financeCode},
+			#{scale},
+			#{roundMode}
+        )
+    </insert>
+    
+    <update id="update">
+	        UPDATE t_supplier_duration SET
+		        supplierId = #{supplierId} ,
+		        saleDurationKey = #{saleDurationKey} ,
+		        startTime = #{startTime} ,
+		        createTime = #{createTime} ,
+		        createUserid = #{createUserid},
+		        scale = #{scale},
+		        round_mode = #{roundMode},
+		        billType = #{billType} 
+	        WHERE 
+		        id = #{id} 
+    </update>
+    
+      <!-- 查看企业的人数（使用过app 的人数） -->
+	  <select id="selectMaxFinanceCode" resultType="java.lang.String">
+	    select MAX(finance_code) finance_code from t_supplier_duration
+	  </select>
+</mapper>
+

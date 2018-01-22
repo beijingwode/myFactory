@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserFactoryMapper">
+
+	<resultMap id="User" type="com.wode.factory.model.UserFactory">
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="type" column="type"/>
+        <result property="address" column="address"/>
+        <result property="loginTime" column="login_time"/>
+        <result property="creatTime" column="creat_time"/>
+        <result property="status" column="status"/>
+        <result property="avatar" column="avatar"/>
+        <result property="birthday" column="birthday"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="realName" column="real_name"/>
+        <result property="usable" column="usable"/>
+        <result property="userSignature" column="user_signature"/>
+        <result property="userLevel" column="user_level"/>
+        <result property="enabled" column="enabled"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="district" column="district"/>
+        <result property="gender" column="gender"/>
+        <result property="role" column="role"/>
+        <result property="employeeType" column="employee_type"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="shopLink" column="shop_link"/>
+        <result property="hideInfo" column="hide_info"/>
+	</resultMap>
+	
+	<resultMap id="EnterpriseUser" type="com.wode.factory.model.EnterpriseUser" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="emp_number" property="empNumber" jdbcType="VARCHAR" />
+	    <result column="welfare_level" property="welfareLevel" jdbcType="INTEGER" />
+	    <result column="seniority" property="seniority" jdbcType="INTEGER" />
+	    <result column="name" property="name" jdbcType="VARCHAR" />
+	    <result column="sex" property="sex" jdbcType="VARCHAR" />
+	    <result column="age" property="age" jdbcType="INTEGER" />
+	    <result column="enterprise_id" property="enterpriseId" jdbcType="BIGINT" />
+	    <result column="email" property="email" jdbcType="VARCHAR" />
+	    <result column="logout" property="logout" jdbcType="TINYINT" />
+	    <result column="type" property="type" jdbcType="INTEGER" />
+	    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+	    <result column="phone" property="phone" jdbcType="VARCHAR" />
+	    <result column="duty" property="duty" jdbcType="VARCHAR" />
+	    <result column="sectionName" property="sectionName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="Enterprise" type="com.wode.factory.model.Enterprise" >
+    	<id column="id" property="id" jdbcType="BIGINT" />
+    	<result column="name" property="name" jdbcType="VARCHAR" />
+    	<result column="type" property="type" jdbcType="BIGINT" />
+    	<result column="industry" property="industry" jdbcType="BIGINT" />
+    	<result column="listed" property="listed" jdbcType="VARCHAR" />
+    	<result column="turnover" property="turnover" jdbcType="VARCHAR" />
+    	<result column="people_number" property="peopleNumber" jdbcType="INTEGER" />
+    	<result column="welfare_level" property="welfareLevel" jdbcType="INTEGER" />
+        <result property="emailPostfix1" column="email_postfix1"/>
+        <result property="emailPostfix2" column="email_postfix2"/>
+        <result property="emailPostfix3" column="email_postfix3"/>
+        <result property="empDefultAvatar" column="emp_defult_avatar"/>
+        <result property="canSearch" column="can_search"/>
+   </resultMap>
+  
+    
+    <resultMap id="ContactsVo" type="com.wode.factory.user.vo.ContactsVo">
+        <result property="userId" column="userId"/>
+        <result property="nickname" column="nickname"/>
+        <result property="userType" column="userType"/>
+        <result property="relationType" column="relationType"/>
+        <result property="imUser" column="imUser"/>
+        <result property="appType" column="appType"/>
+        <result property="appKey" column="appKey"/>
+        <result property="avatar" column="avatar"/>
+        <result property="birthDay" column="birthday"/>
+        <result property="username" column="username"/>
+        <result property="gender" column="gender"/>
+        <result property="userNote" column="userNote"/>
+        <result property="duty" column="duty"/>
+        <result property="phone" column="phone"/>
+        <result property="workName" column="workName"/>
+        <result property="hideInfo" column="hideInfo"/>
+    </resultMap>
+    
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,user_name,email,phone,type,address,login_time,creat_time,status,coin,avatar,birthday,nick_name,real_name,usable,user_signature,user_level,enabled,province,city,district,gender,role,employee_type,supplierId,shop_link,hide_info
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user (
+        	id ,
+        	user_name ,
+        	email ,
+        	phone ,
+        	type ,
+        	address ,
+        	login_time ,
+        	creat_time ,
+        	status ,        	
+        	avatar ,
+        	birthday ,
+        	nick_name ,
+        	real_name ,
+        	usable ,
+        	user_signature ,
+        	user_level ,
+        	enabled ,
+        	province ,
+        	city ,
+        	district ,
+        	gender ,
+        	employee_type,
+        	supplierId,
+        	shop_link
+        ) VALUES (
+        	#{id} ,
+        	#{userName} ,
+        	#{email} ,
+        	#{phone} ,
+        	#{type} ,
+        	#{address} ,
+        	#{loginTime} ,
+        	#{creatTime} ,
+        	#{status} ,        	
+        	#{avatar} ,
+        	#{birthday} ,
+        	#{nickName} ,
+        	#{realName} ,
+        	#{usable} ,
+        	#{userSignature} ,
+        	#{userLevel} ,
+        	#{enabled} ,
+        	#{province} ,
+        	#{city} ,
+        	#{district} ,
+        	#{gender} ,
+        	#{employeeType},
+        	#{supplierId},
+        	#{shopLink}
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" parameterType="com.wode.factory.model.UserFactory">
+        UPDATE t_user 
+        <trim prefix="SET" suffixOverrides=",">
+        	<if test="@Ognl@isNotEmpty(userName)">
+	       		user_name = #{userName} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(email)">
+	        	email = #{email} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(phone)">
+	        	phone = #{phone} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(type)">
+	        	type = #{type} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(address)">
+	        	address = #{address} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(loginTime)">
+	        	login_time = #{loginTime} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(status)">
+	        	status = #{status} ,
+	        </if>	       
+	        <if test="@Ognl@isNotEmpty(avatar)">
+	        	avatar = #{avatar} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(birthday)">
+	        	birthday = #{birthday} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(nickName)">
+	        	nick_name = #{nickName} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(realName)">
+	        	real_name = #{realName} ,
+	        </if>	        
+	        <if test="@Ognl@isNotEmpty(userSignature)">
+	        	user_signature = #{userSignature} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(userLevel)">
+	        	user_level = #{userLevel} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(enabled)">
+	       		enabled = #{enabled} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(province)">
+	        	province = #{province} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(city)">
+	       		city = #{city} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(district)">
+	        	district = #{district} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(gender)">
+	        	gender = #{gender} ,
+	        </if>
+	        <if test="@Ognl@isNotEmpty(employeeType)">
+	        	employee_type = #{employeeType} 
+	        </if>
+	        ,shop_Link = #{shopLink} 
+	        ,hide_info = #{hideInfo}
+	    </trim>
+        WHERE id = #{id} 
+	</update>
+
+    <update id="updEmp" parameterType="com.wode.factory.model.EnterpriseUser">
+        UPDATE t_enterprise_user
+        <trim prefix="SET" suffixOverrides=",">
+        	<if test="@Ognl@isNotEmpty(name)">
+	       		name = #{name},
+	        </if>
+        	<if test="@Ognl@isNotEmpty(email)">
+	       		email = #{email},
+	        </if>
+        	<if test="@Ognl@isNotEmpty(phone)">
+	       		phone = #{phone},
+	        </if>
+	        <if test="@Ognl@isNotEmpty(sectionName)">
+	       		sectionName = #{sectionName},
+	        </if>
+	    </trim>
+        WHERE id = #{id}
+	</update>
+	
+    <select id="getEmpById" resultMap="EnterpriseUser" parameterType="java.lang.Long" >
+    select id, emp_number, welfare_level, seniority, name, sex, age, enterprise_id, 
+    	email, logout, type, user_name, phone,duty,sectionName
+    from t_enterprise_user
+    where id = #{id,jdbcType=BIGINT}
+  	</select>
+    
+    <select id="getById" resultMap="User">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_user 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_user 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="User">
+    	SELECT <include refid="columns" />
+	    FROM t_user 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	<select id="findForEmailPostfix" resultMap="Enterprise">
+    	SELECT email_postfix1,email_postfix2,email_postfix3
+	    FROM t_enterprise 
+		WHERE (email_postfix1 IS NOT NULL) OR (email_postfix2 IS NOT NULL) OR (email_postfix3 IS NOT NULL)
+		ORDER BY email_postfix1,email_postfix2,email_postfix3
+    </select>
+    
+	<select id="findByEmailPostfix" resultMap="Enterprise">
+    	SELECT *
+	    FROM t_enterprise 
+		WHERE (email_postfix1 = #{emailPostfix}) OR (email_postfix2 = #{emailPostfix}) OR (email_postfix3 = #{emailPostfix})
+		LIMIT 1
+    </select>
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(userName)">
+				AND user_name = #{userName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(email)">
+				AND email = #{email}
+			</if>
+	       <if test="@Ognl@isNotEmpty(phone)">
+				AND phone = #{phone}
+			</if>
+	       <if test="@Ognl@isNotEmpty(type)">
+				AND type = #{type}
+			</if>
+	       <if test="@Ognl@isNotEmpty(address)">
+				AND address = #{address}
+			</if>
+	       <if test="@Ognl@isNotEmpty(loginTimeBegin)">
+				AND login_time >= #{loginTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(loginTimeEnd)">
+				AND login_time &lt;= #{loginTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(creatTimeBegin)">
+				AND creat_time >= #{creatTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(creatTimeEnd)">
+				AND creat_time &lt;= #{creatTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(coin)">
+				AND coin = #{coin}
+			</if>
+	       <if test="@Ognl@isNotEmpty(avatar)">
+				AND avatar = #{avatar}
+			</if>
+	       <if test="@Ognl@isNotEmpty(birthdayBegin)">
+				AND birthday >= #{birthdayBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(birthdayEnd)">
+				AND birthday &lt;= #{birthdayEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(nickName)">
+				AND nick_name = #{nickName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(realName)">
+				AND real_name = #{realName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(usable)">
+				AND usable = #{usable}
+			</if>
+	       <if test="@Ognl@isNotEmpty(userSignature)">
+				AND user_signature = #{userSignature}
+			</if>
+	       <if test="@Ognl@isNotEmpty(userLevel)">
+				AND user_level = #{userLevel}
+			</if>
+	       <if test="@Ognl@isNotEmpty(enabled)">
+				AND enabled = #{enabled}
+			</if>
+	       <if test="@Ognl@isNotEmpty(province)">
+				AND province = #{province}
+			</if>
+	       <if test="@Ognl@isNotEmpty(city)">
+				AND city = #{city}
+			</if>
+	       <if test="@Ognl@isNotEmpty(district)">
+				AND district = #{district}
+			</if>
+	       <if test="@Ognl@isNotEmpty(gender)">
+				AND gender = #{gender}
+			</if>
+			<if test="@Ognl@isNotEmpty(employeeType)">
+	        	employee_type = #{employeeType} 
+	        </if>
+		</where>
+	</sql>
+	<!--根据phone查询用户-->
+	<select id="findByPhone" parameterType="String" resultMap="User">
+		select * from t_user where phone=#{userName}
+	</select>
+	<!--根据email查询用户 -->
+	<select id="findByEmail" parameterType="String" resultMap="User">
+		select * from t_user where email=#{userName}
+	</select>
+	<select id="findByOrderId" resultMap="User">
+		SELECT u.employee_type,u.user_name,u.id from t_user u LEFT JOIN t_orders o ON u.id = o.userId where o.orderId = #{orderId} 
+	</select>
+	
+	<select id="findColleagueWithIm" resultMap="ContactsVo">
+		SELECT eu.id userId,eu.`name` workName,3 relationType,eu.duty,eu.phone,eu.name nickname,im.openim_id imUser,im.app_type appType,im.app_key appKey 
+		FROM t_enterprise_user eu
+		LEFT JOIN t_user_im im ON (im.user_id=eu.id AND im.app_type="user")
+		 <![CDATA[
+		WHERE eu.enterprise_id=#{supplierId} AND eu.id <> #{userId}
+        ]]>
+        <if test="@Ognl@isNotEmpty(friendId)">
+			AND eu.id = #{friendId}
+	    </if>
+    </select>
+</mapper>
+

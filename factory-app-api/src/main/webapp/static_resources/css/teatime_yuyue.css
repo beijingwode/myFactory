@@ -1,0 +1,69 @@
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, iframe,h1, h2, h3, h4, h5, h6,p,pre,a,del, em, font, ins, q, s, samp,dl, dt, dd, ol, ul, li, form,label, legend, caption,textarea, tbody{ margin:0; padding:0; }
+
+body{font-size:62.5%;font-family:Arial, 'Microsoft YaHei', sans-serif;  width:100%;background:#efeff4;-webkit-text-size-adjust: 100%!important;}
+
+ol,ul,li {	list-style: none; }
+
+blockquote:before, blockquote:after,q:before, q:after {	content: ""; }
+
+blockquote, q { quotes: "" ""; }
+
+a img {	border: 0; }
+
+article, aside, details, figcaption, figure,
+
+footer, header, hgroup, menu, nav, section { display: block; }
+
+h1,h2,h3,h4,h5,h6{font-weight:700}
+
+strong{font-weight:700}
+
+cite,em{font-style:normal}
+
+i{font-style:italic}
+
+img,objiect{ max-width:100%;vertical-align:middle/* 此样式会控制前端图片属性所以去掉*/ }
+
+a { text-decoration:none;border:none;-webkit-tap-highlight-color:transparent;outline:none;-webkit-touch-callout: none;-webkit-user-select: none; }
+a:focus {outline:none; -moz-outline:none}
+input,textarea{ outline:none; resize:none;-webkit-appearance:none;}
+map area {
+    outline: none;
+}
+body{background:url(../images/teatime_yuyue/teatime_yuyue_bg1.png) no-repeat;background-size:100%;position:relative;}
+.yuyue_con{width:100%;height:auto;overflow:hidden;position:absolute;top:220px;left:0;}
+.yuyue_con div{width:68%;height:32px;margin:0 auto;overflow:hidden;}
+.yuyue_con .ipt_box{border-bottom:1px solid #a15110;}
+.yuyue_con .ipt_box span{width:20%;height:32px;padding-left:10%;line-height:32px;display:block;float:left;color:#a15110;font-size:1.4em;}
+.yuyue_con .ipt_box .span1{background:url(../images/teatime_yuyue/teatime_yuyue_icon1.png) no-repeat left center;background-size:17px}
+.yuyue_con .ipt_box .span2{background:url(../images/teatime_yuyue/teatime_yuyue_icon2.png) no-repeat left center;background-size:17px}
+.yuyue_con .ipt_box .span3{background:url(../images/teatime_yuyue/teatime_yuyue_icon3.png) no-repeat left center;background-size:17px}
+.yuyue_con .ipt_box .span4{background:url(../images/teatime_yuyue/teatime_yuyue_icon4.png) no-repeat left center;background-size:17px}
+.yuyue_con .ipt_box input{width:68%;height:32px;border:none;background:none;color:#a15110;float:left;font-size:1.3em;}
+.yuyue_con p{width:100%;height:20px;text-align:center;color:#ff4040;font-size:1.4em;}
+.yuyue_con .btn{background:#fc7100;margin-top:10px;border-radius:15px;}
+.yuyue_con .btn a{width:100%;height:32px;display:block;text-align:center;line-height:32px;font-size:1.6em;color:#fff;}
+
+@media screen  and (max-width:414px){
+	.yuyue_con{position:absolute;top:280px;left:0;}
+	.yuyue_con .ipt_box span{width:15%;}
+	.yuyue_con .ipt_box input{width:68%;}
+ }
+ @media screen  and (max-width:375px){
+ 	.yuyue_con{position:absolute;top:260px;left:0;}
+	.yuyue_con .ipt_box span{width:18%;}
+	.yuyue_con .ipt_box input{width:65%;}
+ }
+@media screen  and (max-width:320px){
+	.yuyue_con{position:absolute;top:220px;left:0;}
+	.yuyue_con .ipt_box span{width:20%;}	
+	.yuyue_con .ipt_box input{width:63%;}
+ }
+ 
+ .mainbody{width:100%;height:auto;overflow:hidden;position:relative;}
+.mainbody img{width:100%;height:100%;}
+.suc_btn{width:100%;height:auto;overflow:hidden;position:absolute;bottom:5%;left:0;}
+.suc_btn a{width:40%;display:block;margin:0 auto;}
+.suc_btn a img{width:100%;} 

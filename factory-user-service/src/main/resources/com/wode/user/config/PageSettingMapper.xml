@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="PageSettingMapper">
+
+    <resultMap id="PageSetting" type="com.wode.factory.model.PageSetting">
+        <result property="id" column="id"/>
+        <result property="templateId" column="template_id"/>
+        <result property="templateTitle" column="template_title"/>
+        <result property="channel" column="channel"/>
+        <result property="title" column="title"/>
+        <result property="pageKey" column="page_key"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createUserName" column="create_user_name"/>
+        <result property="note" column="note"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="url" column="url"/>
+        <result property="ex1Value" column="ex1_value"/>
+        <result property="ex2Value" column="ex2_value"/>
+        <result property="ex3Value" column="ex3_value"/>
+        <result property="ex4Value" column="ex4_value"/>
+        
+        <result property="ftlFile" column="ftlFile"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,template_id,template_title,channel,title,page_key,supplier_id,supplier_name,create_user_id,create_user_name,note,create_time,update_time,url,ex1_value,ex2_value,ex3_value,ex4_value
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_page_setting (
+            template_id ,
+            template_title ,
+            channel ,
+            title ,
+            page_key ,
+            supplier_id ,
+            supplier_name ,
+            create_user_id ,
+            create_user_name ,
+            note ,
+            create_time ,
+            update_time,
+            url ,
+            ex1_value ,
+            ex2_value ,
+            ex3_value ,
+            ex4_value 
+        ) VALUES (
+            #{templateId} ,
+            #{templateTitle} ,
+            #{channel} ,
+            #{title} ,
+            #{pageKey} ,
+            #{supplierId} ,
+            #{supplierName} ,
+            #{createUserId} ,
+            #{createUserName} ,
+            #{note} ,
+            #{createTime} ,
+            #{updateTime},
+            #{url} ,
+            #{ex1Value} ,
+            #{ex2Value} ,
+            #{ex3Value} ,
+            #{ex4Value} 
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_page_setting SET            
+            template_id = #{templateId} ,
+            template_title = #{templateTitle} ,
+            channel = #{channel} ,
+            title = #{title} ,
+            page_key = #{pageKey} ,
+            supplier_id = #{supplierId} ,
+            supplier_name = #{supplierName} ,
+            create_user_id = #{createUserId} ,
+            create_user_name = #{createUserName} ,
+            note = #{note} ,
+            create_time = #{createTime} ,
+            update_time = #{updateTime} ,
+            url = #{url} ,
+            ex1_value = #{ex1Value} ,
+            ex2_value = #{ex2Value} ,
+            ex3_value = #{ex3Value} ,
+            ex4_value = #{ex4Value} ,
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_page_setting WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="PageSetting">
+        SELECT <include refid="columns" />,(select ftl_file from t_page_template where id=t_page_setting.template_id) ftlFile
+        <![CDATA[
+            FROM t_page_setting 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="PageSetting">
+        SELECT <include refid="columns" /> FROM t_page_setting 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(templateId)">
+                AND template_id = #{templateId}
+            </if>
+           <if test="@Ognl@isNotEmpty(templateTitle)">
+                AND template_title = #{templateTitle}
+            </if>
+           <if test="@Ognl@isNotEmpty(channel)">
+                AND channel = #{channel}
+            </if>
+           <if test="@Ognl@isNotEmpty(title)">
+				AND title like CONCAT(CONCAT('%',#{title}),'%')
+            </if>
+           <if test="@Ognl@isNotEmpty(pageKey)">
+                AND page_key = #{pageKey}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierName)">
+                AND supplier_name = #{supplierName}
+            </if>
+           <if test="@Ognl@isNotEmpty(createUserId)">
+                AND create_user_id = #{createUserId}
+            </if>
+           <if test="@Ognl@isNotEmpty(createUserName)">
+                AND create_user_name = #{createUserName}
+            </if>
+           <if test="@Ognl@isNotEmpty(note)">
+                AND note = #{note}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND update_time = #{updateTime}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

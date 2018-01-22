@@ -1,0 +1,96 @@
+<div class="layer" >
+	<form name="FormPost" id="group_add" class="FormGrid"  method="post" action="${ctxPath}/productTrial/addGroupLimitProduct">
+		<table class="addTable" width="100%">
+			<tbody>
+				<tr class="FormData">
+					<td class="CaptionTD">分组</td>
+					<td class="DataTD">
+					<select name="groupId" width="45%" datatype="*" >
+						@for(item in limitGroupList){
+						<option value="${item.id!}">${item.name! } </option>
+						@}
+					</select>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">商品id</td>
+					<td class="DataTD">
+					<input type="text" name="productId" id="productId1" value="" />
+					<input type="button" id="btn" value="搜索" onclick="search1()">
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">商品标题</td>
+					<td class="DataTD" id="name1">
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">商家</td>
+					<td class="DataTD" id="supplier1">
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">商品价格</td>
+					<td class="DataTD" id="price1">
+					
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">主图</td>
+					<td class="DataTD" id="image1">
+					
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">标签</td>
+					<td class="DataTD" id="saleKbn1">
+					
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+<#save formId="group_add"  reloadPage="true"/>
+<script type="text/javascript">
+//描述框自动扩张高度
+/* $('textarea[class*=autosize]').autosize({append: "\n"});
+$("#user-role-update").chosen({width: "100%",search_contains: true});  */
+function search1(){
+	var productId = $("#productId1").val();
+	if(productId == null || productId==''){
+		return;
+	}
+	$.ajax({
+		url:'${ctxPath}/productTrial/getProductMsg',
+		type : "GET",
+		data:{"productId":productId},//返回json格式的数据  
+		success : function(data){
+			if(data.success){
+				var result = data.data;
+				if(result != null && result != ''){
+					$("#name1").html(result.name);
+					$("#supplier1").html(result.supplierName);
+					if(result.saleKbn == 1){
+						$("#saleKbn1").append("特省");
+					}else if(result.saleKbn == 2){
+						$("#saleKbn1").append("换领");
+					}
+					if(result.productLadderlist != null){
+						$("#saleKbn1").append("企采");
+					}
+					if(result.productSpecificationslist != null){
+						var list = result.productSpecificationslist;
+						for(var i=0;i<list.length ;i++) {
+							$("#price1").append(list[i].price+"-"+list[i].internalPurchasePrice+"-"+list[i].stock+"-"+list[i].maxFucoin+"<br/>")
+						}
+					}
+					$("#image1").html('<img style="width:300px;height:300px;" src="'+result.image+'" />')
+				}
+			}
+		},error : function() {
+			alert(err)
+		}
+	});
+}
+</script>

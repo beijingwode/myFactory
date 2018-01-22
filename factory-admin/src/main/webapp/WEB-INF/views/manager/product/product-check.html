@@ -1,0 +1,941 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="layer">
+	<div class="tabbable">
+		<ul class="nav nav-tabs" id="myTab">
+			<li class="">
+			<a data-toggle="tab" href="#jibenxinxi"> 
+				<i class="green ace-icon fa fa-users bigger-120"></i> 基本信息
+			</a>
+			</li>
+	
+			<li class=""><a data-toggle="tab" href="#shuxing"> 
+			<i class="green ace-icon fa fa-plus bigger-120"></i> 属性
+			</a></li>
+			
+			<li class="active"><a data-toggle="tab" href="#guige"> 
+			<i class="green ace-icon fa fa-plus bigger-120"></i> 规格
+			</a></li>
+			
+			<li class=""><a data-toggle="tab" href="#zhuangxiangqingdan"> 
+			<i class="green ace-icon fa fa-plus bigger-120"></i> 装箱清单
+			</a></li>
+			
+			<li class=""><a data-toggle="tab" href="#xiangqing"> 
+			<i class="green ace-icon fa fa-plus bigger-120"></i> 详情
+			</a></li>
+			
+		</ul>
+		<div class="tab-content">
+			<!-- 基本信息 start -->
+			<input type="hidden" value="${product.productId}" id="productId" name="productId"/>
+			<input type="hidden" value="${id}" id="prid" name="id"/>
+			<div id="jibenxinxi" class="tab-pane clearfix">
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">商品标题</div>
+						<div class="profile-info-value">
+							${product.fullName!}
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">商品副标题</div>
+						<div class="profile-info-value">
+							${product.name!}
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">商品广告语</div>
+						<div class="profile-info-value">
+							${product.promotion!}
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">商家名称</div>
+						<div class="profile-info-value">
+						${product.supplierName}
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">品牌</div>
+						<div class="profile-info-value">
+							${product.brandName!}
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">所属类别</div>
+						<div class="profile-info-value">
+							${product.categoryName!}
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">单品毛重</div>
+						<div class="profile-info-value">
+							${product.roughWeight}
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">单品长（含外包装）</div>
+						<div class="profile-info-value">
+							${product.length}
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">单品高（含外包装）</div>
+						<div class="profile-info-value">
+							${product.height!}
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">商品产地</div>
+						<div class="profile-info-value">
+							${product.produceaddress}
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">条形码</div>
+						<div class="profile-info-value">
+							${product.barcode!}
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">单品净重</div>
+						<div class="profile-info-value">
+							${product.netWeight!}
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">单品宽（含外包装）</div>
+						<div class="profile-info-value">
+							${product.width!}
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">单品体积（含外包装）</div>
+						<div class="profile-info-value">
+							${product.bulk!}
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">显示价格</div>
+						<div class="profile-info-value">
+							${product.showPrice!}
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">限购</div>
+						<div class="profile-info-value">
+						    @if(product.limitKbn ==3){
+								企业级用户，
+							@}	
+							@if(product.limitCnt>0){
+								每用户限购${product.limitCnt!}件，
+							@}							
+							销售区域：${product.areasName!}
+						</div>
+					</div>
+				</div>
+				@if(product.saleKbn==1){
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">特省</div>
+						<div class="profile-info-value">
+								${product.saleNote!}
+						</div>
+					</div>
+				</div>
+				@} 
+				@if(product.locked==1){
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">锁定</div>
+						<div class="profile-info-value">
+								${product.lockReason!}
+						</div>
+					</div>
+				</div>
+				@} 
+			</div>
+			<!-- 基本信息end -->
+			<!-- 属性 start -->
+			<div id="shuxing" class="tab-pane">
+				@for(item in product.productAttributelist){
+				  <div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">${item.attributeName!}</div>
+						<div class="profile-info-value">
+							${item.value!}
+						</div>
+					</div>
+				  </div>
+				@}
+			</div>
+			<!-- 属性 end -->
+			<!-- 规格 start -->
+			<div id="guige" class="tab-pane active">
+				<div class="profile-user-info profile-user-info-striped" >
+						${specTable!}
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">限购</div>
+						<div class="profile-info-value">
+						    @if(product.limitKbn != null && product.limitKbn ==3){
+								企业级用户，
+							@}	
+							@if(product.limitCnt>0){
+								每用户限购${product.limitCnt!}件，
+							@}	
+							销售区域：${product.areasName!}
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+					
+						<div class="profile-info-name">运费</div>
+						<div class="profile-info-value"> 
+						@if(isEmpty(isNewShippingTemplate)){
+							@if(isEmpty(shippingTemplate)){
+								${product.carriage!}
+							@} else {
+			           		<table  border="0" cellpadding="0" cellspacing="0">
+		           				<tr>
+		           					<th>运送方式</th>
+		           					<th style="width:250px;">配送到</th>
+		           					@if(shippingTemplate[0].countType=='1'){
+		           						<th>首件(个)</th><th>运费（元）</th><th>续件(个)</th>
+									@} 
+		           					@if(shippingTemplate[0].countType=='2'){
+		           						<th>首重(kg)</th><th>运费（元）</th><th>续重(kg)</th>
+									@} 
+		           					@if(shippingTemplate[0].countType=='3'){
+		           						<th>首体积(m³)</th><th>运费（元）</th><th>续体积(m³)</th>
+									@}
+		           					<th>运费（元）</th>
+		           				</tr>
+								@for(item in shippingTemplate){		           				
+		           				<tr>
+		           					<td>快递</td>
+		           					<td>${item.areasName}</td>
+		           					<td>${item.firstCnt}</td>
+		           					<td>${item.firstPrice}</td>
+		           					<td>${item.plusCnt}</td>
+		           					<td>${item.plusPrice}</td>
+		           				</tr>
+								@}
+		           			</table>
+							@}
+						
+							@if(!isEmpty(shippingFreeRule)){
+			           		<table  border="0" cellpadding="0" cellspacing="0">
+		           				<tr>
+		           					<th style="width:250px;">包邮区域</th>
+		           					<th>包邮条件</th>
+		           				</tr>
+								@for(item in shippingFreeRule){		           				
+		           				<tr>
+		           					<td>${item.areasName}</td>
+		           					@if(item.countTypeDes=='2'){
+		           					<td>满 ${item.param2} 元包邮</td>
+									@} 
+		           					@if(item.countTypeDes=='1'){
+			           					@if(item.countType=='1'){
+			           					<td>满 ${item.param1} 件包邮</td>
+										@} 
+			           					@if(item.countType=='2'){
+			           					<td>在 ${item.param1} kg内包邮</td>
+										@} 
+			           					@if(item.countType=='3'){
+			           					<td>在 ${item.param1} m³内包邮</td>
+										@} 
+									@} 
+		           					@if(item.countTypeDes=='3'){
+			           					@if(item.countType=='1'){
+			           					<td>满 ${item.param1} 件,且 ${item.param2} 元以上 包邮</td>
+										@} 
+			           					@if(item.countType=='2'){
+			           					<td>在 ${item.param1} kg内,且 ${item.param2} 元以上 包邮</td>
+										@} 
+			           					@if(item.countType=='3'){
+			           					<td>在 ${item.param1} m³内,且 ${item.param2} 元以上 包邮</td>
+										@} 
+									@} 
+		           				</tr>
+								@}
+		           			</table>
+							@} 
+							
+							@if(isEmpty(shippingFreeRule) && isEmpty(shippingTemplate)) {
+							  <br/>没有设置运费模板
+							@}else{ 
+							  <br/>旧运费策略建议尽快设置商家运费模板
+							@} 
+						@} else {
+						 	@if(!isEmpty(isNewCarriage)){
+						    	商家包邮
+						 	@}else{
+						 		 见运费模板
+						 	@}
+						@}
+						</div>
+						</div>
+				</div>
+				@if(!isEmpty(isNewShippingTemplate) && isEmpty(isNewCarriage)){
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+					
+						<div class="profile-info-name">运费模板</div>
+						<div class="profile-info-value"> 
+						  @if(!isEmpty(shippingTemplate)){
+		           		<table  border="0" cellpadding="0" cellspacing="0">
+	           				<tr>
+	           					<th>运送方式</th>
+	           					<th style="width:250px;">配送到</th>
+	           					@if(shippingTemplate[0].countType=='1'){
+	           						<th>首件(个)</th><th>运费（元）</th><th>续件(个)</th>
+								@} 
+	           					@if(shippingTemplate[0].countType=='2'){
+	           						<th>首重(kg)</th><th>运费（元）</th><th>续重(kg)</th>
+								@} 
+	           					@if(shippingTemplate[0].countType=='3'){
+	           						<th>首体积(m³)</th><th>运费（元）</th><th>续体积(m³)</th>
+								@}
+	           					<th>运费（元）</th>
+	           				</tr>
+							@for(item in shippingTemplate){		           				
+	           				<tr>
+	           					<td>快递</td>
+	           					<td>${item.areasName}</td>
+	           					<td>${item.firstCnt}</td>
+	           					<td>${item.firstPrice}</td>
+	           					<td>${item.plusCnt}</td>
+	           					<td>${item.plusPrice}</td>
+	           				</tr>
+							@}
+	           			</table>
+						@}
+						@if(!isEmpty(supplierShippingFreeRule)){
+		           		<table  border="0" cellpadding="0" cellspacing="0">
+	           				<tr>
+	           					<th style="width:250px;">包邮区域</th>
+	           					<th>包邮条件</th>
+	           				</tr>
+							@for(item in supplierShippingFreeRule){		           				
+	           				<tr>
+	           					<td>${item.areasName}</td>
+	           					@if(item.countTypeDes=='2'){
+	           					<td>满 ${item.param2} 元包邮</td>
+								@} 
+	           					@if(item.countTypeDes=='1'){
+		           					@if(item.countType=='1'){
+		           					<td>满 ${item.param1} 件包邮</td>
+									@} 
+		           					@if(item.countType=='2'){
+		           					<td>在 ${item.param1} kg内包邮</td>
+									@} 
+		           					@if(item.countType=='3'){
+		           					<td>在 ${item.param1} m³内包邮</td>
+									@} 
+								@} 
+	           					@if(item.countTypeDes=='3'){
+		           					@if(item.countType=='1'){
+		           					<td>满 ${item.param1} 件,且 ${item.param2} 元以上 包邮</td>
+									@} 
+		           					@if(item.countType=='2'){
+		           					<td>在 ${item.param1} kg内,且 ${item.param2} 元以上 包邮</td>
+									@} 
+		           					@if(item.countType=='3'){
+		           					<td>在 ${item.param1} m³内,且 ${item.param2} 元以上 包邮</td>
+									@} 
+								@} 
+	           				</tr>
+							@}
+	           			</table>
+						@} 
+						</div>
+						</div>
+				</div>
+				@}
+				@if(flag==3){  
+				<div class="profile-info-row">
+					<div class="profile-info-name">商家包邮</div>
+					<div class="profile-info-value"> 
+						全场满 ${supplier.shippingFree} 元包邮
+					</div>
+				</div>
+				@} else if(flag==2){  
+				<div class="profile-info-row">
+					<div class="profile-info-name">商家包邮</div>
+					<div class="profile-info-value">
+						@if(!isEmpty(supplierShippingFreeRule)){
+		           		<table  border="0" cellpadding="0" cellspacing="0">
+	           				<tr>
+	           					<th style="width:250px;">包邮区域</th>
+	           					<th>包邮条件</th>
+	           				</tr>
+							@for(item in supplierShippingFreeRule){		           				
+	           				<tr>
+	           					<td>${item.areasName}</td>
+	           					@if(item.countTypeDes=='2'){
+	           					<td>满 ${item.param2} 元包邮</td>
+								@} 
+	           					@if(item.countTypeDes=='1'){
+		           					@if(item.countType=='1'){
+		           					<td>满 ${item.param1} 件包邮</td>
+									@} 
+		           					@if(item.countType=='2'){
+		           					<td>在 ${item.param1} kg内包邮</td>
+									@} 
+		           					@if(item.countType=='3'){
+		           					<td>在 ${item.param1} m³内包邮</td>
+									@} 
+								@} 
+	           					@if(item.countTypeDes=='3'){
+		           					@if(item.countType=='1'){
+		           					<td>满 ${item.param1} 件,且 ${item.param2} 元以上 包邮</td>
+									@} 
+		           					@if(item.countType=='2'){
+		           					<td>在 ${item.param1} kg内,且 ${item.param2} 元以上 包邮</td>
+									@} 
+		           					@if(item.countType=='3'){
+		           					<td>在 ${item.param1} m³内,且 ${item.param2} 元以上 包邮</td>
+									@} 
+								@} 
+	           				</tr>
+							@}
+	           			</table>
+						@} 
+					</div>
+				</div>
+				@} else if(flag==1){  
+				<div class="profile-info-row">
+					<div class="profile-info-name">商家包邮</div>
+					<div class="profile-info-value"> 
+						全场包邮未设置
+					</div>
+				</div>
+				@}
+				@if(product.saleKbn==1){
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">特省</div>
+						<div class="profile-info-value">
+								特省&nbsp;&nbsp;${product.saleNote!}
+						</div>
+					</div>
+				</div>
+				@} else if(product.saleKbn==2){
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">换领</div>
+						<div class="profile-info-value">
+								${product.saleNote!} 
+						</div>
+					</div>
+				</div>
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">换领期限</div>
+						<div class="profile-info-value">
+							@if(exchangeProduct.limitType==1){
+								1个月
+							@} else if(exchangeProduct.limitType==2){
+								2个月
+							@} else if(exchangeProduct.limitType==3){
+								3个月
+							@} else if(exchangeProduct.limitType==5){
+								半个月
+							@} else if(exchangeProduct.limitType==9){
+								领完为止
+							@}
+						</div>
+					</div>
+				</div>
+				@} else if(product.saleKbn==4){
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">员工特享</div>
+						<div class="profile-info-value">
+								@if(product.empLevel==-1){
+									本企业所有员工特享价格${product.empPrice!} 元
+								@} else {
+									专享价格${product.empPrice!} 元，合每张内购现金卷${skuPrice-product.empPrice!} 元抵扣,可发放${product.empLevel!}张
+								@}
+								@if(product.empCash==1){
+									<br />未购买此商品的员工可获得现金券（差价）补偿
+								@}
+						</div>
+					</div>
+				</div>
+				@} else if(product.saleKbn==5){
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">试用</div>
+						<div class="profile-info-value">
+								试用&nbsp;&nbsp;${product.saleNote!}
+							@if(product.questionnaireId>-1){
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<a class="green" href="${supplierUrl}questionnaire/result.html?qId=${product.questionnaireId!}" target="_blank">
+								<i class="ace-icon fa fa-search icon-on-right bigger-110"></i>问卷
+								</a>
+							@}
+						</div>
+					</a>
+					</div>
+				</div>
+				@} 
+				@if(!isEmpty(productLadderList)){
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">阶梯价格</div>
+						<div class="profile-info-value">
+							<table  border="0" cellpadding="0" cellspacing="0">
+							@for(item in productLadderList){		           				
+	           				<tr>
+	           					<td style="width:100px">${item.num}件以上</td>
+	           					@if(item.type==0){
+	           					<td style="width:100px">￥${item.price}</td>
+	           					@}else if(item.type==1){
+	           					<td style="width:100px">${item.price}折</td>
+	           					@}
+	           					<td>${item.skuids}</td>
+	           				</tr>
+							@}
+	           			</table>
+						</div>
+					</div>
+				</div>
+				@}
+				<div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">比价</div>
+						<div class="profile-info-value">
+		           		<table class="table table-striped table-bordered table-hover nomargin-bottom">
+		           		<thead>
+	           				<tr>
+	           					<th class="center" width="10%">规格</th>
+	           					<th class="center" width="5%">电商价</th>
+	           					<th class="center" width="5%">内购价</th>
+	           					<th class="center" width="10%">第三方平台</th>
+	           					<th class="center" width="40%">比价url</th>
+	           					<th class="center" width="5%">基准价格</th>
+	           					<th class="center" width="5%">最新价格</th>
+	           					<th class="center" width="5%">url状态</th>
+	           				</tr>
+	           			</thead>
+	           			<tbody id="ptp">
+							${ptpHtml!}
+						</tbody>
+	           			</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 规格 end -->
+			<!-- 参数 start -->
+			<div id="canshu" class="tab-pane">
+			</div>
+			<!-- 参数 end -->
+			<!-- 装箱清单start -->
+			<div id="zhuangxiangqingdan" class="tab-pane">
+				@for(item in product.productDetaillist){
+				  <div class="profile-user-info profile-user-info-striped" >
+					<div class="profile-info-row">
+						<div class="profile-info-name">${item.name!}</div>
+						<div class="profile-info-value">
+							${item.num!}
+						</div>
+					</div>
+				  </div>
+				@}
+			</div>
+			<!-- 装箱清单 end -->
+			<!-- 详情 start -->
+			<div id="xiangqing" class="tab-pane" style="min-height:200px;">
+				${product.introduction!}
+			</div>
+			<!-- 详情 end -->
+		</div>
+	</div>
+	<div><span>修改内容：${product.updateDesc}</span></div>
+	<div class="col-sm-40" style="margin-top:20px;" id="pushlimitTicketDiv">
+		&nbsp;<input type="checkbox" name="limitTicket" id="limitTicket">&nbsp;&nbsp;<label>自动发行内购抵用券（用于大额补贴 ，内购券>400的SKU 单位）</label>
+	</div>
+	<div class="col-sm-40" style="margin-top:20px;">
+		<label for="form-field-10">上线方式:&nbsp;<input class="redio" type="radio" name="selfType" value="0" checked>立即上线
+		<input class="redio" type="radio" name="selfType" value="1">线下销售
+		<input class="redio" type="radio" name="selfType" value="2"></label>指定日期上线
+		<input type="text" name="selfTime" id="selfTime" style="display: none">
+	</div>
+	<div class="col-sm-40" style="margin-top:20px;">
+			<label for="form-field-11">审核意见:<input class="redio" type="radio" name="status" value="2" checked>通过  
+		<input class="redio" type="radio" name="status" value="-1">不通过</label>
+		<a class="green" href="http://s.etao.com/search?q=${product.fullName}" target="_blank">
+			<i class="ace-icon fa fa-eye icon-on-right bigger-110"></i>全网比价
+		</a>
+		<a href="javascript:note('因比价系统实时更新，需商家及时配合改价，谢谢配合！')">
+			因比价系统实时更新，需商家及时配合改价，谢谢配合！
+		</a>
+			<textarea class="autosize-transition form-control" id="opinion"  style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 69px;"></textarea>
+	</div>
+@if(!isEmpty(checkList)){ 
+		<table class="table table-striped table-bordered table-hover nomargin-bottom">
+			<div class="col-sm-12">
+				<label>历史审核</label>
+			</div>
+	<thead>
+		<tr>
+			<th class="center">审核人</th>
+			<th class="center">审核时间</th>
+			<th class="center">审核意见</th>
+			<th class="center">审核结果</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@for(item in checkList){
+			<tr>
+				<td class="center">
+					${item.username!}
+				</td>
+				<td class="center">
+					${item.time!,dateFormat="yyyy-MM-dd HH:mm:ss"}
+				</td>
+				<td class="center">
+					${item.opinion!}
+				</td>
+				<td class="center">
+					@if(item.result == 2){ 
+						审核通过
+					@} 
+					@if(item.result == -1){ 
+						审核未通过 
+					@}
+					@if(item.result == -2){ 
+						强制下架
+					@} 
+				</td>
+			</tr>
+		@}
+	</tbody>
+	</table>
+	@}				
+	
+	
+</div>
+
+<div class="width-100 clearfix" tag-save-btn style="bottom: 0px; left: 0px; position: absolute;">
+
+	@if(product.saleKbn==2 && product.locked==1){
+	@} else {
+	<span id="speVal_submit" onclick="pass()" class="btn btn-primary btn-sm bigger-110 width-50  pull-left">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i> 确定
+	</span>
+	@}
+	<span id="speVal_cancel" class="btn btn-yellow btn-sm bigger-110 width-50 pull-right"	>
+		<i class="ace-icon fa fa-times align-top  bigger-125"></i> 取 消
+	</span>
+</div>
+
+<!-- Small modal -->
+<div class="modal fade bs-example-modal-sm"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+	    <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
+	        
+	      </div>
+        <div class="modal-body">
+     		审核不通过，请输入审核意见！
+        </div>
+        <div class="modal-footer">
+        	<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+laydate({
+    elem: '#selfTime',
+    format: 'YYYY-MM-DD',// 分隔符可以任意定义，该例子表示只显示年月
+    istoday: true,
+    min:laydate.now(+1),
+});
+$(document).ready(function() {
+	//sortImages();
+	$("#speVal_cancel").click(function(){
+		layer.closeAll();
+		return false;
+	});
+	
+	//修改输入框为编辑状态
+	$(".action-buttons").on("click",".speValueEdit",function(){
+		$(this).parents(".center").prev().children().removeAttr("disabled");
+		$(this).parents(".center").prev().prev().children().removeAttr("disabled");
+	});
+	//删除	
+	$(".action-buttons").on("click",".speValueDel",function(){
+		$(this).parents(".center").parents(".speValue_class").attr("style","display: none;");
+	});
+	//添加
+	$("#addSpeValue").click(function(){
+		var html_string = "<tr class=\"speValue_class\"><input type=\"hidden\"/><td class=\"center\"></td><td class=\"center\"><input type=\"text\"	maxlength=\"50\" value=\"\" style=\"width: 100%\"/></td><td class=\"center\"><input type=\"number\" onkeyup=\"this.value=this.value.replace(/\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\D/g,'')\" value=\"\" style=\"width: 100%\"/></td><td class=\"center\"><div class=\"hidden-sm hidden-xs action-buttons\"><a class=\"green speValueEdit\" href=\"javascript:void(0);\"> <i class=\"ace-icon fa fa-pencil bigger-130\"></i></a><a class=\"red speValueDel\" href=\"javascript:void(0);\"> <i class=\"ace-icon fa fa-trash-o bigger-130\"></i></a></div></td></tr>";
+		var speValue = $(".speValue_class").last();
+		if(speValue.attr("style")=="display: none;"){
+			$(".speValue_class").last().after(html_string);
+		}else{
+			//tr标签下的子项
+			var tr_children = speValue.children();
+			//根据输入框中的信息和序号判断信息可用不可用       序号为空标示新添加的信息 . 序号不为空，但是输入框为空，标示修改信息. tr标签style值为none标示删除
+			//输入框信息
+			var input_value = tr_children.eq(2).find("*").val();
+			//序号
+			var index_ = tr_children.eq(0).html();
+			if(input_value!=""){
+				$(".speValue_class").last().after(html_string);
+			}else{
+				if(index_!=""){
+					$(".speValue_class").last().after(html_string);
+				}
+			}
+		}
+	});
+	$(":radio[name='selfType']").click(function(){
+		if($(this).index()=="2"){
+			$("#selfTime").show();
+		}else{
+			$("#selfTime").hide();
+		}
+  	});
+	
+	//设置点击查看大图
+	var  $imgs=$("img");
+	$imgs.each(function(){
+		 var img = $(this);
+		 var imgsrc=img.attr("src");
+		 var url=imgsrc;
+
+		 if(isPdf(imgsrc)) {
+			 imgsrc="${ctxPath}/static/img/pdf.png";
+		 }
+		 img.attr("src",imgsrc);
+		 img.attr("onclick","winOpen('"+url+"');");
+		});
+	
+
+	//设置主图顺序调整
+	var $list = $("#parameterTable ul li");
+	$list.each(function(i,val){
+		$(this).hover(function(){
+			var html= "<span onclick='sortImage(this)'><a href='javascript:;'>左移</a></span>";
+			$(this).prepend(html);
+   		},function(){
+   			$(this).find('span').remove();
+   		});
+	});
+	var flag = true;
+	//判断内购价是否满足大额补助
+	 $("[name='maxFucoin']").each(function(){
+         var maxFu = $(this).val();
+         if(maxFu>=400.0){
+        	 flag=false;
+        	 $("#limitTicket").attr("checked",true);
+         }
+       
+        if(flag){
+	        $("#pushlimitTicketDiv").hide();
+        }else{
+        	 $("#pushlimitTicketDiv").show();
+         }
+         
+     })
+});
+
+var imgSorted= false;
+function sortImage(objbtn){
+	var obj = $(objbtn).parent();	//主图对象
+	$(objbtn).remove();
+	// 左移
+	var prev = $(obj).prev();
+	if(prev.length==0) return;
+	
+	var html = prev.html();
+	prev.remove();
+	
+	$(obj).after("<li>"+html+"</li>");
+	$(obj).next().hover(function(){
+		var html= "<span onclick='sortImage(this)'><a href='javascript:;'>左移</a></span>";
+		$(this).prepend(html);
+		},function(){
+			$(this).find('span').remove();
+		});
+	imgSorted=true;
+}
+
+function isPdf(str) {
+	if(str==null || str=='' || str.length<5) return false;
+	
+	var ppostfix=str.substring(str.length-4);
+	return ppostfix==".pdf" || ppostfix==".PDF";
+}
+
+function winOpen(url){
+	window.open(url);
+}
+function note(txt){
+	$("#opinion").val($("#opinion").val()+txt);
+}
+function pass(){
+	$("#speVal_submit").removeAttr("onclick");
+	var imgIds = sortImageIds();
+	//所删除数据的id数组
+	//var productid = $("#productid").val();
+	var id= $("#prid").val();
+	var productId = $("#productId").val();
+	var status = $("[name='status']:checked").val();
+	var opinion = $("#opinion").val();
+	
+	var ptp_thirdType0 = $("#ptp_thirdType0").val();
+	var ptp_id0 = $("#ptp_id0").val();
+	var ptp_itemUrl0 = $("#ptp_itemUrl0").val();
+	var ptp_price0 = $("#ptp_price0").val();
+
+	var ptp_thirdType1 = $("#ptp_thirdType1").val();
+	var ptp_id1 = $("#ptp_id1").val();
+	var ptp_itemUrl1 = $("#ptp_itemUrl1").val();
+	var ptp_price1 = $("#ptp_price1").val();
+	
+	if(ptp_itemUrl0!='' && ptp_price0=='') {
+		alert("请输入电商价");
+		return;
+	} else if(ptp_itemUrl0=='' && ptp_price0!='') {
+		alert("请输入商品url");	
+		return;
+	}
+	
+	if(ptp_itemUrl1!='' && ptp_price1=='') {
+		alert("请输入电商价");
+		return;
+	} else if(ptp_itemUrl1=='' && ptp_price1!='') {
+		alert("请输入商品url");	
+		return;
+	}
+		
+	if(status=='-1'){
+		if($.trim(opinion)==''){
+			$('#myModal').modal();
+			$("#speVal_submit").attr("onclick","pass()");
+			return false;
+		}
+	}
+	var selfTime = $("#selfTime").val();
+	var selfType = getRadioValue("selfType");
+	if(status=='2'){//通过
+		if(selfType == '2'){//指定日期
+			if($.trim(selfTime)==''){
+				alert("请指定上线日期");
+				$("#speVal_submit").attr("onclick","pass()");
+				return false;
+			}
+		}
+	}
+	var flag = 0;
+	if ($("#limitTicket").attr("checked")){
+		flag = 1;
+	}
+	$.ajax({
+		"type":'POST',
+		"url":'${ctxPath}/product/doCheck',
+		"data":{"id":id,"productId":productId,"status":status,"opinion":opinion,"ptp":getPTPInfo('ptp'),"selfType":selfType,"selfDate":selfTime,"imgIds":imgIds,"flag":flag},
+		"success":function(data,response){
+			if(data==1){
+				var $form = $("#search-form")
+				var pageNoInput = $form.find('input[name="pageNum"]');
+				if(pageNoInput && pageNoInput.length>0) {
+					paging('search-form',pageNoInput.val());
+				}
+		
+				//关闭弹窗
+				layer.closeAll();
+			}else if(date==-1){
+				layer.msg('操作失败', 3, 1);
+				$("#speVal_submit").attr("onclick","pass()");
+			}
+		}
+	});
+}
+
+
+//保存切换图片顺序
+function sortImageIds(){
+	if(!imgSorted) return "";
+	var images = "";
+	var id = "";
+	var $list = $("#parameterTable ul li");
+	$("#parameterTable ul li img").each(  
+		function(){
+			id+=$(this).attr("data-id")+",";
+		});
+	
+	return id;
+}
+/**
+ * 得到radio选中值
+ */
+function getRadioValue(radioName) {
+    var chkRadio = document.getElementsByName(radioName);
+    for (var i = 0; i < chkRadio.length; i++) {
+        if (chkRadio[i].checked)
+            return chkRadio[i].value;
+    }
+}
+/**
+ * 得到表单数据
+ */
+function getPTPInfo(tableID){
+	var jsonmessage = new Array();
+	var args = {};
+	$("#"+tableID+" tr").each(function(i){
+		var data = new Object();
+		$(this).find("select[name],input[name]").each(function(){
+			var name = $(this).attr("name");
+			data[name]= $(this).val();
+		});
+		args=data;
+		jsonmessage[i]=args;
+	});
+	return JSON.stringify(jsonmessage);
+}
+</script>

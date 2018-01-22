@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserShareItemMapper">
+
+    <resultMap id="UserShareItem" type="com.wode.factory.model.UserShareItem">
+        <result property="id" column="id"/>
+        <result property="shareId" column="share_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="orders" column="orders"/>
+        <result property="key1" column="key1"/>
+        <result property="key2" column="key2"/>
+        <result property="key3" column="key3"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,share_id,user_id,orders,key1,key2,key3
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_share_item (
+            id ,
+            share_id ,
+            user_id ,
+            orders ,
+            key1 ,
+            key2 ,
+            key3
+        ) VALUES (
+            #{id} ,
+            #{shareId} ,
+            #{userId} ,
+            #{orders} ,
+            #{key1} ,
+            #{key2} ,
+            #{key3}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_share_item SET            
+            share_id = #{shareId} ,
+            user_id = #{userId} ,
+            orders = #{orders} ,
+            key1 = #{key1} ,
+            key2 = #{key2} ,
+            key3 = #{key3} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_share_item WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserShareItem">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_share_item 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="UserShareItem">
+        SELECT <include refid="columns" /> FROM t_user_share_item 
+        <include refid="find_where"/>
+        ORDER BY orders
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(shareId)">
+                AND share_id = #{shareId}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(orders)">
+                AND orders = #{orders}
+            </if>
+           <if test="@Ognl@isNotEmpty(key1)">
+                AND key1 = #{key1}
+            </if>
+           <if test="@Ognl@isNotEmpty(key2)">
+                AND key2 = #{key2}
+            </if>
+           <if test="@Ognl@isNotEmpty(key3)">
+                AND key3 = #{key3}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

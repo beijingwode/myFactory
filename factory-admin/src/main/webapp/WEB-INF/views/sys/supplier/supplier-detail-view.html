@@ -1,0 +1,1021 @@
+<div class="layer">
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active"><a data-toggle="tab" href="#supplier_home">
+				<i class="green ace-icon fa fa-users bigger-120"></i> 基本信息
+		</a></li>
+		<li class=""><a data-toggle="tab" href="#supplier_aptitude">
+				<i class="green ace-icon fa fa-users bigger-120"></i> 商家资质
+		</a></li>
+		<li><a data-toggle="tab" href="#supplier_info"> <i
+				class="green ace-icon fa fa-users bigger-120"></i> 店铺信息
+		</a></li>
+		<li class=""><a data-toggle="tab" href="#supplier_type"> <i
+				class="green ace-icon fa fa-users bigger-120"></i> 经营类目
+		</a></li>
+		<li class=""><a data-toggle="tab" href="#supplier_brand"> <i
+				class="green ace-icon fa fa-users bigger-120"></i> 品牌
+		</a></li>
+		<li class=""><a data-toggle="tab" href="#bill_manage"> <i
+				class="green ace-icon fa fa-users bigger-120"></i> 账期管理
+		</a></li>
+		<li class=""><a data-toggle="tab" href="#platformUseFee"> <i
+				class="green ace-icon fa fa-users bigger-120"></i> 平台使用费
+		</a></li>
+		<li class=""><a data-toggle="tab" href="#cashDeposit"> <i
+				class="green ace-icon fa fa-users bigger-120"></i> 保证金
+		</a></li>
+		<li class=""><a data-toggle="tab" href="#enterprise"> <i
+				class="green ace-icon fa fa-users bigger-120"></i> 企业信息
+		</a></li>
+		 <li class=""><a data-toggle="tab" href="#boundQRcode"> <i
+				class="green ace-icon fa fa-users bigger-120"></i> 员工绑定二维码
+		</a></li> 
+		<li class=""><a data-toggle="tab" href="#checkList"> <i
+				class="green ace-icon fa fa-users bigger-120"></i> 审核记录
+		</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active clearfix profile-user-info profile-user-info-striped"
+			id="supplier_home">
+			<input id="id" value="${supplier.id }" style="display: none;">
+			<div class="profile-info-row">
+				<div class="profile-info-name">企业类型</div>
+				<div class="profile-info-value">
+				@if(supplier.property == '1'){
+					品牌商
+				@} else if(supplier.property == '2'){
+					代理商
+				@} else if(supplier.property == '0'){
+					生产厂商 
+				@}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">商家名称</div>
+				<div class="profile-info-value">${supplier.comName!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">商家昵称</div>
+				<div class="profile-info-value">${supplier.nickName!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">logo</div>
+				<div class="profile-info-value">
+					<img src="${supplier.firmLogo}" style="width:300px"/>
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">商家传真</div>
+				<div class="profile-info-value">${supplier.comPortraiture!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">座机</div>
+				<div class="profile-info-value">${supplier.comTel!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">企业人数</div>
+				<div class="profile-info-value">${supplier.peopleNumber!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">公司营业执照注册号</div>
+				<div class="profile-info-value">${supplier.comRegisternum!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">状态</div>
+				<div class="profile-info-value">
+				@if(supplier.status >= 2){ 
+					审核通过
+				@} 
+				@if(supplier.status == -1){ 
+					审核未通过
+				@} 
+				@if(supplier.status == 1){
+					未审核 
+				@} 
+				@if(supplier.status == 0){
+					 未完成
+				@}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">邮编</div>
+				<div class="profile-info-value">${supplier.comPc!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">公司地址</div>
+				<div class="profile-info-value">${supplier.comState!}
+					${supplier.comCity!} ${supplier.comAddress!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">推荐人</div>
+				<div class="profile-info-value">${supplier.referee!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">营业执照地址</div>
+				<div class="profile-info-value">${supplier.busState}
+					${supplier.busCity} ${supplier.busAddress}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">注册资本</div>
+				<div class="profile-info-value">${supplier.registeredCapital!} (万元)
+				&nbsp;
+				@if(supplier.registeredCapitalCurrency == 1){
+					人民币
+				@}
+				@if(supplier.registeredCapitalCurrency == 2){
+					 美元
+				@}
+				@if(supplier.registeredCapitalCurrency == 3){
+					 港元
+				@}
+				@if(supplier.registeredCapitalCurrency == 4){
+					欧元
+				@}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">营业范围</div>
+				<div class="profile-info-value">${supplier.busScope!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">营业执照有效期</div>
+				<div class="profile-info-value">
+					${supplier.busBegintime!,dateFormat="yyyy-MM-dd"}~${supplier.busEndtime!,dateFormat="yyyy-MM-dd"}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">组织机构代码证编号</div>
+				<div class="profile-info-value">${supplier.orgNum!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">组织机构证有效期</div>
+				<div class="profile-info-value">
+					${supplier.orgBegintime!,dateFormat="yyyy-MM-dd"}~${supplier.orgEndtime!,dateFormat="yyyy-MM-dd"}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">税务登记证编号</div>
+				<div class="profile-info-value">${supplier.taxNum!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">是否普通纳税人</div>
+				<div class="profile-info-value">
+				@if(supplier.istaxpayer == 0){
+					 是
+				@}
+				@if(supplier.istaxpayer == 1){
+					 否
+				@}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">法人归属地</div>
+				<div class="profile-info-value">
+				@if(supplier.corCome == 0){
+					 中国大陆
+				@}
+				@if(supplier.corCome == 1){
+					 港澳
+				@}
+				@if(supplier.corCome == 2){
+					 台湾
+				@}
+				@if(supplier.corCome == 3){
+					 外籍
+				@}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">身份证</div>
+				<div class="profile-info-value">${supplier.corNum!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">开户人</div>
+				<div class="profile-info-value">${supplier.bankPeople!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">法人代表姓名</div>
+				<div class="profile-info-value">${supplier.corName!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">开户行</div>
+				<div class="profile-info-value">${supplier.bankId!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">银行账号</div>
+				<div class="profile-info-value">${supplier.bankNum!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">开户行地址</div>
+				<div class="profile-info-value">${supplier.bankState}
+					${supplier.bankCity}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">开户行支行名称</div>
+				<div class="profile-info-value">${supplier.bankName!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">我的网平台联盟协议</div>
+				<div class="profile-info-value">
+				@if(supplier.protocolFile != null){
+					<a target="_blank" href="${webUrl}${supplier.protocolFile!}">《${supplier.protocolFile!}》</a>
+				@}
+				</div>
+			</div>
+		</div>
+
+		<div class="tab-pane profile-user-info profile-user-info-striped" id="supplier_aptitude">
+			<div class="profile-info-row">
+				<div class="profile-info-name">企业营业执照副本复印件</div>
+				<div class="profile-info-value"><img src="${supplier.busImgUrl!}"  style="width:300px"/></div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">银行开户许可证</div>
+				<div class="profile-info-value"><img src="${supplier.bankImgUrl!}" style="width:300px"/></div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">组织机构代码证复印件</div>
+				<div class="profile-info-value"><img src="${supplier.orgImgUrl!}" style="width:300px"/></div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">税务登记证复印件</div>
+				<div class="profile-info-value"><img src="${supplier.taxImgUrl!}" style="width:300px"/></div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">一般纳税人资质证明</div>
+				<div class="profile-info-value"><img src="${supplier.istaxpayerImgUrl!}" style="width:300px"/></div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">法定代表人身份证正反面复印件</div>
+				<div class="profile-info-value"><img src="${supplier.corImgUrl!}" style="width:300px"/></div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name"></div>
+				<div class="profile-info-value"><img src="${item3.url!}" style="width:300px"/></div>
+			</div>
+		</div>
+		
+		<div class="tab-pane profile-user-info profile-user-info-striped" id="supplier_info">
+		@for(item in supplier.shopList){
+			<div class="profile-info-row">
+				<div class="profile-info-name">店铺类型</div>
+				<div class="profile-info-value">
+				@if(item.type == 2){
+					旗舰店
+				@} 
+				@if(item.type == 1){
+					专卖店
+				@} 
+				@if(item.type == 0){
+					专营店
+				@}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">商铺名称</div>
+				<div class="profile-info-value">${item.shopname!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">商铺logo</div>
+				<div class="profile-info-value"><img src="${item.logo!}"/></div>
+			</div>			<div class="profile-info-row">
+				<div class="profile-info-name">客服固定电话</div>
+				<div class="profile-info-value">${item.serTel!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">客服手机</div>
+				<div class="profile-info-value">${item.serPhone!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">客服邮箱</div>
+				<div class="profile-info-value">${item.serEmail!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">客服联系人</div>
+				<div class="profile-info-value">${item.serContact!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">售后公司固定电话</div>
+				<div class="profile-info-value">${item.cusTel!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">售后公司手机</div>
+				<div class="profile-info-value">${item.cusPhone!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">售后联系人</div>
+				<div class="profile-info-value">${item.cusContact!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">店铺电话</div>
+				<div class="profile-info-value">${item.shopTel!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">店铺手机</div>
+				<div class="profile-info-value">${item.shopPhone!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">店铺邮箱</div>
+				<div class="profile-info-value">${item.shopEmail!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">店铺联络人</div>
+				<div class="profile-info-value">${item.shopContact!}</div>
+			</div>
+			@if(item.attachmentList != null) {
+			@for(item3 in item.attachmentList){
+				@if(item3.relatedId == 6){ 
+					<div class="profile-info-row">
+						<div class="profile-info-name">品牌归属同一实际控制人的证明</div>
+						<div class="profile-info-value"><img src="${item3.url!}" style="width:300px"/></div>
+					</div>
+				@}
+				@if(item3.relatedId == 7){ 
+					<div class="profile-info-row">
+						<div class="profile-info-name">食品酒水特殊行业资质</div>
+						<div class="profile-info-value"><img src="${item3.url!}" style="width:300px"/></div>
+					</div>
+				@}
+			@}
+			@}
+			<br />
+			<br />
+		@}
+		</div>
+		<div class="tab-pane profile-user-info profile-user-info-striped" id="supplier_type">
+		@for(item in supplier.shopList){
+			<div class="profile-info-row">
+				<div class="profile-info-name">店铺类型</div>
+				<div class="profile-info-value">
+				@if(item.type == 2){
+					旗舰店
+				@} 
+				@if(item.type == 1){
+					专卖店
+				@} 
+				@if(item.type == 0){
+					专营店
+				@}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">商铺名称</div>
+				<div class="profile-info-value">${item.shopname!}</div>
+			</div>
+			
+			@for(item2 in item.productCategoryList){
+				<div class="profile-info-row">
+					<input type="hidden" class="commissionId" value="${item2.id!}">
+					<div class="profile-info-name">${item2LP.index!}</div>
+					<div class="profile-info-value">${item2.name!}</div>
+					<div class="profile-info-name">佣金比例</div>
+					<div class="profile-info-value">
+						${item2.commissionScale!}
+					</div>
+				</div>
+			@}
+			<br />
+			<br />
+		@}
+		</div>
+		<div class="tab-pane profile-user-info profile-user-info-striped" id="supplier_brand">
+		@for(item in supplier.shopList){
+			<div class="profile-info-row">
+				<div class="profile-info-name">店铺类型</div>
+				<div class="profile-info-value">
+				@if(item.type == 2){
+					旗舰店
+				@} 
+				@if(item.type == 1){
+					专卖店
+				@} 
+				@if(item.type == 0){
+					专营店
+				@}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">商铺名称</div>
+				<div class="profile-info-value">${item.shopname!}</div>
+			</div>
+			
+			@for(item4 in item.productBrandList){
+				<div class="profile-info-row">
+					<div class="profile-info-name">品牌资质</div>
+					<div class="profile-info-value">
+					@if(item4.natural == 0){
+						自有
+					@}
+					@if(item4.natural == 1){
+						代理
+					@}
+					</div>				
+				</div>
+				<div class="profile-info-row">
+					<div class="profile-info-name">品牌名称</div>
+					<div class="profile-info-value">${item4.name!}</div>				
+				</div>
+				<div class="profile-info-row">
+					<div class="profile-info-name">注册号</div>
+					<div class="profile-info-value">${item4.brandNo!}</div>				
+				</div>
+				<div class="profile-info-row">
+					<div class="profile-info-name">品牌logo</div>
+					<div class="profile-info-value"><img src="${item4.logo!}"/></div>				
+				</div>
+				<div class="profile-info-row">
+					<div class="profile-info-name">商标类型</div>
+					<div class="profile-info-value">
+					@if(item4.brandType == '0'){
+						TM标
+					@}
+					@if(item4.importFlg == '1'){
+						R标
+					@}
+					</div>					
+				</div>
+				<div class="profile-info-row">
+					<div class="profile-info-name">有效期</div>
+					<div class="profile-info-value">
+					@if(item4.brandType == '0'){
+						${item4.brandcreatedTM!,dateFormat="yyyy-MM-dd"}
+					@}
+					@if(item4.importFlg == '1'){
+						${item4.begintimeR!,dateFormat="yyyy-MM-dd"}~${item4.endtimeR!,dateFormat="yyyy-MM-dd"}
+					@}
+					</div>	
+				</div>
+				<div class="profile-info-row">
+					<div class="profile-info-name">进口标致</div>
+					<div class="profile-info-value">
+					@if(item4.importFlg == '0'){
+						非进口
+					@}
+					@if(item4.importFlg == '1'){
+						进口
+					@}
+					</div>	
+				</div>
+				<div class="profile-info-row">
+					<div class="profile-info-name">授权有效期</div>
+					<div class="profile-info-value">
+						${item4.begintimeAuth!,dateFormat="yyyy-MM-dd"}~${item4.endtimeAuth!,dateFormat="yyyy-MM-dd"}
+					</div>	
+				</div>
+				<div class="profile-info-row">
+					<div class="profile-info-name">商标受理通知书</div>
+					<div class="profile-info-value">
+						@for(item8 in item4.brandurlList){
+						<img src="${item8!}" style="width:300px"/><br />
+						@}
+					</div>
+				</div>
+				<div class="profile-info-row">
+					<div class="profile-info-name">商标授权书</div>
+					<div class="profile-info-value">
+						@for(item5 in item4.imageList){
+						<img src="${item5.source!}" style="width:300px"/><br />
+						@}
+					</div>				
+				</div>
+				<br />
+				<br />
+			@}
+			<br />
+			<br />
+		@}
+		</div>
+		<div class="tab-pane profile-user-info profile-user-info-striped" id="bill_manage">
+			<div class="profile-info-row">
+				<div class="profile-info-name">账期类型:</div>
+				<div class="profile-info-value">
+				
+					@if(supplierDuration.saleDurationKey == '101'){
+						日结
+					@} else if(supplierDuration.saleDurationKey == '102'){
+						5日结
+					@} else if(supplierDuration.saleDurationKey == '103'){
+						7日结
+					@} else if(supplierDuration.saleDurationKey == '104'){
+						10日结
+					@} else if(supplierDuration.saleDurationKey == '105'){
+						半月结
+					@} else if(supplierDuration.saleDurationKey == '106'){
+						月结
+					@} else if(supplierDuration.saleDurationKey == '107'){
+					
+					@} else if(null != sdName){
+					       ${sdName}
+					@}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">账单日:</div>
+				<div class="profile-info-value">
+				@if(supplierDuration.startTime==null){
+					<input type="text" id="bill_date" value="${startTime,'yyyy-MM-dd'}" />
+				@}
+				<!-- 如果有值，显示该值，并且该值不能进行修改 -->
+				@if(supplierDuration.startTime!=null){
+					${supplierDuration.startTime,'yyyy-MM-dd'}
+					<input type="hidden" id="bill_date" value="${supplierDuration.startTime,'yyyy-MM-dd'}" />
+				@}
+				
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="tab-pane profile-user-info profile-user-info-striped" id="platformUseFee">
+			<div class="profile-info-row">
+				<div class="profile-info-name">平台使用费:</div>
+				<div class="profile-info-value">
+				@if(supplier.platformUseFee!=null){
+					${supplier.platformUseFee!}
+				@}
+				</div>
+			</div>
+		</div>
+		
+		<div class="tab-pane profile-user-info profile-user-info-striped" id="cashDeposit">
+			<div class="profile-info-row">
+				<div class="profile-info-name">保证金:</div>
+				<div class="profile-info-value">${supplier.cashDeposit!}</div>
+			</div>
+		</div>
+		
+		<div class="tab-pane profile-user-info profile-user-info-striped" id="enterprise">
+			<div class="profile-info-row">
+				<div class="profile-info-name">企业名称</div>
+				<div class="profile-info-value">${enterprise.name!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">企业类型</div>
+				<div class="profile-info-value">${enterprise.typeName!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">所属行业</div>
+				<div class="profile-info-value">${enterprise.industryName!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">上市企业</div>
+				<div class="profile-info-value">${enterprise.listed!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">年营业额（万元）</div>
+				<div class="profile-info-value">${enterprise.turnover!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">企业人数（人）</div>
+				<div class="profile-info-value">${supplier.peopleNumber!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">企业员工人数（人）</div>
+				<div class="profile-info-value">${peopleNumber!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">本季度发放的福利</div>
+				<div class="profile-info-value">${curTotal!}</div>
+			</div>
+		</div>
+		
+		<div class="tab-pane profile-user-info profile-user-info-striped" id="checkList">
+			<div class="profile-info-row">
+
+			@if(!isEmpty(checkList)){ 
+			<table class="table table-striped table-bordered table-hover nomargin-bottom">
+			  <thead>
+				<tr>
+					<th class="center">审核项目</th>
+					<th class="center">审核人</th>
+					<th class="center">审核时间</th>
+					<th class="center">审核意见</th>
+					<th class="center">审核结果</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				@for(item in checkList){
+					<tr>
+						<td class="center">
+							${item.checkType!}
+						</td>
+						<td class="center">
+							${item.username!}
+						</td>
+						<td class="center">
+							${item.time!,dateFormat="yyyy-MM-dd HH:mm:ss"}
+						</td>
+						<td class="center">
+							${item.opinion!}
+						</td>
+						<td class="center">
+							@if(item.result == -1){
+								审核未通过
+							@} else { 
+								审核通过
+							@}
+						</td>
+					</tr>
+				@}
+		      </tbody>
+			</table>
+			@}
+			</div>
+		</div>
+		
+		 <div class="tab-pane profile-user-info profile-user-info-striped" id="boundQRcode">
+		 @if(userShare!=null){
+			<input type="hidden" value="${userShare.id !}" id="p_shareId">
+			<input type="hidden" value="${userShare.shareUrl !}" id="p_shareUrl">
+			<div class="profile-info-row">
+				<div class="profile-info-name">员工绑定链接</div>
+				<div class="profile-info-value">
+					${userShare.shareUrl!}
+					@if(userShare.wxTempLimitEnd!=null){
+						&nbsp;&nbsp;&nbsp;&nbsp;(有效期至：${userShare.wxTempLimitEnd!,dateFormat="yyyy-MM-dd" })
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href='${apiUrl}userShare/downLoadQrEmp500Ticket?text=${userShare.shareUrl!}&companyName=${userShare.userNick!}&limitEnd=${userShare.wxTempLimitEnd,dateFormat="yyyy.MM.dd"}&exchange=${count}' target="_blank">
+							下载卡券
+						</a>
+					@}else{
+						<input type="button" value="作废链接" onclick="delCode()">					
+					@}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">二维码</div>
+				<div class="profile-info-value">
+					<img src="${apiUrl}userShare/getQr?text=${userShare.shareUrl!}"/>
+					@if(userShare.wxTempLimitEnd!=null){
+					  &nbsp;&nbsp;&nbsp;&nbsp;(使用流程：扫码后>关注>推送>点击注册>跳转至活动页面)
+					@}
+				</div>				
+			</div>
+			@if(userShare.wxTempQrUrl!=null){
+			<div class="profile-info-row">
+				<div class="profile-info-name">原注册链接</div>
+				<div class="profile-info-value">${userShare.wxTempQrUrl!}<input type="button" value="作废链接" onclick="delCode()"></div>				
+			</div>
+			@} else {
+			<div class="profile-info-row">
+				<div class="profile-info-name">生成微信关注二维码</div>
+				<div class="profile-info-value">
+					<input type="button" onclick="change2wxTempQrCode()" value="点击生成">
+					&nbsp;&nbsp;&nbsp;&nbsp;(使用流程：扫码后>关注>推送>点击注册>跳转至活动页面)
+				</div>
+			</div>
+			@}
+			<div class="profile-info-row">
+				<div class="profile-info-name">跳转(活动)页面</div>
+				<div class="profile-info-value">
+					@if(userShare.targetActionUrl!=null){
+					<a href="${userShare.targetActionUrl!}" target="_blanck">${userShare.targetActionUrl!}</a><br />
+					@}
+					<input type="text" id="p_targetActionUrl" value="${userShare.targetActionUrl!}" style="width:350px">
+					<input type="button" onclick="saveTargetActionUrl()" value="点击保存">
+					&nbsp;&nbsp;&nbsp;&nbsp;(如无特殊需要，请不要填写该项。清空后保存可删除)
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">自动下单链接</div>
+				<div class="profile-info-value">
+					<table border=1>
+					  <thead><tr><th class="center">商品名</th>	<th class="center">规格</th><th class="center">主图</th><th class="center">数量</th>	<th class="center">链接</th><th class="center">有效期</th><th class="center">删除</th></tr></thead>
+					  <tbody id="p_auto_skus_table">
+						@for(item in userBuySkus){
+							<tr>
+								<td class="center">
+									<a target="_blank" href="${webUrl}${item.productId!}.html?skuId=${item.skuId!}">
+									${item.productName!}
+									</a>
+								</td>
+								<td class="center">
+									${item.itemValues!}
+								</td>
+								<td class="center">
+									<img style="width:80px" src="${item.image!}" />
+								</td>
+								<td class="center">
+									${item.skuNum!}
+								</td>
+								<td class="center">
+									${item.wxTempQrUrl!}
+								</td>
+								<td class="center">
+									${item.wxTempLimitEnd!,dateFormat="yyyy-MM-dd"}
+								</td>
+								<td class="center">									
+									<a target="_blank" href="javascript:;">
+										<div onclick="delAutoSku(this,'${item.id!}')">删除</div>
+									</a>
+								</td>
+							</tr>
+						@}
+				      </tbody>
+					</table><br />
+					skuId:<input type="text" id="p_auto_sku_id" style="width:200px">&nbsp;&nbsp;数量:<input type="text" id="p_auto_sku_num" style="width:50px">
+					<input type="button" onclick="addAutoBuySku()" value="点击生成">&nbsp;&nbsp;&nbsp;&nbsp;(复制链接是请注意尾部的空格)
+					
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">换领币链接</div>
+				<div class="profile-info-value">
+				  <input type="hidden" id="p_exchange_cnt" value="${count}">
+				  @if(count>0){
+					合计：${count}&nbsp;&nbsp;&nbsp;&nbsp;
+					<table border=1>
+					  <thead><tr><th class="center">商品名称</th>	<th class="center">类型</th><th class="center">换领币</th><th class="center">总数</th><th class="center">结束日期</th><th class="center">链接(点击下载卡券)</th></tr></thead>
+					  <tbody id="p_auto_skus_table">
+					  	@for(item in sep){
+							<tr>
+								<td class="center">
+									${item.productName!}
+								</td>
+								<td class="center">
+									@if(item.productId==-1){
+										虚拟商品
+									@}else{
+										普通商品
+									@}
+								</td>
+								<td class="center">
+									${item.empAvgAmount!}
+								</td>
+								<td class="center">
+									${item.productCnt!}
+								</td>
+								<td class="center">
+									${item.limitEnd,dateFormat="yyyy-MM-dd"}
+								</td>
+								<td class="center">
+									<a href='${apiUrl}userShare/downLoadQrEmp500Ticket?text=${item.queryLink!}&companyName=${userShare.userNick!}&limitEnd=${item.limitEnd,dateFormat="yyyy.MM.dd"}&exchange=${count}' target="_blank">
+									${item.queryLink!}
+									</a>
+								</td>
+							</tr>
+						@}
+				      </tbody>
+					</table>
+					@}
+				</div>
+			</div>
+		@} else {
+			<input type="hidden" value="${supplier.id }" name="id" id="supplierId">
+			<div class="profile-info-row">
+				<div class="profile-info-name">生成员工绑定二维码</div>
+				<div class="profile-info-value">
+					<input type="button" onclick="boundCode()" value="点击生成">
+				</div>
+			</div>
+		@}
+		</div> 
+		
+	</div>
+</div>
+<script>
+var apiUrl='${apiUrl}';
+function boundCode(){
+	$.ajax({
+		type: "post",
+		data:{"id":$("#supplierId").val()},
+		url: "${ctxPath}/supplierList/boundQRcode",
+		success:function(data){
+			var html='<input type="hidden" value="'+data.data+'" name="p_shareId" id="p_shareId"><input type="hidden" value="'+apiUrl+'userShare/page'+data.data+'" id="p_shareUrl">';
+			html += '<div class="profile-info-row">';
+			html += '  <div class="profile-info-name">员工绑定链接</div>';
+			html += '  <div class="profile-info-value">'+apiUrl+'userShare/page'+data.data+'<input type="button" value="作废链接" onclick="delCode()"></div>';
+			html += '</div>';
+			html += '<div class="profile-info-row">';
+			html += '  <div class="profile-info-name">二维码</div>';
+			html += '  <div class="profile-info-value"><img src="'+apiUrl+'userShare/getQr?text='+apiUrl+'userShare/page'+data.data+'"/></div>';
+			html += '</div>';
+			html += '<div class="profile-info-row">';
+			html += ' <div class="profile-info-name">生成微信关注二维码</div>';
+			html += ' <div class="profile-info-value">';
+			html += '  <input type="button" onclick="change2wxTempQrCode()" value="点击生成">';
+			html += '  &nbsp;&nbsp;&nbsp;&nbsp;(使用流程：扫码后>关注>推送>点击注册>跳转至活动页面)';
+			html += ' </div>';
+			html += '</div>';
+			html += '<div class="profile-info-row">';
+			html += ' <div class="profile-info-name">跳转(活动)页面</div>';
+			html += ' <div class="profile-info-value">';
+			html += '  <input type="text" id="p_targetActionUrl" value="" style="width:350px">';
+			html += '  <input type="button" onclick="saveTargetActionUrl()" value="点击保存">';
+			html += '  &nbsp;&nbsp;&nbsp;&nbsp;(如无特殊需要，请不要填写该项。清空保存可删除)';
+			html += ' </div>';
+			html += '</div>';
+			html += '<div class="profile-info-row">';
+			html += ' <div class="profile-info-name">自动下单链接</div>';
+			html += ' <div class="profile-info-value">';
+			html += '  <table border=1>';
+			html += '    <thead><tr><th class="center">商品名</th>	<th class="center">规格</th><th class="center">主图</th><th class="center">数量</th>	<th class="center">链接</th><th class="center">有效期</th><th class="center">删除</th></tr></thead>';
+			html += '      <tbody id="p_auto_skus_table"></tbody>';
+			html += '    </table><br />';
+			html += '    skuId:<input type="text" id="p_auto_sku_id" style="width:200px">&nbsp;&nbsp;数量:<input type="text" id="p_auto_sku_num" style="width:50px">';
+			html += '    <input type="button" onclick="addAutoBuySku()" value="点击生成">&nbsp;&nbsp;&nbsp;&nbsp;(复制链接是请注意尾部的空格)';
+			html += ' </div>';
+			html += '</div>';
+			html += '<div class="profile-info-row">';
+			html += '<div class="profile-info-name">换领币链接</div>';
+			html += ' <div class="profile-info-value">&nbsp;</div>';
+			html += '</div>';
+			$("#boundQRcode").html(html);
+		},
+		error: function(){
+			alert("error")
+		}
+	})
+}
+
+function saveTargetActionUrl(){
+	$.ajax({
+		type: "post",
+		data:{"shareId":$("#p_shareId").val(),"targetUrl":$("#p_targetActionUrl").val()},
+		url: "${ctxPath}/supplierList/saveTargetActionUrl",
+		success:function(res){
+			if(res.success) {
+				var data = res.data;
+				// 跳转(活动)页面
+				$("#boundQRcode .profile-info-value a").remove();
+				$("#boundQRcode .profile-info-value br").remove();
+				
+				if(data!="") {
+					$("#p_targetActionUrl").before('<a href="'+data+'" target="_blanck">'+data+'</a><br />');
+				} 
+
+				alert("保存成功");
+			} else {
+				alert(res.msg)
+			}
+		},
+		error: function(){
+			alert("error")
+		}
+	})
+}
+
+function change2wxTempQrCode(){
+	$.ajax({
+		type: "post",
+		data:{"shareId":$("#p_shareId").val()},
+		url: "${ctxPath}/supplierList/change2wxTempQrCode",
+		success:function(res){
+			if(res.success) {
+				var data = res.data;
+				var old= $("#p_shareUrl").val();
+				
+				var cnt="";
+				var cnt_o = $("#p_exchange_cnt");
+				if(cnt_o.length>0) {
+					cnt=cnt_o.val();
+				}
+				var html=data.url+"&nbsp;&nbsp;&nbsp;&nbsp;(有效期至："+data.date+")";
+				html +="&nbsp;&nbsp;&nbsp;&nbsp;";
+				html +="<a href='${apiUrl}userShare/downLoadQrEmp500Ticket?text="+data.url+"&companyName="+data.userNick+"&limitEnd="+data.date+"&exchange="+cnt+"' target='_blank'>";
+				html +="下载卡券";
+				html +="</a>";
+				
+				// 新链接
+				$("#boundQRcode .profile-info-value:eq(0)").html(html);
+				//二维码
+				$("#boundQRcode .profile-info-value:eq(1)").html('<img src="'+apiUrl+'userShare/getQr?text='+data.url+'"/>&nbsp;&nbsp;&nbsp;&nbsp;(使用流程：扫码后>关注>推送>点击注册>跳转至活动页面)');
+				//原注册链接
+				$("#boundQRcode .profile-info-row:eq(2)").html('<div class="profile-info-name">原注册链接</div><div class="profile-info-value">'+old+'<input type="button" value="作废链接" onclick="delCode()"></div>');
+				
+				alert("生成成功");
+			} else {
+				alert(res.msg)
+			}
+		},
+		error: function(){
+			alert("error")
+		}
+	})
+}
+function delCode(){
+	$.ajax({
+		type: "post",
+		data:{"shareId":$("#p_shareId").val(),"supplierId":$("#id").val()},
+		url: "${ctxPath}/supplierList/delCode",
+		success:function(res){
+			if(res.success) {
+				var data = res.data;
+				var html = '';
+				html +='<input type="hidden" value="'+data+'" name="id" id="supplierId">';
+				html +='<div class="profile-info-row">';
+				html +='<div class="profile-info-name">生成员工绑定二维码</div>';
+				html +='<div class="profile-info-value">';
+				html +='<input type="button" onclick="boundCode()" value="点击生成">';
+				html +='</div>';
+				html +='</div>';
+				$("#boundQRcode").html(html);
+			}
+		},
+		error: function(){
+			alert("error")
+		}
+	})
+}
+
+
+function addAutoBuySku(){
+	if($("#p_auto_sku_id").val()=="") {
+		alert("请输入skuId");
+		return;
+	}
+	$.ajax({
+		type: "post",
+		data:{"shareId":$("#p_shareId").val(),"skuId":$("#p_auto_sku_id").val(),"skuNum":$("#p_auto_sku_num").val()},
+		url: "${ctxPath}/supplierList/addAutoBuySku",
+		success:function(res){
+			if(res.success) {
+				var data = res.data.data;
+				var date = res.data.date;
+			
+				var html = '<tr>';
+				html +='<td class="center"><a target="_blank" href="${webUrl}'+ data.productId +'.html?skuId='+ data.skuId +'">'+data.productName+'</a></td>';
+				html +='<td class="center">'+data.itemValues+'</td>';
+				html +='<td class="center"><img style="width:80px" src="'+data.image+'" /></td>';
+				html +='<td class="center">'+data.skuNum+'</td>';
+				html +='<td class="center">'+data.wxTempQrUrl+'</td>';
+				html +='<td class="center">'+date+'</td>';
+				html +='<td class="center"><a target="_blank" href="javascript:;"><div onclick="delAutoSku(this,\''+data.id+'\')">删除</div></a></td>';
+				html +='</tr>';
+				$("#p_auto_skus_table").append(html);
+				
+				alert("生成成功，请直接复制链接自行生成二维码，并在有效期内使用");
+			} else {
+				alert(res.msg)
+			}
+		},
+		error: function(){
+			alert("error")
+		}
+	})
+}
+
+
+function delAutoSku(obj,autoId){
+	$.ajax({
+		type: "post",
+		data:{"autoId":autoId},
+		url: "${ctxPath}/supplierList/delAutoBuySku",
+		success:function(res){
+			if(res.success) {
+				$(obj).parent().parent().parent().remove();
+				alert("删除成功");
+			} else {
+				alert(res.msg)
+			}
+		},
+		error: function(){
+			alert("error")
+		}
+	})
+}
+
+laydate({
+    elem: '#bill_date',
+    min: laydate.now(+3),
+    format: 'YYYY-MM-DD',
+});
+
+$(function(){
+	$("#oneKeySetBut").click(function(){
+		var value = $("#oneKeySetValue").val();
+		if(value==""){
+			
+			return ;
+		}else{
+			$(".commissionProportion").each(function(){
+				$(this).val(value);
+			});
+		}
+		
+	});
+	
+})
+/*  */
+var  $imgs=$("img");
+  $imgs.each(function(){
+	 var img = $(this);
+	 var imgsrc=img.attr("src");
+	 var url=imgsrc;
+	 if(isPdf(imgsrc)) {
+		 imgsrc="${ctxPath}/static/img/pdf.png";
+	 }
+	 img.attr("src",imgsrc);
+	 img.attr("onclick","winOpen('"+url+"');");
+	}); 
+	 
+function isPdf(str) {
+	if(str==null || str=='' || str.length<5) return false;
+	
+	var ppostfix=str.substring(str.length-4);
+	return ppostfix==".pdf" || ppostfix==".PDF";
+}
+
+function winOpen(url){
+	window.open(url);
+}
+	
+</script>

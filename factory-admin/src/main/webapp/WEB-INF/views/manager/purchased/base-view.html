@@ -1,0 +1,75 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/purchased/listView" method="post" id="search-form" target="list-page" class="center clearfix">
+					<input type="hidden" name="viewStatus" value="${status!}">
+					<div class="row col-sm-12">
+						<div class="col-sm-4">
+							<label>商家：</label>
+							<#select name="supplierId" width="70%">
+								<option value="">全部</option>
+								@for(item in supplierList){
+								<option value="${item.id! }">${item.comName! }</option>
+								@}
+							</#select>				
+						</div>
+						<div class="col-sm-4">
+							<label>操作内容：</label>
+								<input type="checkbox" value="120" name="opCode" id="status0" checked="checked"><label for="status0">货款结入</label>
+								<input type="checkbox" value="202" name="opCode" id="status1" checked="checked"><label for="status1">电商退款</label>
+								<input type="checkbox" value="203" name="opCode" id="status2" checked="checked"><label for="status2">电商消费</label>
+								<input type="checkbox" value="107" name="opCode" id="status3" checked="checked"><label for="status3">现金券发放</label>
+						</div>
+						<div class="col-sm-4">
+							<label>时间：</label>
+							<input type="text" id="startDate" name="startDate">
+							<label>-</label>
+							<input type="text" id="endDate" name="endDate">
+							&nbsp;&nbsp;
+						</div>
+						<div style="display:none;width:100px;float: right;margin-right: 10px;margin-top: -30px" onclick="exportExcelView()">
+							<span class="btn fa fa-file-excel-o" id="excel-btn">&nbsp;&nbsp;导出EXCEL</span>
+						</div>
+					</div>
+					<div class="padding-trb-10 col-sm-12">
+						<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">全部</span>
+						<span class="btn btn-info btn-sm col-sm-6" id="search-btn">查询</span>
+					</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+	</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script>
+	laydate({
+	    elem: '#startDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#endDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	$("#role-select").chosen({width: "80%",search_contains: true});
+	$("#role-choose").chosen({width: "100%",search_contains: true}); 
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	
+	function exportExcelView() {
+		var action,target;
+		var thisform=document.getElementById('search-form');
+		action=thisform.action;
+		target=thisform.target;
+		
+		thisform.action="${ctxPath}/purchased/downLoadExcel";
+		thisform.target="_blank";
+		thisform.submit();
+		
+		thisform.action=action;
+		thisform.target=target;
+	}
+</script>

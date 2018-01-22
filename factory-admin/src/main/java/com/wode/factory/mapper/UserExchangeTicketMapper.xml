@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.UserExchangeTicketDao">
+
+    <resultMap id="UserExchangeTicket" type="com.wode.factory.model.UserExchangeTicket">
+        <result property="id" column="id"/>
+        <result property="exchangeProductId" column="exchange_product_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="duty" column="duty"/>
+        <result property="empAvgCnt" column="emp_avg_cnt"/>
+        <result property="empAvgAmount" column="emp_avg_amount"/>
+        <result property="limitStart" column="limit_start"/>
+        <result property="limitEnd" column="limit_end"/>
+        <result property="status" column="status"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="activeAmount" column="active_amount"/>
+        <result property="usedAmount" column="used_amount"/>
+        <result property="usedActive" column="used_active"/>
+        <result property="usedNote" column="used_note"/>
+        <result property="leftCnt" column="left_cnt"/>
+        <result property="prepayAmount" column="prepay_amount"/>
+        <result property="ticketNote" column="ticket_note"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,exchange_product_id,user_id,nickname,duty,emp_avg_cnt,emp_avg_amount,limit_start,limit_end,status,create_date,update_date,update_user,
+        active_amount,used_amount,used_active,used_note,left_cnt,prepay_amount,ticket_note,product_id,product_name
+        ]]>
+    </sql>
+    
+    <delete id="deleteBySupplierId">
+    delete from t_user_exchange_ticket where exchange_product_id in (select id from t_supplier_exchange_product where supplier_id = #{supplierId})
+    </delete>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_exchange_ticket (
+            id ,
+            exchange_product_id ,
+            user_id ,
+            nickname ,
+            duty ,
+            emp_avg_cnt ,
+            emp_avg_amount ,
+            limit_start ,
+            limit_end ,
+            status ,
+            create_date ,
+            update_date ,
+            update_user ,
+            active_amount ,
+            used_amount ,
+            used_active ,
+            used_note ,
+            left_cnt ,
+            prepay_amount ,
+            ticket_note,
+            product_id,
+            product_name
+        ) VALUES (
+            #{id} ,
+            #{exchangeProductId} ,
+            #{userId} ,
+            #{nickname} ,
+            #{duty} ,
+            #{empAvgCnt} ,
+            #{empAvgAmount} ,
+            #{limitStart} ,
+            #{limitEnd} ,
+            #{status} ,
+            #{createDate} ,
+            #{updateDate} ,
+            #{updateUser} ,
+            #{activeAmount} ,
+            #{usedAmount} ,
+            #{usedActive} ,
+            #{usedNote} ,
+            #{leftCnt} ,
+            #{prepayAmount} ,
+            #{ticketNote},
+            #{productId} ,
+            #{productName}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_exchange_ticket SET            
+            exchange_product_id = #{exchangeProductId} ,
+            user_id = #{userId} ,
+            nickname = #{nickname} ,
+            duty = #{duty} ,
+            emp_avg_cnt = #{empAvgCnt} ,
+            emp_avg_amount = #{empAvgAmount} ,
+            limit_start = #{limitStart} ,
+            limit_end = #{limitEnd} ,
+            status = #{status} ,
+            create_date = #{createDate} ,
+            update_date = #{updateDate} ,
+            update_user = #{updateUser} ,
+            active_amount = #{activeAmount} ,
+            used_amount = #{usedAmount} ,
+            used_active = #{usedActive} ,
+            used_note = #{usedNote} ,
+            left_cnt = #{leftCnt} ,
+            prepay_amount = #{prepayAmount} ,
+            ticket_note = #{ticketNote} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+	
+	<update id="updateEnds" >
+        UPDATE t_user_exchange_ticket SET    
+            <if test="@Ognl@isNotEmpty(status)">
+            	<if test="status==3">
+            		status = CASE WHEN status=0 OR status=1 THEN 3 ELSE status END,
+				</if>
+            	<if test="status==6">
+            		status = CASE WHEN status=4 THEN 4 ELSE 6 END,
+				</if>
+            </if>
+            limit_end = #{limitEnd} ,
+            update_date = #{updateDate} ,
+            update_user = #{updateUser} 
+        WHERE 
+            exchange_product_id = #{exchangeProductId} 
+    </update>
+    
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_exchange_ticket WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserExchangeTicket">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_exchange_ticket 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="UserExchangeTicket">
+        SELECT <include refid="columns" /> FROM t_user_exchange_ticket 
+        <include refid="find_where"/>
+    </select>
+    <select id="findPageInfo" resultMap="UserExchangeTicket">
+    	SELECT <include refid="columns" /> FROM t_user_exchange_ticket 
+    	<where>
+    		<if test="@Ognl@isNotEmpty(productName)">
+                AND product_name like CONCAT(CONCAT('%',#{productName}),'%')
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeProductId)">
+                AND exchange_product_id = #{exchangeProductId}
+            </if>
+    	</where>
+    	ORDER BY create_date DESC
+    </select>
+    <select id="selectLeft" resultMap="UserExchangeTicket">
+        SELECT <include refid="columns" /> FROM t_user_exchange_ticket 
+        <include refid="find_where"/>
+     	AND (emp_avg_amount > used_amount OR prepay_amount>0)
+     	ORDER BY used_amount DESC,update_date DESC
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(exchangeProductId)">
+                AND exchange_product_id = #{exchangeProductId}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(nickname)">
+                AND nickname = #{nickname}
+            </if>
+           <if test="@Ognl@isNotEmpty(duty)">
+                AND duty = #{duty}
+            </if>
+           <if test="@Ognl@isNotEmpty(empAvgCnt)">
+                AND emp_avg_cnt = #{empAvgCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(empAvgAmount)">
+                AND emp_avg_amount = #{empAvgAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitStart)">
+                AND limit_start = #{limitStart}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitEnd)">
+                AND limit_end = #{limitEnd}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date = #{createDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateDate)">
+                AND update_date = #{updateDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateUser)">
+                AND update_user = #{updateUser}
+            </if>
+           <if test="@Ognl@isNotEmpty(activeAmount)">
+                AND active_amount = #{activeAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(usedAmount)">
+                AND used_amount = #{usedAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(usedActive)">
+                AND used_active = #{usedActive}
+            </if>
+           <if test="@Ognl@isNotEmpty(usedNote)">
+                AND used_note = #{usedNote}
+            </if>
+           <if test="@Ognl@isNotEmpty(leftCnt)">
+                AND left_cnt = #{leftCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(prepayAmount)">
+                AND prepay_amount > #{prepayAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticketNote)">
+                AND ticket_note = #{ticketNote}
+            </if>
+        </where>
+    </sql>
+</mapper>

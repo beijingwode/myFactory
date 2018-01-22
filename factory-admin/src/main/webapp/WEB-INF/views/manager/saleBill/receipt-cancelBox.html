@@ -1,0 +1,67 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<div class="profile-info-row">
+		<input type="hidden" id="id" value="${sr.id}">
+		<div class="profile-info-name">发票号:</div>
+		<div class="profile-info-value">${sr.code}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">开票日期:</div>
+		<div class="profile-info-value">${sr.createDate!,dateFormat="yyyy-MM-dd" }</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">合计金额:</div>
+		<div class="profile-info-value">${sr.amount}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">收款方:</div>
+		<div class="profile-info-value">${s.comName}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">回退日期:</div>
+		<div class="profile-info-value">${sr.returnDate!,dateFormat="yyyy-MM-dd" }</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">回退说明:</div>
+		<div class="profile-info-value">${sr.returnNote!}</div>
+	</div>
+	<div class="width-100 clearfix" tag-save-btn style="bottom: 0px;left: 0px;position:absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-100  pull-left" id="submit">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>确定
+	</span>
+</div>
+<script type="text/javascript">
+
+$(function(){
+	
+	$("#submit").click(function(){
+			$.ajax({
+					dataType:'json',
+					type:'POST',
+					url:'${ctxPath}/saleBill/cancelReceipt?id='+$("#id").val(),
+					contentType: 'application/json',
+					success:function(data){
+						if(data.success){
+							layer.msg('操作成功', 3, 1,function(){
+								location.reload();
+								layer.closeAll();
+							});
+						}else{
+							layer.msg('操作失败', 3, 1,function(){
+								location.reload();
+								layer.closeAll();
+							});
+						}
+					},
+					error:function() {
+						layer.msg('系统异常', 3, 1,function(){
+							location.reload();
+							layer.closeAll();
+						});
+					}
+				});
+		});
+});
+</script>
+</div>
+</div>

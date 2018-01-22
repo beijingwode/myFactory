@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="ProductLadderMapper">
+
+	<resultMap id="ProductLadder" type="com.wode.factory.model.ProductLadder">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="skuids" column="skuids"/>
+        <result property="num" column="num"/>
+        <result property="price" column="price"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="type" column="type"/>
+	</resultMap>
+
+	<resultMap id="SkuLadderVo" type="com.wode.factory.supplier.query.SkuLadderVo">
+        <result property="pId" column="pId"/>
+        <result property="plId" column="plId"/>
+        <result property="skuId" column="skuId"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="categoryName" column="categoryName"/>
+        <result property="productName" column="productName"/>
+        <result property="itemValues" column="itemValues"/>
+        <result property="internalPurchasePrice" column="internal_purchase_price"/>
+        <result property="quantity" column="quantity"/>
+        <result property="num" column="num"/>
+        <result property="price" column="price"/>
+        <result property="type" column="type"/>
+	</resultMap>
+ 
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+	    id,supplier_id,product_id,skuids,num,price,create_time,update_time,type
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_ladder (
+        	id,supplier_id,product_id,skuids,num,price,create_time,update_time,type
+        ) VALUES (
+        	#{id} ,
+        	#{supplierId} ,
+        	#{productId} ,
+        	#{skuids} ,
+        	#{num} ,
+        	#{price} ,
+        	#{createTime} ,
+        	#{updateTime} ,
+        	#{type}
+        )
+    ]]>
+	</insert>
+	
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_product_ladder SET
+	        supplier_id = #{supplierId} ,
+	        product_id = #{productId} ,
+	        skuids = #{skuids} ,
+	        num = #{num} ,
+	        price = #{price} ,
+	        update_time = #{updateTime} ,
+	        type = #{type}
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+	
+    <delete id="removeAllByProductid">
+    <![CDATA[
+        DELETE FROM t_product_ladder WHERE
+        product_id = #{productid} 
+    ]]>
+    </delete>
+    
+     <select id="getList" resultMap="ProductLadder">
+		SELECT id,supplier_id,product_id,skuids,num,price,create_time,update_time,type
+		FROM t_product_ladder 
+		 <where>	
+	    	1=1
+		  <if test="productId != null" >
+        	and product_id = #{productId} 
+	      </if>
+	      <if test="supplierId != null" >
+	        and supplier_id = #{supplierId}
+	      </if>
+	    </where>
+	    order by num asc
+	</select>
+	
+	<select id="findPage_count" resultType="long">
+		SELECT count(1)
+		FROM t_product p 
+		INNER JOIN t_product_category pc ON(pc.id=p.categoryId)
+		INNER JOIN t_product_ladder pl ON (p.supplier_id=pl.supplier_id AND pl.product_id = p.id)
+		INNER JOIN t_product_specifications ps ON (ps.product_id=p.id AND ps.isDelete=0 AND FIND_IN_SET(ps.id,pl.skuids))
+		INNER JOIN t_inventory i ON (i.productSpecificationsId=ps.id)
+		<include refid="findPage_where"/> 
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="SkuLadderVo">
+		SELECT p.id pId,pl.id plId, ps.id skuId,p.categoryId, pc.`name` categoryName,p.full_name productName,ps.itemValues,ps.internal_purchase_price,i.quantity,pl.num,pl.price,pl.type
+		FROM t_product p 
+		INNER JOIN t_product_category pc ON(pc.id=p.categoryId)
+		INNER JOIN t_product_ladder pl ON (p.supplier_id=pl.supplier_id AND pl.product_id = p.id)
+		INNER JOIN t_product_specifications ps ON (ps.product_id=p.id AND ps.isDelete=0 AND FIND_IN_SET(ps.id,pl.skuids))
+		INNER JOIN t_inventory i ON (i.productSpecificationsId=ps.id)
+		<include refid="findPage_where"/> 
+		ORDER BY p.id,ps.id,pl.num,pl.price
+    </select>
+        
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>
+			p.is_marketable=1
+	       <if test="@Ognl@isNotEmpty(supplierId)">
+				AND p.supplier_id = #{supplierId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(categoryId)">
+				AND p.categoryId = #{categoryId}
+			</if>
+			<if test="@Ognl@isNotEmpty(productName)">
+				AND p.full_name like CONCAT(CONCAT('%',#{productName}),'%')
+			</if>
+			<choose>
+		        <when test="@Ognl@isNotEmpty(minPrice)">
+		        	<choose>
+				        <when test="@Ognl@isNotEmpty(maxPrice)">
+				        	AND (ps.internal_purchase_price BETWEEN #{minPrice} AND #{maxPrice})
+				        </when>
+				        <otherwise>
+				            AND ps.internal_purchase_price>=#{minPrice}
+				        </otherwise>
+			        </choose>
+		        </when>
+		        <otherwise>
+		            <choose>
+				        <when test="@Ognl@isNotEmpty(maxPrice)">
+				        	AND ps.internal_purchase_price &lt;=#{maxPrice}
+				        </when>
+				        <otherwise>
+				        </otherwise>
+			        </choose>
+		        </otherwise>
+	        </choose>
+		</where>
+	</sql>
+</mapper>

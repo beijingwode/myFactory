@@ -1,0 +1,96 @@
+<div class="layer">
+	<form name="FormPost" id="sysuser-save" class="FormGrid"  method="post"
+		action="${ctxPath}/attribute/doEdit">
+		
+		<input type="hidden" value="${id!}" name="id"/>
+		<table class="EditTable" width="100%">
+			<tbody>
+				<tr class="FormData">
+					<td class="CaptionTD">属性名称</td>
+					<td class="DataTD">
+					<input type="text" value="" name="name"
+					datatype="*"  nullmsg="请输入名称！"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">属性类别</td>
+					<td class="DataTD">
+					<input type="hidden" value="" name="categoryId"/>
+					<#productcategorytreeselect  nameId="attrCategoryTree" url="productCategory/tree" modelNameValue="${Attribute.categoryName!}"
+					modelIdValue="${Attribute.categoryId!0}" selectIds="${Attribute.categoryId!}"
+					curId="${Attribute.categoryId!}" scenario="category"/><!-- 就curId是自己的信息 -->
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">排序</td>
+					<td class="DataTD">
+					<input type="text" value="${Attribute.orders!}" name="orders"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">必须输入</td>
+					<td class="DataTD width-100">
+						<#select id="chosenSelectEdit" name="ismust" width="40%">
+							<option value="0">非必须</option>
+							<option value="1">必须</option>
+						</#select>
+						<script type="text/javascript">
+							$("#chosenSelectEdit option[value='${status!}']").attr("selected",true);
+							$("#chosenSelectEdit option[value='${status!}']").trigger('change');
+							$("#chosenSelectEdit").trigger("chosen:updated");
+						</script>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">输入类型</td>
+					<td class="DataTD width-100">
+						<#select id="inputChosenSelectEdit" name="inputtype" width="40%">
+							<option value="1">下拉框</option>
+							<option value="2">输入框</option>
+							<option value="3">复选框</option>
+						</#select>
+						<script type="text/javascript">
+							$("#inputChosenSelectEdit option[value='${status!}']").attr("selected",true);
+							$("#inputChosenSelectEdit option[value='${status!}']").trigger('change');
+							$("#inputChosenSelectEdit").trigger("chosen:updated");
+						</script>
+					</td>
+				</tr>
+				<tr class="FormData" >
+					<td class="CaptionTD">可搜索</td>
+					<td class="DataTD width-100">
+						<#select id="searchChosenSelectEdit" name="forSearch" width="40%">
+							<option value="1">可</option>
+							<option value="2">否</option>
+						</#select>
+						<script type="text/javascript">
+							$("#searchChosenSelectEdit option[value='${status!}']").attr("selected",true);
+							$("#searchChosenSelectEdit option[value='${status!}']").trigger('change');
+							$("#searchChosenSelectEdit").trigger("chosen:updated");
+						</script>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">默认显示</td>
+					<td class="DataTD">
+					<input type="text" value="${Attribute.defaultDisplay!}" name="defaultDisplay"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">默认值</td>
+					<td class="DataTD">
+					<input type="text" value="${status!}" name="defaultVal"/>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+<#save formId="sysuser-save" />
+
+<script type="text/javascript">
+
+//描述框自动扩张高度
+$('textarea[class*=autosize]').autosize({append: "\n"});
+$("#user-role-update").chosen({width: "100%",search_contains: true}); 
+</script>

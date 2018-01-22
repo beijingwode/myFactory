@@ -1,0 +1,31 @@
+@charset "utf-8";
+/* CSS Document */
+body,h1,h2,h3,h4,h5,h6,p,ul,ol,li,form,img,dl,dt,dd,table,th,td,blockquote,fieldset,div,strong,label,em{margin:0;padding:0;border:0;}
+body{font-size:12px;font-family:"微软雅黑";position:relative;}
+ul,ol,li{list-style:none;}
+input{vertical-align:middle;}
+table{border-collapse:collapse;border-spacing:0;}
+input,button,select,textarea{outline:none;}
+img{padding:0;margin:0;border:none;display:block;}
+a{text-decoration:none;}
+a:hover{cursor:pointer}
+map area {
+    outline: none;
+}
+.main_one,.main_two,.main_three,.main_four,.main_five,.main_six,.main_seven,.main_eight{width:100%;margin:0 auto;}
+.main_one_con,.main_two_con,.main_three_con,.main_four_con,.main_five_con,.main_six_con,.main_seven_con,.main_eight_con{width:1200px;margin:0 auto;}
+.main_one{height:668px;background:url(../images/midImages/mid_bg1.png) no-repeat center top}
+
+.main_two{height:1481px;background:url(../images/midImages/mid_bg2.png) no-repeat top center}
+
+.main_three{height:1157px;background:url(../images/midImages/mid_bg3.png) no-repeat top center}
+
+.main_four{height:1474px;background:url(../images/midImages/mid_bg4.png) no-repeat top center;}
+
+.main_five{height:1108px;background:url(../images/midImages/mid_bg5.png) no-repeat top center;}
+
+.main_six{height:1031px;background:url(../images/midImages/mid_bg6.png) no-repeat top center;}
+.main_seven{height:1056px;background: url(../images/midImages/mid_bg7.png) no-repeat top center;}
+.main_eight{height:522px;background:url(../images/midImages/mid_bg8.png) no-repeat top center;}
+
+

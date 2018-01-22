@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.AreaDao">
+
+	<resultMap id="Area" type="com.wode.factory.model.Area">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="father" column="father"/>
+        <result property="grade" column="grade"/>
+        <result property="code" column="code"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,name,father,grade,code
+	    ]]>
+	</sql>
+
+    <select id="findByGrade" resultMap="Area" parameterType="java.lang.Integer">
+		SELECT <include refid="columns"/>
+    	from t_area WHERE grade=#{grade}
+	</select>
+	
+    <select id="findByFather" resultMap="Area" parameterType="java.lang.Integer">
+		SELECT <include refid="columns"/>
+    	from t_area WHERE father=#{father}
+	</select>
+	<select id="findAll" resultMap="Area">
+		SELECT <include refid="columns"/>
+    	from t_area
+	</select>
+    
+    
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(name)">
+				AND name = #{name}
+			</if>
+	       <if test="@Ognl@isNotEmpty(father)">
+				AND father = #{father}
+			</if>
+	       <if test="@Ognl@isNotEmpty(grade)">
+				AND grade = #{grade}
+			</if>
+	       <if test="@Ognl@isNotEmpty(code)">
+				AND code = #{code}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
+

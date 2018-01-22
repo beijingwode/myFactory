@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="static_resources/css/style.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/sy_vote.css" />
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+
+</head>
+<body>
+<!--content begin-->
+<div id="content">
+    <!--left begin-->
+    <div class="left">
+        <div class="left_list">
+            <ul>
+               <li><a href="${basePath}/suborder/gotoSelllist.html">已售出的商品</a></li>
+               <li><a href="${basePath}/comments/toevaluation.html?commentDegree=all">评价管理</a></li> 
+                <li class="curr"><a href="javascript:;">投票管理</a></li>       	
+            </ul>
+        </div>
+    </div>
+    <!--left end-->
+
+    <!--right begin-->
+    <div class="right">
+        <div class="position">
+            <span>您所在的位置：</span>
+            <a href="javascript:void(0);">商家中心</a><em>></em>
+            <a href="${basePath}/suborder/gotoSelllist.html">订单管理</a><em>></em>
+            <a href="JavaScript:void(0);">投票管理</a>
+        </div>
+        <div class="sale_wrap">
+            <div class="main_bd">
+            	<div class="add_new topbar group ">
+            		<a class="btn btn_primary btn_add js_add_btn" href="javascript:;">+新建投票</a>
+            	</div>
+            	<div class="table_wrp with_border">
+            		<table class="table" cellspacing="0">
+            			<thead class="thead">
+            				<tr>
+            					<th class="table_cell vote_title">
+            						<div class="td_panel">投票名称</div>
+            					</th>
+            					<th class="table_cell vote_num">
+            						<div class="td_panel">投票人数</div>
+            					</th>
+            					<th class="table_cell vote_state">
+            						<div class="td_panel">状态</div>
+            					</th>
+            					<th class="table_cell last_child no_extra vote_opr">
+            						<div class="td_panel">操作</div>
+            					</th>
+            				</tr>
+            			</thead>
+            			<tbody class="tbody js_list_body">
+							<tr>
+								<td class="table_cell vote_title">
+									<div class="td_panel">线下内购会反馈</div>
+								</td>
+								<td class="table_cell vote_num">
+									<div class="td_panel">1</div>
+								</td>
+								<td class="table_cell vote_state">
+									<div class="td_panel">进行中</div>
+								</td>
+								<td class="table_cell last_child vote_opr">
+									<div class="td_panel">
+									<a href="/cgi-bin/newoperatevote?action=show&amp;t=vote/vote_detail&amp;supervoteid=463522720&amp;token=800329623&amp;lang=zh_CN">详情</a>
+									<a href="javascript:;" supervoteid="463522720" class="delete">删除</a>
+								</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="table_cell vote_title">
+									<div class="td_panel">线下内购会反馈</div>
+								</td>
+								<td class="table_cell vote_num">
+									<div class="td_panel">1</div>
+								</td>
+								<td class="table_cell vote_state">
+									<div class="td_panel">进行中</div>
+								</td>
+								<td class="table_cell last_child vote_opr">
+									<div class="td_panel">
+									<a href="/cgi-bin/newoperatevote?action=show&amp;t=vote/vote_detail&amp;supervoteid=463522720&amp;token=800329623&amp;lang=zh_CN">详情</a>
+									<a href="javascript:;" supervoteid="463522720" class="delete">删除</a>
+								</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+			</div>
+                  
+		</div>
+
+</div>
+    <!--right end-->
+</div>
+<!--content end-->
+<div class="popover  pos_center" id="pos_center">
+    <div class="popover_inner">
+        <div class="popover_content jsPopOverContent">
+	        <p>确认删除此投票？</p>
+			<p>删除后投票数据无法恢复，且图文消息中不再显示。</p>
+		</div>		
+        <div class="popover_bar"><a href="javascript:;" class="btn btn_primary jsPopoverBt">确定</a>&nbsp;<a href="javascript:;" class="btn btn_default jsPopoverBt">取消</a></div>
+    </div>
+    <i class="popover_arrow popover_arrow_out"></i>
+    <i class="popover_arrow popover_arrow_in"></i> 
+</div>
+<script>
+$(function(){
+	$(".popover_bar .btn_default").click(function(){
+		$("#pos_center").hide();
+	})
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+
+<link rel="stylesheet" type="text/css" href="../static_resources/css/yuyue.css" />
+<script type="text/javascript" src="../static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="../static_resources/js/easyBind.js"></script>
+<script type="text/javascript" src="../static_resources/js/wx_brige.js"></script>
+<title>我的福利</title>
+
+</head>
+
+<body>
+<div class="mainbody">
+	<img src="../static_resources/images/yuyue/yuyue.png" />
+	<div class="register_con">
+		<div class="ipt_box"><span class="span1">留下你的名字：</span><input type="text" value="" id="username" /></div>
+		<div class="ipt_box"><span class="span2">预约手机号码：</span><input type="text" value="" id="tel" /></div>
+		<p></p>
+		<div class="btn"><a href="javascript:;">立即预约</a></div>
+	</div>
+</div>
+</body>
+<script>
+$(function(){
+	$(".btn a").click(function(){
+	    var oName=$("#username").val();
+	    var oTel=$("#tel").val();
+	    var N = $.trim(oName);
+	    var T = $.trim(oTel);
+	    
+	    
+		var reName=/^[\u4e00-\u9fa5]{2,8}$/i;//验证姓名
+		
+		if(reName.test(N)){
+        
+		}else{
+          $(".register_con p").html("输入名字有误");
+          $(".ipt_box input").focus(function(){
+        	  $(".register_con p").html("");
+          });
+          return
+        };
+	        
+	    var  reTel=/^1([358]\d|7[23]|77|47)\d{8}$/i;//验证手机号
+	     
+	    if(reTel.test(T)){
+	        
+		 }else{
+          $(".register_con p").html("请输入正确的手机号码");
+          $(".ipt_box input").focus(function(){
+           $(".register_con p").html("");
+          });
+          return
+        };
+
+     	var sid =sessionStorage.getItem("supplierId");
+     	if(typeof(sid)!="undefined" &&sid!=''&& sid!=null){
+     	} else {
+     		sid="1812666549307361";	// 当期商家id
+     	}
+         var openId=getParam("openId=");
+         var state=getParam("state=");
+         bindPhone("../",sid,openId,$.trim(oName),$.trim(oTel),state);
+	});
+});
+
+function getParam(param){
+	var url=window.location.href;
+	var p = url.indexOf(param);
+	if(p!=-1) {
+		url=url.substring(p+param.length);
+		p=url.indexOf("&");
+		if(p>-1) {
+			return url.substring(0,p);
+		} else {
+			return url;
+		}
+	} else {
+		return "";
+	}
+}
+
+function displyMsg(msg) {
+    $(".register_con p").html(msg);
+}
+</script>
+</html>

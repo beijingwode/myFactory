@@ -1,0 +1,60 @@
+<table class="table table-striped table-bordered table-hover nomargin-bottom">
+	<thead>
+		<tr>
+					
+					<th class="center">序号</th>
+					<th class="center">名称</th>
+					<th class="center">类别</th>
+					<th class="center">排序</th>
+					<th class="center">创建时间</th>
+					<th class="center">更新时间</th>
+					<th class="center">操作</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@for(item in pageInfo.list){
+			<tr>
+						<td class="center">${itemLP.index!}</td>
+						<td class="center">
+							${item.name!}
+						</td>
+						<td class="center">${item.specificationType!}</td>
+						<td class="center">${item.orders!}</td>
+						<td class="center">${item.createdDate,dateFormat="yyyy-MM-dd HH:mm:ss"}</td>
+						<td class="center">${item.updateDate,dateFormat="yyyy-MM-dd HH:mm:ss"}</td>
+				<td class="center">
+					<div class="hidden-sm hidden-xs action-buttons">
+					<a class="green" href="javascript:void(0);" 
+							data-mode="page" data-title="${item.name!}详情"
+							data-url="${ctxPath}/specification/children/showlayer"
+							data-data="{id:'${item.id}'}" 
+							data-width="80%"
+							data-height="80%"
+						>
+					<i class="green ace-icon  fa fa-list-alt bigger-120"></i> 规格明细
+						</a>
+						<a class="green" href="javascript:void(0);" 
+							data-mode="page" data-title="编辑"
+							data-url="${ctxPath}/specification/edit/showlayer"
+							data-data="{id:'${item.id}'}" 
+						>
+							<i class="ace-icon fa fa-pencil bigger-130"></i>
+						</a>
+
+						<a class="red" href="javascript:void(0);" 
+							data-mode="del" data-title="删除操作"
+							data-msg="你确定删除此数据吗?"
+							data-url="${ctxPath}/specification/del" 
+							data-data="{id:'${item.id}'}"
+						>	
+							<i class="ace-icon fa fa-trash-o bigger-130"></i>
+						</a>
+					</div>
+				</td>
+			</tr>
+		@}
+	</tbody>
+</table>
+<div class="space-8"></div>
+<#paginate page="${pageInfo}" />

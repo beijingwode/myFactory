@@ -1,0 +1,48 @@
+<div class="layer">
+    <div>
+      <label>目标用户</label>&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio" id="rd1" name="rd" value="1"  checked="checked" /><label for="rd1">企业员工</label>
+      <input type="radio" id="rd2" name="rd" value="2" /><label for="rd2">非企业员工</label>
+      <input type="radio" id="rd3"  name="rd" value="3" /><label for="rd3">全体</label>
+   </div>
+    <div>
+      <label>内购券数量</label> <input type="text" id="value" placeholder="内购券">
+   </div>
+    <div>
+      <label>备注</label> <input type="text" id="desc" placeholder="欢迎语" value="平台向您派送内购券：" size="80">
+   </div>
+    <div>
+   	  <button type="submit" class="btn btn-info btn-sm " onclick="dispatche()">派送</button>
+   </div>
+   <br>
+   <br>
+</div>
+
+<script type="text/javascript">
+
+	function dispatche(){
+		if($("#value").val()=='' || Number($("#value").val())<0){
+			alert("内购券数大于0");
+		}else{
+			var rd=$('input[name=rd][checked]').val();
+			if(document.getElementById('rd1').checked) {
+				rd="1";
+			} else if(document.getElementById('rd2').checked) {
+				rd="2";
+			} 
+			$.ajax( {  
+			    url:'${ctxPath}/welfareDispatch/dispatche',
+			    data:{'value':$("#value").val(),"rd":rd,"desrc":$("#desc").val()},  
+			    type:'post',
+			    cache:false,  
+			    dataType:'json',
+			    success:function() {
+					alert("派送成功");
+			    },  
+			     error : function() {  
+			     } 
+			});
+	}
+	}
+
+</script>

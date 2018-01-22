@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ProductSpecificationValueMapper">
+
+	<resultMap id="ProductSpecificationValue" type="com.wode.factory.model.ProductSpecificationValue">
+        <result property="id" column="id"/>
+        <result property="specificationId" column="specification_id"/>
+        <result property="specificationValue" column="specification_value"/>
+        <result property="productId" column="product_id"/>
+        <result property="isDelete" column="isDelete"/>
+        <result property="orders" column="orders"/>
+        <result property="specificationName" column="name_specification"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,specification_id,specification_value,product_id,isDelete,orders
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_specification_value (
+        	id ,
+        	specification_id ,
+        	specification_value ,
+        	product_id,
+        	isDelete,orders
+        ) VALUES (
+        	#{id} ,
+        	#{specificationId} ,
+        	#{specificationValue} ,
+        	#{productId},
+        	#{isDelete},
+        	#{orders}
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+    <insert id="copyFromOther">
+    <![CDATA[
+    	INSERT INTO t_product_specification_value
+		SELECT nextval('t_product_specification_value') id,
+		       #{nId} specification_id,
+			   vo.specification_value,
+			   #{productId} product_id,
+			   vo.orders,
+			   0 isdelete
+		FROM t_product_specification_value vo 
+		WHERE vo.specification_id=#{oId} AND vo.product_id =#{productId} AND vo.isdelete=0
+		AND NOT EXISTS (SELECT 1 FROM t_product_specification_value vn where vn.specification_id=#{nId}  AND vn.product_id = #{productId} AND vn.specification_value=vo.specification_value)
+    ]]>
+	</insert>
+	
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_product_specification_value SET
+	        specification_id = #{specificationId} ,
+	        specification_value = #{specificationValue} ,
+	        product_id = #{productId},
+	        isDelete = #{isDelete},
+	        orders = #{orders}
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+	
+	<update id="updateFromOther" >
+    <![CDATA[
+		UPDATE t_product_specification_value vn 
+		 INNER JOIN (SELECT specification_value FROM t_product_specification_value where specification_id=#{oId} AND product_id = #{productId} AND isdelete = 0) vo ON (vn.specification_value=vo.specification_value)
+		   SET vn.isdelete = 0
+		 WHERE vn.specification_id=#{nId} AND vn.product_id = #{productId}
+    ]]>
+	</update>
+	
+    <update id="removeAllByProductid">
+    <![CDATA[
+        update t_product_specification_value SET
+	        isDelete=1
+        WHERE
+        	product_id = #{productid} 
+    ]]>
+        <if test="@Ognl@isNotEmpty(specificationId)">
+			AND specification_id = #{specificationId}
+		</if>
+    </update>
+    
+ 	<delete id="delete">
+    <![CDATA[
+        DELETE FROM t_product_specification_value WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <!-- 用于临时表数据删除时，根据productid删除无用的规格值 -->
+    <delete id="deleteApprRelation">
+    <![CDATA[
+        DELETE FROM t_product_specification_value WHERE
+        product_id = #{productId} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="ProductSpecificationValue">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_product_specification_value 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+	
+	<select id="getByProductId" resultMap="ProductSpecificationValue">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_product_specification_value 
+	        WHERE 
+		        product_id = #{productId} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_product_specification_value 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ProductSpecificationValue">
+    	SELECT <include refid="columns" />
+	    FROM t_product_specification_value 
+		<include refid="findPage_where"/>
+		
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(specificationId)">
+				AND specification_id = #{specificationId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(specificationValue)">
+				AND specification_value = #{specificationValue}
+			</if>
+	       <if test="@Ognl@isNotEmpty(productId)">
+				AND product_id = #{productId}
+			</if>
+			<if test="@Ognl@isNotEmpty(isDelete)">
+				AND isDelete = #{isDelete}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="findAllBymap" resultMap="ProductSpecificationValue">
+    	SELECT psv.*,IFNULL(spe.name,sspe.name) as name_specification from t_product_specification_value AS psv
+		LEFT JOIN t_specification as spe on spe.id = psv.specification_id
+		LEFT JOIN t_supplier_specification as sspe on sspe.id = psv.specification_id
+		where psv.product_id=#{productId}
+		<if test="@Ognl@isNotEmpty(specificationId)">
+			AND psv.specification_id = #{specificationId}
+		</if>
+       <if test="@Ognl@isNotEmpty(specificationValue)">
+			AND psv.specification_value = #{specificationValue}
+		</if>
+		ORDER BY psv.orders
+    </select>
+	
+</mapper>
+

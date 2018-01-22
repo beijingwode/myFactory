@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.SupplierSpecialSaleDao">
+    <resultMap id="SupplierSpecialSale" type="com.wode.factory.model.SupplierSpecialSale">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="empLevel" column="emp_level"/>
+        <result property="empCnt" column="emp_cnt"/>
+        <result property="saleCnt" column="sale_cnt"/>
+        <result property="empBuyCnt" column="emp_buy_cnt"/>
+        <result property="empPrice" column="emp_price"/>
+        <result property="divPrice" column="div_price"/>
+        <result property="divAmount" column="div_amount"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="stopFlg" column="stop_flg"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,supplier_id,product_id,product_name,emp_level,emp_cnt,sale_cnt,emp_buy_cnt,emp_price,div_price,div_amount,create_date,update_date,stop_flg
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_supplier_special_sale (
+            id ,
+            supplier_id ,
+            product_id ,
+            product_name ,
+            emp_level ,
+            emp_cnt ,
+            sale_cnt ,
+            emp_buy_cnt ,
+            emp_price ,
+            div_price ,
+            div_amount ,
+            create_date ,
+            update_date
+        ) VALUES (
+            #{id} ,
+            #{supplierId} ,
+            #{productId} ,
+            #{productName} ,
+            #{empLevel} ,
+            #{empCnt} ,
+            #{saleCnt} ,
+            #{empBuyCnt} ,
+            #{empPrice} ,
+            #{divPrice} ,
+            #{divAmount} ,
+            #{createDate} ,
+            #{updateDate}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_supplier_special_sale SET            
+            supplier_id = #{supplierId} ,
+            product_id = #{productId} ,
+            product_name = #{productName} ,
+            emp_level = #{empLevel} ,
+            emp_cnt = #{empCnt} ,
+            sale_cnt = #{saleCnt} ,
+            emp_buy_cnt = #{empBuyCnt} ,
+            emp_price = #{empPrice} ,
+            div_price = #{divPrice} ,
+            div_amount = #{divAmount} ,
+            create_date = #{createDate} ,
+            update_date = #{updateDate} ,
+            stop_flg = #{stopFlg} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM t_supplier_special_sale WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_supplier_special_sale WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="SupplierSpecialSale">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_supplier_special_sale 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="SupplierSpecialSale">
+        SELECT <include refid="columns" /> FROM t_supplier_special_sale 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(productId)">
+                AND product_id = #{productId}
+            </if>
+           <if test="@Ognl@isNotEmpty(productName)">
+                AND product_name = #{productName}
+            </if>
+           <if test="@Ognl@isNotEmpty(empLevel)">
+                AND emp_level = #{empLevel}
+            </if>
+           <if test="@Ognl@isNotEmpty(empCnt)">
+                AND emp_cnt = #{empCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(saleCnt)">
+                AND sale_cnt = #{saleCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(empBuyCnt)">
+                AND emp_buy_cnt = #{empBuyCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(empPrice)">
+                AND emp_price = #{empPrice}
+            </if>
+           <if test="@Ognl@isNotEmpty(divPrice)">
+                AND div_price = #{divPrice}
+            </if>
+           <if test="@Ognl@isNotEmpty(divAmount)">
+                AND div_amount = #{divAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date = #{createDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateDate)">
+                AND update_date = #{updateDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(stopFlg)">
+                AND stop_flg = #{stopFlg}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

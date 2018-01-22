@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wode.tongji.mapper.UserMonthStatisticalMapper" >
+  <resultMap id="BaseResultMap" type="com.wode.tongji.model.UserMonthStatistical" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="month" property="month" jdbcType="DATE" />
+    <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP" />
+    <result column="active_number" property="activeNumber" jdbcType="BIGINT" />
+    <result column="register_number" property="registerNumber" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, month, creat_time, active_number, register_number
+  </sql>
+  <!-- 查询统计数据，根据日期查询，如果日期为空，查询的是最新一月数据 -->
+  <select id="selectByTime" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_month_statistical
+    where 
+    <if test="startTime!=null&amp;&amp;endTime!=null">
+   		month &gt; #{startTime} and month &lt; #{endTime}
+    </if>
+    <if test="startTime!=null&amp;&amp;endTime==null">
+	    month like CONCAT(#{startTime},'%')
+    </if>
+  </select>
+  
+  
+  <!-- 添加月统计数据 -->
+  <insert id="insertSelective" parameterType="com.wode.tongji.model.UserMonthStatistical" >
+    insert into t_user_month_statistical
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="month != null" >
+        month,
+      </if>
+      <if test="creatTime != null" >
+        creat_time,
+      </if>
+      <if test="activeNumber != null" >
+        active_number,
+      </if>
+      <if test="registerNumber != null" >
+        register_number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="month != null" >
+        #{month,jdbcType=DATE},
+      </if>
+      <if test="creatTime != null" >
+        #{creat_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activeNumber != null" >
+        #{active_number,jdbcType=BIGINT},
+      </if>
+      <if test="registerNumber != null" >
+        #{register_number,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+</mapper>

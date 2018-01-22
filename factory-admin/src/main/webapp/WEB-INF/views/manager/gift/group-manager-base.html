@@ -1,0 +1,42 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/productTrial/groupManageList" method="post" id="search-form" target="list-page" class="center clearfix">
+					<div class="row col-sm-12">
+						<div class="col-sm-4">
+							<label>标题：</label>
+							<input type="text" id="name" name="name">
+						</div>
+						<div class="col-sm-4">
+							<label>负责人：</label>
+							<select name="operatorId" width="45%">
+								<option value="">全部</option>
+								@for(item in limitGroupList){
+								<option value="${item.operatorId! }">${item.operator! }</option>
+								@}
+							</select>
+						</div>
+						
+					</div>
+					<div class="padding-trb-10 col-sm-12">
+							<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">全部</span>
+							<span class="btn btn-info btn-sm col-sm-6" id="search-btn">查询</span>
+							
+						</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+	</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script>
+	$("#role-select").chosen({width: "80%",search_contains: true});
+	$("#role-choose").chosen({width: "100%",search_contains: true}); 
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	
+</script>

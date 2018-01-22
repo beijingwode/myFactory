@@ -1,0 +1,70 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+				财务代码:
+			</div>
+	
+			<div class="profile-info-value">
+				${sd.financeCode}
+			</div>
+			</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			发票类型:
+		</div>
+
+		<div class="profile-info-value">
+			@if(sd.billType == 1){
+				专用发票
+			@} else {
+				普通发票
+			@}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+				发票抬头:
+		</div>
+
+		<div class="profile-info-value">
+			${supplierName}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			纳税人识别号:
+		</div>
+
+		<div class="profile-info-value">
+			${sd.taxpayerNumber}
+		</div>
+	</div>
+		<div class="profile-info-row">
+		<div class="profile-info-name">
+			地址、电话:
+		</div>
+
+		<div class="profile-info-value">
+			${sd.addressNumber}
+		</div>
+	</div>
+		<div class="profile-info-row">
+		<div class="profile-info-name">
+			开户行及账号:
+		</div>
+
+		<div class="profile-info-value">
+			${sd.openingBanNumber}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			开票项目:
+		</div>
+		<div class="profile-info-value">
+			技术服务费
+		</div>
+	</div>
+</div>
+</div>

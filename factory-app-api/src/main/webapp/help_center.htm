@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=divice-width,initial-scale=1">
+<title>帮助与反馈</title>
+<link rel="stylesheet" type="text/css" href="static_resources/css/public.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/font.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/help_center.css" />
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="static_resources/js/h5_exit.js"></script>
+
+</head>
+<div class="main-cont" id="main-cont">
+	<div class="top">
+        <h1><a href="javascript:close();" class="aleft"></a>帮助与反馈</h1>
+    </div>
+    <div class="main-box">
+    	<ul class="hc_ul">
+        	<li class="li1"><a href="shopping_process.htm">购物流程</a></li>
+            <li class="li2"><a href="payment_process.htm">支付流程</a></li>
+            <li class="li3"><a href="cancel_order.htm">订单取消流程</a></li>
+           
+            <li class="li5"><a href="feedback.htm" style="border-bottom:none">意见反馈</a></li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	if(isWeiXinH5()) {
+		$(".top").hide();
+		$(".main-box").css("top","0");
+	}
+});
+</script>
+<body>
+</body>
+</html>

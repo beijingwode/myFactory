@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="RefundorderMapper">
+
+	<resultMap id="Refundorder" type="com.wode.factory.model.Refundorder">
+        <result property="refundOrderId" column="refundOrderId"/>
+        <result property="returnOrderId" column="returnOrderId"/>
+        <result property="expressCompany" column="express_company"/>
+        <result property="refundPrice" column="refundPrice"/>
+        <result property="refundAccount" column="refundAccount"/>
+        <result property="reason" column="reason"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="goodsStatus" column="goodsStatus"/>
+        <result property="note" column="note"/>
+		<result property="userId" column="userId"/>
+		<result property="lastTime" column="lastTime"/>
+		<collection property="attachmentList" ofType="com.wode.factory.model.RefundorderAttachment">
+			<result property="id" column="id"/>
+	        <result property="image" column="image"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		refundOrderId,returnOrderId,express_company,refundPrice,refundAccount,reason,note,status,createTime,updateTime,updateBy,goodsStatus,lastTime,userId
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="refundOrderId">
+    <![CDATA[
+        INSERT INTO t_refundorder (
+        	refundOrderId ,
+        	returnOrderId ,
+        	express_company ,
+        	refundPrice ,
+        	refundAccount ,
+        	reason ,
+        	status ,
+        	createTime ,
+        	updateTime ,
+        	updateBy,
+        	goodsStatus,
+        	note,
+        	lastTime,
+        	userId
+        ) VALUES (
+        	#{refundOrderId} ,
+        	#{returnOrderId} ,
+        	#{expressCompany} ,
+        	#{refundPrice} ,
+        	#{refundAccount} ,
+        	#{reason} ,
+        	#{status} ,
+        	#{createTime} ,
+        	#{updateTime} ,
+        	#{updateBy},
+        	#{goodsStatus},
+        	#{note},
+        	#{lastTime},
+        	#{userId}
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_refundorder SET
+	        returnOrderId = #{returnOrderId} ,
+	        express_company = #{expressCompany} ,
+	        refundPrice = #{refundPrice} ,
+	        refundAccount = #{refundAccount} ,
+	        reason = #{reason} ,
+	        status = #{status} ,
+	        createTime = #{createTime} ,
+	        updateTime = #{updateTime} ,
+	        updateBy = #{updateBy},
+	        goodsStatus = #{goodsStatus},
+	        note = #{note}
+        WHERE 
+	        refundOrderId = #{refundOrderId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_refundorder WHERE
+        refundOrderId = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="Refundorder">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_refundorder 
+	        WHERE 
+		        refundOrderId = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_refundorder 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="Refundorder">
+    	SELECT <include refid="columns" />
+	    FROM t_refundorder 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(refundOrderId)">
+				AND refundOrderId = #{refundOrderId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(returnOrderId)">
+				AND returnOrderId = #{returnOrderId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(expressCompany)">
+				AND express_company = #{expressCompany}
+			</if>
+	       <if test="@Ognl@isNotEmpty(refundPrice)">
+				AND refundPrice = #{refundPrice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(refundAccount)">
+				AND refundAccount = #{refundAccount}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reason)">
+				AND reason = #{reason}
+			</if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createTimeBegin)">
+				AND createTime >= #{createTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createTimeEnd)">
+				AND createTime &lt;= #{createTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+				AND updateTime >= #{updateTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+				AND updateTime &lt;= #{updateTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateBy)">
+				AND updateBy = #{updateBy}
+			</if>
+			<if test="@Ognl@isNotEmpty(goodsStatus)">
+				AND goodsStatus = #{goodsStatus}
+			</if>
+			<if test="@Ognl@isNotEmpty(userId)">
+				AND userId = #{userId}
+			</if>
+			
+		</where>
+	</sql>
+	
+	<select id="getRefundordersById" resultMap="Refundorder">
+		SELECT ref.*,att.* from t_refundorder as ref 
+		LEFT JOIN t_refundorder_attachment as att on att.refundOrderId=ref.refundOrderId
+		WHERE ref.refundOrderId = #{refundOrderId} 
+	</select>
+</mapper>
+

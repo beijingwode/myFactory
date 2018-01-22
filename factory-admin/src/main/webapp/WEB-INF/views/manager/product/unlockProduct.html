@@ -1,0 +1,78 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<div class="profile-info-row">
+		<input type="hidden" id="productId" value="${product.id}">
+		<div class="profile-info-name">锁定原因:</div>
+		<div class="profile-info-value">
+			${product.lockReason}
+		</div>
+	</div>
+	<div class="width-100 clearfix" tag-save-btn style="bottom: 0px;left: 0px;position:absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-100  pull-left" id="submit">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>确定
+	</span>
+</div>
+<script type="text/javascript">
+
+$(function(){
+	
+	$("#submit").click(function(){
+
+		if($("#sendExpressNo").val()==''){
+			layer.msg('请锁定原因', 3, 1);
+		}else{
+			$.ajax({
+					dataType:'json',
+					type:'POST',
+					url:'${ctxPath}/product/lockProdect?r=0&productId='+$("#productId").val()+'&lockReason=',
+					contentType: 'application/json',
+					success:function(data){
+						if(data.success){
+							layer.msg('操作成功', 3, 1,function(){
+								var $form = $("#search-form");
+								var pageNo = 1;
+								var pageNoInput = $form.find('input[name="pageNum"]');
+								if(pageNoInput.size() != 0){
+									pageNo = pageNoInput.val();
+								}
+								
+								//刷新页面
+								paging('search-form',pageNo);
+								layer.closeAll();
+							});
+						}else{
+							layer.msg('操作失败', 3, 1,function(){
+								var $form = $("#search-form");
+								var pageNo = 1;
+								var pageNoInput = $form.find('input[name="pageNum"]');
+								if(pageNoInput.size() != 0){
+									pageNo = pageNoInput.val();
+								}
+								
+								//刷新页面
+								paging('search-form',pageNo);
+								layer.closeAll();
+							});
+						}
+					},
+					error:function() {
+						layer.msg('系统异常', 3, 1,function(){
+							var $form = $("#search-form");
+							var pageNo = 1;
+							var pageNoInput = $form.find('input[name="pageNum"]');
+							if(pageNoInput.size() != 0){
+								pageNo = pageNoInput.val();
+							}
+							
+							//刷新页面
+							paging('search-form',pageNo);
+							layer.closeAll();
+						});
+					}
+				});
+		}
+});
+});
+</script>
+</div>
+</div>

@@ -1,0 +1,128 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/brand/listLawyer" method="post" id="search-form" target="list-page" class="center clearfix">
+					<input type="hidden" name="viewStatus" value="${status!}">
+					<div class="row padding-tb-10 col-sm-12">
+						<div class="col-sm-4">
+								<label>类型：</label>
+								<#select name="natural" width="35%">
+									<option value="">所有类型</option>
+									<option value="0">自有品牌</option>
+									<option value="1">代理品牌</option>
+								</#select>
+								<select name="importFlg">
+									<option value="">进出口标示</option>
+									<option value="0">非进口</option>
+									<option value="1">进口</option>
+								</select>
+								<select name="categoryId">
+									<option value="">品牌级别</option>
+									<option value="1">一类品牌</option>
+									<option value="2">二类品牌</option>
+									<option value="3">三类品牌</option>
+									<option value="4">四类品牌</option>
+									<option value="0">未知</option>
+									<option value="-1">未设置</option>
+								</select>
+						</div>
+						<div class="col-sm-4">
+							<label>品牌名称：</label>
+							<input type="text" id="name" name="name">
+						</div>
+						<div class="col-sm-4">
+							<label>授权截止日期：</label>
+							<input type="text" id="startDateAuth" name="startDateAuth">
+							<label>-</label>
+							<input type="text" id="endDateAuth" name="endDateAuth">
+							&nbsp;&nbsp;
+						</div>
+				<div style="width:100px;float: right;margin-right: 3px;margin-top: -40px" onclick="exportExcel()">
+					<span class="btn fa fa-file-excel-o" id="excel-btn">&nbsp;&nbsp;导出品牌</span>
+				</div>
+					</div>
+					<div class="row padding-tb-10 col-sm-12">
+						<div class="col-sm-4">
+							<label>创建日期：</label>
+							<input type="text" id="startDate" name="startDate">
+							<label>-</label>
+							<input type="text" id="endDate" name="endDate">
+							&nbsp;&nbsp;
+						</div>
+						<div class="col-sm-4">
+							<label>备注：</label>
+							<input type="text" id="memo" name="memo">
+							<select name="rdMemo">
+								<option value="">全部</option>
+								<option value="1">有备注</option>
+								<option value="-1">无备注</option>
+							</select>
+						</div>
+						<div class="col-sm-4">
+							<label>再审提醒日期：</label>
+							<input type="text" id="startAlarmDate" name="startAlarmDate">
+							<label>-</label>
+							<input type="text" id="endAlarmDate" name="endAlarmDate">
+							&nbsp;&nbsp;
+						</div>
+					</div>
+					<div class="padding-trb-10 col-sm-12">
+							<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">全部</span>
+							<span class="btn btn-info btn-sm col-sm-6" id="search-btn">查询</span>
+							
+						</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+	</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script>
+	laydate({
+	    elem: '#startDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#endDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#startAlarmDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#endAlarmDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#startDateAuth',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#endDateAuth',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	
+	$("#role-select").chosen({width: "80%",search_contains: true});
+	$("#role-choose").chosen({width: "100%",search_contains: true}); 
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	
+	function exportExcel() {
+		var action,target;
+		var thisform=document.getElementById('search-form');
+		action=thisform.action;
+		target=thisform.target;
+		
+		thisform.action="${ctxPath}/brand/exportExcelLawyer";
+		thisform.target="_blank";
+		thisform.submit();
+		
+		thisform.action=action;
+		thisform.target=target;
+	}
+</script>

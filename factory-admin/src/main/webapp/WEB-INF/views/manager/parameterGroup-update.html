@@ -1,0 +1,102 @@
+<div class="layer" id="updateAppImg">
+	<form name="FormPost" id="parameterGroup-update" class="FormGrid"  method="post"
+		action="${ctxPath}/parameterGroup/update">
+		
+		<input type="hidden" value="${parVoInfo.id!}" name="id"/>
+		<!-- 类别id -->
+		<input type="hidden" value="${parVoInfo.categoryId!}" name="categoryId" />
+		<table class="EditTable" width="100%">
+			<tbody>
+				<tr style="display: none;">
+					<td class="ui-state-error" id="FormError"></td>
+				</tr>
+				 
+				<tr class="FormData">
+					<td class="CaptionTD">名称:</td>
+					<td class="DataTD width-100">
+						 <input type="text" placeholder="请输入名称" value="${parVoInfo.name!}" name="name" datatype="*"  nullmsg="名称不能为空！！"/>
+				    </td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">类别:</td>
+					<td class="DataTD">
+					<#productcategorytreeselect nameId="parameterGroup_tree" url="productCategory/tree" modelNameValue="${parVoInfo.parameterCategory!}"
+					modelIdValue="${parVoInfo.categoryId!}" selectIds="${parVoInfo.categoryId!}"
+					curId="${parVoInfo.categoryId!}" scenario="category"/><!-- 就curId是自己的信息 -->
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">排序:</td>
+					<td class="DataTD">
+						<input type="text" value="${parVoInfo.orders!}" name="orders"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">项目:</td>
+					<td class="DataTD">
+						<select name="ismust" style="width:100%">
+							@if(parVoInfo.ismust==0){
+								<option value="0" selected="selected">非必填</option>
+								<option value="1">必填</option>
+							@}else if(parVoInfo.ismust==1){
+								<option value="0">非必填</option>
+								<option value="1" selected="selected">必填</option>
+							@}else{
+								<option value="0">非必填</option>
+								<option value="1">必填</option>
+							@}
+						</select>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">值类型:</td>
+					<td class="DataTD">
+					<select name="inputtype" style="width:100%">
+							@if(parVoInfo.inputtype==1){
+								<option value="1" selected="selected">select</option>
+								<option value="2">input</option>
+								<option value="3">checkbox</option>
+							@}else if(parVoInfo.inputtype==2){
+								<option value="1">select</option>
+								<option value="2" selected="selected">input</option>
+								<option value="3">checkbox</option>
+							@}else if(parVoInfo.inputtype==3){
+								<option value="1">select</option>
+								<option value="2">input</option>
+								<option value="3" selected="selected">checkbox</option>
+							@}else{
+								<option value="1">select</option>
+								<option value="2">input</option>
+								<option value="3">checkbox</option>
+							@}
+					</select>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">展示类型:</td>
+					<td class="DataTD">
+						<select name="showType" style="width:100%">
+							@if(parVoInfo.showType==1){
+								<option value="1" selected="selected">文本展示</option>
+								<option value="2">图片展示</option>
+							@}else if(parVoInfo.showType==2){
+								<option value="1">文本展示</option>
+								<option value="2" selected="selected">图片展示</option>
+							@}else{
+								<option value="1">文本展示</option>
+								<option value="2">图片展示</option>
+							@}
+						</select>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+<#save formId="parameterGroup-update" />
+<script type="text/javascript">
+
+//描述框自动扩张高度
+$('textarea[class*=autosize]').autosize({append: "\n"});
+
+</script>

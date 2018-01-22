@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="BargainFlowVoMapper">
+
+    <resultMap id="BargainFlowVo" type="com.wode.factory.user.model.BargainFlowVo">
+        <result property="opCode" column="op_code"/>
+        <result property="opDate" column="op_date"/>
+        <result property="value" column="value"/>
+        <result property="note" column="note"/>
+        <result property="amount" column="amount"/>
+        <result property="balance" column="balance"/>
+        <result property="key" column="key_id"/>
+    </resultMap>
+    
+    <select id="findCashByQuery" resultMap="BargainFlowVo" parameterType="com.wode.factory.user.query.BargainFlowVoQuery">
+		SELECT EBF.op_code,EBF.op_date,EBF.note,EBF.cash amount,EBF.cash_balance balance,EBF.key_id
+		FROM t_emp_benefit_flow AS EBF
+		WHERE EBF.emp_id = #{empId}
+		  AND EBF.cash > 0
+           <if test="@Ognl@isNotEmpty(opDate)">
+               AND EBF.opDate >= #{opDate}
+           </if>
+		ORDER BY op_date DESC
+    </select>
+    
+    <select id="findTicketByQuery" resultMap="BargainFlowVo" parameterType="com.wode.factory.user.query.BargainFlowVoQuery">
+		SELECT EBF.op_code,EBF.op_date,EBF.note,EBF.ticket amount,EBF.ticket_balance balance,EBF.key_id
+		FROM t_emp_benefit_flow AS EBF
+		WHERE EBF.emp_id = #{empId}
+		  AND EBF.ticket > 0
+           <if test="@Ognl@isNotEmpty(opDate)">
+               AND EBF.opDate >= #{opDate}
+           </if>
+		ORDER BY op_date DESC
+    </select>
+	
+</mapper>
+

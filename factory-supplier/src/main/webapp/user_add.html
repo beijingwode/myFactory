@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)http://localhost:8080/supplier/supplier/torecruitmenttype.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="canonical" href="http://dreamdu.com/">
+<title>我的网商家中心</title>
+<link rel="stylesheet" type="text/css" href="static_resources/css/add_style.css">
+<link rel="stylesheet" type="text/css" href="static_resources/css/bottom.css">
+<link rel="stylesheet" type="text/css" href="static_resources/css/box.css">
+
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="static_resources/js/index.js"></script>
+<script type="text/javascript" src="static_resources/js/scrollbar.js"></script>
+<script type="text/javascript" src="static_resources/js/sleep.js"></script>
+</head>
+<body>
+<!--top begin-->
+
+<!--top end-->
+<!--content begin-->
+<div id="content">
+	<!--left begin-->
+    <div class="left">
+    	<ul class="left_list">
+        	<li style="border-bottom-style: none;"><a href="role.html">角色</a></li>
+        	<li class="curr"><a href="user.html">用户</a></li>
+	    </ul>
+    </div>
+    <!--left end-->
+    <div class="right">
+        <div class="recruitment_title">添加用户</div>
+        <div class="recruitment_cont">
+            <div class="manufacturer">
+                <div class="la" style="margin-right:30px;">名称<input class="r_text" type="text" id="type" name="type"  value=""></div>
+                <div class="la">选择角色<input class="r_text" type="text" id="type" name="type"  value=""></div>
+                <div class="la">密码<input class="r_text" type="text" id="type" name="type"  value=""></div>
+            </div>
+            <div class="r_name martop"><span>选择类目</span>(您所选择的所有类目必须对应自有品牌，且选择经营的类目直接对应于需要缴纳的保证金金额，如果您不确定选择哪些类目，请联系招商人员。)</div>
+            <div class="r_tl">请选择你要添加的类目</div>
+            <div class="r_addwrap">
+                <ul class="r_add_title">
+                    <li>一级类目</li>
+                    <li>二级类目</li>
+                    <li>三级类目</li>
+                </ul>
+                <div class="choose_add">        	
+                    <!--add begin-->
+                    <div class="scr_con">
+                        <div style="overflow-y:scroll;overflow-x:hidden;height:100%;">
+                            <div class="Scroller-Container">
+                                <ul class="add_list" id="ul1">
+                                     
+                                        <li id="10000" onclick="checkli1(this);" class=""><a href="javascript:void(0);">服饰/鞋类/箱包</a></li>
+                                     
+                                        <li id="20000" onclick="checkli1(this);" class=""><a href="javascript:void(0);">运动户外</a></li>
+                                     
+                                        <li id="30000" onclick="checkli1(this);"><a href="javascript:void(0);">珠宝配饰</a></li>
+                                     
+                                        <li id="40000" onclick="checkli1(this);" class="current"><a href="javascript:void(0);">个护化妆</a></li>
+                                     
+                                        <li id="50000" onclick="checkli1(this);"><a href="javascript:void(0);">居家日用</a></li>
+                                     
+                                        <li id="60000" onclick="checkli1(this);"><a href="javascript:void(0);">家装/家具/家纺</a></li>
+                                     
+                                        <li id="70000" onclick="checkli1(this);"><a href="javascript:void(0);">食品/酒类/粮油</a></li>
+                                     
+                                        <li id="80000" onclick="checkli1(this);"><a href="javascript:void(0);">电器/数码/办公</a></li>
+                                     
+                                        <li id="90000" onclick="checkli1(this);"><a href="javascript:void(0);">母婴玩具</a></li>
+                                     
+                                        <li id="100000" onclick="checkli1(this);" style="border-bottom-style: none;"><a href="javascript:void(0);">图书/音像/乐器</a></li>
+                                     
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="Scrollbar-Track">
+                                <div class="Scrollbar-Handle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--add end-->
+                    <div class="scr_con">
+                        <div style="overflow-y:scroll;overflow-x:hidden;height:100%;">
+                            <div class="Scroller-Container">
+                                <ul class="add_list" id="ul2"><li class="allselect" onclick="selectall2(this);"><a href="javascript:void(0);"><input class="r_radio" type="checkbox" name="" value="">全选</a></li><li id="40100" onclick="checkli2(this);"><a href="javascript:void(0);"><input class="r_radio" type="checkbox" name="" value="">个人洗护</a></li><li id="40200" onclick="checkli2(this);"><a href="javascript:void(0);"><input class="r_radio" type="checkbox" name="" value="">口腔护理</a></li><li id="40300" onclick="checkli2(this);"><a href="javascript:void(0);"><input class="r_radio" type="checkbox" name="" value="">男士剃须</a></li><li id="40400" onclick="checkli2(this);"><a href="javascript:void(0);"><input class="r_radio" type="checkbox" name="" value="">其他</a></li><li id="40500" onclick="checkli2(this);"><a href="javascript:void(0);"><input class="r_radio" type="checkbox" name="" value="">个人清洁用具</a></li><li id="40600" onclick="checkli2(this);"><a href="javascript:void(0);"><input class="r_radio" type="checkbox" name="" value="">面部护肤</a></li><li id="40700" onclick="checkli2(this);"><a href="javascript:void(0);"><input class="r_radio" type="checkbox" name="" value="">精致彩妆</a></li><li id="40800" onclick="checkli2(this);"><a href="javascript:void(0);"><input class="r_radio" type="checkbox" name="" value="">男士护理</a></li><li id="40900" onclick="checkli2(this);"><a href="javascript:void(0);"><input class="r_radio" type="checkbox" name="" value="">其他护理</a></li><li id="41000" onclick="checkli2(this);"><a href="javascript:void(0);"><input class="r_radio" type="checkbox" name="" value="">香水</a></li><li id="41100" onclick="checkli2(this);"><a href="javascript:void(0);"><input class="r_radio" type="checkbox" name="" value="">美容工具</a></li></ul>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="Scrollbar-Track">
+                                <div class="Scrollbar-Handle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="scr_con" style="border-right-style: none;">
+                        <div style="overflow-y:scroll;overflow-x:hidden;height:100%;">
+                            <div class="Scroller-Container">
+                                <ul class="add_last_list" id="ul3"></ul>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="Scrollbar-Track">
+                                <div class="Scrollbar-Handle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="r_tl">已选择的类目</div>
+            <div class="r_addwrap">
+                <table width="100%" border="1" cellpadding="0" cellspacing="0" class="choosetab" id="table"><tbody><tr><th>一级类目</th><th>二级类目</th><th>三级类目</th></tr><tr id="re80000"><td><p onclick="delcategory(80000,1)">电器/数码/办公</p></td><td><p id="re80200" onclick="delcategory(80200,2)">大家电</p></td><td><p onclick="delcategory(80202,3)" id="re80202" idp="re80200" name="childrensid">冰箱</p></td></tr></tbody></table>
+    
+            </div>
+        </div>
+        <div class="recuitment_btn">
+            <p class="h_saving" id="cg" style="display: none">√ 已保存。</p>
+            <p class="h_failed" id="sb" style="display: none">× 保存失败。</p> 
+            <p class="h_failed" id="ts" style="display: none">× 请先选择分类。</p>
+            <div class="recuitment_btn01" id="recuitment_btn01" onclick="papa(&#39;1&#39;);"><a href="javascript:void(0);">保存</a></div>
+            <div class="recuitment_btn02" id="recuitment_btn02" onclick="papa(&#39;2&#39;);"><a href="javascript:void(0);">下一步，上传资质</a></div>
+            <div class="recuitment_btn03" id="recuitment_btn03" onclick="papa(&#39;3&#39;);"><a href="user.html">上一步</a></div>
+        </div>
+        <!--删除确认 begin-->
+        <div class="popup_bg"></div>   
+        <div class="shop_popup" id="shop_popup_delete">
+        <input type="hidden" id="deleteid" value="">
+        <input type="hidden" id="typeid" value="">
+            <div class="popup_title" onclick="delcategory2();">
+                <span>删除确认</span>
+                <label><img src="static_resources/images/close.gif" width="14" height="14" alt="close"></label>
+            </div>
+            <div class="popup_cont">	
+                <div class="popup_txt">请确认是否删除选择类目？</div>
+                <div class="popup_btn">
+                    <a href="javascript:void(0);" onclick="delcategory1();">确认</a>
+                    <a id="dcansel" href="javascript:void(0);" onclick="delcategory2();">取消</a>
+                </div>
+            </div>
+        </div>
+        <!--删除确认 end-->
+     </div>
+</div>
+<!--content end-->
+
+<footer>
+<!--footer begin-->
+<div id="footer">
+	<div class="footer_box">
+    	<ul class="footer_list">   
+    			 <li><a href="http://www.wo-de.com/about.html" target="_blank">关于我的</a></li>
+            <li><a href="http://www.wd-w.com/help-center.html?from=lxwm" target="_blank">联系我的</a></li>
+            <li><a href="http://www.wo-de.com/index.html" target="_blank">友情链接</a></li>
+            <li><a href="http://www.wo-de.com/about.html" target="_blank">人才招聘</a></li>
+            <li><a href="http://www.wd-w.com/help-center.html" target="_blank">帮助中心</a></li>
+            <li><a href="http://supplier.wd-w.com/" target="_blank">商家平台</a></li>
+            <li><a href="http://www.wd-w.com/app.html" target="_blank">掌上生活</a></li>
+            <li><a href="http://www.wd-w.com/legal-notice.html" target="_blank">法律申明</a></li>
+            <li><a href="http://www.wd-w.com/feedback.html" target="_blank">用户反馈</a></li>
+            <li><a href="http://www.wd-w.com/union_rules.html" target="_blank">平台交易规则</a></li>
+        </ul>
+        <div class="foter">
+        	<span>北京市公安局朝阳分局备案编号110105014669</span>              
+            <span>京ICP证14047715号</span>              
+            <span>我的旗下网站：我的团  我的美  我的码 我的快递</span>
+        </div>
+        <ul class="footer_info">
+        	<li><a href="javascript:void(0);">经营性网站<br>备案信息</a></li>
+            <li><a href="javascript:void(0);">可信网站<br>信用评价</a></li>
+            <li><a href="javascript:void(0);">朝阳区网络<br>警察提醒您</a></li>
+            <li><a href="javascript:void(0);" style="line-height:38px;">诚信网站</a></li>
+        </ul>
+    </div>
+</div>
+<!--footer end-->
+</footer>
+
+  <script type="text/javascript">
+  		
+    	$(document).ready(function(){
+    		
+    		
+//     		var $listli = $("#ul1").find("li");
+//     		var ppid = "".split(",");
+//     		var pid = "".split(",");
+    		
+    		
+//     		if(ppid.length>0&&ppid[0]!=""){
+//     			ajaxLoadNext("",2,0);
+//     		}
+//     		if(pid.length>0&&pid[0]!=""){
+//     			ajaxLoadNext("",3,0);
+//     		}
+    		
+//     		setTimeout("setProductAddress()",500);
+    		
+//     		$listli.each(function(i,val){
+//     			for(var j=0;j<ppid.length;j++){
+//     				if($($listli[i]).attr("id")==ppid[j]){
+//         				$($listli[i]).addClass("current");
+//         			};
+//         		}
+//     		});
+    		
+		});
+    	
+    	//赋值
+    	function setProductAddress(){
+    		var pid = "".split(",");
+    		var cid = "".split(",");
+    		
+    		var $listli2 = $("#ul2").find("li");
+    		$listli2.each(function(i,val){
+    			for(var j=0;j<pid.length;j++){
+    				if($($listli2[i]).attr("id")==pid[j]){
+        				$($listli2[i]).addClass("current");
+        			};
+        		}
+    		});
+    		
+    		var $listli3 = $("#ul3").find("li");
+    		$listli3.each(function(i,val){
+    			for(var j=0;j<cid.length;j++){
+    				if($($listli3[i]).attr("id")==cid[j]){
+        				$($listli3[i]).addClass("current");
+        			};
+        		}
+    		});
+    		
+    	}
+    	
+    	function selectall2(obj){
+    		var $listli2 = $("#ul2").find("li");
+    		$listli2.each(function(i,val){
+    			if($(obj).find("input[type=checkbox]").attr("checked")!="checked"){
+    				$($listli2[i]).removeClass("current");
+    				$($listli2[i]).find("input[type=checkbox]").attr("checked",false);
+    			}else{
+    				$($listli2[i]).addClass("current");
+       				$($listli2[i]).find("input[type=checkbox]").attr("checked",true);
+    			}
+    		});
+    		
+    		var $list = $("#ul2").find("li[class='current']");
+    		var ids="";
+    		$list.each(function(i,val){
+    			ids=ids+$($list[i]).attr("id")+",";
+    		});
+    		
+    		if(ids!=""){
+    			ids = ids.substring(0,ids.length-1);
+    			ajaxLoadNext(ids,3,$(obj).attr("id"));
+    		}else{
+    			$("#ul3").html("");
+    		}
+    		ajaxhtml(false);
+    	}
+    	
+    	function selectall3(obj){
+    		var $listli2 = $("#ul3").find("li");
+    		$listli2.each(function(i,val){
+    			if($(obj).find("input[type=checkbox]").attr("checked")!="checked"){
+    				$($listli2[i]).removeClass("current");
+    				$($listli2[i]).find("input[type=checkbox]").attr("checked",false);
+    				var id = $($listli2[i]).attr("id");
+        			if($("#re"+id).siblings("p").length==0){
+    					$("#re"+id).parents("tr").remove();
+    				}else{
+    					if($("[idp="+$("#re"+id).attr("idp")+"]").length>1){
+    						$("#re"+id).remove();
+    					}else{
+    						$("#"+$("#re"+id).attr("idp")).remove();
+    						$("#re"+id).remove();
+    					}
+    				}
+    			}else{
+    				$($listli2[i]).addClass("current");
+       				$($listli2[i]).find("input[type=checkbox]").attr("checked",true);
+    			}
+    		});
+    		
+    		ajaxhtml(false);
+    	}
+    	
+    	/**
+    	*第一级的单击事件
+    	*/
+    	function checkli1(obj){
+    		//添加选中状态
+    		$(obj).siblings("li").removeClass("current").end().addClass("current");
+   			ajaxLoadNext($(obj).attr("id"),2,$(obj).attr("id"));
+			$("#ul3").html("");
+			ajaxhtml(false);
+			
+			
+			setTimeout("checkli1_1()",600);
+			
+    	}
+    	
+    	function checkli1_1(){
+    		var $list = $("#ul2").find("li[class='current']");
+    		var ids="";
+    		$list.each(function(i,val){
+    			ids=ids+$($list[i]).attr("id")+",";
+    		});
+    		
+    		if(ids!=""){
+    			ids = ids.substring(0,ids.length-1);
+    			ajaxLoadNext(ids,3,0);
+    		}else{
+    			$("#ul3").html("");
+    		}
+    		
+    	}
+    	
+    	
+    	/**
+    	*第二级的单击事件
+    	*/
+    	function checkli2(obj){
+    		//添加选中状态
+    		if($(obj).hasClass("current")){
+    			$(obj).removeClass("current");
+    			$(obj).find("input[type=checkbox]").attr("checked",false);
+    			var id = $(obj).attr("id");
+    			if($("#re"+id).siblings("p").length==0){
+					$("[idp=re"+id+"]").parents("tr").remove();
+				}else{
+					$("#re"+id).remove();
+					$("[idp=re"+id+"]").remove();
+				}
+    		}else{
+    			$(obj).addClass("current");
+    			$(obj).find("input[type=checkbox]").attr("checked",true);
+    		}
+    		
+    		var $list = $(obj).parent().find("li[class='current']");
+    		var ids="";
+    		$list.each(function(i,val){
+    			ids=ids+$($list[i]).attr("id")+",";
+    		});
+    		
+    		if(ids!=""){
+    			ids = ids.substring(0,ids.length-1);
+    			ajaxLoadNext(ids,3,$(obj).attr("id"));
+    		}else{
+    			$("#ul3").html("");
+    		}
+    		
+    		ajaxhtml(false);
+			
+    	}
+    	
+    	/**
+    	*第二级的单击事件
+    	*/
+    	function checkli2id(id){
+    		//添加选中状态
+    		if($("#"+id).hasClass("current")){
+    			$("#"+id).removeClass("current");
+    			$("#"+id).find("input[type=checkbox]").attr("checked",false);
+    		}
+    		
+    		var $list = $("#"+id).parent().find("li[class='current']");
+    		var ids="";
+    		$list.each(function(i,val){
+    			ids=ids+$($list[i]).attr("id")+",";
+    		});
+    		
+    		if(ids!=""){
+    			ids = ids.substring(0,ids.length-1);
+    			ajaxLoadNext(ids,3,id);
+    		}else{
+    			$("#ul3").html("");
+    		}
+    		
+    		ajaxhtml(false);
+			
+    	}
+    	
+    	/**
+    	*第二级的单击事件
+    	*/
+    	function checkli3(obj){
+    		//添加选中状态
+    		//添加选中状态
+    		if($(obj).hasClass("current")){
+    			$(obj).removeClass("current");
+    			$(obj).find("input[type=checkbox]").attr("checked",false);
+    			var id = $(obj).attr("id");
+    			if($("#re"+id).siblings("p").length==0){
+					$("#re"+id).parents("tr").remove();
+				}else{
+					if($("[idp="+$("#re"+id).attr("idp")+"]").length>1){
+						$("#re"+id).remove();
+					}else{
+						$("#"+$("#re"+id).attr("idp")).remove();
+						$("#re"+id).remove();
+					}
+				}
+    		}else{
+    			$(obj).addClass("current");
+    			$(obj).find("input[type=checkbox]").attr("checked",true);
+    		}
+    		ajaxhtml(false);
+    	}
+    	
+    	function ajaxhtml(tp){
+    		
+    		var nowids = '';
+    		var regS = new RegExp("re","gi");
+    		var $list = $("#table").find("[name=childrensid]");
+    		$list.each(function(i,val){
+    			nowids = nowids+$($list[i]).attr("id")+",";
+    		});
+    		
+    		var ids="";
+    		var $list = $("#ul3").find("li[class='current']");
+    		$list.each(function(i,val){
+    			ids=ids+$($list[i]).attr("id")+",";
+    		});
+    		
+    		if(ids!=""){
+    			ids = ids.substring(0,ids.length-1);
+    		}else{
+    			//alert("请选择类目");
+    			if(tp){
+    				return;
+    			}
+    		}
+    		
+    		ids = ids.replace(regS,"");
+    		nowids = nowids.replace(regS,"");
+    		
+    		var basePath = 'http://localhost:8080/supplier';
+    		$.ajax({
+                cache: true,
+                type: "POST",
+                dataType: "json",
+                url:"http://localhost:8080/supplier/shopSetting/findbyajax.json",
+                data:"categoryids="+ids+"&nowids="+nowids,// 你的formid
+                async: true,
+                error: function(request) {
+                    //alert("Connection error");
+                    return false;
+                },
+                success: function(data) {
+                	if(data.result.errorCode==0){
+                		var html = '';
+                		var supplierCategoryLists = data.supplierCategoryLists;
+                		html += '<tr>';
+                		html += '<th>一级类目</th>';
+                		html += '<th>二级类目</th>';
+                		html += '<th>三级类目</th>';
+                		html += '</tr>';
+                		for(var i=0;i<supplierCategoryLists.length;i++){
+                			html += '<tr id="re'+supplierCategoryLists[i].id+'">';
+                			html += '<td><p onclick="delcategory('+supplierCategoryLists[i].id+',1)">'+supplierCategoryLists[i].name+'</p></td>';
+                			html += '<td>';
+                			var childrens = supplierCategoryLists[i].childrens;
+                			var html2 = '';
+                			for(var b=0;b<childrens.length;b++){
+                				$("#"+childrens[b].id).addClass("current");
+            	    			$("#"+childrens[b].id).find("input[type=checkbox]").attr("checked",true);
+                				html += '<p id="re'+childrens[b].id+'" onclick="delcategory('+childrens[b].id+',2)">'+childrens[b].name+'</p>';
+                				var childrens2 = childrens[b].childrens; 
+                				for(var c=0;c<childrens2.length;c++){
+                					$("#"+childrens2[c].id).addClass("current");
+                	    			$("#"+childrens2[c].id).find("input[type=checkbox]").attr("checked",true);
+                					html2 += '<p onclick="delcategory('+childrens2[c].id+',3)" id="re'+childrens2[c].id+'" idp="re'+childrens[b].id+'" name="childrensid">'+childrens2[c].name+'</p>';
+                				};
+                			}
+                			html += '</td>';
+                			html += '<td>';
+                			html += html2;
+                			html += '</td>';
+                			html += '</tr>';
+                		}
+                		$("#table").html(html);
+                	}else if(data.result.errorCode==1000){
+                		var html = '';
+                		html += '<tr>';
+                		html += '<th>一级类目</th>';
+                		html += '<th>二级类目</th>';
+                		html += '<th>三级类目</th>';
+                		html += '</tr>';
+                		$("#table").html(html);
+                	}
+                	else{
+                		$("#sb").fadeIn();
+                		setTimeout("display()",6000);
+                		//alert("错误："+data.result.errorCode+"  原因："+data.result.message);
+                	};
+                }
+            });
+    	}
+    	
+    	
+    	/**
+    	*动态格式化下一级的类目
+    	*/
+    	function ajaxLoadNext(parentid,order,objid){
+    		var basePath = 'http://localhost:8080/supplier';
+			$.ajax({
+				url : basePath +'/productCategory/getProductCategoryList.json?pids='+parentid,
+				type : "GET",
+				dataType: "json",  //返回json格式的数据  
+			    async: false,
+				success : function(data) {
+					var html = "<li class=\"allselect\" onclick=\"selectall"+order+"(this);\"><a href=\"javascript:void(0);\"><input class=\"r_radio\" type=\"checkbox\" name=\"\" value=\"\">全选</a></li>";
+					if(data.result.errorCode==0){
+						if(data.result.msgBody!=undefined){
+							if(data.result.msgBody.length>0){
+								for(var i=0;i<data.result.msgBody.length;i++){
+									html+='<li id="'+data.result.msgBody[i].id+'" onclick="checkli'+order+'(this);"><a href=\"javascript:void(0);\"><input class=\"r_radio\" type=\"checkbox\" name=\"\" value=\"\">'+data.result.msgBody[i].name+'</a></li>';
+								}
+							}else{
+								
+							}
+						}
+					}
+					$("#ul"+order).html(html);
+					var nowids = '';
+		    		var $list2 = $("#table").find("[name=childrensid]");
+		    		$list2.each(function(i,val){
+		    			nowids = nowids+$($list2[i]).attr("id")+",";
+		    		});
+		    		if(nowids!=""){
+		    			nowids = nowids.substring(0,nowids.length-1).split(",");
+		    			for(var i=0;i<nowids.length;i++){
+		    				$("#"+nowids[i].replace('re', '')).addClass("current");
+			    			$("#"+nowids[i].replace('re', '')).find("input[type=checkbox]").attr("checked",true);
+		    			}
+		    		}
+				}, error : function() {    
+			     }  
+			});
+    	}
+    	
+    	function deltan(){
+    		$(".popup_bg").show();
+    		$("#shop_popup_delete").fadeIn();
+    	}
+    	
+    	function delcategory(id,type){
+    		$("#shop_popup_delete").fadeOut();
+    		$("#deleteid").val(id);
+    		$("#typeid").val(type);
+    		$(".popup_bg").show();
+    		$("#shop_popup_delete").fadeIn();
+    	}
+    	
+    	function delcategory2(){
+    		$(".popup_bg").hide();
+    		$("#shop_popup_delete").fadeOut();
+    	}
+    	
+    	function delcategory1(){
+    		
+    		var id = $("#deleteid").val();
+    		var type = $("#typeid").val();
+    			if(type == '1'){
+    				$("#re"+id).remove();
+    			}else if(type == '2'){
+    				if($("#re"+id).siblings("p").length==0){
+    					$("[idp=re"+id+"]").parents("tr").remove();
+    				}else{
+    					$("#re"+id).remove();
+    					$("[idp=re"+id+"]").remove();
+    				}
+    				$("#"+id).find("input[type=checkbox]").attr("checked",false);
+    				$("#"+id).removeClass("current"); 
+    				checkli2id(id);
+    			}else if(type == '3'){
+    				if($("#re"+id).siblings("p").length==0){
+    					$("#re"+id).parents("tr").remove();
+    				}else{
+    					if($("[idp="+$("#re"+id).attr("idp")+"]").length>1){
+    						$("#re"+id).remove();
+    					}else{
+    						$("#"+$("#re"+id).attr("idp")).remove();
+    						$("#re"+id).remove();
+    					}
+    				}
+    				$("#"+id).find("input[type=checkbox]").attr("checked",false);
+    				$("#"+id).removeClass("current"); 
+    			}
+    			$(".popup_bg").hide();
+    			$("#shop_popup_delete").fadeOut();
+    			
+    			//window.location.href = "http://localhost:8080/supplier/supplierCategory/deletebymap.html?id="+id+"&type="+type+"";
+    	}
+    	
+    	var flag = false;
+    	var flag2 = false;
+    	/**
+    	*跳转下一步
+    	*/
+    	function papa(type){
+    		$("#recuitment_btn01").addClass("btngray").removeAttr("onclick");
+    		$("#recuitment_btn02").addClass("btngray").removeAttr("onclick");
+    		$("#recuitment_btn03").addClass("btngray").removeAttr("onclick");
+    		setTimeout("submit("+type+")",600);
+    	}
+    	
+    	function submit(type){
+    		//papa();
+    		//Pause(this,3000);
+    		//alert($('input[name="type"]:checked').val());
+    		if(type==3){
+    			window.location.href = "http://localhost:8080/supplier/supplier/tocreatesupplierinfo.html";
+    		}else if(type==2){
+    			var ids="";
+        		var $list = $("#table").find("[name=childrensid]");
+        		$list.each(function(i,val){
+        			ids = ids+$($list[i]).attr("id")+",";
+        		});
+        		if(ids==""){
+        			$("#ts").fadeIn();
+    				setTimeout("display()",6000);
+    				return false;
+        		}
+    			var size = "1";
+   				flag2 = false;
+       			z_sub();
+       			if(flag2){
+       				window.location.href = "http://localhost:8080/supplier/supplier/torecruitmentnewbrand.html";
+       			}else{
+       				$("#sb").fadeIn();
+       			}
+       			setTimeout("display()",6000);
+    		}else{
+    			
+    			var ids="";
+        		var $list = $("#table").find("[name=childrensid]");
+        		$list.each(function(i,val){
+        			ids = ids+$($list[i]).attr("id")+",";
+        		});
+        		if(ids==""){
+        			$("#ts").fadeIn();
+    				setTimeout("display()",6000);
+    				$("#recuitment_btn01").removeClass("btngray").attr("onclick","papa('1')");
+    	    		$("#recuitment_btn02").removeClass("btngray").attr("onclick","papa('2')");
+    	    		$("#recuitment_btn03").removeClass("btngray").attr("onclick","papa('3')");
+    				return false;
+        		}
+    			flag2 = false;
+    			z_sub();
+    			if(flag2){
+    				$("#cg").fadeIn();
+    			}else{
+    				$("#sb").fadeIn();
+    			}
+    			setTimeout("display()",6000);
+    		}	
+    		$("#recuitment_btn01").removeClass("btngray").attr("onclick","papa('1')");
+    		$("#recuitment_btn02").removeClass("btngray").attr("onclick","papa('2')");
+    		$("#recuitment_btn03").removeClass("btngray").attr("onclick","papa('3')");
+    		
+    	}
+    	
+    	function display(){
+    		$("#cg").fadeOut();
+    		$("#sb").fadeOut();
+    		$("#ts").fadeOut();
+    	}
+    	
+    	function z_sub(){
+    		var ids="";
+    		var $list = $("#table").find("[name=childrensid]");
+    		var type = $("#type").val();
+    		var regS = new RegExp("re","gi");
+    		$list.each(function(i,val){
+    			ids = ids+$($list[i]).attr("id")+",";
+    		});
+    		if(ids!=""){
+    			ids = ids.substring(0,ids.length-1);
+    		}
+    		ids = ids.replace(regS,""); //全部替换
+    		$.ajax({
+                type: "POST",
+                dataType: "json",
+                url:"http://localhost:8080/supplier/shopSetting/save.json",
+                data:"categoryids="+ids+"&type="+type,// 你的formid
+                async: false,
+                error: function(request) {
+                    //alert("Connection error");
+                    return false;
+                },
+                success: function(data) {
+                	if(data.result.errorCode==0){
+                		flag = true;
+                		flag2 = true;
+                		return true;
+               			//window.location.href = "http://localhost:8080/supplier/supplier/torecruitmenttype.html";
+                	}else{
+                		
+                		return false;
+                		//$("#sb").fadeIn();
+                		//setTimeout("display()",6000);
+                		//alert("错误："+data.result.errorCode+"  原因："+data.result.message);
+                	}
+                	
+                }
+            });
+    	}
+
+    </script>
+</body></html>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wode.tongji.mapper.PvDayStatisticalMapper" >
+
+    <resultMap id="PvDayStatistical" type="com.wode.tongji.model.PvDayStatistical">
+        <result property="id" column="id"/>
+        <result property="day" column="day"/>
+        <result property="createTime" column="create_time"/>
+        <result property="productCnt" column="product_cnt"/>
+        <result property="indexCnt" column="index_cnt"/>
+        <result property="searchCnt" column="search_cnt"/>
+        <result property="shopCnt" column="shop_cnt"/>
+        <result property="cartCnt" column="cart_cnt"/>
+        <result property="directCnt" column="direct_cnt"/>
+        <result property="orderCnt" column="order_cnt"/>
+        <result property="payCnt" column="pay_cnt"/>
+        <result property="else1Cnt" column="else1_cnt"/>
+        <result property="else2Cnt" column="else2_cnt"/>
+        <result property="else3Cnt" column="else3_cnt"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,day,create_time,product_cnt,index_cnt,search_cnt,shop_cnt,cart_cnt,direct_cnt,order_cnt,pay_cnt,else1_cnt,else2_cnt,else3_cnt
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_pv_day_statistical (
+            day ,
+            create_time ,
+            product_cnt ,
+            index_cnt ,
+            search_cnt ,
+            shop_cnt ,
+            cart_cnt ,
+            direct_cnt ,
+            order_cnt ,
+            pay_cnt ,
+            else1_cnt ,
+            else2_cnt ,
+            else3_cnt
+        ) VALUES (
+            #{day} ,
+            #{createTime} ,
+            #{productCnt} ,
+            #{indexCnt} ,
+            #{searchCnt} ,
+            #{shopCnt} ,
+            #{cartCnt} ,
+            #{directCnt} ,
+            #{orderCnt} ,
+            #{payCnt} ,
+            #{else1Cnt} ,
+            #{else2Cnt} ,
+            #{else3Cnt}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_pv_day_statistical SET            
+            day = #{day} ,
+            create_time = #{createTime} ,
+            product_cnt = #{productCnt} ,
+            index_cnt = #{indexCnt} ,
+            search_cnt = #{searchCnt} ,
+            shop_cnt = #{shopCnt} ,
+            cart_cnt = #{cartCnt} ,
+            direct_cnt = #{directCnt} ,
+            order_cnt = #{orderCnt} ,
+            pay_cnt = #{payCnt} ,
+            else1_cnt = #{else1Cnt} ,
+            else2_cnt = #{else2Cnt} ,
+            else3_cnt = #{else3Cnt} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_pv_day_statistical WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="PvDayStatistical">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_pv_day_statistical 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+  
+  <!-- 查询统计数据，根据日期查询 -->
+  <select id="selectByTime" resultMap="PvDayStatistical" parameterType="map" >
+        SELECT <include refid="columns" /> FROM t_pv_day_statistical 
+	    where 
+	    <if test="startTime!=null&amp;&amp;endTime!=null">
+		    day &gt;= #{startTime} and day &lt;= #{endTime}
+	    </if>
+	    <if test="startTime!=null&amp;&amp;endTime==null">
+		    day like CONCAT(#{startTime},'%')
+	    </if>
+	    ORDER BY day
+  </select>
+  
+    <select id="selectByModel" resultMap="PvDayStatistical">
+        SELECT <include refid="columns" /> FROM t_pv_day_statistical 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(day)">
+                AND day = #{day}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(productCnt)">
+                AND product_cnt = #{productCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(indexCnt)">
+                AND index_cnt = #{indexCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(searchCnt)">
+                AND search_cnt = #{searchCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopCnt)">
+                AND shop_cnt = #{shopCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(cartCnt)">
+                AND cart_cnt = #{cartCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(directCnt)">
+                AND direct_cnt = #{directCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(orderCnt)">
+                AND order_cnt = #{orderCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(payCnt)">
+                AND pay_cnt = #{payCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(else1Cnt)">
+                AND else1_cnt = #{else1Cnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(else2Cnt)">
+                AND else2_cnt = #{else2Cnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(else3Cnt)">
+                AND else3_cnt = #{else3Cnt}
+            </if>
+        </where>
+    </sql>
+</mapper>

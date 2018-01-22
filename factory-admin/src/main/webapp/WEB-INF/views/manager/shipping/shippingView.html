@@ -1,0 +1,114 @@
+新版运费模板
+<table	class="table table-striped table-bordered table-hover nomargin-bottom">
+	<tr>
+		<th>运送方式</th>
+		<th style="width: 250px;">配送到</th>
+		<th>首件(个)</th>
+		<th>运费（元）</th>
+		<th>续件(个)</th>
+		<th>运费（元）</th>
+	</tr>
+	@for(item in newshippingTemplateRule){
+	<tr>
+		<td>快递</td>
+		<td>${item.areasName}</td>
+		<td>${item.firstCnt}</td>
+		<td>${item.firstPrice}</td>
+		<td>${item.plusCnt}</td>
+		<td>${item.plusPrice}</td>
+	</tr>
+	@}
+</table>
+<hr>
+旧运费模板
+<table	class="table table-striped table-bordered table-hover nomargin-bottom">
+	<tr>
+		<th>运送方式</th>
+		<th style="width: 250px;">配送到</th>
+		<th>首件(个)</th>
+		<th>运费（元）</th>
+		<th>续件(个)</th>
+		<th>运费（元）</th>
+	</tr>
+	@for(item in oldshippingTemplateRule){
+	<tr>
+		<td>快递</td>
+		<td>${item.areasName}</td>
+		<td>${item.firstCnt}</td>
+		<td>${item.firstPrice}</td>
+		<td>${item.plusCnt}</td>
+		<td>${item.plusPrice}</td>
+	</tr>
+	@}
+</table>
+<hr>
+新包邮模板
+<table
+	class="table table-striped table-bordered table-hover nomargin-bottom">
+	<tr>
+		<th style="width: 250px;">包邮区域</th>
+		<th>包邮条件</th>
+	</tr>
+	@for(item in newshippingFreeRule){
+	<tr>
+		           					<td>${item.areasName}</td>
+		           					@if(item.countTypeDes=='2'){
+		           					<td>满 ${item.param2} 元包邮</td>
+									@} 
+		           					@if(item.countTypeDes=='1'){
+			           					<td>满 ${item.param1} 件包邮</td>
+									@} 
+		           					@if(item.countTypeDes=='3'){
+			           					@if(item.countType=='1'){
+			           					<td>满 ${item.param1} 件,且 ${item.param2} 元以上 包邮</td>
+										@} 
+									@} 
+		           				</tr>
+	@}
+</table>
+<hr>
+旧包邮模板
+<table	class="table table-striped table-bordered table-hover nomargin-bottom">
+	<tr>
+		<th style="width: 250px;">包邮区域</th>
+		<th>包邮条件</th>
+	</tr>
+	@for(item in oldshippingFreeRule){
+	<tr>
+		           					<td>${item.areasName}</td>
+		           					@if(item.countTypeDes=='2'){
+		           					<td>满 ${item.param2} 元包邮</td>
+									@} 
+		           					@if(item.countTypeDes=='1'){
+			           					@if(item.countType=='1'){
+			           					<td>满 ${item.param1} 件包邮</td>
+										@} 
+			           					@if(item.countType=='2'){
+			           					<td>在 ${item.param1} kg内包邮</td>
+										@} 
+			           					@if(item.countType=='3'){
+			           					<td>在 ${item.param1} m³内包邮</td>
+										@} 
+									@} 
+		           					@if(item.countTypeDes=='3'){
+			           					@if(item.countType=='1'){
+			           					<td>满 ${item.param1} 件,且 ${item.param2} 元以上 包邮</td>
+										@} 
+			           					@if(item.countType=='2'){
+			           					<td>在 ${item.param1} kg内,且 ${item.param2} 元以上 包邮</td>
+										@} 
+			           					@if(item.countType=='3'){
+			           					<td>在 ${item.param1} m³内,且 ${item.param2} 元以上 包邮</td>
+										@} 
+									@} 
+		           				</tr>
+	@}
+</table>
+<form name="FormPost" id="shippingTemplate-save" class="FormGrid"
+	method="post" action="${ctxPath}/shipping/shippingAudit">
+	<input type="hidden" name="id" value="${newShipping.id}">
+	<label for="form-field-11">审核意见:<input class="redio" type="radio" name="isAudit" value="0" checked>通过  
+		<input class="redio" type="radio" name="isAudit" value="2">不通过</label>
+			<textarea class="autosize-transition form-control" id="opinion" name="opinion" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 69px;"></textarea>
+</form>
+<#save formId="shippingTemplate-save" reloadPage="true" />

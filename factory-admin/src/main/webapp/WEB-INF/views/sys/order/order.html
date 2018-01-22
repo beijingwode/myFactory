@@ -1,0 +1,89 @@
+
+<div>
+<label>开始日期：</label>
+<input type="text" id="search_startTime"><label>&nbsp;&nbsp;结束日期：</label><input type="text" id="search_endTime">
+&nbsp;&nbsp;
+<span id="queryOrderbtn" class="btn btn-info btn-sm " onclick="queryOrder()">查 询</span>
+</div>
+	<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	<div id="loadingDiv"></div>
+    <div id="orderShow" style="height:400px"></div>
+	<!-- ECharts单文件引入 -->
+    <script src="${ctxPath!}/static/js/echarts-all.js"></script>
+    <script src="${ctxPath!}/static/js/timeControls.js"></script>
+	<script type="text/javascript">
+	var order ={};
+		$(document).ready(function(){
+			queryOrder();
+		});
+		
+	function queryOrder(){
+		var spinner = new Spinner({color: '#3d9bce',width:20,radius:20});
+		 $.ajax({
+			dataType : 'json',
+			type : 'POST',
+			 url : '${ctxPath!}/order/orderDayStatistics',
+			data : {"dayBegin":$("#search_startTime").val(),"dayEnd":$("#search_endTime").val()},
+	  beforeSend : function(){
+		  		$("#loadingDiv").text("");
+		  		spinner.spin($("#loadingDiv").get(0));
+			},
+			success:function(data){
+				//日销售金额数组
+				var dealAmount = new Array();
+				//日数组
+				var dayArray = new Array();
+				jQuery.each(data, function(i,item){ 
+					 dealAmount.push(item.dealAmount);
+					 dayArray.push(item.day);
+		         }); 
+				 doLoad(dealAmount,dayArray);
+				 spinner.spin();
+			}
+		});
+	}
+	
+ 
+     function doLoad(dealAmount,dayArray){         // 基于准备好的dom，初始化echarts图表
+        var myChart = echarts.init(document.getElementById('orderShow')); 
+          
+		var option = {
+			tooltip : {
+				trigger : 'axis'
+			},
+			legend : {
+				data : ['日交易额' ]
+			},
+			toolbox : {
+				show : true,
+				feature : {
+					magicType : {
+						show : true,
+						type : [ 'line', 'bar' ]
+					},
+				}
+			},
+			calculable : true,
+			xAxis : [ {
+				type : 'category',
+				boundaryGap : true,
+				data :  dayArray 
+			} ],
+			yAxis : [ {
+				type : 'value',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			} ],
+			series : [ {
+				name : '日交易额',
+				type : 'line',
+				data : dealAmount
+			} ]
+		};
+		// 为echarts对象加载数据 
+		myChart.setOption(option);
+	 
+     }
+         
+    </script>

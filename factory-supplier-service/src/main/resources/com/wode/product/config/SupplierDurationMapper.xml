@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SupplierDurationMapper">
+
+	<resultMap id="SupplierDuration" type="com.wode.factory.model.SupplierDuration">
+        <result property="id" column="id"/>
+        <result property="saleDurationId" column="saleDurationId"/>
+        <result property="saleDurationKey" column="saleDurationKey"/>
+        <result property="startTime" column="startTime"/>
+        <result property="createTime" column="createTime"/>
+        <result property="createUserid" column="createUserid"/>
+        <result property="financeCode" column="finance_code"/>
+        <result property="accountType" column="account_type"/>
+        <result property="alipayAccount" column="alipay_account"/>
+        <result property="wechatAccount" column="wechat_account"/>
+        <result property="phone" column="phone"/>
+        <result property="contacts" column="contacts"/>
+        <result property="scale" column="scale"/>
+        <result property="roundMode" column="round_mode"/>
+        <result property="billType" column="billType"/>
+        <result property="taxpayerNumber" column="taxpayerNumber"/>
+        <result property="addressNumber" column="addressNumber"/>
+        <result property="openingBanNumber" column="openingBanNumber"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        id,supplierId,saleDurationKey,startTime,createTime,createUserid,finance_code,account_type,alipay_account,wechat_account,phone,contacts,
+        scale,round_mode,billType,taxpayerNumber,addressNumber,openingBanNumber
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_supplier_duration (
+        	id ,
+        	supplierId ,
+        	saleDurationKey,
+        	startTime ,
+        	createTime ,
+        	createUserid ,
+			scale,
+			round_mode
+        ) VALUES (
+        	#{id} ,
+        	#{supplierId} ,
+        	#{saleDurationKey},
+        	#{startTime} ,
+        	#{createTime} ,
+        	#{createUserid} ,
+			#{scale},
+			#{roundMode}
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_supplier_duration SET
+            supplierId = #{supplierId} ,
+            saleDurationKey = #{saleDurationKey} ,
+            startTime = #{startTime} ,
+            createTime = #{createTime} ,
+            createUserid = #{createUserid} ,
+            finance_code = #{financeCode} ,
+            account_type = #{accountType} ,
+            alipay_account = #{alipayAccount} ,
+            wechat_account = #{wechatAccount} ,
+            phone = #{phone} ,
+            contacts = #{contacts} ,
+	        scale = #{scale},
+	        round_mode = #{roundMode},
+	        billType = #{billType},
+	        taxpayerNumber = #{taxpayerNumber},
+	        addressNumber = #{addressNumber},
+	        openingBanNumber = #{openingBanNumber}
+	        
+        WHERE 
+            id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_supplier_duration WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="SupplierDuration">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_supplier_duration 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_supplier_duration 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="SupplierDuration">
+    	SELECT <include refid="columns" />
+	    FROM t_supplier_duration 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(supplierId)">
+				AND supplierId = #{supplierId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(startTimeBegin)">
+				AND startTime >= #{startTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(startTimeEnd)">
+				AND startTime &lt;= #{startTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(createTimeBegin)">
+				AND createTime >= #{createTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createTimeEnd)">
+				AND createTime &lt;= #{createTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(createUserid)">
+				AND createUserid = #{createUserid}
+			</if>
+			<if test="@Ognl@isNotEmpty(saleDurationKey)">
+				AND saleDurationKey = #{saleDurationKey}
+			</if>
+			
+		</where>
+	</sql>
+	
+	<!-- 根据supplierId获取供应商的账单类型 -->
+	 <select id="getBySupplierId" resultMap="SupplierDuration">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_supplier_duration 
+	        WHERE 
+		        supplierId = #{supplierId} 
+	    ]]>
+	  </select>
+	
+</mapper>
+

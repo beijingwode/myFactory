@@ -1,0 +1,95 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<div class="profile-info-row">
+		<div class="profile-info-name">订单id:</div>
+		<div class="profile-info-value">${order.subOrderId}</div>
+		<input type="hidden" value="${order.subOrderId}" id="checkBox_id" name="id"/>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">下单日期:</div>
+		<div class="profile-info-value">${order.createTime!,dateFormat="yyyy-MM-dd"}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">匹配状态:</div>
+		<div class="profile-info-value">
+		  @if(order.exchangeStatus==1){
+			匹配中
+		  @}else if(order.exchangeStatus==2){
+			匹配成功
+		  @}else if(order.exchangeStatus==3){
+			匹配失败 已退款
+		  @}else if(order.exchangeStatus==4){
+			匹配失败 调剂成功
+		  @}else if(order.exchangeStatus==-1){
+			已取消
+		  @}else {
+		  	未支付
+		  @}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">调剂:</div>
+		<div class="profile-info-value">
+		  @if(order.exchangeStatus==1){
+			同意调剂
+		  @}else {
+		  	&nbsp;
+		  @}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">订单金额:</div>
+		<div class="profile-info-value">￥${order.totalProduct}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">订单运费:</div>
+		<div class="profile-info-value">￥${order.totalShipping}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">注意:</div>
+		<div class="profile-info-value"><font color="red">此操作不可逆，请仔细确认后，再操作</font></div>		
+	</div>
+	
+	<div class="width-100 clearfix" tag-save-btn style="bottom: 0px;left: 0px;position:absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-100  pull-left" id="submit">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>确定
+	</span>
+	
+	
+</div>
+<script type="text/javascript">
+
+$(function(){
+	
+	$("#submit").click(function(){
+			//获取id值
+		var id = $("#checkBox_id").val();
+		//获取审核状态值	
+		$.ajax({
+			dataType:'json',
+			type:'POST',
+			url:'${ctxPath}/exchange/submitOrder?id='+id,
+			contentType: 'application/json',
+			success:function(data){
+				if(data.success){
+					var $form = $("#search-form");
+					var pageNo = 1;
+					var pageNoInput = $form.find('input[name="pageNum"]');
+					if(pageNoInput.size() != 0){
+						pageNo = pageNoInput.val();
+					}
+					
+					//刷新页面
+					paging('search-form',pageNo);
+					layer.closeAll();
+				} else {
+					layer.msg(data.msg, 3, 1);
+				}
+			}
+		});	
+	});
+})
+
+</script>
+</div>
+</div>

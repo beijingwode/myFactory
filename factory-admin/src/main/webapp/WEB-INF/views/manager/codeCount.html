@@ -1,0 +1,58 @@
+<div class="layer">
+	
+	<input type="hidden" id="noUse" value="${noUse!}">
+    <div>
+      <label for="name">请选择提取推广代码的数量</label>
+      <#select id="count" name="count" width="50%">
+	  	<option value="1">1</option>
+		<option value="5">5</option>
+		<option value="10">10</option>
+		<option value="20">30</option>
+		<option value="50">50</option>
+	 </#select>
+   </div>
+   <button type="submit" class="btn btn-info btn-sm " onclick="findList()">提交</button>
+   <br>
+   <br>
+  <label for="name">以下为提取到的推广码:</label>
+  <div id=codes></div>
+  <textarea id="code" class="form-control" rows="3"></textarea>
+
+</div>
+
+<script type="text/javascript">
+
+	function findList(){
+		if(Number($("#noUse").val())<Number($("#count").val())){
+			alert("提取个数大于可用个数");
+		}else{
+		
+		$.ajax( {  
+		    url:'${ctxPath}/promotionCode/findList',
+		    data:{'count':$("#count").val()},  
+		    type:'post',
+		    cache:false,  
+		    dataType:'json',
+		    success:function(data) {
+		    	var str="";
+		    	var str1="";
+		    	for(var i =0;i<data.length;i++){
+		    		if(data[i].code){
+		    			str += data[i].code + "<br>";
+		    			if(i != data.length-1){
+		    				str1 += data[i].code +",";
+		    			}else{
+		    				str1 += data[i].code;
+		    			}
+		    		}
+		    	}
+		    	//$("#codes").html(str);
+		    	$("#code").html(str1);
+		    },  
+		     error : function() {  
+		     }  
+		});
+	}
+	}
+
+</script>

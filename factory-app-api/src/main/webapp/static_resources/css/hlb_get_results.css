@@ -1,0 +1,42 @@
+body{background:#c22936}
+.main-cont .img_bg{width:100%;}
+.main-box{width:72%;height:auto;overflow:hidden;padding:27% 14% 0 14%;position:absolute;top:0;left:0;}
+.failure{width:100%;height:24px;line-height:24px;text-align:center;font-size:1.3em;color:#aaaaaa;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;}
+.com_name{width:100%;margin-top:25%}
+.com_name span,.com_name em{width:100%;height:auto;display:block;text-align:center;}
+.com_name span{font-size:2.0em;color:#c22936}
+.com_name em{font-size:1.4em;color:#333333;margin-top:5px;}
+.hlb{width:60%;height:80px;margin:0 auto;margin-top:10%;color:#fcf8ec;font-size:3.2em;text-align:center;}
+.end_date{width:100%;height:20px;text-align:center;margin-top:10px;font-size:1.2em;color:#797979;}
+.go_btn{width:52%;height:auto;margin:0 auto;margin-top:20%;}
+
+
+
+@media screen and (min-width:320px){
+ 	.com_name span{font-size:2.0em;}
+	.com_name em{font-size:1.4em;}
+ 	.com_name{margin-top:22%}
+ 	.hlb{height:100px;line-height:80px;margin-top:8%;font-size:3.2em;}
+ 	.go_btn{margin-top:24%;}
+}
+@media screen and (min-width:360px){
+ 	.com_name span{font-size:2.0em;}
+	.com_name em{font-size:1.4em;}
+ 	.com_name{margin-top:22%}
+ 	.hlb{height:100px;line-height:80px;margin-top:12%;font-size:3.2em;}
+ 	.go_btn{margin-top:24%;}
+}
+@media screen and (min-width:375px){
+ 	.com_name span{font-size:2.2em;}
+	.com_name em{font-size:1.5em;}
+ 	.com_name{margin-top:24%}
+ 	.hlb{height:110px;line-height:100px;margin-top:10%;font-size:3.4em;}
+ 	.go_btn{margin-top:26%;}
+}
+@media screen and (min-width:414px){
+	.com_name span{font-size:2.4em;}
+	.com_name em{font-size:1.6em;}
+ 	.com_name{margin-top:25%}
+ 	.hlb{height:120px;line-height:110px;margin-top:12%;font-size:3.6em;}
+ 	.go_btn{margin-top:28%;}
+}

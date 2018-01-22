@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.SupplierCloseCmdDao">
+
+	<resultMap id="SupplierCloseCmd" type="com.wode.factory.model.SupplierCloseCmd">
+        <result property="id" column="id"/>
+		<result property="supplierId" column="supplier_id"/>
+		<result property="execDate" column="exec_date"/>
+		<result property="closeStart" column="close_start"/>
+		<result property="closeEnd" column="close_end"/>
+		<result property="execStatus" column="exec_status"/>
+		<result property="execResult" column="exec_result"/>
+		<result property="errMsg" column="err_msg"/>
+		<result property="saleBillId" column="sale_bill_id"/>
+		<result property="createTime" column="create_time"/>
+		<result property="createUser" column="create_user"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="updateUser" column="update_user"/>
+	</resultMap>
+	<delete id="deleteBySupplierId">
+	delete from t_supplier_close_cmd where supplier_id = #{supplierId}
+	</delete>
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,supplier_id,exec_date,close_start,close_end,exec_status,exec_result,err_msg,sale_bill_id,create_time,create_user,update_time,update_user
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_supplier_close_cmd (
+			id,
+			supplier_id,
+			exec_date,
+			close_start,
+			close_end,
+			exec_status,
+			exec_result,
+			err_msg,
+			sale_bill_id,
+			create_time,
+			create_user,
+			update_time,
+			update_user
+        ) VALUES (
+			#{id} ,
+			#{supplierId} ,
+			#{execDate} ,
+			#{closeStart} ,
+			#{closeEnd} ,
+			#{execStatus} ,
+			#{execResult} ,
+			#{errMsg} ,
+			#{saleBillId} ,
+			#{createTime} ,
+			#{createUser} ,
+			#{updateTime} ,
+			#{updateUser}
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_supplier_close_cmd SET
+	        exec_status = #{execStatus} ,
+	        exec_result = #{execResult} ,
+	        err_msg = #{errMsg} ,
+	        sale_bill_id = #{saleBillId} ,
+	        update_user = #{updateUser} ,
+	        update_time = #{updateTime}, 
+	        close_end = #{closeEnd},
+	        exec_date = #{execDate}
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_supplier_close_cmd WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="SupplierCloseCmd">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_supplier_close_cmd 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+
+    <select id="find" resultMap="SupplierCloseCmd">
+    	SELECT <include refid="columns" />
+	    FROM t_supplier_close_cmd 
+		<include refid="find_where"/>
+    </select>
+    
+	<select id="findByCreateTime" resultMap="SupplierCloseCmd">
+    	SELECT <include refid="columns" />
+	    FROM t_supplier_close_cmd 
+		WHERE 
+			exec_status = 2
+		AND 
+			exec_date &lt;= #{creatTime}
+    </select>
+	
+	<delete id="deleteById">
+		<![CDATA[
+        DELETE FROM t_supplier_close_cmd WHERE
+        id = #{id} 
+    ]]>
+		
+	</delete>
+	
+	<sql id="find_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(supplierId)">
+				AND supplier_id = #{supplierId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(execDate)">
+				AND exec_date &lt;= #{execDate}
+			</if>
+	       <if test="@Ognl@isNotEmpty(execStatus)">
+				AND exec_status = #{execStatus}
+			</if>
+	       <if test="@Ognl@isNotEmpty(execResult)">
+				AND exec_result = #{execResult}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
+

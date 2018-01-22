@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.SupplierEventDao">
+
+    <resultMap id="SupplierEvent" type="com.wode.factory.model.SupplierEvent">
+        <result property="id" column="id"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="enterpriseType" column="enterprise_type"/>
+        <result property="eventTitle" column="event_title"/>
+        <result property="startDate" column="start_date"/>
+        <result property="pcPageBg" column="pc_page_bg"/>
+        <result property="pcPageBanner" column="pc_page_banner"/>
+        <result property="wxPageBanner" column="wx_page_banner"/>
+        <result property="eventNote" column="event_note"/>
+        <result property="status" column="status"/>
+        <result property="maxTicket" column="max_ticket"/>
+        <result property="createDate" column="create_date"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createUserName" column="create_user_name"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="updateUser" column="update_user"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,enterprise_id,enterprise_name,enterprise_type,event_title,start_date,pc_page_bg,pc_page_banner,wx_page_banner,event_note,status,max_ticket,create_date,create_user,create_user_name,update_date,update_user
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_supplier_event (
+            id ,
+            enterprise_id ,
+            enterprise_name ,
+            enterprise_type ,
+            event_title ,
+            start_date ,
+            pc_page_bg ,
+            pc_page_banner ,
+            wx_page_banner ,
+            event_note ,
+            status ,
+            max_ticket ,
+            create_date ,
+            create_user ,
+            create_user_name ,
+            update_date ,
+            update_user
+        ) VALUES (
+            #{id} ,
+            #{enterpriseId} ,
+            #{enterpriseName} ,
+            #{enterpriseType} ,
+            #{eventTitle} ,
+            #{startDate} ,
+            #{pcPageBg} ,
+            #{pcPageBanner} ,
+            #{wxPageBanner} ,
+            #{eventNote} ,
+            #{status} ,
+            #{maxTicket} ,
+            #{createDate} ,
+            #{createUser} ,
+            #{createUserName} ,
+            #{updateDate} ,
+            #{updateUser}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_supplier_event SET            
+            enterprise_id = #{enterpriseId} ,
+            enterprise_name = #{enterpriseName} ,
+            enterprise_type = #{enterpriseType} ,
+            event_title = #{eventTitle} ,
+            start_date = #{startDate} ,
+            pc_page_bg = #{pcPageBg} ,
+            pc_page_banner = #{pcPageBanner} ,
+            wx_page_banner = #{wxPageBanner} ,
+            event_note = #{eventNote} ,
+            status = #{status} ,
+            max_ticket = #{maxTicket} ,
+            create_date = #{createDate} ,
+            create_user = #{createUser} ,
+            create_user_name = #{createUserName} ,
+            update_date = #{updateDate} ,
+            update_user = #{updateUser} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_supplier_event WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="SupplierEvent">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_supplier_event 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="findInfoPageList" resultMap="SupplierEvent">
+        SELECT <include refid="columns" /> FROM t_supplier_event 
+        where 1=1
+        <if test="@Ognl@isNotEmpty(enterpriseName)">
+                AND enterprise_name like CONCAT('%',#{enterpriseName},'%' ) 
+            </if>
+             <if test="@Ognl@isNotEmpty(createUser)">
+                AND create_user = #{createUser}
+            </if>
+            <if test="@Ognl@isNotEmpty(eventTitle)">
+                AND event_title like CONCAT('%',#{eventTitle},'%' )
+            </if>
+    </select>
+    
+    <select id="getUserManagerGroup" resultMap="SupplierEvent">
+        SELECT create_user,create_user_name FROM t_supplier_event group by create_user
+    </select>
+    
+    <select id="getUserSignMsg" resultType="com.wode.factory.model.UserSignRecord">
+        SELECT * FROM t_user_sign_record 
+        where 1=1
+         <if test="@Ognl@isNotEmpty(acticityId)">
+                AND acticity_id = #{acticityId}
+            </if>
+    </select>
+    
+    <select id="getUserPrizeMsg" resultType="com.wode.factory.model.UserPrizeRecord">
+        SELECT * FROM t_user_prize_record 
+        where 1=1
+         <if test="@Ognl@isNotEmpty(acticityId)">
+                AND acticity_id = #{acticityId}
+            </if>
+    </select>
+    
+    <select id="getSignCnt" resultType="java.lang.Integer">
+        SELECT count(*) FROM t_user_sign_record 
+        where 1=1
+         <if test="@Ognl@isNotEmpty(acticityId)">
+                AND acticity_id = #{acticityId}
+            </if>
+    </select>
+    
+    <select id="selectByModel" resultMap="SupplierEvent">
+        SELECT <include refid="columns" /> FROM t_supplier_event 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(enterpriseId)">
+                AND enterprise_id = #{enterpriseId}
+            </if>
+           <if test="@Ognl@isNotEmpty(enterpriseName)">
+                AND enterprise_name = #{enterpriseName}
+            </if>
+           <if test="@Ognl@isNotEmpty(enterpriseType)">
+                AND enterprise_type = #{enterpriseType}
+            </if>
+           <if test="@Ognl@isNotEmpty(eventTitle)">
+                AND event_title = #{eventTitle}
+            </if>
+           <if test="@Ognl@isNotEmpty(startDate)">
+                AND start_date = #{startDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(pcPageBg)">
+                AND pc_page_bg = #{pcPageBg}
+            </if>
+           <if test="@Ognl@isNotEmpty(pcPageBanner)">
+                AND pc_page_banner = #{pcPageBanner}
+            </if>
+           <if test="@Ognl@isNotEmpty(wxPageBanner)">
+                AND wx_page_banner = #{wxPageBanner}
+            </if>
+           <if test="@Ognl@isNotEmpty(eventNote)">
+                AND event_note = #{eventNote}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(maxTicket)">
+                AND max_ticket = #{maxTicket}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date = #{createDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(createUser)">
+                AND create_user = #{createUser}
+            </if>
+           <if test="@Ognl@isNotEmpty(createUserName)">
+                AND create_user_name = #{createUserName}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateDate)">
+                AND update_date = #{updateDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateUser)">
+                AND update_user = #{updateUser}
+            </if>
+        </where>
+    </sql>
+
+</mapper>
+
+

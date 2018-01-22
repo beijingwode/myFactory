@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>我的福利</title>
+<link rel="stylesheet" type="text/css" href="static_resources/css/friend_circle.css" />
+</head>
+
+<body>
+<div class="main-cont" id="main-cont">
+	<div class="top_box">
+        <div class="top"> 
+            <ul>
+            	<li class="li1 thisone"><a href="javascript:void(0);">亲友申请</a></li>
+                <li class="li2"><a href="javascript:void(0);">亲友管理</a></li>
+            </ul>
+            <div class="add_btn"><a href="friend_apply.html"></a></div>
+        </div>
+    </div>
+    
+    <div class="main-box ">
+        <div class="shop_con sl-li ui-border-b">
+        	<div class="sl-content">
+                <dl>
+                    <dt>薯条不沾酱</dt>
+                    <dd>15324124111</dd>
+                    <dd>我是赵宇航</dd>
+                </dl>
+                <div class="option_btn"><span class="btn_span1">拒绝</span><span class="btn_span2">接受</span><span class="btn_span3 dis_none">已拒绝</span></div>
+            </div>
+            <div class="sl-opts">
+				<span>删除</span>
+			</div>
+        </div>
+        
+        <div class="shop_con sl-li ui-border-b">
+        	<div class="sl-content">
+                <dl>
+                    <dt>薯条不沾酱</dt>
+                    <dd>15324124111</dd>
+                    <dd>我是赵宇航</dd>
+                </dl>
+                <div class="option_btn"><span class="btn_span1 dis_none">拒绝</span><span class="btn_span2 dis_none">接受</span><span class="btn_span3">已拒绝</span></div>
+            </div>
+            <div class="sl-opts">
+				<span>删除</span>
+			</div>
+        </div>
+        
+    </div>
+    
+    <div class="main-box dis_none">
+        <div class="shop_con shop_con1 sl-li ui-border-b">
+        	<div class="sl-content sl-content1">
+                <dl>
+                	<dt><img src="static_resources/images/friend_note.png" width="24" height="24" /></dt>
+                    <dd><span>小伟</span><em>是您的亲友</em></dd>
+                </dl>
+                <p>券：288800.0<span>赠券</span></p>
+            </div>
+            <div class="sl-opts">
+				<span>删除</span>
+			</div>
+        </div>
+        <div class="shop_con shop_con1 sl-li ui-border-b">
+        	<div class="sl-content sl-content1">
+                <dl>
+                	<dt><img src="static_resources/images/friend_note.png" width="24" height="24" /></dt>
+                    <dd><span>小伟</span><em>是您的亲友</em></dd>
+                </dl>
+                <p>券：288800.0<span>赠券</span></p>
+            </div>
+            <div class="sl-opts">
+				<span>删除</span>
+			</div>
+        </div>
+        <div class="shop_con shop_con1 sl-li ui-border-b">
+        	<div class="sl-content sl-content1">
+                <dl>
+                	<dt><img src="static_resources/images/friend_note.png" width="24" height="24" /></dt>
+                    <dd><span>小伟</span><em>是您的亲友</em></dd>
+                </dl>
+                <p>券：288800.0<span>赠券</span></p>
+            </div>
+            <div class="sl-opts">
+				<span>删除</span>
+			</div>
+        </div>
+        
+        
+        
+    </div>
+    
+</div>
+<div class="theme-popover add_remarks"  style="display: none">
+     <div class="theme-tit">添加备注</div>
+     <div class="theme-input"><input type="text"  placeholder="张三" /></div>
+     <div class="theme-popbod" >      
+        <a href="javascript:closeMsg();">取消</a>  
+        <a href="javascript:void(0);" style="border:none;">确定</a>
+     </div>
+     <div class="theme-popbod1" style="display: none" >
+        <a href="javascript:void(0);">确定</a>
+     </div>
+</div>
+<div class="theme-popover add_money"  style="display: none">
+     <div class="theme-tit">请输入赠券金额</div>
+     <div class="theme-input"><input type="text"  placeholder="请输入赠券金额" /></div>
+     <div class="theme-popbod" >      
+        <a href="javascript:void(0);">取消</a>  
+        <a href="javascript:void(0);" style="border:none;">确定</a>
+     </div>
+     <div class="theme-popbod1" style="display: none" >
+        <a href="javascript:void(0);">确定</a>
+     </div>
+</div>
+<div class="theme-popover-mask" style="display: none"></div>
+</body>
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="static_resources/js/zepto.min.js"></script>
+<script type="text/javascript" src="static_resources/js/slideleft.js"></script>
+
+<script>
+$(function(){
+	$(".top ul li").each(function(index){
+	$(this).click(function(){//先把所有的隐藏掉
+			$(".main-box").addClass("dis_none");
+			$(".main-box:eq("+index+")").removeClass("dis_none");//在把对应的索引的显示
+		
+			$(".top ul li").removeClass("thisone");
+			$(this).addClass("thisone");
+		});
+	});
+	
+	$(".sl-content1 dl dt").click(function(){
+		$(".theme-popover-mask").show();
+		$(".add_remarks").show();
+	})
+	
+	$(".add_remarks .theme-popbod a").click(function(){
+		$(".theme-popover-mask").hide();
+		$(".add_remarks").hide();
+	})
+	
+	$(".sl-content1 p span").click(function(){
+		$(".theme-popover-mask").show();
+		$(".add_money").show();
+	})
+	
+	$(".add_money .theme-popbod a").click(function(){
+		$(".theme-popover-mask").hide();
+		$(".add_money").hide();
+	})
+		
+})
+</script>
+</html>

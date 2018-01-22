@@ -1,0 +1,67 @@
+@charset "utf-8";
+/* CSS Document */
+* { margin:0px; padding:0px; font-family:"Microsoft YaHei"; }
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, form, fieldset, input, textarea, p { padding:0; margin:0; }
+body { background:#fff; }
+fieldset, img { border:0px; }
+h1, h2, h3, h4 { font-weight:bold; font-size:100%; }
+
+li { list-style:none; }
+ul, ol, p { line-height:20px; }
+
+.clear:after { content:''; display:block; clear:both; }
+
+/* 字体样式 */
+body,td, input, select { font:12px Arial,"SimSun"; line-height:24px; }
+a:link { color:#434343; text-decoration:none; }
+a:visited { color:#434343; text-decoration:none; }
+a:hover { color:#ff6161; text-decoration:none; }
+
+h1 { font:18px "Microsoft YaHei"; }
+h2 { font:16px "Microsoft YaHei"; }
+h3 { font:14px "Microsoft YaHei"; }
+h4 { font:12px "Microsoft YaHei"; }
+
+/***************************************发送邮件页 begin****************************************/
+/*top*/
+#top { width:100%; height:90px; margin:0 auto; border-bottom:2px solid #eee; }
+.head { width:690px; margin:0 auto; padding-top:30px; height:60px; overflow:hidden; }
+.logo { width:116px; height:50px; float:left; }
+.logo img { width:116px; height:50px; }
+.head_right { float:right; padding-top:10px; }
+.head_right em { font:14px "Microsoft YaHei"; color:#828282; margin:0 10px; }
+.head_right a:link { font:14px "Microsoft YaHei"; color:#828282; }
+.head_right a:visited { font:14px "Microsoft YaHei"; color:#828282; }
+.head_right a:hover {}
+.head_right i { width:18px; height:18px; display:inline-block; vertical-align:middle; margin-right:6px; background:url(../images/emailicon.png) no-repeat; }
+.head_right .icon01 { background-position:0 0; }
+.head_right .icon02 { background-position:0 -26px; }
+
+/*content*/
+#content { width:100%; margin:0 auto; text-align:center; }
+#content h1 { font:24px/36px "Microsoft YaHei"; color:#8fc31f; margin:50px 0 33px; }
+#content h2 { font:18px/36px "Microsoft YaHei"; color:#434343; margin-top:50px; }
+#content h2 span { font:14px/36px "Microsoft YaHei"; color:#434343; }
+#content h3 { font:20px/36px "Microsoft YaHei"; color:#8fc31f; }
+.btn { width:300px; height:50px; margin:0 auto; text-align:center; background:#ff6161; margin-top:30px; border-radius:4px; behavior:url(iecss3/PIE.htc); position:relative; z-index:2; }
+.btn a:link { display:block; font:18px/50px "Microsoft YaHei"; color:#fff;  }
+.btn a:visited { display:block; font:18px/50px "Microsoft YaHei"; color:#fff; }
+.btn a:hover {}
+.visite { margin-top:50px; font:14px "Microsoft YaHei"; color:#434343; }
+.elink { margin:5px 0 16px; }
+.elink a:link { font:14px "Microsoft YaHei"; color:#2b8dff; }
+.elink a:visited { font:14px "Microsoft YaHei"; color:#2b8dff; }
+.elink a:hover { text-decoration:underline; color:#ff6161; }
+.em { font:12px/20px "Microsoft YaHei"; color:#828282; }
+.em a:link { font:12px/20px "Microsoft YaHei"; color:#2b8dff; }
+.em a:visited { font:12px/20px "Microsoft YaHei"; color:#2b8dff; }
+.em a:hover { text-decoration:underline; color:#ff6161; }
+.eline { width:100%; margin:24px auto 0; border-top:1px solid #eee; }
+.receive { width:690px; margin:0 auto; padding-top:20px; text-align:left; }
+.receive p { font:12px/20px "Microsoft YaHei"; color:#828282; }
+.receive .reveive_pho { width:690px; height:120px; margin:40px auto 0; text-align:center; }
+.receive .reveive_pho img { width:690px; height:120px; }
+.echange { font:14px/20px "Microsoft YaHei"; color:#434343; }
+.botm { margin-bottom:12px; }
+.dui { margin:36px 0 -30px; }
+

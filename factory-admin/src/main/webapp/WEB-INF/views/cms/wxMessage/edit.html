@@ -1,0 +1,159 @@
+<div class="layer">
+	<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<input type="hidden" value="${wxMessage.id!}" name="id" id="wxM_id"/>
+	<input type="hidden" value="${wxMessage.eventType!}" name="eventType" id="eventType"/>
+	<input type="hidden" value="${wxMessage.status!}" name="status" id="status"/>
+	<input type="hidden" value="${wxMessage.stopFlg!}" name="stopFlg" id="stopFlg"/>
+	<div class="profile-info-row">
+		<div class="profile-info-name">事件</div>
+		<div class="profile-info-value">
+			@if(wxMessage.eventType == "company"){
+				员工绑定
+			@}else if(wxMessage.eventType == "share"){
+				好友邀请（一起购）
+			@}else if(wxMessage.eventType == "autoBuyC"){
+				员工绑定（自动下单）
+			@}else if(wxMessage.eventType == "autoBuyU"){
+				好友邀请（自动下单）
+			@}else if(wxMessage.eventType == "ticketE"){
+				员工获得换领币
+			@}else {
+				普通关注
+			@}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">类型</div>
+		<div class="profile-info-value">
+			<input type="hidden" value="${wxMessage.msgType!}" name="msgType" id="wxM_msgType"/>
+			@if(wxMessage.msgType == "1"){
+				默认
+			@}else {
+				临时
+			@}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name" style="height: 63px">标题</div>
+		<div class="profile-info-value">
+			<input type="text" value="${wxMessage.title!}" name="title" id="wxM_title"  style="width:100%"/>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">图片地址</div>
+		<div class="profile-info-value">
+			<input type="text" value="${wxMessage.picUrl!}" name="picUrl"  id="wxM_picUrl" style="width:100%"/>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">描述</div>
+		<div class="profile-info-value">
+		<input type="text" value="${wxMessage.description!}" name="description" id="wxM_description" style="width:100%"/>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">链接</div>
+		<div class="profile-info-value">
+			<input type="text" value="${wxMessage.linkUrl!}" name="linkUrl"  id="wxM_linkUrl" style="width:100%"/>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name" id="p_ex1Name">
+			开始日期
+		</div>
+		<div class="profile-info-value">
+		@if(wxMessage.msgType == "1"){
+			<input type="text" value='${wxMessage.limitStart!,dateFormat="yyyy-MM-dd "}' id="limitStart" readonly="readonly" disabled="disabled" id="limitStart" style="width:100%"/>
+		@}else {
+			<input type="text" value='${wxMessage.limitStart!,dateFormat="yyyy-MM-dd "}' id="limitStart" id="limitStart" style="width:100%"/>
+		@}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name" id="p_ex2Name">
+			结束日期
+		</div>
+		<div class="profile-info-value">
+		@if(wxMessage.msgType == "1"){
+			<input type="text"  value='${wxMessage.limitEnd!,dateFormat="yyyy-MM-dd "}' id="limitEnd" readonly="readonly" disabled="disabled" style="width:100%"/>
+		@}else {
+			<input type="text"  value='${wxMessage.limitEnd!,dateFormat="yyyy-MM-dd "}' id="limitEnd"  style="width:100%"/>
+		@}
+		</div>
+	</div>
+	</div>
+</div>
+<div class="width-100 clearfix" tag-save-btn style="bottom: 0px; left: 0px; position: absolute;">
+	<span id="speVal_submit" class="btn btn-primary btn-sm bigger-110 width-50  pull-left">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i> 确定
+	</span>
+	<span id="speVal_cancel" class="btn btn-yellow btn-sm bigger-110 width-50 pull-right"	>
+		<i class="ace-icon fa fa-times align-top  bigger-125"></i> 取 消
+	</span>
+</div>
+
+<script>
+	laydate({
+	    elem: '#limitStart',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#limitEnd',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	
+	$("#speVal_cancel").click(function(){
+		layer.closeAll();
+		return false;
+	});
+
+	$("#speVal_submit").click(function(){
+
+		if($("#eventType").val() == "company" || $("#eventType").val() == "share" 
+				|| $("#eventType").val() == "autoBuyC" || $("#eventType").val() == "autoBuyU"
+				|| $("#eventType").val() == "ticketE"){
+			
+			$("#wxM_linkUrl").val("填写无效");
+		}
+		
+		if($.trim($("#wxM_title").val())==''){
+			layer.msg('标题必须输入', 1, 1);
+		} else if ($.trim($("#wxM_picUrl").val())==''){
+			layer.msg('请输入图片地址', 1, 1);
+		} else if ($.trim($("#wxM_description").val())==''||$("#wxM_description").val()==null){
+			layer.msg('描述必须填', 1, 1);
+		} else if($.trim($("#wxM_linkUrl").val())==''||$("#wxM_linkUrl").val()==null){
+			layer.msg('请填写链接', 1, 1);
+		} else if($.trim($("#limitStart").val())==''||$("#limitStart").val()==null){
+			layer.msg('请填写开始日期', 1, 1);
+		}else if($.trim($("#limitEnd").val())==''||$("#limitEnd").val()==null){
+			layer.msg('请填写结束日期', 1, 1);
+		}else{
+			$.ajax({
+				"type":'POST',
+				"url":'${ctxPath}/wxMessage/save?wxM_limitStart='+$("#limitStart").val()+'&wxM_limitEnd='+$("#limitEnd").val(),
+				"data":{"id":$("#wxM_id").val(),"eventType":$("#eventType").val(),"status":$("#status").val(),"stopFlg":$("#stopFlg").val(),"msgType":$("#wxM_msgType").val(),
+					"title":$.trim($("#wxM_title").val()),"picUrl":$.trim($("#wxM_picUrl").val()),"description":$("#wxM_description").val(),"linkUrl":$("#wxM_linkUrl").val()
+				},
+				"success":function(data,response){
+					if(data.success){
+						layer.msg('操作成功', 1, 1,function(){
+							var $form = $("#search-form");
+							var pageNo = 1;
+							var pageNoInput = $form.find('input[name="pageNum"]');
+							if(pageNoInput.size() != 0){
+								pageNo = pageNoInput.val();
+							}
+							//刷新页面
+							paging('search-form',pageNo);
+							
+							layer.closeAll();
+						});
+					}else{
+						layer.msg(data.msg, 3, 1);
+					}
+				}
+			});
+		}
+	});
+</script>

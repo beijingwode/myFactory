@@ -1,0 +1,95 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles =role.getUserRoleList(); //用户角色
+<div class="tab-content">
+	<div id="order_home" class="tab-pane active clearfix">
+		<#search>
+		<form action="${ctxPath}/integrated/zongHelist" method="post"
+			id="search-form" target="list-page" class="center clearfix">
+			<input type="hidden" name="viewStatus" value="${status!}">
+			<div class="row col-sm-12">
+				<div class="col-sm-4">
+					<label>月份：</label> <input type="text" id="month" name="month">
+				</div>
+				@if(!isEmpty(mlist)){ 
+				<div class="col-sm-4">
+					<label>招商经理：</label> 
+					  <select name="managerId">
+						<option value="">全部</option> 
+						@for(item in mlist){ 
+							@if(item.id == uid){
+								<option value="${item.id! }" selected="selected">${item.name!}</option> 
+							@} else {
+								<option value="${item.id! }">${item.name! }</option> 
+							@}
+						@}
+					</select> 
+				</div>
+				@} else {
+					<input type="hidden" name="managerId" value="${uid! }" />
+				@}
+				<div class="col-sm-4">
+					<div>
+						<label>排序：</label>
+						<#select name="sort" id="sort" width="40%">
+						<option value="emp_order_cnt">员工首单</option>
+						<option value="exchange_amount">换领总额</option>
+						<option value="trail_amount">试用总额</option>
+						<option value="birth_day_cnt">生日礼金（人次）</option>
+						<option value="festival_amount">过节费</option>
+						<option value="order_amount">销售总额</option>
+						<option value="supplier_order_amount">商家首单</option>
+						</#select>
+					</div>
+				</div>
+				<div
+					style="width: 100px; float: right; margin-right: 20px; margin-top: -5px"
+					onclick="exportExcel()">
+					<span class="btn fa fa-file-excel-o" id="excel-btn">&nbsp;&nbsp;导出EXCEL</span>
+				</div>
+			</div>
+			<div class="row col-sm-12"></div>
+			<div class="padding-trb-10 col-sm-12">
+				<span class="btn  btn-primary btn-sm col-sm-6"
+					onclick="$curmenu.trigger('click');">全部</span> <span
+					class="btn btn-info btn-sm col-sm-6" id="search-btn">查询</span>
+			</div>
+		</form>
+		</#search>
+		<div class="space-6"></div>
+		<div id="list-page"></div>
+	</div>
+</div>
+<style>
+#profile .center>label {
+	width: 100px;
+	text-align: right;
+}
+</style>
+<script>
+//$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	/* laydate({
+	    elem: '#startDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#endDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	}); */
+	$("#role-select").chosen({width: "80%",search_contains: true});
+	$("#role-choose").chosen({width: "100%",search_contains: true}); 
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	
+	function exportExcel() {
+		var action,target;
+		var thisform=document.getElementById('search-form');
+		action=thisform.action;
+		target=thisform.target;
+		
+		thisform.action="${ctxPath}/integrated/zongHeexportExcel";
+		thisform.target="_blank";
+		thisform.submit();
+		
+		thisform.action=action;
+		thisform.target=target;
+	}
+</script>

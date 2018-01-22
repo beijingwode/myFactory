@@ -1,0 +1,220 @@
+<div class="tabbable">
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active"><a data-toggle="tab" href="#home"> <i
+				class="green ace-icon fa fa-list-alt bigger-120"></i>商城页数据列表
+		</a></li>
+
+		<li class=""><a data-toggle="tab" href="#profile">
+		<i class="green ace-icon fa fa-plus bigger-120"></i>商城页数据添加
+		</a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="home" class="tab-pane active clearfix">
+		<form action="${ctxPath}/pageData/pageDataInfo" name="selFm" method="post" id="search-form" target="list-page" class="clearfix">
+				<div class="row padding-tb-10">
+					<div class="col-sm-4">
+						<label>渠道：</label>
+						<select name="channelId" id="channelId" width="35%" onchange="toRedict('page','channelId','pageTypeId')" >
+							<!-- <option value="">请选择</option> -->
+							<option value="1" selected="selected">pc</option>
+							<!-- <option value="2">app</option> -->
+						</select>
+					</div>
+					<div class="col-sm-4">
+						<label>所属页面：</label>
+						<select class="width-50" id="page" name="page" onchange="toRedict('page','channelId','pageTypeId')" datatype="*"  nullmsg="该位置的数据达到上限！">
+							<!-- <option value="" selected>请选择</option> -->
+								@for(category in listCategory){
+									<option value="${category.id!}">${category.name!}
+									</option>
+								@}
+      					</select>
+					</div>
+					<div class="col-sm-4">
+						<label>所属位置：</label>
+						<select class="width-50" id="pageTypeId" name="pageTypeId" datatype="*"  nullmsg="该位置的数据达到上限！">
+							<option value="" selected>请选择</option>
+							@for(pageTypeSetting in pageTypeSettingList){
+									<option value="${pageTypeSetting.pageTypeId!}">${pageTypeSetting.title!}
+									</option>
+								@}
+      					</select>
+					</div>
+				</div>
+				<div class="row padding-tb-10">
+					<div class="col-sm-4">
+						<label>楼层单品tab：</label>
+						<select class="width-50" id="tab" name="tab">
+							<option value="" selected>请选择</option>
+							<option value="-1">1</option>
+							<option value="-2">2</option>
+							<option value="-3">3</option>
+							<option value="-4">4</option>
+							<option value="-5">5</option>
+							<option value="-6">6</option>
+							<option value="-7">7</option>
+							<option value="-8">8</option>
+							<option value="-9">9</option>
+							<option value="-10">10</option>
+      					</select>
+					</div>
+					<div class="col-sm-4">
+						<label>链接（商品ID）：</label>
+						<input type="text" class="width-50" name="link" />
+					</div>
+				</div>
+				<div class="pull-left"><span class="btn btn-info btn-sm " id="search-btn">查 询</span></div>
+				</form>
+			<hr/>
+			<div id="list-page"></div>
+			<script type="text/javascript" src="${ctxPath!}/static/js/ajaxfileupload.js"></script>
+			<script type="text/javascript" src="${ctxPath!}/static/js/manageUploadImg.js"></script>
+			<script type="text/javascript">
+				$("#search-form").getPageList({'submitBtnId':'search-btn'})
+				
+				function pageDataSaveUploadImg() {
+					if($("#addFile").val() == ""){
+						alert("请选择上传的图片！")
+					}else{
+						uploadImg($("#profile"),"addFile","pageData/upload/pic");
+					}
+				}
+				
+				 
+			</script>
+		</div>
+
+
+
+		<div id="profile" class="tab-pane">
+			<form action="${ctxPath!}/pageData/save" name="fr" method="post" id="pageSetting-save-form">
+				
+				<table class="EditTable" width="100%">
+			<tbody>
+				<tr class="FormData">
+					<td class="CaptionTD">渠道:</td>
+					<td class="DataTD">
+						<select name="channelId" id="channelId1" class="width-50" onchange="toRedict('page1','channelId1','pageTypeIdAndPid')" >
+							<<!-- option value="">请选择</option> -->
+							<option value="1" selected="selected">pc</option>
+							<!-- <option value="2">app</option> -->
+						</select>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">所属页面:</td>
+					<td class="DataTD">
+						<select class="width-50" id="page1" name="page"  datatype="*"  nullmsg="该位置的数据达到上限！">
+						<!-- <option value="请选择" selected>请选择</option> -->
+								@for(category in listCategory){
+									<option value="${category.id!}">${category.name!}
+									</option>
+								@}
+      				</select>	 
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD" >所属位置:</td>
+					<td class="DataTD">
+					<select class="width-50" id="selPageType" name="pageTypeIdAndPid" datatype="*"  nullmsg="该位置的数据达到上限！">
+						<option value="请选择" selected>请选择</option>
+							@for(pageTypeSetting in pageTypeSettingList){
+									<option value="${pageTypeSetting.pageTypeId!}">${pageTypeSetting.title!}
+									</option>
+								@}
+      				</select>	 
+				    </td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">位置标题:</td>
+					<td class="DataTD">
+						<input type="text" class="width-50" name="title" />
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">排&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;序:</td>
+					<td class="DataTD">
+						<input type="text" class="width-50" name="orders"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">连&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;接:</td>
+					<td class="DataTD">
+						<input type="text" class="width-50" name="link"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">图&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;片:</td>
+					<td class="DataTD">
+						<img class="Img"  alt="" src="" width="150px" height="50px">
+						<input type="hidden" class="heddenImg" name="image"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">上&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;传:</td>
+					<td class="">
+						<input type="file" name="imgPath" id="addFile"/>
+						<input type="button" value="上传" onclick="pageDataSaveUploadImg()">
+					</td>
+				</tr>
+				<tr class="">
+					<td class="" colspan="2">
+					<span class="btn btn-info btn-block bigger-120" id="pageSetting-save-btn">保 存</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+function toRedict(page,channelId,ptId){
+	if(ptId == 'pageTypeId'){
+		var sec = document.selFm.pageTypeId;
+		redirec(page,channelId,sec);
+	} else if(ptId == 'pageTypeIdAndPid'){
+		var sec = document.fr.pageTypeIdAndPid;
+		redirec(page,channelId,sec);
+	}
+	
+}
+
+function redirec(page,channelId,pto)
+{
+	var pageVal = $("#"+page).val();
+	var channelIdVal = $("#"+channelId).val();
+	if(pageVal){
+		var sec = pto;
+		var i = 0;
+	    var parmData = {};
+	    parmData.page=pageVal;
+	    parmData.channelId=channelIdVal;
+	  $.ajax( {  
+	    url:'${ctxPath}/pageType/getPageTypes',
+	    data:JSON.stringify(parmData),  
+	    type:'post',
+	    contentType:'application/json',
+	    dataType:'json',
+	    success:function(data) {
+	    	//先删除
+	    	for(var i=sec.options.length-1; i>0; i--) {
+	    		sec.remove(i)
+	    	}
+	    	//再添加
+	    	for(var i =0;i<data.length;i++){
+				sec.options[i+1] = new Option(data[i].title,data[i].pageTypeId);
+	    	} 
+	    	 sec.options[0].selected=true;
+	    },  
+	     error : function() {  
+	     }  
+	});
+	}
+}
+</script>
+
+<#save isHide="yes" subBtnId="pageSetting-save-btn" formId="pageSetting-save-form" reloadUrl="none" />

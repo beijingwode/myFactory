@@ -1,0 +1,443 @@
+<div class="layer">
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active"><a data-toggle="tab" href="#supplier_home">
+				<i class="green ace-icon fa fa-users bigger-120"></i> 基本信息
+		</a></li>
+		 <li class=""><a data-toggle="tab" href="#boundQRcode"> <i
+				class="green ace-icon fa fa-users bigger-120"></i> 员工绑定二维码
+		</a></li> 
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active clearfix profile-user-info profile-user-info-striped"
+			id="supplier_home">
+			<input id="id" value="${spt.id}" style="display: none;">
+			<div class="profile-info-row">
+				<div class="profile-info-name">ID</div>
+				<div class="profile-info-value">
+					${spt.id}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">商家名称</div>
+				<div class="profile-info-value">${spt.comName!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">品牌</div>
+				<div class="profile-info-value">${spt.brandName!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">地址</div>
+				<div class="profile-info-value">
+					${spt.addres!}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">联系人</div>
+				<div class="profile-info-value">${spt.contact!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">手机号</div>
+				<div class="profile-info-value">${spt.phone!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">招商经理</div>
+				<div class="profile-info-value">${spt.managerName!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">创建时间</div>
+				<div class="profile-info-value">${spt.createTime,dateFormat="yyyy-MM-dd"}</div>
+			</div>
+		</div>
+		 <div class="tab-pane profile-user-info profile-user-info-striped" id="boundQRcode">
+		 @if(userShare!=null){
+			<input type="hidden" value="${userShare.id !}" id="p_shareId">
+			<input type="hidden" value="${userShare.shareUrl !}" id="p_shareUrl">
+			<div class="profile-info-row">
+				<div class="profile-info-name">员工绑定链接</div>
+				<div class="profile-info-value">
+					${userShare.shareUrl!}
+					@if(userShare.wxTempLimitEnd!=null){
+						&nbsp;&nbsp;&nbsp;&nbsp;(有效期至：${userShare.wxTempLimitEnd!,dateFormat="yyyy-MM-dd" })
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href='http://api.wd-w.com/userShare/downLoadQrEmp500Ticket?text=${userShare.shareUrl!}&companyName=${userShare.userNick!}&limitEnd=${userShare.wxTempLimitEnd,dateFormat="yyyy.MM.dd"}&exchange=${count}' target="_blank">
+						下载卡券
+						</a>
+					@}else{
+						<input type="button" value="作废链接" onclick="delCode()">					
+					@}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">二维码</div>
+				<div class="profile-info-value">
+					<img src="http://api.wd-w.com/userShare/getQr?text=${userShare.shareUrl!}"/>
+					@if(userShare.wxTempLimitEnd!=null){
+					  &nbsp;&nbsp;&nbsp;&nbsp;(使用流程：扫码后>关注>推送>点击注册>跳转至活动页面)
+					@}
+				</div>				
+			</div>
+			@if(userShare.wxTempQrUrl!=null){
+			<div class="profile-info-row">
+				<div class="profile-info-name">原注册链接</div>
+				<div class="profile-info-value">${userShare.wxTempQrUrl!}<input type="button" value="作废链接" onclick="delCode()"></div>				
+			</div>
+			@} else {
+			<div class="profile-info-row">
+				<div class="profile-info-name">生成微信关注二维码</div>
+				<div class="profile-info-value">
+					<input type="button" onclick="change2wxTempQrCode()" value="点击生成">
+					&nbsp;&nbsp;&nbsp;&nbsp;(使用流程：扫码后>关注>推送>点击注册>跳转至活动页面)
+				</div>
+			</div>
+			@}
+			<div class="profile-info-row">
+				<div class="profile-info-name">跳转(活动)页面</div>
+				<div class="profile-info-value">
+					@if(userShare.targetActionUrl!=null){
+					<a href="${userShare.targetActionUrl!}" target="_blanck">${userShare.targetActionUrl!}</a><br />
+					@}
+					<input type="text" id="p_targetActionUrl" value="${userShare.targetActionUrl!}" style="width:350px">
+					<input type="button" onclick="saveTargetActionUrl()" value="点击保存">
+					&nbsp;&nbsp;&nbsp;&nbsp;(如无特殊需要，请不要填写该项。清空后保存可删除)
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">自动下单链接</div>
+				<div class="profile-info-value">
+					<table border=1>
+					  <thead><tr><th class="center">商品名</th>	<th class="center">规格</th><th class="center">主图</th><th class="center">数量</th>	<th class="center">链接</th><th class="center">有效期</th><th class="center">删除</th></tr></thead>
+					  <tbody id="p_auto_skus_table">
+						@for(item in userBuySkus){
+							<tr>
+								<td class="center">
+									<a target="_blank" href="${webUrl}${item.productId!}.html?skuId=${item.skuId!}">
+									${item.productName!}
+									</a>
+								</td>
+								<td class="center">
+									${item.itemValues!}
+								</td>
+								<td class="center">
+									<img style="width:80px" src="${item.image!}" />
+								</td>
+								<td class="center">
+									${item.skuNum!}
+								</td>
+								<td class="center">
+									${item.wxTempQrUrl!}
+								</td>
+								<td class="center">
+									${item.wxTempLimitEnd!,dateFormat="yyyy-MM-dd"}
+								</td>
+								<td class="center">									
+									<a target="_blank" href="javascript:;">
+										<div onclick="delAutoSku(this,'${item.id!}')">删除</div>
+									</a>
+								</td>
+							</tr>
+						@}
+				      </tbody>
+					</table><br />
+					skuId:<input type="text" id="p_auto_sku_id" style="width:200px">&nbsp;&nbsp;数量:<input type="text" id="p_auto_sku_num" style="width:50px">
+					<input type="button" onclick="addAutoBuySku()" value="点击生成">&nbsp;&nbsp;&nbsp;&nbsp;(复制链接是请注意尾部的空格)
+					
+				</div>
+				
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">换领币链接</div>
+				<div class="profile-info-value">
+				<input type="hidden" id="p_exchange_cnt" value="${count}">
+				  @if(count>0){
+					合计：${count}&nbsp;&nbsp;&nbsp;&nbsp;
+					<table border=1>
+					  <thead><tr><th class="center">商品名称</th>	<th class="center">类型</th><th class="center">换领币</th><th class="center">总数</th><th class="center">结束日期</th><th class="center">链接(点击下载卡券)</th></tr></thead>
+					  <tbody id="p_auto_skus_table">
+					  	@for(item in sep){
+							<tr>
+								<td class="center">
+									${item.productName!}
+								</td>
+								<td class="center">
+									@if(item.productId==-1){
+										虚拟商品
+									@}else{
+										普通商品
+									@}
+								</td>
+								<td class="center">
+									${item.empAvgAmount!}
+								</td>
+								<td class="center">
+									${item.productCnt!}
+								</td>
+								<td class="center">
+									${item.limitEnd,dateFormat="yyyy-MM-dd"}
+								</td>
+								<td class="center">
+									<a href='http://api.wd-w.com/userShare/downLoadQrEmp500Ticket?text=${item.queryLink!}&companyName=${userShare.userNick!}&limitEnd=${item.limitEnd,dateFormat="yyyy.MM.dd"}&exchange=${count}' target="_blank">
+									${item.queryLink!}
+									</a>
+								</td>
+							</tr>
+						@}
+				      </tbody>
+					</table>
+					@}
+				</div>
+			</div>
+		@} else {
+			<input type="hidden" value="${spt.id }" name="id" id="supplierId">
+			<div class="profile-info-row">
+				<div class="profile-info-name">生成员工绑定二维码</div>
+				<div class="profile-info-value">
+					<input type="button" onclick="boundCode()" value="点击生成">
+				</div>
+			</div>
+		@}
+		</div> 
+		
+	</div>
+</div>
+<script>
+function boundCode(){
+	$.ajax({
+		type: "post",
+		data:{"id":$("#supplierId").val()},
+		url: "${ctxPath}/supplierList/boundQRcode",
+		success:function(data){
+			var html='<input type="hidden" value="'+data.data+'" name="p_shareId" id="p_shareId"><input type="hidden" value="http://api.wd-w.com/userShare/page'+data.data+'" id="p_shareUrl">';
+			html += '<div class="profile-info-row">';
+			html += '  <div class="profile-info-name">员工绑定链接</div>';
+			html += '  <div class="profile-info-value">http://api.wd-w.com/userShare/page'+data.data+'<input type="button" value="作废链接" onclick="delCode()"></div>';
+			html += '</div>';
+			html += '<div class="profile-info-row">';
+			html += '  <div class="profile-info-name">二维码</div>';
+			html += '  <div class="profile-info-value"><img src="http://api.wd-w.com/userShare/getQr?text=http://api.wd-w.com/userShare/page'+data.data+'"/></div>';
+			html += '</div>';
+			html += '<div class="profile-info-row">';
+			html += ' <div class="profile-info-name">生成微信关注二维码</div>';
+			html += ' <div class="profile-info-value">';
+			html += '  <input type="button" onclick="change2wxTempQrCode()" value="点击生成">';
+			html += '  &nbsp;&nbsp;&nbsp;&nbsp;(使用流程：扫码后>关注>推送>点击注册>跳转至活动页面)';
+			html += ' </div>';
+			html += '</div>';
+			html += '<div class="profile-info-row">';
+			html += ' <div class="profile-info-name">跳转(活动)页面</div>';
+			html += ' <div class="profile-info-value">';
+			html += '  <input type="text" id="p_targetActionUrl" value="" style="width:350px">';
+			html += '  <input type="button" onclick="saveTargetActionUrl()" value="点击保存">';
+			html += '  &nbsp;&nbsp;&nbsp;&nbsp;(如无特殊需要，请不要填写该项。清空保存可删除)';
+			html += ' </div>';
+			html += '</div>';
+			html += '<div class="profile-info-row">';
+			html += ' <div class="profile-info-name">自动下单链接</div>';
+			html += ' <div class="profile-info-value">';
+			html += '  <table border=1>';
+			html += '    <thead><tr><th class="center">商品名</th>	<th class="center">规格</th><th class="center">主图</th><th class="center">数量</th>	<th class="center">链接</th><th class="center">有效期</th><th class="center">删除</th></tr></thead>';
+			html += '      <tbody id="p_auto_skus_table"></tbody>';
+			html += '    </table><br />';
+			html += '    skuId:<input type="text" id="p_auto_sku_id" style="width:200px">&nbsp;&nbsp;数量:<input type="text" id="p_auto_sku_num" style="width:50px">';
+			html += '    <input type="button" onclick="addAutoBuySku()" value="点击生成">&nbsp;&nbsp;&nbsp;&nbsp;(复制链接是请注意尾部的空格)';
+			html += ' </div>';
+			html += '</div>';
+			html += '<div class="profile-info-row">';
+			html += ' <div class="profile-info-name">换领币链接</div>';
+			html += ' <div class="profile-info-value">&nbsp;</div>';
+			html += '</div>';
+			$("#boundQRcode").html(html);
+		},
+		error: function(){
+			alert("error")
+		}
+	})
+}
+
+function saveTargetActionUrl(){
+	$.ajax({
+		type: "post",
+		data:{"shareId":$("#p_shareId").val(),"targetUrl":$("#p_targetActionUrl").val()},
+		url: "${ctxPath}/supplierList/saveTargetActionUrl",
+		success:function(res){
+			if(res.success) {
+				var data = res.data;
+				// 跳转(活动)页面
+				$("#boundQRcode .profile-info-value a").remove();
+				$("#boundQRcode .profile-info-value br").remove();
+				
+				if(data!="") {
+					$("#p_targetActionUrl").before('<a href="'+data+'" target="_blanck">'+data+'</a><br />');
+				} 
+
+				alert("保存成功");
+			} else {
+				alert(res.msg)
+			}
+		},
+		error: function(){
+			alert("error")
+		}
+	})
+}
+
+function change2wxTempQrCode(){
+	$.ajax({
+		type: "post",
+		data:{"shareId":$("#p_shareId").val()},
+		url: "${ctxPath}/supplierList/change2wxTempQrCode",
+		success:function(res){
+			if(res.success) {
+				var data = res.data;
+				var old= $("#p_shareUrl").val();
+				
+				var cnt="";
+				var cnt_o = $("#p_exchange_cnt");
+				if(cnt_o.length>0) {
+					cnt=cnt_o.val();
+				}
+				var html=data.url+"&nbsp;&nbsp;&nbsp;&nbsp;(有效期至："+data.date+")";
+				html +="&nbsp;&nbsp;&nbsp;&nbsp;";
+				html +="<a href='http://api.wd-w.com/userShare/downLoadQrEmp500Ticket?text="+data.url+"&companyName="+data.userNick+"&limitEnd="+data.date+"&exchange="+cnt+"' target='_blank'>";
+				html +="下载卡券";
+				html +="</a>";
+				
+				// 新链接
+				$("#boundQRcode .profile-info-value:eq(0)").html(html);
+				//二维码
+				$("#boundQRcode .profile-info-value:eq(1)").html('<img src="http://api.wd-w.com/userShare/getQr?text='+data.url+'"/>&nbsp;&nbsp;&nbsp;&nbsp;(使用流程：扫码后>关注>推送>点击注册>跳转至活动页面)');
+				//原注册链接
+				$("#boundQRcode .profile-info-row:eq(2)").html('<div class="profile-info-name">原注册链接</div><div class="profile-info-value">'+old+'<input type="button" value="作废链接" onclick="delCode()"></div>');
+				
+				alert("生成成功");
+			} else {
+				alert(res.msg)
+			}
+		},
+		error: function(){
+			alert("error")
+		}
+	})
+}
+function delCode(){
+	$.ajax({
+		type: "post",
+		data:{"shareId":$("#p_shareId").val(),"supplierId":$("#id").val()},
+		url: "${ctxPath}/supplierList/delCode",
+		success:function(res){
+			if(res.success) {
+				var data = res.data;
+				var html = '';
+				html +='<input type="hidden" value="'+data+'" name="id" id="supplierId">';
+				html +='<div class="profile-info-row">';
+				html +='<div class="profile-info-name">生成员工绑定二维码</div>';
+				html +='<div class="profile-info-value">';
+				html +='<input type="button" onclick="boundCode()" value="点击生成">';
+				html +='</div>';
+				html +='</div>';
+				$("#boundQRcode").html(html);
+			}
+		},
+		error: function(){
+			alert("error")
+		}
+	})
+}
+
+
+function addAutoBuySku(){
+	if($("#p_auto_sku_id").val()=="") {
+		alert("请输入skuId");
+		return;
+	}
+	$.ajax({
+		type: "post",
+		data:{"shareId":$("#p_shareId").val(),"skuId":$("#p_auto_sku_id").val(),"skuNum":$("#p_auto_sku_num").val()},
+		url: "${ctxPath}/supplierList/addAutoBuySku",
+		success:function(res){
+			if(res.success) {
+				var data = res.data.data;
+				var date = res.data.date;
+			
+				var html = '<tr>';
+				html +='<td class="center"><a target="_blank" href="${webUrl}'+ data.productId +'.html?skuId='+ data.skuId +'">'+data.productName+'</a></td>';
+				html +='<td class="center">'+data.itemValues+'</td>';
+				html +='<td class="center"><img style="width:80px" src="'+data.image+'" /></td>';
+				html +='<td class="center">'+data.skuNum+'</td>';
+				html +='<td class="center">'+data.wxTempQrUrl+'</td>';
+				html +='<td class="center">'+date+'</td>';
+				html +='<td class="center"><a target="_blank" href="javascript:;"><div onclick="delAutoSku(this,\''+data.id+'\')">删除</div></a></td>';
+				html +='</tr>';
+				$("#p_auto_skus_table").append(html);
+				
+				alert("生成成功，请直接复制链接自行生成二维码，并在有效期内使用");
+			} else {
+				alert(res.msg)
+			}
+		},
+		error: function(){
+			alert("error")
+		}
+	})
+}
+
+
+function delAutoSku(obj,autoId){
+	$.ajax({
+		type: "post",
+		data:{"autoId":autoId},
+		url: "${ctxPath}/supplierList/delAutoBuySku",
+		success:function(res){
+			if(res.success) {
+				$(obj).parent().parent().parent().remove();
+				alert("删除成功");
+			} else {
+				alert(res.msg)
+			}
+		},
+		error: function(){
+			alert("error")
+		}
+	})
+}
+
+
+$(function(){
+	$("#oneKeySetBut").click(function(){
+		var value = $("#oneKeySetValue").val();
+		if(value==""){
+			
+			return ;
+		}else{
+			$(".commissionProportion").each(function(){
+				$(this).val(value);
+			});
+		}
+		
+	});
+	
+})
+/*  */
+var  $imgs=$("img");
+  $imgs.each(function(){
+	 var img = $(this);
+	 var imgsrc=img.attr("src");
+	 var url=imgsrc;
+	 if(isPdf(imgsrc)) {
+		 imgsrc="${ctxPath}/static/img/pdf.png";
+	 }
+	 img.attr("src",imgsrc);
+	 img.attr("onclick","winOpen('"+url+"');");
+	}); 
+	 
+function isPdf(str) {
+	if(str==null || str=='' || str.length<5) return false;
+	
+	var ppostfix=str.substring(str.length-4);
+	return ppostfix==".pdf" || ppostfix==".PDF";
+}
+
+function winOpen(url){
+	window.open(url);
+}
+	
+</script>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.GroupBuyDao">
+
+	<resultMap id="GroupBuy" type="com.wode.factory.model.GroupBuy">
+        <result property="id" column="id"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="num" column="num"/>
+        <result property="days" column="days"/>
+        <result property="userName" column="user_name"/>
+        <result property="phoneNum" column="phone_num"/>
+        <result property="address" column="address"/>
+        <result property="createTime" column="create_time"/>
+        <result property="comment" column="comment"/>
+        <result property="endTime" column="end_time"/>
+        <result property="userId" column="user_id"/>
+        <result property="status" column="status"/>
+        <result property="aid" column="aid"/>
+        <result property="im_groupId" column="im_group_id"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="groupName" column="group_name"/>
+        <result property="limitedTime" column="limited_time"/>
+        <result property="allTotalPrice" column="all_total_price"/>
+        <result property="totalPrice" column="total_price"/>
+        <result property="allTotalShipping" column="all_total_shipping"/>
+	</resultMap>
+	
+    <select id="getById" resultMap="GroupBuy">
+        SELECT *
+		 FROM t_group_buy
+	    WHERE id = #{id}
+    </select>
+    
+	<select id="findEndGroupBuy" resultMap="GroupBuy">
+	 SELECT *
+     FROM t_group_buy
+     WHERE t_group_buy.end_time  <![CDATA[ <  ]]> now()
+       AND order_status=0 and limited_time = 1
+    </select>
+    
+	<select id="findNeedRefundShipp" resultMap="GroupBuy">
+	 SELECT *
+     FROM t_group_buy
+     WHERE order_status=1
+       AND EXISTS (SELECT 1 FROM t_group_orders WHERE t_group_orders.group_id=t_group_buy.id and t_group_orders.`status`=2  )
+    </select>
+    
+    <update id="update">
+        UPDATE t_group_buy SET 
+            order_status=#{orderStatus},
+            order_create_time=#{orderCreateTime},
+            closeReason=#{closeReason},
+            order_cancel_time=#{orderCancelTime}
+         WHERE id=#{id}
+    </update>
+</mapper>
+

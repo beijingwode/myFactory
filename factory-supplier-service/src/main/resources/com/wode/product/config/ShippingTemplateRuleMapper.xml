@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ShippingTemplateRuleMapper" >
+  <resultMap id="BaseResultMap" type="com.wode.factory.model.ShippingTemplateRule" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="template_id" property="templateId" jdbcType="BIGINT" />
+    <result column="count_type" property="countType" jdbcType="CHAR" />
+    <result column="send_type" property="sendType" jdbcType="CHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="areas_name" property="areasName" jdbcType="VARCHAR" />
+    <result column="areas_code" property="areasCode" jdbcType="VARCHAR" />
+    <result column="first_cnt" property="firstCnt" jdbcType="DECIMAL" />
+    <result column="first_price" property="firstPrice" jdbcType="DECIMAL" />
+    <result column="plus_cnt" property="plusCnt" jdbcType="DECIMAL" />
+    <result column="plus_price" property="plusPrice" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, template_id, count_type,send_type, sort, areas_name, areas_code, first_cnt, first_price, 
+    plus_cnt, plus_price
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_shipping_template_rule
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from t_shipping_template_rule
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <!-- 批量删除 -->
+  <delete id="batchDelete" parameterType="int">
+        delete from t_shipping_template_rule where id in
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id,jdbcType=BIGINT}
+        </foreach>
+  </delete>
+  <insert id="insert" parameterType="com.wode.factory.model.ShippingTemplateRule" >
+    insert into t_shipping_template_rule (id, template_id, count_type,send_type, 
+      sort, areas_name, areas_code, 
+      first_cnt, first_price, plus_cnt, 
+      plus_price)
+    values (#{id,jdbcType=BIGINT}, #{templateId,jdbcType=BIGINT}, #{countType,jdbcType=CHAR}, #{sendType,jdbcType=CHAR}, 
+      #{sort,jdbcType=INTEGER}, #{areasName,jdbcType=VARCHAR}, #{areasCode,jdbcType=VARCHAR}, 
+      #{firstCnt,jdbcType=DECIMAL}, #{firstPrice,jdbcType=DECIMAL}, #{plusCnt,jdbcType=DECIMAL}, 
+      #{plusPrice,jdbcType=DECIMAL})
+  </insert>
+  <!-- 批量添加 -->
+  <insert id="batchAdd"  parameterType="java.util.List">  
+    insert into t_shipping_template_rule (
+      id, template_id, count_type,send_type, 
+      sort, areas_name, areas_code, 
+      first_cnt, first_price, plus_cnt, 
+      plus_price)  
+    values  
+    <foreach collection="list" item="item" index="index" separator="," >  
+      (#{item.id,jdbcType=BIGINT}, #{item.templateId,jdbcType=BIGINT}, #{item.countType,jdbcType=CHAR}, #{item.sendType,jdbcType=CHAR}, 
+      #{item.sort,jdbcType=INTEGER}, #{item.areasName,jdbcType=VARCHAR}, #{item.areasCode,jdbcType=VARCHAR}, 
+      #{item.firstCnt,jdbcType=DECIMAL}, #{item.firstPrice,jdbcType=DECIMAL}, #{item.plusCnt,jdbcType=DECIMAL}, 
+      #{item.plusPrice,jdbcType=DECIMAL}) 
+    </foreach>  
+</insert>
+  <insert id="insertSelective" parameterType="com.wode.factory.model.ShippingTemplateRule" >
+    insert into t_shipping_template_rule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="templateId != null" >
+        template_id,
+      </if>
+      <if test="countType != null" >
+        count_type,
+      </if>
+      <if test="sendType != null" >
+        send_type,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="areasName != null" >
+        areas_name,
+      </if>
+      <if test="areasCode != null" >
+        areas_code,
+      </if>
+      <if test="firstCnt != null" >
+        first_cnt,
+      </if>
+      <if test="firstPrice != null" >
+        first_price,
+      </if>
+      <if test="plusCnt != null" >
+        plus_cnt,
+      </if>
+      <if test="plusPrice != null" >
+        plus_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="templateId != null" >
+        #{templateId,jdbcType=BIGINT},
+      </if>
+      <if test="countType != null" >
+        #{countType,jdbcType=CHAR},
+      </if>
+      <if test="sendType != null" >
+        #{sendType,jdbcType=CHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="areasName != null" >
+        #{areasName,jdbcType=VARCHAR},
+      </if>
+      <if test="areasCode != null" >
+        #{areasCode,jdbcType=VARCHAR},
+      </if>
+      <if test="firstCnt != null" >
+        #{firstCnt,jdbcType=DECIMAL},
+      </if>
+      <if test="firstPrice != null" >
+        #{firstPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="plusCnt != null" >
+        #{plusCnt,jdbcType=DECIMAL},
+      </if>
+      <if test="plusPrice != null" >
+        #{plusPrice,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wode.factory.model.ShippingTemplateRule" >
+    update t_shipping_template_rule
+    <set >
+      <if test="templateId != null" >
+        template_id = #{templateId,jdbcType=BIGINT},
+      </if>
+      <if test="countType != null" >
+        count_type = #{countType,jdbcType=CHAR},
+      </if>
+      <if test="sendType != null" >
+        send_type = #{sendType,jdbcType=CHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="areasName != null" >
+        areas_name = #{areasName,jdbcType=VARCHAR},
+      </if>
+      <if test="areasCode != null" >
+        areas_code = #{areasCode,jdbcType=VARCHAR},
+      </if>
+      <if test="firstCnt != null" >
+        first_cnt = #{firstCnt,jdbcType=DECIMAL},
+      </if>
+      <if test="firstPrice != null" >
+        first_price = #{firstPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="plusCnt != null" >
+        plus_cnt = #{plusCnt,jdbcType=DECIMAL},
+      </if>
+      <if test="plusPrice != null" >
+        plus_price = #{plusPrice,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wode.factory.model.ShippingTemplateRule" >
+    update t_shipping_template_rule
+    set template_id = #{templateId,jdbcType=BIGINT},
+      count_type = #{countType,jdbcType=CHAR},
+      send_type = #{sendType,jdbcType=CHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      areas_name = #{areasName,jdbcType=VARCHAR},
+      areas_code = #{areasCode,jdbcType=VARCHAR},
+      first_cnt = #{firstCnt,jdbcType=DECIMAL},
+      first_price = #{firstPrice,jdbcType=DECIMAL},
+      plus_cnt = #{plusCnt,jdbcType=DECIMAL},
+      plus_price = #{plusPrice,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectByModel" resultMap="BaseResultMap">
+	  select 
+	    <include refid="Base_Column_List" />
+	    from t_shipping_template_rule
+	    where template_id = #{templateId,jdbcType=BIGINT}
+	      <if test="countType != null" >
+	        and count_type = #{countType,jdbcType=CHAR}
+	      </if>
+	      <if test="sendType != null" >
+	        and send_type = #{sendType,jdbcType=CHAR}
+	      </if>
+	      <if test="sort != null" >
+	        and sort = #{sort,jdbcType=INTEGER}
+	      </if>
+	      <if test="areasName != null" >
+	        and areas_name = #{areasName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="areasCode != null" >
+	        and areas_code = #{areasCode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="firstCnt != null" >
+	        and first_cnt = #{firstCnt,jdbcType=DECIMAL}
+	      </if>
+	      <if test="firstPrice != null" >
+	        and first_price = #{firstPrice,jdbcType=DECIMAL}
+	      </if>
+	      <if test="plusCnt != null" >
+	        and plus_cnt = #{plusCnt,jdbcType=DECIMAL}
+	      </if>
+	      <if test="plusPrice != null" >
+	        and plus_price = #{plusPrice,jdbcType=DECIMAL}
+	      </if>
+	    ORDER BY sort
+	</select>
+</mapper>

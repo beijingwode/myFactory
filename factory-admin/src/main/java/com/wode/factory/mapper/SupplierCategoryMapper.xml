@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.SupplierCategoryMapper">
+
+	<resultMap id="SupplierCategory" type="com.wode.factory.model.SupplierCategory">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="categoryParentid" column="category_parentid"/>
+        <result property="categoryParentParentid" column="category_parent_parentid"/>
+        <result property="commissionRatio" column="commissionRatio"/>
+	</resultMap>
+	
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,supplier_id,shop_id,category_id,category_parentid,category_parent_parentid,commissionRatio
+	    ]]>
+	</sql>
+	
+     <select id="findByShopId" resultMap="SupplierCategory">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_supplier_category 
+            WHERE 
+                shop_id = #{shopId}
+        ]]>
+    </select>
+    
+    <delete id="deleteBySupplierId">
+    delete from t_supplier_category where supplier_id = #{supplierId}
+    </delete>
+    
+    <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM t_supplier_category WHERE
+        id = #{id} 
+    ]]>
+	</delete>
+    
+	<select id="findByMap" resultMap="SupplierCategory">
+        SELECT <include refid="columns" /> FROM t_supplier_category
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopId)">
+                AND shop_id = #{shopId}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(categoryId)">
+                AND category_id = #{categoryId}
+            </if>     	
+		</where>
+    </select>
+    
+	<update id="updateCommissionRatio" >
+    <![CDATA[
+        UPDATE t_supplier_category SET
+	        commissionRatio = #{commissionRatio}
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+	<update id="changShop" >
+    <![CDATA[
+        UPDATE t_supplier_category SET
+	        shop_id = #{shopId}
+        WHERE 
+	        shop_id = #{oldId} 
+    ]]>
+	</update>
+	
+</mapper>
+

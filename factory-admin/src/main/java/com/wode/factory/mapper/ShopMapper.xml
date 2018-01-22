@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.ShopDao">
+	 <resultMap id="Shop" type="com.wode.factory.model.Shop">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="logo" column="logo"/>
+        <result property="shopname" column="shopname"/>
+        <result property="introduce" column="introduce"/>
+        <result property="banner" column="banner"/>
+        <result property="type" column="type"/>
+        <result property="topImage" column="top_image"/>
+        <result property="brandIntroduce" column="brand_introduce"/>
+        <result property="introImage" column="intro_image"/>
+        <result property="cusTel" column="cus_tel"/>
+        <result property="cusPhone" column="cus_phone"/>
+        <result property="cusEmail" column="cus_email"/>
+        <result property="cusContact" column="cus_contact"/>
+        <result property="serTel" column="ser_tel"/>
+        <result property="serPhone" column="ser_phone"/>
+        <result property="serEmail" column="ser_email"/>
+        <result property="serContact" column="ser_contact"/>
+        <result property="shopTel" column="shop_tel"/>
+        <result property="shopPhone" column="shop_phone"/>
+        <result property="shopEmail" column="shop_email"/>
+        <result property="shopContact" column="shop_contact"/>
+        <result property="qq" column="qq"/>
+    </resultMap>
+   <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,user_id,supplier_id,logo,shopname,introduce,banner,type,top_image,brand_introduce,intro_image,cus_tel,cus_phone,cus_email,cus_contact,ser_tel,ser_phone,ser_email,ser_contact,shop_tel,shop_phone,shop_email,shop_contact,qq
+        ]]>
+    </sql>
+   <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_shop WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <delete id="deleteBySupplierId">
+  delete from t_shop where supplier_id = #{supplierId}
+    </delete>
+    
+    <delete id="deleteShopSettingBySupplierId">
+   delete from t_shop_setting where supplier_id  = #{supplierId}
+    </delete>
+    
+    <delete id="deleteShopPromotionBySupplierId">
+   delete from t_shop_promotion where shopId in (SELECT id from t_shop_setting where supplier_id = #{supplierId})
+    </delete>
+    
+    <delete id="deleteCollectionShopBySupplierId">
+    delete from t_collection_shop where shop_id in (SELECT id from t_shop_setting where supplier_id = #{supplierId})
+    </delete>
+    
+    <select id="getById" resultMap="Shop">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_shop 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+	<sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(logo)">
+                AND logo = #{logo}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopname)">
+                AND shopname = #{shopname}
+            </if>
+           <if test="@Ognl@isNotEmpty(introduce)">
+                AND introduce = #{introduce}
+            </if>
+           <if test="@Ognl@isNotEmpty(banner)">
+                AND banner = #{banner}
+            </if>
+           <if test="@Ognl@isNotEmpty(type)">
+                AND type = #{type}
+            </if>
+           <if test="@Ognl@isNotEmpty(topImage)">
+                AND top_image = #{topImage}
+            </if>
+           <if test="@Ognl@isNotEmpty(brandIntroduce)">
+                AND brand_introduce = #{brandIntroduce}
+            </if>
+           <if test="@Ognl@isNotEmpty(introImage)">
+                AND intro_image = #{introImage}
+            </if>
+           <if test="@Ognl@isNotEmpty(cusTel)">
+                AND cus_tel = #{cusTel}
+            </if>
+           <if test="@Ognl@isNotEmpty(cusPhone)">
+                AND cus_phone = #{cusPhone}
+            </if>
+           <if test="@Ognl@isNotEmpty(cusEmail)">
+                AND cus_email = #{cusEmail}
+            </if>
+           <if test="@Ognl@isNotEmpty(cusContact)">
+                AND cus_contact = #{cusContact}
+            </if>
+           <if test="@Ognl@isNotEmpty(serTel)">
+                AND ser_tel = #{serTel}
+            </if>
+           <if test="@Ognl@isNotEmpty(serPhone)">
+                AND ser_phone = #{serPhone}
+            </if>
+           <if test="@Ognl@isNotEmpty(serEmail)">
+                AND ser_email = #{serEmail}
+            </if>
+           <if test="@Ognl@isNotEmpty(serContact)">
+                AND ser_contact = #{serContact}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopTel)">
+                AND shop_tel = #{shopTel}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopPhone)">
+                AND shop_phone = #{shopPhone}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopEmail)">
+                AND shop_email = #{shopEmail}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopContact)">
+                AND shop_contact = #{shopContact}
+            </if>
+           <if test="@Ognl@isNotEmpty(qq)">
+                AND qq = #{qq}
+            </if>
+        </where>
+    </sql>
+</mapper>
+

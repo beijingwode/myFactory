@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" type="text/css" href="../static_resources/css/public.css" />
+<link rel="stylesheet" type="text/css" href="../static_resources/css/wx_dm.css" />
+<script type="text/javascript" src="../static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="../static_resources/js/h5_exit.js"></script>
+<script type="text/javascript" src="../cart/activityLog?app=app&url=DragonBoatDay"></script>
+<title>我的福利</title>
+</head>
+
+<body  style="background:#16b09e;">
+<div class="main-cont" id="main-cont" >
+	<div class="top">
+        <h1><a href="javascript:close();" class="aleft"></a>我的福利</h1>
+    </div>
+	<div class="main_box" style="position:absolute;top:45px;left:0;padding-bottom:80px;">
+		<div class="main_one">
+	    	<img src="../static_resources/images/DragonBoatDay/a_banner1.png" />
+	    	<img src="../static_resources/images/DragonBoatDay/a_banner2.png" />	
+	    	<img src="../static_resources/images/DragonBoatDay/a_banner3.png" /> 
+	    </div>	 									
+	        
+	    <div class="main_three">
+	    	<a href="http://wd-w.com/2291490487632902.html"><img src="../static_resources/images/DragonBoatDay/a_main_pic5.png" /></a>
+	    	<a href="http://wd-w.com/2288227408644001.html"><img src="../static_resources/images/DragonBoatDay/a_main_pic6.png" /></a>
+	    	<a href="http://wd-w.com/2288242837227439.html"><img src="../static_resources/images/DragonBoatDay/a_main_pic7.png" /></a>    	
+	    </div>
+	    <div class="tit"><img src="../static_resources/images/DragonBoatDay/a_tit2.png" /></div>
+	    <div class="main_two">    	
+	    	<a href="http://wd-w.com/1356329469477954.html"><img src="../static_resources/images/DragonBoatDay/a_main_pic8.png" /></a>
+	    	<a href="http://wd-w.com/1356374037005495.html"><img src="../static_resources/images/DragonBoatDay/a_main_pic9.png" /></a>
+	    	<a href="http://wd-w.com/2228461505971615.html"><img src="../static_resources/images/DragonBoatDay/a_main_pic10.png" /></a>
+	    	<a href="http://wd-w.com/2228301695550756.html"><img src="../static_resources/images/DragonBoatDay/a_main_pic11.png" /></a>
+	    	<a href="http://wd-w.com/2075316873889377.html"><img src="../static_resources/images/DragonBoatDay/a_main_pic12.png" /></a>
+	    	<a href="http://wd-w.com/2257640403961609.html"><img src="../static_resources/images/DragonBoatDay/a_main_pic13.png" /></a>
+	    </div>
+	   
+	    <div class="tit"><img src="../static_resources/images/DragonBoatDay/a_tit3.png" /></div>
+	    <div class="main_two">
+	    	<a href="http://wd-w.com/1224023745201340.html"><img src="../static_resources/images/DragonBoatDay/a_main_pic14.png" /></a>
+	    	<a href="http://wd-w.com/2149767230948840.html"><img src="../static_resources/images/DragonBoatDay/a_main_pic15.png" /></a>
+	    	<a href="http://wd-w.com/1482484902396938.html"><img src="../static_resources/images/DragonBoatDay/a_main_pic16.png" /></a>
+	    	<a href="http://wd-w.com/2158199715726838.html"><img src="../static_resources/images/DragonBoatDay/a_main_pic17.png" /></a>
+	    	<a href="http://wd-w.com/2188903403718464.html"><img src="../static_resources/images/DragonBoatDay/a_main_pic18.png" /></a>
+	    	<a href="http://wd-w.com/2050014841112320.html"><img src="../static_resources/images/DragonBoatDay/a_main_pic19.png" /></a>
+	    </div>
+	    
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	if(isWeiXinH5()) {
+		$(".top").hide();
+		$(".main_box").css("top","0");
+		
+	    $("a").each(function(i){
+	    	var href = $(this).attr("href");
+	    	if(href.length>21) {
+	    		href =href.substring(16,href.length-5);
+	   			href = "http://api.wd-w.com/productm?productId=" + href;
+	   			
+	   			$(this).attr("href",href);
+            }
+	    });
+	}
+});
+</script>
+</body>
+</html>

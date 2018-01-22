@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.0.xsd  
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd  
+        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd  
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd  
+        http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-4.0.xsd  
+        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.0.xsd  
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd  
+        http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-4.0.xsd  
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd  
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd  
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+	<description>
+	</description>
+	<context:component-scan base-package="com.wode.factory.supplier.service.impl" /> 
+	<context:component-scan base-package="com.wode.factory.supplier.dao.impl" /> 
+	 <context:component-scan base-package="com.wode.common.redis" /> 
+	 <context:component-scan base-package="com.wode.common.db" /> 
+	 
+	<context:annotation-config>
+	 
+	</context:annotation-config>
+
+
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<!-- 静态资源映射 -->
+	<!-- <mvc:resources mapping="/images/**" location="/resources/images/"/> 
+		<mvc:resources mapping="/css/**" location="/resources/css/"/> <mvc:resources 
+		mapping="/js/**" location="/resources/js/"/> -->
+
+	<!-- 多语言 -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<!-- 在web环境中一定要定位到classpath 否则默认到当前web应用下找 -->
+				<value>
+					classpath:message
+				</value>
+				<value>
+					classpath:error
+				</value>
+				<value>
+					classpath:ValidationMessages
+				</value>
+				<value>
+					classpath:SystemVariable
+				</value>
+			</list>
+		</property>
+
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="cacheSeconds" value="60" />
+	</bean>	
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<bean
+		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"></bean>
+
+	<!-- sendcloud Java Email 配置 -->
+	<bean id="sendCloudSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="defaultEncoding" value="utf8" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.host">smtpcloud.sohu.com</prop>
+				<prop key="mail.smtp.port">25</prop>
+				<prop key="mail.smtp.connectiontimeout">180</prop>
+				<prop key="mail.smtp.timeout">600</prop>
+				<prop key="mail.mime.encodefilename">true</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 定义受环境影响易变的变量 -->
+	<bean id="propertyPlaceholderConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<!-- 标准配置 -->
+
+				<value>
+					classpath:application.properties
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- ibatis config -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<!--initialSize: 初始化连接 -->
+		<property name="initialSize" value="1" />
+		<!--maxIdle: 最大空闲连接 -->
+		<property name="maxIdle" value="10" />
+		<!--minIdle: 最小空闲连接 -->
+		<property name="minIdle" value="5" />
+		<!--maxActive: 最大连接数量 -->
+		<property name="maxActive" value="15" />
+		<!--removeAbandoned: 是否自动回收超时连接 -->
+		<property name="removeAbandoned" value="true" />
+		<!--removeAbandonedTimeout: 超时时间(以秒数为单位) -->
+		<property name="removeAbandonedTimeout" value="180" />
+		<!--maxWait: 超时等待时间以毫秒为单位30000毫秒/1000等于30秒 -->
+		<property name="maxWait" value="30000" />
+		<property name="validationQuery">
+			<value>SELECT 1</value>
+		</property>
+		<property name="testOnBorrow">
+			<value>true</value>
+		</property>
+	</bean>
+
+
+	<!-- 事务处理 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+
+	</bean>
+
+
+	
+
+	<aop:aspectj-autoproxy />
+
+	<!-- 事务拦截 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="select*" read-only="true" propagation="REQUIRED" />
+			<tx:method name="find*" read-only="true" propagation="REQUIRED" />
+			<tx:method name="register*" read-only="false" propagation="REQUIRED"
+				rollback-for="com.palm360.airport.util.exception.AirportRuntimeException, SQLException" />
+			<tx:method name="save*" propagation="REQUIRED" isolation="SERIALIZABLE"
+				rollback-for="com.palm360.airport.util.exception.AirportRuntimeException, SQLException" />
+			<tx:method name="insert*" propagation="REQUIRED" isolation="SERIALIZABLE"
+				rollback-for="com.palm360.airport.util.exception.AirportRuntimeException, SQLException" />
+			<tx:method name="update*" propagation="REQUIRED" isolation="SERIALIZABLE"
+				rollback-for="com.palm360.airport.util.exception.AirportRuntimeException, SQLException" />
+			<tx:method name="add*" propagation="REQUIRED" isolation="SERIALIZABLE"
+				rollback-for="com.palm360.airport.util.exception.AirportRuntimeException, SQLException" />
+			<tx:method name="delete*" propagation="REQUIRED" isolation="SERIALIZABLE"
+				rollback-for="com.palm360.airport.util.exception.AirportRuntimeException, SQLException" />
+			<tx:method name="job*" read-only="false" propagation="REQUIRED"
+				isolation="SERIALIZABLE" rollback-for="java.lang.Exception, java.lang.ClassNotFoundException" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- Spring iBatis SqlMapClient -->
+   <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
+       <property name="dataSource" ref="dataSource"/> 
+       <property name="configLocation" value="classpath:SqlMapConfig.xml" />
+       <!-- <property name="configLocation" value=""/> --> 
+       <!-- 该属性用来指定MyBatis的XML配置文件路径,跟Spring整合时，编写MyBatis映射文件的目的无非是配置一下typeAlias、setting之类的 
+       元素。不用在其中指定数据源，或者事务处理方式。就算配置了也会被忽略。因为这些都是使用Spring中的配置 。当然如果你不打算添加typeAlias 
+       之类的设置的话，你连MyBatis的配置文件都不用写，更不用配置这个属性了--> 
+       
+       <property name="mapperLocations" value="classpath:/com/wode/product/config/*Mapper.xml"/> 
+       <!-- 该配置文件用来指定Mapper映射文件的位置 ，如果映射文件与相应的接口同名，且在同一路径下，那么可以不配置该选项--> 
+    </bean> 
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype"> 
+        <constructor-arg index="0" ref="sqlSessionFactory" /> 
+    </bean>
+     <!-- 
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"> 
+       <property name="basePackage" value="com.wode.product.dao"/>        
+    </bean> 
+   
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">		
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+ 	-->
+	<!-- 配置redis -->
+	<bean name="redisClusterPoolConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+		<property name="maxWaitMillis" value="-1" />
+		<property name="maxTotal" value="1000" />
+		<property name="minIdle" value="8" />
+		<property name="maxIdle" value="100" />
+	</bean>
+	<!-- 
+	 <bean id="redisUtil" class="com.wode.common.redis.RedisUtil"> <property 
+		name="jedisPool" ref="jedisPool" /> </bean>
+		 --> 
+		<!-- 
+	<bean id="redisUtilEx" class="com.wode.common.redis.RedisUtilEx"> 
+		<property name="edis" ref="redisUtil" /> </bean> 
+		 -->
+	<!-- 配置多客户端，此处不要删除，shardedJedisPool获得的是ShardeJedis 其中缺少sorted set的秋交集方法可以和非切片redis一起使用 -->
+	<!-- <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig"> 
+		<property name="maxActive" value="50" /> <property name="maxIdle" value="10" 
+		/> <property name="maxWait" value="1000" /> <property name="testOnBorrow" 
+		value="true"/> </bean> <bean id="jedis.shardInfo" class="redis.clients.jedis.JedisShardInfo"> 
+		<constructor-arg index="0" value="${redis.server}" /> <constructor-arg index="1" 
+		value="${redis.port}" type="int"/> </bean> <bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool"> 
+		<constructor-arg index="0" ref="jedisPoolConfig" /> <constructor-arg index="1"> 
+		<list> <ref bean="jedis.shardInfo" /> </list> </constructor-arg> </bean> 
+		<bean id="redisUtil" class="com.palm360.airport.redis.RedisUtil"> <property 
+		name="shardedJedisPool" ref="shardedJedisPool"></property> </bean> -->
+	<!-- 错误输出读取 -->
+	<!-- <bean id="errorMessage" class="org.springframework.context.support.ResourceBundleMessageSource" 
+		> <property name="basenames" > <list> <value> error </value> </list> </property> 
+		</bean> -->
+
+	<!-- 配置异常处理 -->
+	<bean class="com.wode.common.exception.WodeExceptionResolver">
+
+		<!-- 定义默认的异常处理页面，当该异常类型的注册时使用 -->
+		<!-- <property name="defaultErrorView" value="error"></property> -->
+		<!-- 定义异常处理页面用来获取异常信息的变量名，默认名为exception -->
+		<!--<property name="exceptionAttribute" value="ex"></property> -->
+
+		<!-- 定义需要特殊处理的异常，用类名或完全路径名作为key，异常也页名作为值 -->
+		<!-- <property name="exceptionMappings"> <props> <prop key="IOException">error/ioexp</prop> 
+			<prop key="java.sql.SQLException">error/sqlexp</prop> </props> </property> -->
+	</bean>
+
+	<bean
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>*Service</value> 
+			</list>			
+		</property>
+		<property name="interceptorNames">
+			<list>				
+				<idref bean="StorageDbResult" />
+			</list>
+		</property>
+	</bean>
+	<bean id="StorageDbResult"
+		class="com.wode.common.redis.StorageDbResult">
+	</bean>
+
+	
+</beans>

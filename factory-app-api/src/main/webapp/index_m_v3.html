@@ -1,0 +1,626 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>我的福利</title>
+<link rel="stylesheet" type="text/css" href="static_resources/css/swiper-3.4.2.min.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/index_m_v3.css" />
+<script type="text/javascript" src="static_resources/js/common/system_config.js"></script>
+
+</head> 
+
+<body>
+<div class="main-cont" id="main-cont" >
+	<div class="top_box">
+		<p class="top_shopName">【企业名称】员工福利店</p>
+		<div class="search_box">		
+	        <div class="search_inp">
+	        	<a href="javascript:void(0);">我想要</a>
+	        </div>
+	        
+	        <div class="my_quan">
+	        	<span><img src="static_resources/images/my_quan_icon.png" /></span>
+	        	<div class="quan_con">
+	        		<ul>
+	        			<li>现金券：0.00</li>
+	        			<li>换领币：0.00</li>
+	        			<li>福利券：0.00</li>
+	        		</ul>
+	        	</div>
+	        	<input type="hidden" id="shop" value="">
+	        </div>        
+		</div> 
+	</div>
+	<div class="main-box">
+	    <div class="flexslider" id="banner">
+	    	<ul class="slides">
+	    		<li><a href="javascript:go2Search('channel:tesheng')"><img src="http://img2.wo-de.com/upload/regular/1488533899148.png" alt="" class="img-responsive"></a></li>
+	    		<li><a href="javascript:go2Search('channel:huanling')"><img src="http://img2.wo-de.com/upload/regular/1490089273635.png" alt="" class="img-responsive"></a></li>
+	    		<li><a href="javascript:go2Search('channel:shiyong')"><img src="http://img2.wo-de.com/upload/regular/1490089283270.png" alt="" class="img-responsive"></a></li>
+	    		<li><a href="javascript:go2Search('channel:qicai')"><img src="http://img2.wo-de.com/upload/regular/1490145705544.png" alt="" class="img-responsive"></a></li>
+	    	</ul>
+	    </div>
+	    <div class="main_two_v2 " id="top_category">
+	    	<a href="javascript:go2Search('channel:neigouhui')"><img src="static_resources/images/neigouhui_icon.png" alt="内购汇"></a>
+	    	<a href="javascript:go2Search('channel:tesheng ')"><img src="static_resources/images/ts.png" alt="特省"></a>
+	    	<a href="javascript:go2Search('channel:shiyong')"><img src="static_resources/images/sy.png" alt="试用"></a>
+	    	<a href="javascript:go2Search('channel:huanling ')"><img src="static_resources/images/hl.png" alt="换领"></a>
+	    	<a href="javascript:go2Search('channel:qicai ')"><img src="static_resources/images/qc.png" alt="企采"></a>	    	
+	    </div>
+	    	     
+	     <div class="main_three_v2" id="Ownexclusive" style="display: none">
+	     	<div class="tit">自家专享</div>
+	     	<div class="main_three_con_v2 swiper-container" >
+	     		<div class="swiper-wrapper" >
+			        <div class="swiper-slide"><a href="javascript:go2Search('channel:neigouhui');"><img src="static_resources/images/parker_05.png" /></a></div>
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/parker_05.png" /></a></div>
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/parker_05.png" /></a></div>      
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/parker_05.png" /></a></div>
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/parker_05.png" /></a></div>
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/parker_05.png" /></a></div>
+					<div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/parker_05.png" /></a></div>
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/parker_05.png" /></a></div>
+			        <div class="swiper-slide last_div"><a href="javascript:;"><img src="static_resources/images/parker_08.png" /></a></div>
+		     	</div>
+		     </div>
+		 </div>
+		  <div class="main_three_v2 lianmeng">
+	     	<div class="tit">厂商联盟</div>
+	     	<div class="main_three_con_v2 swiper-container" >
+	     		<div class="swiper-wrapper" >
+			        <div class="swiper-slide"><a href="javascript:go2Search('channel:neigouhui');"><img src="static_resources/images/parker_09.png" /></a></div>
+			        <div class="swiper-slide"><a href="javascript:go2Search('http://www.wd-w.com/2613411628549257.html?skuId=2613411634545804');"><img src="static_resources/images/parker_09.png" /></a></div>
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/parker_09.png" /></a></div>      
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/parker_09.png" /></a></div>
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/parker_09.png" /></a></div>
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/parker_09.png" /></a></div>
+					<div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/parker_09.png" /></a></div>
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/parker_09.png" /></a></div>
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/parker_09.png" /></a></div>
+		     	</div>
+		     </div>
+		 </div>
+		 <!-- 现金券专区 -->
+		 <div class="ngj_con main_con" id="CashArea" style="display: none">
+		 	<div class="ul_box ul_box1">
+		 		<ul class="ul1">
+		 			<li><img src="static_resources/images/xianjinquan_tit.png" /></li>
+		 			<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		    		<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		    		<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		    		<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		 		</ul>
+		 		<ul class="ul2">
+		 			<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		    		<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		    		<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		    		<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		    		<li class="con_more_btn"><a href="javascript:void(0);"><img src="static_resources/images/parker_08.png" /></a></li>
+		 		</ul>
+		 	</div>
+		 	<div class="ad"><a href="javascript:void(0);"><img src="static_resources/images/parker_ad1.png" /></a></div>
+		 </div>
+		 <!-- 答题领好物 -->
+		 <div class="ngj_con main_con" id="AnswerArea">
+		 	<div class="ul_box ul_box1">
+		 		<ul class="ul1">
+		 			<li><img src="static_resources/images/linghaowu_tit.png" /></li>
+		 			<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		    		<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		 		</ul>
+		 		<ul class="ul2">
+		 			<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		    		<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		    		<li class="con_more_btn"><a href="javascript:void(0);"><img src="static_resources/images/parker_08.png" /></a></li>
+		 		</ul>
+		 	</div>
+		 	<div class="ad"><a href="javascript:void(0);"><img src="static_resources/images/parker_ad1.png" /></a></div>
+		 </div>
+	   	 <!-- 福利随心换 -->
+		 <div class="ngj_con main_con" id="ExchangeArea" style="display: none">
+		 	<div class="ul_box ul_box1">
+		 		<ul class="ul1">
+		 			<li><img src="static_resources/images/suixinhuan_tit.png" /></li>
+		 			<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i  class="huanlingbi"><img src="static_resources/images/huanlingbi_icon.png"  width="15" height="15" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		    		<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i class="huanlingbi"><img src="static_resources/images/huanlingbi_icon.png"  width="15" height="15" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		 		</ul>
+		 		<ul class="ul2">
+		 			<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i  class="huanlingbi"><img src="static_resources/images/huanlingbi_icon.png"  width="15" height="15" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		    		<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i  class="huanlingbi"><img src="static_resources/images/huanlingbi_icon.png"  width="15" height="15" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		    		<li class="con_more_btn"><a href="javascript:void(0);"><img src="static_resources/images/parker_08.png" /></a></li>
+		 		</ul>
+		 	</div>
+		 	<div class="ad"><a href="javascript:void(0);"><img src="static_resources/images/parker_ad1.png" /></a></div>
+		 </div>
+	   	 <!-- 不止特省 -->
+		 <div class="ngj_con main_con" id="SaveMoreArea">
+		 	<div class="ul_box ul_box1">
+		 		<ul class="ul1">
+		 			<li><img src="static_resources/images/buzhitesheng_tit.png" /></li>
+		 			<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		    		<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		 		</ul>
+		 		<ul class="ul2">
+		 			<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		    		<li>
+		    			<dl>	    				
+		    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+		    				<div class="div_pop1">
+		    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+		    					<dd class="dd2">电商价:￥48.00</dd>
+		    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+	    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+		    					<dd class="dd4">+内购券:8.90</dd>
+								<dd class="dd4">+现金券:39.90</dd>
+								<dd class="dd6">
+									<div class="pro_bar">
+		                                <div class="bar_con" width="30" style="width:30px;"></div>
+		                            </div>
+		                            <p>仅剩16件</p>
+								</dd>
+							</div>	    				
+		    			</dl>
+		    		</li>
+		    		<li class="con_more_btn"><a href="javascript:void(0);"><img src="static_resources/images/parker_08.png" /></a></li>
+		 		</ul>
+		 	</div>
+		 	<div class="ad"><a href="javascript:void(0);"><img src="static_resources/images/parker_ad1.png" /></a></div>
+		 </div>
+	   	 <div class="ngj_con" id="more">
+	    	<div class="tit">优享内购价</div>
+	    	<input type="hidden" id="pageNum" value="0" autocomplete="off">
+	    	<ul>
+	    		<li>
+	    			<dl>	    				
+	    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+	    				<div class="div_pop1">
+	    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+	    					<dd class="dd2">电商价:￥48.00</dd>
+	    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>   					
+    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+	    					<dd class="dd4">+内购券:8.90</dd>
+							<dd class="dd4">+现金券:39.90</dd>
+							<dd class="dd6">
+								<div class="pro_bar">
+	                                <div class="bar_con" width="30" style="width:30px;"></div>
+	                            </div>
+	                            <p>仅剩16件</p>
+							</dd>
+						</div>	    				
+	    			</dl>
+	    		</li>
+	    		<li>
+	    			<dl>	    				
+	    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+	    				<div class="div_pop1">
+	    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+	    					<dd class="dd2">电商价:￥48.00</dd>
+	    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>    					
+    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	    					
+	    					<dd class="dd4">+内购券:8.90</dd>
+							<dd class="dd4">+现金券:39.90</dd>
+							<dd class="dd6">
+								<div class="pro_bar">
+	                                <div class="bar_con" width="30" style="width:30px;"></div>
+	                            </div>
+	                            <p>仅剩16件</p>
+							</dd>
+						</div>	    				
+	    			</dl>
+	    		</li>
+	    		<li>
+	    			<dl>	    				
+	    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+	    				<div class="div_pop1">
+	    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+	    					<dd class="dd2">电商价:￥48.00</dd>
+	    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>
+    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	
+	    					<dd class="dd4">+内购券:8.90</dd>
+							<dd class="dd4">+现金券:39.90</dd>
+							<dd class="dd6">
+								<div class="pro_bar">
+	                                <div class="bar_con" width="30" style="width:30px;"></div>
+	                            </div>
+	                            <p>仅剩16件</p>
+							</dd>
+						</div>	    				
+	    			</dl>
+	    		</li>
+	    		<li>
+	    			<dl>	    				
+	    				<dt><a href="javascript:;"><img src="static_resources/images/hl_con_pic.png" /></dt></a>
+	    				<div class="div_pop1">
+	    					<dd class="dd1">蓝柜子 天然阿富汗原矿蓝柜子 天然阿富汗原</dd>
+	    					<dd class="dd2">电商价:￥48.00</dd>
+	    					<dd class="dd3"><span>内购价:￥23.00+</span><i><img src="static_resources/images/quanios@2x.png" /></i></dd>
+    					    <em><img src="static_resources/images/right_bottom_icon.png" /></em>	
+	    					<dd class="dd4">+内购券:8.90</dd>
+							<dd class="dd4">+现金券:39.90</dd>
+							<dd class="dd6">
+								<div class="pro_bar">
+	                                <div class="bar_con" width="30" style="width:30px;"></div>
+	                            </div>
+	                            <p>仅剩16件</p>
+							</dd>
+						</div>	    				
+	    			</dl>
+	    		</li>
+	    	</ul>
+	    </div>
+	   	 
+	</div>
+</div>
+
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+
+<script type="text/javascript" src="static_resources/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="static_resources/js/wxGetUid.js"></script>
+<script type="text/javascript" src="static_resources/js/index_goto.js?1"></script>
+<script type="text/javascript" src="static_resources/js/swiper-3.4.2.jquery.min.js"></script>
+<script type="text/javascript" src="static_resources/js/newIndex.js?1"></script>
+<script type="text/javascript" src="static_resources/js/sd2.js?1"></script>
+<script type="text/javascript" src="static_resources/js/h5_exit.js"></script>
+<script type="text/javascript" src="static_resources/js/app2wx_page.js?111"></script>
+<script>
+//福利券现金券显示
+function test(){
+	$('.ngj_con ul li dl .div_pop1').toggle(function(){
+		  $(this).find(".dd1,.dd2,.dd3").hide();
+		  $(this).find(".dd4,.dd6").show();
+		  $(this).find('em').html('<img src="static_resources/images/right_bottom_icon1.png" />');
+		  animate();
+	},function(){
+		  $(this).find(".dd1,.dd2,.dd3").show();
+		  $(this).find(".dd4,.dd6").hide();
+		  $(this).find('em').html('<img src="static_resources/images/right_bottom_icon.png" />');
+	});
+}
+animate();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SupplierQuestionnaireMapper">
+
+    <resultMap id="SupplierQuestionnaire" type="com.wode.factory.supplier.model.SupplierQuestionnaire">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="templateTitle" column="template_title"/>
+        <result property="testFlg" column="test_flg"/>
+        <result property="createDate" column="create_date"/>
+        <result property="createUser" column="create_user"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,supplier_id,template_title,test_flg,create_date,create_user
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_supplier_questionnaire (
+            id ,
+            supplier_id ,
+            template_title ,
+            test_flg ,
+            create_date ,
+            create_user
+        ) VALUES (
+            #{id} ,
+            #{supplierId} ,
+            #{templateTitle} ,
+            #{testFlg} ,
+            #{createDate} ,
+            #{createUser}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_supplier_questionnaire SET            
+            supplier_id = #{supplierId} ,
+            template_title = #{templateTitle} ,
+            test_flg = #{testFlg} ,
+            create_date = #{createDate} ,
+            create_user = #{createUser} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_supplier_questionnaire WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="SupplierQuestionnaire">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_supplier_questionnaire 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="SupplierQuestionnaire">
+        SELECT <include refid="columns" /> FROM t_supplier_questionnaire 
+        <include refid="find_where"/>
+        ORDER BY create_date DESC
+    </select>
+
+    <select id="selectListCnt" resultMap="SupplierQuestionnaire">
+        SELECT id,supplier_id,template_title,(SELECT COUNT(1) FROM t_questionnaire_question q where q.questionnaire_id=t_supplier_questionnaire.id ) test_flg,
+        create_date,(SELECT COUNT(1) FROM t_product_questionnaire pq where pq.template_id=t_supplier_questionnaire.id )  create_user
+        FROM t_supplier_questionnaire 
+        <include refid="find_where"/>
+        ORDER BY create_date DESC
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(templateTitle)">
+                AND template_title = #{templateTitle}
+            </if>
+           <if test="@Ognl@isNotEmpty(testFlg)">
+                AND test_flg = #{testFlg}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date = #{createDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(createUser)">
+                AND create_user = #{createUser}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

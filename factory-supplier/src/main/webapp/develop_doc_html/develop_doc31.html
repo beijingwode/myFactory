@@ -1,0 +1,606 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>我的网商家中心</title>
+    <link rel="stylesheet" type="text/css" href="../static_resources/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../static_resources/css/box.css" />
+</head>
+
+<body>
+<header class="headercolor">
+    <!--top begin-->
+    <div id="top">
+        <div class="top_cont">
+            <div class="top_cont_left_fl" style="float:left;">
+                <span>你好，欢迎来到我的网商家中心！</span>
+                
+            </div>
+            <div class="top_cont_right">
+                <ul>
+                	<li><a href="http://supplier.wd-w.com/develop_doc_html/develop_doc11.html">开发文档</a></li>
+                    <li style="margin-left:20px;"><a href="http://supplier.wd-w.com/user/login.html">商家平台首页</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <!--top end-->
+
+    <!--header begin-->
+    <div id="header">
+        <div class="header_cont">
+            <div class="logo">
+                <a href="http://supplier.wd-w.com/user/tosuppliermain.html"><img src="http://supplier.wd-w.com/static_resources/images/logo.jpg" width="200" height="50" alt="logo"></a>
+            </div>
+            <div class="nav">
+                <ul>
+                    <li id="sy_header"><a href="http://supplier.wd-w.com/user/tosuppliermain.html">首页</a></li>
+                    <li id="wddp_header" class="active"><a href="http://supplier.wd-w.com/shopSetting.html">我的店铺</a></li>
+                    <li id="spgl_header"><a href="http://supplier.wd-w.com/product/toSelectProducttype.html">商品管理</a></li>
+                    <li id="ddgl_header"><a href="http://supplier.wd-w.com/suborder/gotoSelllist.html">订单管理</a></li>
+                    <li id="psgl_header"><a href="http://supplier.wd-w.com/shippingAddress/todeliver.html">配送管理</a></li>
+                    <li id="hdgl_header"><a href="http://supplier.wd-w.com/activity/qicai/page.html">活动管理</a></li>
+                    <li id="jsgl_header"><a href="http://supplier.wd-w.com/saleBill/gotoSaleBillList.html">结算管理</a></li>
+                    <li id="qygl_header"><a href="http://supplier.wd-w.com/company/emp/page.html">员工福利</a></li>
+                    <li id="permissions_header"><a href="http://supplier.wd-w.com/permissions_role.html">权限管理</a></li>
+                    </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!--header end-->
+</header>
+
+<!--content begin-->
+<div id="content">
+    <!--left begin-->
+    <div class="left">
+        <div class="left_store_list">
+            <ul>
+				<li><a href="javascript:;"><i class="icon01"></i>文档说明</a>
+					<ul class="twomenu" >
+				 		<li><a href="develop_doc11.html">阅读对象</a></li>
+				 
+				     	<li><a href="develop_doc12.html">版本说明</a></li>
+				   </ul>
+				</li>
+				<li><a href="javascript:;"><i class="icon01"></i>接口规则</a>
+				    <ul class="twomenu">        
+				         <li><a href="develop_doc21.html">协议规则</a></li>	
+				         <li><a href="develop_doc22.html">安全规范</a></li>		         
+				    </ul>
+				</li> 
+				<li><a href="javascript:;"><i class="icon01"></i>接口列表</a>
+				    <ul class="twomenu" style="display:block;">        
+				         <li class="active"><a href="javascript:;">商品、sku 接口</a></li>	
+				         <li><a href="develop_doc32.html">订单、物流 接口</a></li>   
+				         <li><a href="develop_doc33.html">售后 接口</a></li>    
+				    </ul>
+				</li>                 
+            </ul>
+        </div>
+    </div>
+    <!--left end-->
+
+    <!--right begin-->
+    <div class="right" >
+        <div class="position">
+            <span>您所在的位置：</span>
+            <a href="javascript:void(0);">商家中心</a><em>></em>
+            <a href="javascript:void(0);">开发文档</a><em>></em>
+            <a href="javascript:;">商品、sku 接口</a>
+        </div>
+        <div class="doc_box">
+			<h5 id="jysplb">简易商品列表 supplier.products.get</h5>
+			<p style="text-indent:0em;"><span>a) API描述</span></p>
+			<p><span>名称：</span>简易商品列表</p>
+			<p><span>描述：</span>获取商家单位，在售商品列表简易信息，包括商品id：p_id、商品标题：p_title、商品分类：p_category</p>
+			<p><span>数据格式：</span>JSON</p>
+			<p><span>请求URL：</span> http://supplier.wd-w.com/open	(统一开放接口)</p>
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>b) 请求参数</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th3">必填</th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>appid</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">应用唯一标识，我的网商家平台-->首页-->API安全 <a href="../user/app_security.html">查看</a></td>
+					</tr>
+					<tr class="bg_1">
+						<td>method</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">supplier.products.get</td>
+					</tr>
+					<tr>
+						<td>timestamp</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">时间戳，格式为yyyy-MM-dd HH:mm:ss，时区为GMT+8，例如：2017-01-01 12:00:00</td>
+					</tr>
+					<tr class="bg_1">
+						<td>sign</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">API输入参数签名结果，签名算法介绍<a href="develop_doc22.html">请点击这里</a>。</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>c) 返还结果</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>success</td>
+						<td>bool</td>
+						<td class="td4">true：成功  false：失败</td>
+					</tr>
+					<tr class="bg_1">
+						<td>message</td>
+						<td>string</td>
+						<td class="td4">失败时，错误信息</td>
+					</tr>
+					<tr>
+						<td>data</td>
+						<td>JsonArray</td>
+						<td class="td4">数组元素：<br />p_id：商品id<br />p_title：商品标题<br />p_category：商品分类<br />outer_id：商品外部编码</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			
+			
+			<h5 id="skulb" style="margin-top:40px;">SKU列表(无图片)  supplier.product.skus.get</h5>
+			<p style="text-indent:0em;"><span>a) API描述</span></p>
+			<p><span>名称：</span>商品SKU列表</p>
+			<p><span>描述：</span>获取商品单位，SKU列表简易信息，包括sku id:sku_id、价格：price、库存：quantity、规格：spec 多个规格值时以逗号分隔</p>
+			<p><span>数据格式：</span>JSON</p>
+			<p><span>请求URL：</span> http://supplier.wd-w.com/open	(统一开放接口)</p>
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>b) 请求参数</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th3">必填</th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>appid</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">应用唯一标识，我的网商家平台-->首页-->API安全 <a href="../user/app_security.html">查看</a></td>
+					</tr>
+					<tr class="bg_1">
+						<td>method</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">supplier.product.skus.get</td>
+					</tr>
+					<tr>
+						<td>p_id</td>
+						<td>string</td>
+						<td>选填</td>
+						<td class="td4">商品id 可通过 <a href="#jysplb">简易商品列表接口</a>获取 （与商品外部编码，p_title三选一）</td>
+					</tr>
+					<tr class="bg_1">
+						<td>outer_id</td>
+						<td>string</td>
+						<td>选填</td>
+						<td class="td4">商品外部编码（与p_id，p_title三选一）</td>
+					</tr>
+					<tr>
+						<td>p_title</td>
+						<td>string</td>
+						<td>选填</td>
+						<td class="td4">商品标题 可通过 <a href="#jysplb">简易商品列表接口</a>获取（与outer_id ,p_id三选一）</td>
+					</tr>
+					<tr class="bg_1">
+						<td>timestamp</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">时间戳，格式为yyyy-MM-dd HH:mm:ss，时区为GMT+8，例如：2017-01-01 12:00:00</td>
+					</tr>
+					<tr>
+						<td>sign</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">API输入参数签名结果，签名算法介绍<a href="develop_doc22.html">请点击这里</a>。</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			
+			<p style="font-size:12px;color:#aaa9a9;">注：可以通过商品id 或者商品标题获取sku 信息。但商品标题必须能过唯一确定一条商品</p>
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>c) 返还结果</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>success</td>
+						<td>bool</td>
+						<td class="td4">true：成功  false：失败</td>
+					</tr>
+					<tr class="bg_1">
+						<td>message</td>
+						<td>string</td>
+						<td class="td4">失败时，错误信息</td>
+					</tr>
+					<tr>
+						<td>data</td>
+						<td>JsonArray</td>
+						<td class="td4">数组元素：<br />sku_id:sku id<br />outer_id:Sku的商家外部id<br />price:sku 售价<br />quantity:库存<br />spec:规格值 多个规格值时以逗号分隔 例：红色，M<br />image:主图url （例：http://img2.wo-de.com/upload/regular/xxx/xx.jpg ）</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			
+			
+			<h5 style="margin-top:40px;">SKU库存更新  supplier.product.sku.upd</h5>
+			<p style="text-indent:0em;"><span>a) API描述</span></p>
+			<p><span>名称：</span>SKU库存更新</p>
+			<p><span>描述：</span>SKU库存更新</p>
+			<p><span>数据格式：</span>JSON</p>
+			<p><span>请求URL：</span> http://supplier.wd-w.com/open	(统一开放接口)</p>
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>b) 请求参数</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th3">必填</th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>appid</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">应用唯一标识，我的网商家平台-->首页-->API安全 <a href="../user/app_security.html">查看</a></td>
+					</tr>
+					<tr class="bg_1">
+						<td>method</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">supplier.product.sku.upd</td>
+					</tr>
+					<tr>
+						<td>sku_id</td>
+						<td>string</td>
+						<td>选填</td>
+						<td class="td4">Sku id 可通过 <a href="#skulb">SKU列表接口</a>获取 （与sku的商家外部id ，sku信息三选一）</td>
+					</tr>
+					<tr class="bg_1">
+						<td>outer_id</td>
+						<td>string</td>
+						<td>选填</td>
+						<td class="td4">Sku的商家外部id（sku_id ，sku信息 三选一）</td>
+					</tr>
+					<tr>
+						<td>p_title</td>
+						<td>string</td>
+						<td>选填</td>
+						<td class="td4">商品标题 可通过 <a href="#jysplb"> 简易商品列表接口</a>获取（与spec组成sku信息，并与sku_id，Sku的商家外部id三选一）</td>
+					</tr>
+					<tr class="bg_1">
+						<td>spec</td>
+						<td>string</td>
+						<td>选填</td>
+						<td class="td4">sku规格 可通过<a href="#skulb"> SKU列表接口</a>获取 （与p_title组成sku信息，并与sku_id，Sku的商家外部id三选一）</td>
+					</tr>
+					<tr >
+						<td>quantity</td>
+						<td>long</td>
+						<td>必填</td>
+						<td class="td4">最新库存量，直接更新该sku 库存</td>
+					</tr>
+					<tr class="bg_1">
+						<td>timestamp</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">时间戳，格式为yyyy-MM-dd HH:mm:ss，时区为GMT+8，例如：2017-01-01 12:00:00</td>
+					</tr>
+					<tr>
+						<td>sign</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">API输入参数签名结果，签名算法介绍<a href="develop_doc22.html">请点击这里</a>。</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			<p style="font-size:12px;color:#aaa9a9;">注：可以通过商品标题+sku规格更新sku信息。但商品标题+sku必须能过唯一确定一条sku</p>
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>c) 返还结果</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>success</td>
+						<td>bool</td>
+						<td class="td4">true：成功  false：失败</td>
+					</tr>
+					<tr class="bg_1">
+						<td>message</td>
+						<td>string</td>
+						<td class="td4">失败时，错误信息</td>
+					</tr>
+					<tr>
+						<td>data</td>
+						<td>long</td>
+						<td class="td4">返回更新后数量</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			
+			
+			<h5 style="margin-top:40px;">商品外部编码设置  supplier.product.outerid.upd</h5>
+			<p style="text-indent:0em;"><span>a) API描述</span></p>
+			<p><span>名称：</span>商品外部编码设置</p>
+			<p><span>描述：</span>设置商品外部编码，接口调用时使用，方便ERP系统统一处理</p>
+			<p><span>数据格式：</span>JSON</p>
+			<p><span>请求URL：</span> http://supplier.wd-w.com/open	(统一开放接口)</p>
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>b) 请求参数</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th3"></th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>appid</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">应用唯一标识，我的网商家平台-->首页-->API安全 <a href="../user/app_security.html">查看</a></td>
+					</tr>
+					<tr class="bg_1">
+						<td>method</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">supplier.product.outerid.upd</td>
+					</tr>
+					<tr>
+						<td>p_id</td>
+						<td>string</td>
+						<td>选填</td>
+						<td class="td4">商品id 可通过 <a href="#jysplb">简易商品列表接口</a>获取 （与p_title二选一）</td>
+					</tr>
+					
+					<tr class="bg_1">
+						<td>p_title</td>
+						<td>string</td>
+						<td>选填</td>
+						<td class="td4">商品标题 可通过 <a href="#jysplb"> 简易商品列表接口</a>获取（与p_id二选一）</td>
+					</tr>
+					<tr>
+						<td>outer_id</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">商品外部编码,长度不能超过64字节</td>
+					</tr>
+					
+					<tr class="bg_1">
+						<td>timestamp</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">时间戳，格式为yyyy-MM-dd HH:mm:ss，时区为GMT+8，例如：2017-01-01 12:00:00</td>
+					</tr>
+					<tr>
+						<td>sign</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">API输入参数签名结果，签名算法介绍<a href="develop_doc22.html">请点击这里</a>。</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			<p style="font-size:12px;color:#aaa9a9;">注：可以通过商品标题获进行设置。但商品标题必须能过唯一确定一条商品</p>
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>c) 返还结果</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>success</td>
+						<td>bool</td>
+						<td class="td4">true：成功  false：失败</td>
+					</tr>
+					<tr class="bg_1">
+						<td>message</td>
+						<td>string</td>
+						<td class="td4">失败时，错误信息</td>
+					</tr>
+					<tr>
+						<td>data</td>
+						<td>string</td>
+						<td class="td4">未定</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			
+			<h5 style="margin-top:40px;">Sku的商家外部id设置  supplier.product.sku.outerid.upd</h5>
+			<p style="text-indent:0em;"><span>a) API描述</span></p>
+			<p><span>名称：</span>Sku的商家外部id</p>
+			<p><span>描述：</span>设置Sku的商家外部id，接口调用时使用，方便ERP系统统一处理</p>
+			<p><span>数据格式：</span>JSON</p>
+			<p><span>请求URL：</span> http://supplier.wd-w.com/open	(统一开放接口)</p>
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>b) 请求参数</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th3"></th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>appid</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">应用唯一标识，我的网商家平台-->首页-->API安全 <a href="../user/app_security.html">查看</a></td>
+					</tr>
+					<tr class="bg_1">
+						<td>method</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">supplier.product.sku.outerid.upd</td>
+					</tr>
+					<tr>
+						<td>sku_id</td>
+						<td>string</td>
+						<td>选填</td>
+						<td class="td4">商品sku_id 可通过 <a href="#skulb">SKU列表接口</a>获取 （与sku信息二选一）</td>
+					</tr>
+					
+					<tr class="bg_1">
+						<td>p_title</td>
+						<td>string</td>
+						<td>选填</td>
+						<td class="td4">商品标题 可通过 <a href="#jysplb"> 简易商品列表接口</a>获取（与spec组成sku信息，并与sku_id二选一）</td>
+					</tr>
+					<tr>
+						<td>spec</td>
+						<td>string</td>
+						<td>选填</td>
+						<td class="td4">sku规格 可通过<a href="#skulb">SKU列表接口</a>获取 （与p_title组成sku信息，并与sku_id二选一）</td>
+					</tr>
+					<tr class="bg_1">
+						<td>outer_id</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">Sku的商家外部id,长度不能超过64字节</td>
+					</tr>
+					
+					<tr>
+						<td>sign</td>
+						<td>string</td>
+						<td>必填</td>
+						<td class="td4">API输入参数签名结果，签名算法介绍<a href="develop_doc22.html">请点击这里</a>。</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			<p style="font-size:12px;color:#aaa9a9;">注：可以通过商品标题+sku规格设置。但商品标题+sku必须能过唯一确定一条sku</p>
+			<p style="text-indent:0em;margin:20px 0 10px 0;"><span>c) 返还结果</span></p>
+			<table class="table-doc2" border="0" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th class="th1">名称</th>
+						<th class="th2">类型</th>
+						<th class="th4">说明</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>success</td>
+						<td>bool</td>
+						<td class="td4">true：成功  false：失败</td>
+					</tr>
+					<tr class="bg_1">
+						<td>message</td>
+						<td>string</td>
+						<td class="td4">失败时，错误信息</td>
+					</tr>
+					<tr>
+						<td>data</td>
+						<td>string</td>
+						<td class="td4">未定</td>
+					</tr>
+					
+			    </tbody>
+			</table>
+			
+			
+			
+			
+        </div>
+    </div>
+    <!--right end-->
+</div>
+<!--content end-->
+
+<!--footer begin-->
+<footer>
+<!--footer begin-->
+<div id="footer">
+	<div class="footer_box">
+    	<ul class="footer_list">   
+    			 <li><a href="http://www.wo-de.com/about.html" target="_blank">关于我的</a></li>
+            <li><a href="http://www.wd-w.com/help-center.html?from=lxwm" target="_blank">联系我的</a></li>
+            <li><a href="http://www.wo-de.com/index.html" target="_blank">友情链接</a></li>
+            <li><a href="http://www.wo-de.com/about.html" target="_blank">人才招聘</a></li>
+            <li><a href="http://www.wd-w.com/help-center.html" target="_blank">帮助中心</a></li>
+            <li><a href="http://supplier.wd-w.com/" target="_blank">商家平台</a></li>
+            <li><a href="http://www.wd-w.com/app.html" target="_blank">掌上生活</a></li>
+            <li><a href="http://www.wd-w.com/legal-notice.html" target="_blank">法律申明</a></li>
+            <li><a href="http://www.wd-w.com/feedback.html" target="_blank">用户反馈</a></li>
+            <li><a href="http://www.wd-w.com/union_rules.html" target="_blank">平台交易规则</a></li>
+        </ul>
+        <div class="foter">
+        	<span>京ICP证150591号</span>              
+            <span><a href="http://www.miitbeian.gov.cn/" target="_blank">京ICP备14054543号-1</a></span>  
+            <span>京公网安备11010802017481号</span>              
+            <span>我的旗下网站：我的团  我的美  我的码 我的快递</span>
+        </div>
+        <ul class="footer_info">
+        	<li><a href="javascript:void(0);">经营性网站<br>备案信息</a></li>
+            <li><a href="javascript:void(0);">可信网站<br>信用评价</a></li>
+            <li><a href="javascript:void(0);">朝阳区网络<br>警察提醒您</a></li>
+            <li><a href="javascript:void(0);" style="line-height:38px;">诚信网站</a></li>
+        </ul>
+    </div>
+</div>
+<!--footer end-->
+</footer>
+<!--footer end-->
+<script type="text/javascript" src="../static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="../static_resources/js/menu_min.js"></script>
+
+
+
+</body>
+</html>

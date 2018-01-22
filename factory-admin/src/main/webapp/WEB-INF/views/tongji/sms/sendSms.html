@@ -1,0 +1,258 @@
+<style>
+#edit-info .center>label{width: 100px;text-align: right;}
+</style>
+<div class="user-profile">
+	<div id="edit-info" class="tab-pane">
+		<table class="EditTable">
+			<tbody>
+				<tr class="FormData">
+					<td class="CaptionTD">目标对象</td>
+					<td class="DataTD width-100">
+						<input type="radio" id="rd5"  name="rd" value="5" onchange="rdChange()" style="width:15px" /><label for="rd5">公司</label>
+						<input type="radio" id="rd4"  name="rd" value="4" onchange="rdChange()" checked="checked" style="width:15px" /><label for="rd4">指定用户</label>
+					</td>
+				</tr>
+				<tr class="FormData" id="companys" style="display: none">
+					<td class="CaptionTD">目标公司</td>
+					<td class="DataTD">
+						<#select name="supplierId" id="supplierId">
+							@for(item in suppliers){
+							<option value="${item.id! },${item.comName! }">${item.comName! }</option>
+							@}
+						</#select>
+					</td>
+				</tr>
+				<tr class="FormData" id="users">
+					<td class="CaptionTD">手机号码</td>
+					<td class="DataTD">
+						<input id="phone" type="text"  placeholder="手机号" />
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">短信模板</td>
+					<td class="DataTD width-100">
+						<#select name="template" id="template">
+							@for(item in templates){
+							<option value="${item.id! }">${item.title! }</option>
+							@}
+						</#select>
+					</td>
+				</tr>
+				<tr class="FormData" id="param1" style="display: none">
+					<td class="CaptionTD">参数：</td>
+					<td class="DataTD width-100">
+					<input type="hidden" id="param1Key">
+					<input type="text" class="width-60" value="" id="param1Val" onkeyup="refreshMsg()"/>
+					<span class="red">*必须填写</span>
+					</td>
+				</tr>
+				<tr class="FormData" id="param2" style="display: none">
+					<td class="CaptionTD">参数：</td>
+					<td class="DataTD width-100">
+					<input type="hidden" id="param2Key">
+					<input type="text" class="width-60" value="" id="param2Val" onkeyup="refreshMsg()"/>
+					<span class="red">*必须填写</span>
+					</td>
+				</tr>
+				<tr class="FormData" id="param3" style="display: none">
+					<td class="CaptionTD">参数：</td>
+					<td class="DataTD width-100">
+					<input type="hidden" id="param3Key">
+					<input type="text" class="width-60" value="" id="param3Val" onkeyup="refreshMsg()"/>
+					<span class="red">*必须填写</span>
+					</td>
+				</tr>
+				<tr class="FormData" id="param4" style="display: none">
+					<td class="CaptionTD">参数：</td>
+					<td class="DataTD width-100">
+					<input type="hidden" id="param4Key">
+					<input type="text" class="width-60" value="" id="param4Val" onkeyup="refreshMsg()"/>
+					<span class="red">*必须填写</span>
+					</td>
+				</tr>
+				<tr class="FormData" id="param5" style="display: none">
+					<td class="CaptionTD">参数：</td>
+					<td class="DataTD width-100">
+					<input type="hidden" id="param5Key">
+					<input type="text" class="width-60" value="" id="param5Val" onkeyup="refreshMsg()"/>
+					<span class="red">*必须填写</span>
+					</td>
+				</tr>
+				<tr class="FormData" id="param6" style="display: none">
+					<td class="CaptionTD">参数：</td>
+					<td class="DataTD width-100">
+					<input type="hidden" id="param6Key">
+					<input type="text" class="width-60" value="" id="param6Val" onkeyup="refreshMsg()"/>
+					<span class="red">*必须填写</span>
+					</td>
+				</tr>
+				<tr class="FormData" id="msgPreview">
+					<td class="CaptionTD">短信内容：</td>
+					<td class="DataTD width-100">
+					<input type="hidden" >
+					<span></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 class="red center">为了确保服务质量。请仔细确认发送对象，及短信内容，短信一旦发出就不能撤回</h3>
+		<div class="margin-t15">
+			<span class="btn btn-info btn-block bigger-120" id="submit">确 认 发送</span>
+		</div>
+	</div>
+</div>
+
+<script>
+	
+	function getTemplateInfo()
+	{
+		$.ajax( {  
+		    url:'${ctxPath}/sendSms/getTemplate?id='+$("#template").val(),
+		    type:'post',
+		    dataType:'json',
+		    success:function(data) {
+				var html = '';
+				$("#msgPreview input").val(data.msg);
+				setParamx(1,data.param1);
+				setParamx(2,data.param2);
+				setParamx(3,data.param3);
+				setParamx(4,data.param4);
+				setParamx(5,data.param5);
+				setParamx(6,data.param6);
+				
+				rdChange();
+		    },  
+		     error : function() {  
+		    	 alert(3);
+		     }  
+		});
+	}
+	
+	function setParamx(i,str) {
+		if(typeof(str)!="undefined" && str!=null && str!='') {
+			var param;
+			eval("param="+str+";");
+
+			$("#param"+i+" .CaptionTD").html(param.title);
+			$("#param"+i+"Key").val(param.key);
+			$("#param"+i+"Val").val("");
+			$("#param"+i+"Val").attr("placeholder",param.placeholder);
+			$("#param"+i).show();
+		} else {
+			$("#param"+i+"Key").val("");
+			$("#param"+i+"Val").val("");
+			$("#param"+i).hide();
+		}
+	}
+	
+	function rdChange() {
+		if($("#rd5").prop("checked")) {
+			$("#users").hide();
+			$("#companys").show();
+			selectCompany();
+		} else {
+			$("#companys").hide();
+			$("#users").show();
+			//setCompany('');
+			refreshMsg();
+		}
+	}
+
+	function selectCompany() {
+		var val=$("#supplierId").val();
+		setCompany(val.substring(val.indexOf(",")+1));
+
+		refreshMsg();
+	}
+
+	function setCompany(val) {
+		for(i=1;i<7;i++) {
+			setCompanyi(i,val);
+		}
+	}
+
+	function setCompanyi(i,val) {
+		if($("#param"+i+"Key").val()=="company"){
+			$("#param"+i+"Val").val(val);
+		}
+	}
+	function refreshMsg() {
+		var msg=$("#msgPreview input").val();
+		msg=makeMsg(msg,1);
+		msg=makeMsg(msg,2);
+		msg=makeMsg(msg,3);
+		msg=makeMsg(msg,4);
+		msg=makeMsg(msg,5);
+		msg=makeMsg(msg,6);		
+		$("#msgPreview span").html(msg.replace("$",""));
+	}
+	function makeMsg(msg,i) {
+		var key=$("#param"+i+"Key").val();
+		if(key != "") {
+			msg=msg.replace("{"+key+"}",$("#param"+i+"Val").val());
+		}
+		return msg;
+	}
+	
+	function chkParam(i) {
+		var key=$("#param"+i+"Key").val();
+		if(key != "") {
+			var inp = $("#param"+i+"Val").val();
+			if($.trim(inp) == "") {
+				return $("#param"+i+" .CaptionTD").html() + " 必须输入";
+			}
+		}
+		return "";
+	}
+	
+	$(function(){
+		getTemplateInfo();
+		
+		$("#supplierId").change(function(){
+			selectCompany();
+		});
+		$("#template").change(function(){
+			getTemplateInfo();
+		});
+
+		$("#submit").click(function(){
+			for(i=1;i<7;i++) {
+				var msg = chkParam(i);
+				if(msg != "") {
+					layer.msg(msg, 1, 1);
+					return;
+				}
+			}
+
+			var rd=5;
+			var phone = "";
+			if($("#rd4").prop("checked")) {
+				phone = $.trim($("#phone").val());
+				if(phone == "") {
+					layer.msg("手机号码 必须输入", 1, 1);
+					return;
+				}
+				rd=4
+			}
+
+			var supplierId=$("#supplierId").val();
+			supplierId=supplierId.substring(0,supplierId.indexOf(","));
+			$.ajax({
+				"type":'POST',
+				url:'${ctxPath}/sendSms/doSend',
+				"data":{"id":$("#template").val(),"rd":rd,"phone":phone,
+					"supplierId":supplierId,"param1Val":$.trim($("#param1Val").val()),"param2Val":$.trim($("#param2Val").val()),"param3Val":$.trim($("#param3Val").val()),
+					"param4Val":$.trim($("#param4Val").val()),"param5Val":$.trim($("#param5Val").val()),"param5Val":$.trim($("#param5Val").val())},
+				"success":function(data,response){
+					if(data.success){
+						layer.msg(data.msg, 2, 1);
+					}else{
+						layer.msg(data.msg, 1, 1);
+					}
+				}
+			});
+			
+		});
+	});
+	
+</script>

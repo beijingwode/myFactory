@@ -1,0 +1,55 @@
+<div class="layer">
+    <div>
+		<label>商家</label>
+		<#select id="supplierId" width="70%" class="">
+			@for(item in supplierList){
+			<option value="${item.id! }">${item.comName! }</option>
+			@}
+		</#select>
+   </div>
+    <div>
+      <label>金额</label> <input type="text" id="value" placeholder="储值金额">
+   </div>
+    <div>
+      <label>备注</label> <input type="text" id="desc" placeholder="备注">
+   </div>
+    <div>
+   	  <button type="submit" class="btn btn-info btn-sm " onclick="bank()">储值</button>
+   </div>
+   <br>
+   <br>
+</div>
+
+<script type="text/javascript">
+	$(".chosen-select").removeAttr("class");
+	function bank(){
+		if($("#value").val()=='' || Number($("#value").val())<0){
+			alert("储值金额大于0");
+		}else{
+			$.ajax( {  
+			    url:'${ctxPath}/entBenefitFlow/bank',
+			    data:{"supplierId":$("#supplierId").val(),'value':$("#value").val(),"desrc":$("#desc").val()},  
+			    type:'post',
+			    cache:false,  
+			    dataType:'json',
+			    success:function() {
+					alert("储值成功");
+					
+					var $form = $("#search-form");
+					var pageNo = 1;
+					var pageNoInput = $form.find('input[name="pageNum"]');
+					if(pageNoInput.size() != 0){
+						pageNo = pageNoInput.val();
+					}
+					
+					//刷新页面
+					paging('search-form',pageNo);
+					layer.closeAll();
+			    },  
+			     error : function() {  
+			     } 
+			});
+	}
+	}
+
+</script>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserShareMapper">
+
+    <resultMap id="UserShare" type="com.wode.factory.model.UserShare">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userType" column="user_type"/>
+        <result property="userNick" column="user_nick"/>
+        <result property="userAvatar" column="user_avatar"/>
+        <result property="shareType" column="share_type"/>
+        <result property="shareTitle" column="share_title"/>
+        <result property="shareMsg1" column="share_msg1"/>
+        <result property="shareMsg2" column="share_msg2"/>
+        <result property="shareMsg3" column="share_msg3"/>
+        <result property="shareFooter1" column="share_footer1"/>
+        <result property="shareFooter2" column="share_footer2"/>
+        <result property="shareFooter3" column="share_footer3"/>
+        <result property="shareItemCnt" column="share_item_cnt"/>
+        <result property="createTime" column="create_time"/>
+        <result property="shareUrl" column="share_url"/>
+        <result property="nextAction" column="next_action"/>
+        <result property="imgUrl" column="img_url"/>
+        <result property="groupId" column="group_id"/>
+        <result property="wxTempQrUrl" column="wx_temp_qr_url"/>
+        <result property="wxTempLimitEnd" column="wx_temp_limit_end"/>
+        <result property="targetActionUrl" column="target_action_url"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,user_id,user_type,user_nick,user_avatar,share_type,share_title,share_msg1,share_msg2,share_msg3,share_footer1,share_footer2,share_footer3,share_item_cnt,
+        	create_time,share_url,next_action,img_url,group_id,wx_temp_qr_url,wx_temp_limit_end,target_action_url
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_share (
+            id ,
+            user_id ,
+            user_type ,
+            user_nick ,
+            user_avatar ,
+            share_type ,
+            share_title ,
+            share_msg1 ,
+            share_msg2 ,
+            share_msg3 ,
+            share_footer1 ,
+            share_footer2 ,
+            share_footer3 ,
+            share_item_cnt ,
+            create_time ,
+            share_url ,
+            next_action,
+            img_url,
+            group_id,
+            wx_temp_qr_url,
+            wx_temp_limit_end,
+            target_action_url
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{userType} ,
+            #{userNick} ,
+            #{userAvatar} ,
+            #{shareType} ,
+            #{shareTitle} ,
+            #{shareMsg1} ,
+            #{shareMsg2} ,
+            #{shareMsg3} ,
+            #{shareFooter1} ,
+            #{shareFooter2} ,
+            #{shareFooter3} ,
+            #{shareItemCnt} ,
+            #{createTime} ,
+            #{shareUrl} ,
+            #{nextAction},
+            #{imgUrl},
+            #{groupId},
+            #{wxTempQrUrl},
+            #{wxTempLimitEnd},
+            #{targetActionUrl}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_share SET            
+            user_id = #{userId} ,
+            user_type = #{userType} ,
+            user_nick = #{userNick} ,
+            user_avatar = #{userAvatar} ,
+            share_type = #{shareType} ,
+            share_title = #{shareTitle} ,
+            share_msg1 = #{shareMsg1} ,
+            share_msg2 = #{shareMsg2} ,
+            share_msg3 = #{shareMsg3} ,
+            share_footer1 = #{shareFooter1} ,
+            share_footer2 = #{shareFooter2} ,
+            share_footer3 = #{shareFooter3} ,
+            share_item_cnt = #{shareItemCnt} ,
+            create_time = #{createTime} ,
+            share_url = #{shareUrl} ,
+            next_action = #{nextAction} ,
+            img_url = #{imgUrl},
+            group_id = #{groupId}
+             
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_share WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserShare">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_share 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="UserShare">
+        SELECT <include refid="columns" /> FROM t_user_share 
+        <include refid="find_where"/>
+        ORDER BY create_time DESC
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(userType)">
+                AND user_type = #{userType}
+            </if>
+           <if test="@Ognl@isNotEmpty(userNick)">
+                AND user_nick = #{userNick}
+            </if>
+           <if test="@Ognl@isNotEmpty(userAvatar)">
+                AND user_avatar = #{userAvatar}
+            </if>
+           <if test="@Ognl@isNotEmpty(shareType)">
+                AND share_type = #{shareType}
+            </if>
+           <if test="@Ognl@isNotEmpty(shareTitle)">
+                AND share_title = #{shareTitle}
+            </if>
+           <if test="@Ognl@isNotEmpty(shareMsg1)">
+                AND share_msg1 = #{shareMsg1}
+            </if>
+           <if test="@Ognl@isNotEmpty(shareMsg2)">
+                AND share_msg2 = #{shareMsg2}
+            </if>
+           <if test="@Ognl@isNotEmpty(shareMsg3)">
+                AND share_msg3 = #{shareMsg3}
+            </if>
+           <if test="@Ognl@isNotEmpty(shareFooter1)">
+                AND share_footer1 = #{shareFooter1}
+            </if>
+           <if test="@Ognl@isNotEmpty(shareFooter2)">
+                AND share_footer2 = #{shareFooter2}
+            </if>
+           <if test="@Ognl@isNotEmpty(shareFooter3)">
+                AND share_footer3 = #{shareFooter3}
+            </if>
+           <if test="@Ognl@isNotEmpty(shareItemCnt)">
+                AND share_item_cnt = #{shareItemCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(groupId)">
+                AND group_id = #{groupId}
+            </if>
+            <if test="@Ognl@isNotEmpty(targetActionUrl)">
+                AND target_action_url IS NOT NULL
+            </if>
+        </where>
+    </sql>
+
+</mapper>

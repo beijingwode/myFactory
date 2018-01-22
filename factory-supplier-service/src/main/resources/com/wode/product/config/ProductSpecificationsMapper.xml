@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ProductSpecificationsMapper">
+
+	<resultMap id="ProductSpecifications" type="com.wode.factory.model.ProductSpecifications">
+        <result property="id" column="id"/>
+        <result property="productCode" column="product_code"/>
+        <result property="productId" column="product_id"/>
+        <result property="cost" column="cost"/>
+        <result property="marketPrice" column="market_price"/>
+        <result property="price" column="price"/>
+        <result property="stock" column="stock"/>
+        <result property="itemids" column="itemids"/>
+        <result property="itemValues" column="itemValues"/>
+        <result property="isDelete" column="isDelete"/>
+        <result property="warnnum" column="warnnum"/>
+        <result property="maxFucoin" column="maxFucoin"/>
+        <result property="sellnum" column="sellnum"/>
+        <result property="productName" column="name_product"/>
+        <result property="productImage" column="image_product"/>
+        <result property="lockQuantity" column="lockQuantity"/>
+        <result property="quantity" column="quantity"/>
+        <result property="warnQuantity" column="warnQuantity"/>
+        <result property="pSaleKbn" column="pSaleKbn"/>    
+        <result property="internalPurchasePrice" column="internal_purchase_price"/>
+        <result property="minLimitNum" column="min_limit_num"/>   
+        <result property="outerId" column="outer_id"/>   
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,product_code,product_id,cost,market_price,price,stock,itemids,isDelete,warnnum,itemValues,maxFucoin,sellnum,internal_purchase_price,min_limit_num,outer_id
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_specifications (
+        	id ,
+        	product_code ,
+        	product_id ,
+        	cost ,
+        	market_price ,
+        	price ,
+        	stock ,
+        	itemids,
+        	isDelete,
+        	warnnum,
+        	itemValues,
+        	maxFucoin,
+        	sellnum,
+        	internal_purchase_price,
+        	min_limit_num,
+        	outer_id
+        ) VALUES (
+        	#{id} ,
+        	#{productCode} ,
+        	#{productId} ,
+        	#{cost} ,
+        	#{marketPrice} ,
+        	#{price} ,
+        	#{stock} ,
+        	#{itemids},
+        	#{isDelete},
+        	#{warnnum},
+        	#{itemValues},
+        	#{maxFucoin},
+        	#{sellnum},
+        	#{internalPurchasePrice},
+        	#{minLimitNum},
+        	#{outerId}
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_product_specifications SET
+	        product_code = #{productCode} ,
+	        product_id = #{productId} ,
+	        cost = #{cost} ,
+	        market_price = #{marketPrice} ,
+	        price = #{price} ,
+	        stock = #{stock} ,
+	        itemids = #{itemids},
+	        isDelete = #{isDelete},
+	        warnnum = #{warnnum},
+	        itemValues = #{itemValues},
+	        maxFucoin = #{maxFucoin},
+	        sellnum=#{sellnum},
+	        internal_purchase_price = #{internalPurchasePrice},
+	        min_limit_num = #{minLimitNum},
+	        outer_id =  #{outerId}
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+	
+	<update id="removeAllByProductid" >
+    <![CDATA[
+        UPDATE t_product_specifications SET
+	        isDelete=#{isDelete}
+        WHERE 
+	        product_id = #{productid}
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_product_specifications WHERE
+        id = #{id}
+    ]]>
+    </delete>
+    <!-- 当在编辑商品删除时，删除其关联的信息 -->
+    <delete id="deleteApprRelation">
+    <![CDATA[
+        DELETE FROM t_product_specifications WHERE
+        product_id = #{productid}
+    ]]>
+    </delete>
+    <select id="getById" resultMap="ProductSpecifications">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_product_specifications 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+	
+	<select id="getlistByProductid" resultMap="ProductSpecifications">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_product_specifications 
+	        WHERE 
+		        product_id = #{id}  AND isDelete=0
+	    ]]>
+	</select>
+		
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_product_specifications 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ProductSpecifications">
+    	SELECT <include refid="columns" />
+	    FROM t_product_specifications 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(productCode)">
+				AND product_code = #{productCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(productId)">
+				AND product_id = #{productId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(cost)">
+				AND cost = #{cost}
+			</if>
+	       <if test="@Ognl@isNotEmpty(marketPrice)">
+				AND market_price = #{marketPrice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(price)">
+				AND price = #{price}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stock)">
+				AND stock = #{stock}
+			</if>
+			<if test="@Ognl@isNotEmpty(itemids)">
+				AND itemids = #{itemids}
+			</if>
+			<if test="@Ognl@isNotEmpty(isDelete)">
+				AND isDelete = #{isDelete}
+			</if>
+		</where>
+	</sql>
+	<!--  -->
+	<select id="getAllCount" resultType="long">
+       	SELECT count(*)
+		FROM t_product_specifications as tpss
+		LEFT JOIN t_product as product on tpss.product_id=product.id 
+		WHERE (tpss.isDelete=0 or tpss.isDelete is null) and product.is_marketable=1 and product.supplier_id=#{supplierId} 
+	 	<if test="@Ognl@isNotEmpty(name)">
+			AND product.name like CONCAT(CONCAT('%',#{name}),'%')
+		</if>
+		<if test="@Ognl@isNotEmpty(categoryid)">
+			AND product.categoryId=#{categoryid}
+		</if>
+    </select>
+	<select id="getPagelist" resultMap="ProductSpecifications">
+		SELECT tpss.*,product.name as name_product,product.image as image_product,product.sale_kbn pSaleKbn
+		FROM t_product_specifications as tpss
+		LEFT JOIN t_product as product on tpss.product_id=product.id 
+		WHERE (tpss.isDelete=0 or tpss.isDelete is null) and product.is_marketable=1 and product.supplier_id=#{supplierId} 
+	 	<if test="@Ognl@isNotEmpty(name)">
+			AND product.name like CONCAT(CONCAT('%',#{name}),'%')
+		</if>
+		<if test="@Ognl@isNotEmpty(categoryid)">
+			AND product.categoryId=#{categoryid}
+		</if>
+		ORDER BY product.createDate desc
+		LIMIT #{startnum},#{size}
+    </select>
+    
+    <select id="getProductSpecificationsById" resultMap="ProductSpecifications">
+		SELECT tpss.id,tpss.product_code,product.id as product_id,tpss.price,tpss.itemids,tpss.itemValues,product.name as name_product,product.image as image_product,inv.lockQuantity,inv.quantity,inv.warnQuantity
+		FROM t_product_specifications as tpss
+		LEFT JOIN t_product as product on tpss.product_id=product.id 
+		LEFT JOIN t_inventory as inv ON tpss.id = inv.productSpecificationsId
+		WHERE 
+		tpss.id = #{id}
+	</select>
+	
+	<!-- 根据productid查询规格 -->
+	<select id="getProductSpecificationsByProductId" resultMap="ProductSpecifications">
+		SELECT DISTINCT tpss.id,tpss.price, tpss.itemValues,product.name,tpsi.source mainImage,inv.quantity,tpss.internal_purchase_price,tpss.outer_id ,tpss.product_code 
+		FROM t_product_specifications as tpss
+		LEFT JOIN t_product as product on tpss.product_id=product.id 
+		LEFT JOIN t_inventory as inv ON tpss.id = inv.productSpecificationsId
+		LEFT JOIN t_product_specifications_image as tpsi ON tpss.id = tpsi.specifications_id
+		WHERE 
+		1=1 
+		<if test="@Ognl@isNotEmpty(productId)">
+			AND	tpss.product_id = #{productId}
+		</if>
+		<if test="@Ognl@isEmpty(productId) and @Ognl@isNotEmpty(pTitle)">
+			AND	product.full_name = #{pTitle}
+		</if>
+		<if test="@Ognl@isEmpty(productId) and @Ognl@isEmpty(pTitle)  and @Ognl@isNotEmpty(outerId) ">
+			AND	(product.outer_id = #{outerId} or product.barcode = #{outerId} )
+		</if>
+		  AND isDelete=0
+		AND product.supplier_id = #{supplierId} 
+	</select>
+	<select id="findSkuByProductNameAndItemValue" resultMap="ProductSpecifications">
+		SELECT DISTINCT tpss.*
+		FROM t_product_specifications as tpss
+		LEFT JOIN t_product as product on tpss.product_id=product.id
+		WHERE (tpss.isDelete=0 or tpss.isDelete is null)
+		and product.supplier_id=#{supplierId}
+		<if test="@Ognl@isNotEmpty(skuId)">
+				AND tpss.id= #{skuId}
+		</if>
+		<if test="@Ognl@isNotEmpty(productName)">
+			AND product.full_name = #{productName}
+		</if>
+		<if test="@Ognl@isEmpty(productId) and @Ognl@isEmpty(pTitle)  and @Ognl@isNotEmpty(outerId) ">
+			AND	(tpss.outer_id = #{outerId} or tpss.product_code = #{outerId} )
+		</if>
+		<if test="@Ognl@isNotEmpty(spec)">
+			AND tpss.itemValues like CONCAT(CONCAT('%',#{spec}),'%')
+		</if>
+	</select>
+</mapper>
+

@@ -1,0 +1,62 @@
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, iframe,h1, h2, h3, h4, h5, h6,p,pre,a,del, em, font, ins, q, s, samp,dl, dt, dd, ol, ul, li, form,label, legend, caption,textarea, tbody{ margin:0; padding:0; }
+
+body{font-size:62.5%;font-family:Arial, 'Microsoft YaHei', sans-serif;  width:100%;background:#e7ebee;}
+
+ol,ul,li {	list-style: none; }
+
+blockquote:before, blockquote:after,q:before, q:after {	content: ""; }
+
+blockquote, q { quotes: "" ""; }
+
+a img {	border: 0; }
+
+article, aside, details, figcaption, figure,
+
+footer, header, hgroup, menu, nav, section { display: block; }
+
+h1,h2,h3,h4,h5,h6{font-weight:700}
+
+strong{font-weight:700}
+
+cite,em{font-style:normal}
+
+i{font-style:italic}
+
+img,objiect{ max-width:100%;vertical-align:middle/* 此样式会控制前端图片属性所以去掉*/ }
+
+a { text-decoration:none; }
+
+input,textarea{ outline:0; resize:none;}
+@font-face{font-family: myFirstFont;src:url('font/hyqihei-45s_0-webfont.ttf'),url('font/hyqihei-45s_0-webfont.eot');}
+
+#main-cont{width:100%;margin:0 auto; position:relative}
+.top_box { width:100%; height:46px;overflow:hidden;position:fixed;z-index:9;left:0;}
+.top{width:100%;height:45px; margin:0 auto;background:#f8f8f8;position:relative;border-bottom:1px solid #a3a3a6;}
+.top a.aleft { background:url(../images/jt.png) no-repeat center center; width:12px; height:22px;  background-size:100%;display:block;float:left; margin:12px 0% 0 6%}
+.top h1 {width:100%;height:45px;font:1.8em/45px "Microsoft YaHei"; color:#333333; float:left;text-align:center;position:absolute;top:0;left:0; }
+.main-box{width: 100%;height: auto;overflow: hidden;position: absolute;top: 56px;}
+
+
+/*商家店铺*/
+.shop_banner{width:100%;height:auto;background:#f2f2f2;}
+.shop_banner img{width:100%;height:80px;}
+
+.shop_xq{height:auto;width:92%;padding:0 4%;}
+.shop_xq dl{height:70px;width:100%;position:relative;}
+.shop_xq dl dt{height:50px;width:50px;position:absolute;top:0%;left:50%;margin-left:-25px;margin-top:-25px;}
+.shop_xq dl dt img{height:100%;width:100%;}
+.shop_xq dl dd{height:25px;width:100%;text-align:center;line-height:25px;color:#98999a;position:absolute;top:35px;font-size:1.4em;}
+
+.sc_btn{height:30px;width:100%;}
+.sc_btn a{height:30px;width:30%;color:#98999a;display:block;text-align:center;line-height:30px;background:#fff;margin:0 auto;font-size:1.4em; border-radius:3px;}
+.sc_btn a i{padding-right:5px;}
+
+#shops_li{width:90%;padding:0 5%;margin-top:10px;}
+#shops_li li{padding:12px 0;border-top:1px solid #dee2e5;font-size:1.4em;overflow:hidden;color:#6b6a6f;}
+#shops_li li span{float:left;line-height:24px;}
+#shops_li li p{width:75%;float:left;overflow:hidden;line-height:24px;}
+#shops_li li a{width:75%;float:left;overflow:hidden;line-height:24px;background:url(../images/activity_shop_detail_imageview_phone_image.png) no-repeat right center;background-size:20px 22px;color:#6b6a6f;}
+
+

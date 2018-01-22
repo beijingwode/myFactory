@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ExchangeSuborderMapper">
+
+    <resultMap id="ExchangeSuborder" type="com.wode.factory.model.ExchangeSuborder">
+        <result property="subOrderId" column="subOrderId"/>
+        <result property="orderId" column="orderId"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="totalProduct" column="totalProduct"/>
+        <result property="totalShipping" column="totalShipping"/>
+        <result property="totalAdjustment" column="totalAdjustment"/>
+        <result property="realPrice" column="realPrice"/>
+        <result property="status" column="status"/>
+        <result property="expressNo" column="expressNo"/>
+        <result property="expressType" column="expressType"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="sendAddress" column="sendAddress"/>
+        <result property="returnedAddress" column="returnedAddress"/>
+        <result property="afterserviceStatus" column="afterserviceStatus"/>
+        <result property="commentStatus" column="commentStatus"/>
+        <result property="takeTime" column="takeTime"/>
+        <result property="userExetendCount" column="userExetendCount"/>
+        <result property="lasttakeTime" column="lasttakeTime"/>
+        <result property="sendTime" column="sendTime"/>
+        <result property="payTime" column="payTime"/>
+        <result property="closeReason" column="closeReason"/>
+        <result property="urgeNumber" column="urgeNumber"/>
+        <result property="urgeTime" column="urgeTime"/>
+        <result property="deleteFlag" column="deleteFlag"/>
+        <result property="returnOrderId" column="returnOrderId"/>
+        <result property="refundOrderId" column="refundOrderId"/>
+        <result property="refuseNote" column="refuseNote"/>
+        <result property="closeFlg" column="close_flg"/>
+        <result property="saleBillId" column="sale_bill_id"/>
+        <result property="cashPay" column="cashPay"/>
+        <result property="cashNo" column="cashNo"/>
+        <result property="thirdPay" column="thirdPay"/>
+        <result property="thirdType" column="thirdType"/>
+        <result property="thirdNo" column="thirdNo"/>
+        <result property="payConfirm" column="pay_confirm"/>
+        <result property="payConfirmDate" column="pay_confirm_date"/>
+        <result property="cancelTime" column="cancelTime"/>
+        <result property="stockUp" column="stock_up"/>
+        <result property="benefitType" column="benefit_type"/>
+        <result property="benefitAmount" column="benefit_amount"/>
+        <result property="companyTicket" column="companyTicket"/>
+        <result property="noto" column="noto"/>
+        <result property="invoiceItem" column="invoice_item"/>
+        <result property="invoiceStatus" column="invoice_status"/>
+        <result property="eCardInfo" column="e_card_info"/>
+        <result property="userId" column="user_id"/>
+        <result property="exchangeStatus" column="exchange_status"/>
+        <result property="relationId" column="relation_id"/>
+        <result property="freeSwap" column="free_swap"/>
+        <result property="batchId" column="batch_id"/>
+        <result property="limitTicketCnt" column="limit_ticket_cnt"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        subOrderId,orderId,supplierId,shop_id,totalProduct,totalShipping,totalAdjustment,realPrice,status,expressNo,
+        	expressType,createTime,updateTime,updateBy,sendAddress,returnedAddress,afterserviceStatus,commentStatus,
+        	takeTime,userExetendCount,lasttakeTime,sendTime,payTime,closeReason,urgeNumber,urgeTime,deleteFlag,returnOrderId,
+        	refundOrderId,refuseNote,close_flg,sale_bill_id,cashPay,cashNo,thirdPay,thirdType,thirdNo,pay_confirm,
+        	pay_confirm_date,cancelTime,stock_up,benefit_type,benefit_amount,companyTicket,noto,invoice_item,invoice_status,
+        	e_card_info,user_id,exchange_status,relation_id,free_swap,batch_id,limit_ticket_cnt
+        ]]>
+    </sql>
+    
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_exchange_suborder (
+            subOrderId ,
+            orderId ,
+            supplierId ,
+            shop_id ,
+            totalProduct ,
+            totalShipping ,
+            totalAdjustment ,
+            realPrice ,
+            status ,
+            expressNo ,
+            expressType ,
+            createTime ,
+            updateTime ,
+            updateBy ,
+            sendAddress ,
+            returnedAddress ,
+            afterserviceStatus ,
+            commentStatus ,
+            takeTime ,
+            userExetendCount ,
+            lasttakeTime ,
+            sendTime ,
+            payTime ,
+            closeReason ,
+            urgeNumber ,
+            urgeTime ,
+            deleteFlag ,
+            returnOrderId ,
+            refundOrderId ,
+            refuseNote ,
+            close_flg ,
+            sale_bill_id ,
+            cashPay ,
+            cashNo ,
+            thirdPay ,
+            thirdType ,
+            thirdNo ,
+            pay_confirm ,
+            pay_confirm_date ,
+            cancelTime ,
+            stock_up ,
+            benefit_type ,
+            benefit_amount ,
+            companyTicket ,
+            noto ,
+            invoice_item ,
+            invoice_status ,
+            e_card_info ,
+            user_id ,
+            exchange_status ,
+            relation_id,
+            free_swap,
+            limit_ticket_cnt
+        ) VALUES (
+            #{subOrderId} ,
+            #{orderId} ,
+            #{supplierId} ,
+            #{shopId} ,
+            #{totalProduct} ,
+            #{totalShipping} ,
+            #{totalAdjustment} ,
+            #{realPrice} ,
+            #{status} ,
+            #{expressNo} ,
+            #{expressType} ,
+            #{createTime} ,
+            #{updateTime} ,
+            #{updateBy} ,
+            #{sendAddress} ,
+            #{returnedAddress} ,
+            #{afterserviceStatus} ,
+            #{commentStatus} ,
+            #{takeTime} ,
+            #{userExetendCount} ,
+            #{lasttakeTime} ,
+            #{sendTime} ,
+            #{payTime} ,
+            #{closeReason} ,
+            #{urgeNumber} ,
+            #{urgeTime} ,
+            #{deleteFlag} ,
+            #{returnOrderId} ,
+            #{refundOrderId} ,
+            #{refuseNote} ,
+            #{closeFlg} ,
+            #{saleBillId} ,
+            #{cashPay} ,
+            #{cashNo} ,
+            #{thirdPay} ,
+            #{thirdType} ,
+            #{thirdNo} ,
+            #{payConfirm} ,
+            #{payConfirmDate} ,
+            #{cancelTime} ,
+            #{stockUp} ,
+            #{benefitType} ,
+            #{benefitAmount} ,
+            #{companyTicket} ,
+            #{noto} ,
+            #{invoiceItem} ,
+            #{invoiceStatus} ,
+            #{eCardInfo} ,
+            #{userId} ,
+            #{exchangeStatus} ,
+            #{relationId},
+            #{freeSwap},
+            #{limitTicketCnt}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_exchange_suborder SET     
+            orderId = #{orderId} ,
+            supplierId = #{supplierId} ,
+            shop_id = #{shopId} ,
+            totalProduct = #{totalProduct} ,
+            totalShipping = #{totalShipping} ,
+            totalAdjustment = #{totalAdjustment} ,
+            realPrice = #{realPrice} ,
+            status = #{status} ,
+            expressNo = #{expressNo} ,
+            expressType = #{expressType} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} ,
+            updateBy = #{updateBy} ,
+            sendAddress = #{sendAddress} ,
+            returnedAddress = #{returnedAddress} ,
+            afterserviceStatus = #{afterserviceStatus} ,
+            commentStatus = #{commentStatus} ,
+            takeTime = #{takeTime} ,
+            userExetendCount = #{userExetendCount} ,
+            lasttakeTime = #{lasttakeTime} ,
+            sendTime = #{sendTime} ,
+            payTime = #{payTime} ,
+            closeReason = #{closeReason} ,
+            urgeNumber = #{urgeNumber} ,
+            urgeTime = #{urgeTime} ,
+            deleteFlag = #{deleteFlag} ,
+            returnOrderId = #{returnOrderId} ,
+            refundOrderId = #{refundOrderId} ,
+            refuseNote = #{refuseNote} ,
+            close_flg = #{closeFlg} ,
+            sale_bill_id = #{saleBillId} ,
+            cashPay = #{cashPay} ,
+            cashNo = #{cashNo} ,
+            thirdPay = #{thirdPay} ,
+            thirdType = #{thirdType} ,
+            thirdNo = #{thirdNo} ,
+            pay_confirm = #{payConfirm} ,
+            pay_confirm_date = #{payConfirmDate} ,
+            cancelTime = #{cancelTime} ,
+            stock_up = #{stockUp} ,
+            benefit_type = #{benefitType} ,
+            benefit_amount = #{benefitAmount} ,
+            companyTicket = #{companyTicket} ,
+            noto = #{noto} ,
+            invoice_item = #{invoiceItem} ,
+            invoice_status = #{invoiceStatus} ,
+            e_card_info = #{eCardInfo} ,
+            user_id = #{userId} ,
+            exchange_status = #{exchangeStatus} ,
+            relation_id = #{relationId} ,
+            batch_id = #{batchId} ,
+            limit_ticket_cnt = #{limitTicketCnt}           
+        WHERE        
+            subOrderId = #{subOrderId}
+    ]]>
+    </update>
+
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_exchange_suborder WHERE
+        subOrderId = #{subOrderId}
+    ]]>
+    </delete>
+    <select id="getById" resultMap="ExchangeSuborder">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_exchange_suborder 
+            WHERE 
+                subOrderId = #{subOrderId}
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="ExchangeSuborder">
+        SELECT <include refid="columns" /> FROM t_exchange_suborder 
+        <include refid="find_where"/>
+    </select>
+    
+    <select id="findOrderTotalByMap" resultType="java.lang.Integer">
+        SELECT count(*) FROM t_exchange_suborder es left join t_exchange_suborderitem esi on es.subOrderId = esi.subOrderId
+        where es.status >= 1 and es.exchange_status=1
+        <if test="@Ognl@isNotEmpty(productId)">
+                AND esi.productId = #{productId}
+            </if>
+    </select>
+    
+    <select id="findReservedNumByMap" resultType="java.lang.Integer">
+        SELECT SUM(esi.number) FROM t_exchange_suborder es left join t_exchange_suborderitem esi on es.subOrderId = esi.subOrderId
+        where es.status >= 1 and es.exchange_status=1
+        <if test="@Ognl@isNotEmpty(productId)">
+                AND esi.productId = #{productId}
+            </if>
+    </select>
+    
+    <!-- 查询换领匹配中的商品list-->
+ 	<select id="findExchangeSubOrderItemByMap" resultType="com.wode.factory.company.query.ExchangeProductVo">
+       SELECT esi.itemValues itemValues,esi.number number,u.phone phone,
+       o.createTime createDate,su.nick_name nickname,su.com_name comName
+       from t_exchange_suborderitem esi 
+		LEFT join t_exchange_suborder es on es.subOrderId = esi.subOrderId  
+		LEFT join t_exchange_orders o on o.orderId = es.orderId 
+		LEFT JOIN t_user u on u.id = o.userId
+		LEFT join t_supplier su on su.id = u.supplierId
+        where es.status >= 1 and es.exchange_status=1
+        <if test="@Ognl@isNotEmpty(productId)">
+                AND esi.productId = #{productId}
+            </if>
+           <if test="@Ognl@isNotEmpty(startnum)">
+            LIMIT #{startnum},#{size}
+        </if>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(subOrderId)">
+                AND subOrderId = #{subOrderId}
+            </if>
+           <if test="@Ognl@isNotEmpty(orderId)">
+                AND orderId = #{orderId}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplierId = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopId)">
+                AND shop_id = #{shopId}
+            </if>
+           <if test="@Ognl@isNotEmpty(totalProduct)">
+                AND totalProduct = #{totalProduct}
+            </if>
+           <if test="@Ognl@isNotEmpty(totalShipping)">
+                AND totalShipping = #{totalShipping}
+            </if>
+           <if test="@Ognl@isNotEmpty(totalAdjustment)">
+                AND totalAdjustment = #{totalAdjustment}
+            </if>
+           <if test="@Ognl@isNotEmpty(realPrice)">
+                AND realPrice = #{realPrice}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(expressNo)">
+                AND expressNo = #{expressNo}
+            </if>
+           <if test="@Ognl@isNotEmpty(expressType)">
+                AND expressType = #{expressType}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND createTime = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND updateTime = #{updateTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateBy)">
+                AND updateBy = #{updateBy}
+            </if>
+           <if test="@Ognl@isNotEmpty(sendAddress)">
+                AND sendAddress = #{sendAddress}
+            </if>
+           <if test="@Ognl@isNotEmpty(returnedAddress)">
+                AND returnedAddress = #{returnedAddress}
+            </if>
+           <if test="@Ognl@isNotEmpty(afterserviceStatus)">
+                AND afterserviceStatus = #{afterserviceStatus}
+            </if>
+           <if test="@Ognl@isNotEmpty(commentStatus)">
+                AND commentStatus = #{commentStatus}
+            </if>
+           <if test="@Ognl@isNotEmpty(takeTime)">
+                AND takeTime = #{takeTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(userExetendCount)">
+                AND userExetendCount = #{userExetendCount}
+            </if>
+           <if test="@Ognl@isNotEmpty(lasttakeTime)">
+                AND lasttakeTime = #{lasttakeTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(sendTime)">
+                AND sendTime = #{sendTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(payTime)">
+                AND payTime = #{payTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(closeReason)">
+                AND closeReason = #{closeReason}
+            </if>
+           <if test="@Ognl@isNotEmpty(urgeNumber)">
+                AND urgeNumber = #{urgeNumber}
+            </if>
+           <if test="@Ognl@isNotEmpty(urgeTime)">
+                AND urgeTime = #{urgeTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(deleteFlag)">
+                AND deleteFlag = #{deleteFlag}
+            </if>
+           <if test="@Ognl@isNotEmpty(returnOrderId)">
+                AND returnOrderId = #{returnOrderId}
+            </if>
+           <if test="@Ognl@isNotEmpty(refundOrderId)">
+                AND refundOrderId = #{refundOrderId}
+            </if>
+           <if test="@Ognl@isNotEmpty(refuseNote)">
+                AND refuseNote = #{refuseNote}
+            </if>
+           <if test="@Ognl@isNotEmpty(closeFlg)">
+                AND close_flg = #{closeFlg}
+            </if>
+           <if test="@Ognl@isNotEmpty(saleBillId)">
+                AND sale_bill_id = #{saleBillId}
+            </if>
+           <if test="@Ognl@isNotEmpty(cashPay)">
+                AND cashPay = #{cashPay}
+            </if>
+           <if test="@Ognl@isNotEmpty(cashNo)">
+                AND cashNo = #{cashNo}
+            </if>
+           <if test="@Ognl@isNotEmpty(thirdPay)">
+                AND thirdPay = #{thirdPay}
+            </if>
+           <if test="@Ognl@isNotEmpty(thirdType)">
+                AND thirdType = #{thirdType}
+            </if>
+           <if test="@Ognl@isNotEmpty(thirdNo)">
+                AND thirdNo = #{thirdNo}
+            </if>
+           <if test="@Ognl@isNotEmpty(payConfirm)">
+                AND pay_confirm = #{payConfirm}
+            </if>
+           <if test="@Ognl@isNotEmpty(payConfirmDate)">
+                AND pay_confirm_date = #{payConfirmDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(cancelTime)">
+                AND cancelTime = #{cancelTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(stockUp)">
+                AND stock_up = #{stockUp}
+            </if>
+           <if test="@Ognl@isNotEmpty(benefitType)">
+                AND benefit_type = #{benefitType}
+            </if>
+           <if test="@Ognl@isNotEmpty(benefitAmount)">
+                AND benefit_amount = #{benefitAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(companyTicket)">
+                AND companyTicket = #{companyTicket}
+            </if>
+           <if test="@Ognl@isNotEmpty(noto)">
+                AND noto = #{noto}
+            </if>
+           <if test="@Ognl@isNotEmpty(invoiceItem)">
+                AND invoice_item = #{invoiceItem}
+            </if>
+           <if test="@Ognl@isNotEmpty(invoiceStatus)">
+                AND invoice_status = #{invoiceStatus}
+            </if>
+           <if test="@Ognl@isNotEmpty(eCardInfo)">
+                AND e_card_info = #{eCardInfo}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(exchangeStatus)">
+                AND exchange_status = #{exchangeStatus}
+            </if>
+           <if test="@Ognl@isNotEmpty(relationId)">
+                AND relation_id = #{relationId}
+            </if>
+           <if test="@Ognl@isNotEmpty(batchId)">
+                AND batch_id = #{batchId}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="page_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(subOrderId)">
+                AND subOrderId = #{subOrderId}
+            </if>
+           <if test="@Ognl@isNotEmpty(orderId)">
+                AND orderId = #{orderId}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplierId = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(exchangeStatus)">
+                AND exchange_status = #{exchangeStatus}
+            </if>
+        </where>
+    </sql>
+</mapper>

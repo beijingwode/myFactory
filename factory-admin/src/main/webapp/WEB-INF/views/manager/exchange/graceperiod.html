@@ -1,0 +1,54 @@
+<div class="layer" id="updateTemplateImg">
+		<input type="hidden" id="selId" value="${id}">
+		<table class="EditTable" width="100%">
+			<tbody>
+				<tr class="FormData">
+					<td class="center">延长期限</td>
+				</tr>
+				<tr class="FormData">
+					<td class="center">
+						<input type="radio" name="delay" value="1">一个月
+						<input type="radio" name="delay" value="3">三个月
+						<input type="radio" name="delay" value="5">半个月
+					</td>
+				</tr>
+			</tbody>
+		</table>
+</div>
+<div class="width-100 clearfix" tag-save-btn style="bottom: 0px; left: 0px; position: absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-50  pull-left" id="pageTemplate-save-save">
+			<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i> 确 定
+		</span>
+		<span class="btn btn-yellow btn-sm bigger-110 width-50 pull-right" id="pageTemplate-save-cancel">
+			<i class="ace-icon fa fa-times align-top  bigger-125"></i> 取 消
+		</span>
+</div>
+<script>
+	$("#pageTemplate-save-save").click(function(){
+		var reval = $('input:radio[name="delay"]:checked').val();
+		if(reval==undefined) return;
+		var selId = $("#selId").val();
+		$.ajax({
+			type: "post",
+			data:{"selId":selId,"delay":reval},
+			url: "${ctxPath}/exchange/exchangDelay",
+			async: false,
+			success:function(data){
+				if(data.success){
+					var pageNo = 1;
+					//刷新页面
+					paging('search-form',pageNo);
+					 layer.closeAll(); 
+				}else{
+					alert("系统错误");
+				}
+			},
+			error: function(){
+				alert("error")
+			}
+		})
+	});
+	$("#pageTemplate-save-cancel").click(function(){
+		 layer.closeAll(); 
+	});
+</script>

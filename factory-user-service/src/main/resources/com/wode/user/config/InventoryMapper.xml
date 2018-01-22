@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="InventoryMapper">
+
+	<resultMap id="Inventory" type="com.wode.factory.model.Inventory">
+        <result property="id" column="id"/>
+        <result property="productSpecificationsId" column="productSpecificationsId"/>
+        <result property="quantity" column="quantity"/>
+        <result property="lockQuantity" column="lockQuantity"/>
+        <result property="warnQuantity" column="warnQuantity"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,productSpecificationsId,quantity,lockQuantity,warnQuantity
+	    ]]>
+	</sql>
+
+	
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_inventory SET	      
+	        lockQuantity = #{lockQuantity} 	        
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+   
+    
+    <select id="getById" resultMap="Inventory">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_inventory 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+	
+	<select id="findBySpecId" resultMap="Inventory" parameterType="long">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_inventory 
+	        WHERE 
+		        productSpecificationsId = #{productSpecificationsId} 
+	    ]]>
+	</select>
+		
+   
+    
+	
+</mapper>
+

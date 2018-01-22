@@ -1,0 +1,84 @@
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, iframe,h1, h2, h3, h4, h5, h6,p,pre,a,del, em, font, ins, q, s, samp,dl, dt, dd, ol, ul, li, form,label, legend, caption,textarea, tbody{ margin:0; padding:0; }
+
+body{font-size:62.5%;font-family:Arial, 'Microsoft YaHei', sans-serif;  width:100%;background:#efeff4;-webkit-text-size-adjust: 100%!important;}
+
+ol,ul,li {	list-style: none; }
+
+blockquote:before, blockquote:after,q:before, q:after {	content: ""; }
+
+blockquote, q { quotes: "" ""; }
+
+a img {	border: 0; }
+
+article, aside, details, figcaption, figure,
+
+footer, header, hgroup, menu, nav, section { display: block; }
+
+h1,h2,h3,h4,h5,h6{font-weight:700}
+
+strong{font-weight:700}
+
+cite,em{font-style:normal}
+
+i{font-style:italic}
+
+img,objiect{ max-width:100%;vertical-align:middle/* 此样式会控制前端图片属性所以去掉*/ }
+
+a { text-decoration:none;border:none;-webkit-tap-highlight-color:transparent;outline:none;-webkit-touch-callout: none;-webkit-user-select: none; }
+a:focus {outline:none; -moz-outline:none}
+input,textarea{ outline:none; resize:none;-webkit-appearance:none;}
+map area {
+    outline: none;
+}
+
+.mainbody{width:100%;height:auto;overflow:hidden;position:relative;}
+.mainbody img{width:100%;height:100%;}
+.register_con{width:100%;height:auto;overflow:hidden;position:absolute;top:60%;left:0;}
+.register_con div{width:75%;height:32px;border-radius:15px;margin:0 auto;overflow:hidden;}
+.register_con .ipt_box{border:1px solid #8dc6c2;margin-bottom:15px;}
+.register_con .ipt_box span{width:41%;height:32px;padding-left:14%;line-height:32px;display:block;float:left;color:#8dc6c2;font-size:1.4em;}
+.register_con .ipt_box .span1{background:url(../images/yuyue/yuyue_icon1.png) no-repeat 8% center;background-size:17px 15px}
+.register_con .ipt_box .span2{background:url(../images/yuyue/yuyue_icon2.png) no-repeat 8% center;background-size:17px 15px}
+.register_con .ipt_box input{width:43%;height:32px;border:none;background:none;color:#8dc6c2;float:left;font-size:1.4em;}
+.register_con p{width:100%;height:20px;text-align:center;color:#ff4040;font-size:1.4em;}
+.register_con .btn{background:#fccb00;margin-top:10px;}
+.register_con .btn a{width:100%;height:32px;display:block;text-align:center;line-height:32px;font-size:1.6em;color:#121d27;}
+
+@media screen  and (max-width:414px){
+	.register_con .ipt_box span{width:33%;}
+ }
+ @media screen  and (max-width:375px){
+	.register_con .ipt_box span{width:35%;}
+ }
+@media screen  and (max-width:320px){
+	.register_con .ipt_box span{width:41%;}
+ }
+
+
+.register_con_suc{width:100%;height:auto;overflow:hidden;position:absolute;top:35%;left:0;}
+.register_con_suc p{width:100%;height:auto;overflow:hidden;text-align:center;}
+.register_con_suc p em{font-style:normal;font-size:1.8em;color:#f2c300;margin-right:5px;}
+.register_con_suc p span{font-size:1.8em;color:#97d2cd;}
+
+.suc_btn{width:100%;height:auto;overflow:hidden;position:absolute;bottom:20%;left:0;}
+.suc_btn a{width:30%;display:block;margin:0 auto;}
+.suc_btn a img{width:100%;} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

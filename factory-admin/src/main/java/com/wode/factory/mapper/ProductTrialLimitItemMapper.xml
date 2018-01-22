@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.ProductTrialLimitItemDao">
+
+    <resultMap id="ProductTrialLimitItem" type="com.wode.factory.model.ProductTrialLimitItem">
+        <result property="id" column="id"/>
+        <result property="productId" column="productid"/>
+        <result property="groupId" column="groupid"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,productid,groupid
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_trial_limit_item (
+            id ,
+            productid,
+            groupid
+        ) VALUES (
+            #{id} ,
+            #{productId} ,
+            #{groupId} 
+        )
+    ]]>
+    </insert>
+    
+    <delete id="deleteByGroupId">
+    delete from t_product_trial_limit_item where groupId=#{groupId}
+    </delete>
+    
+    <delete id="delProductById">
+    delete from t_product_trial_limit_item where id=#{id}
+    </delete>
+    
+    <select id="getGroupLimitProductByMap"  resultMap="ProductTrialLimitItem">
+	  select * from t_product_trial_limit_item
+	  where 1=1
+	 		<if test="@Ognl@isNotEmpty(productId)">
+                AND productid = #{productId}
+            </if>
+           	<if test="@Ognl@isNotEmpty(groupId)">
+                AND groupid = #{groupId}
+            </if>
+    </select>
+    <!-- 查询当前日期内所有有效分组内productId集合 -->
+    <select id="getValidGroupProductIdList"  resultMap="ProductTrialLimitItem">
+	  select DISTINCT(ti.productId) productId from t_product_trial_limit_item ti 
+	  where ti.groupid in (
+	  select lg.id from t_product_trial_limit_group lg where lg.status = 0 AND lg.limit_end >= SYSDATE() AND lg.limit_start &lt;= SYSDATE())
+    </select>
+    
+    <!-- 查询当前日期内指定分组内productId集合 -->
+    <select id="getAssignValidGroupProductIdList"  resultMap="ProductTrialLimitItem">
+    select DISTINCT(ti.productid) from t_product_trial_limit_item ti inner join t_product_trial_limit_group lg on ti.groupid=lg.id
+    where lg.limit_start &lt;= SYSDATE() AND lg.limit_end >= SYSDATE()
+	     <if test="@Ognl@isNotEmpty(groupId)">
+         AND lg.id = #{groupId}
+         </if>
+    </select>
+    
+    <select id="getGroupLimitProductList" resultType="com.wode.factory.vo.ProductTrialLimitItemProductVo">
+     select ti.id id,ti.productId productId,ti.groupId groupId,lg.`name` groupName,lg.operator groupOperator,
+    p.`name` name,s.com_name supplierName,p.image image,p.sale_kbn saleKbn,p.is_marketable isMarketable,p.locked locked,p.createDate createDate
+     from t_product_trial_limit_item ti inner join t_product p ON ti.productId = p.id
+	inner JOIN t_product_trial_limit_group lg on ti.groupid=lg.id inner join t_supplier s on p.supplier_id=s.id
+	 WHERE 1=1
+             <if test="@Ognl@isNotEmpty(id)">
+                AND lg.id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(name)">
+                AND p.name like CONCAT(CONCAT('%',#{name}),'%')
+            </if>
+           <if test="@Ognl@isNotEmpty(productId)">
+                AND p.id like CONCAT(CONCAT('%', #{productId}),'%')
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND s.id = #{supplierId}
+            </if>
+            order by p.createDate desc
+    </select>
+    
+    <select id="findSupplierByProductId" resultType="com.wode.factory.model.LimitSupplierVo">
+  	select DISTINCT(s.id) id,s.com_name supplierName from t_product_trial_limit_item ti 
+    inner join t_product p on ti.productId = p.id 
+    inner join t_supplier s on p.supplier_id= s.id 
+    </select>
+    
+    <select id="getListByProductId" resultMap="ProductTrialLimitItem">
+	    SELECT <include refid="columns" /> FROM t_product_trial_limit_item tpi
+        where tpi.groupid = (select tpli.groupid from t_product_trial_limit_item tpli where tpli.productid = #{productId}) 
+        and tpi.productid != #{productId}
+    </select>
+    
+    <select id="getTotalCount" resultType="java.lang.Integer">
+	    SELECT count(*) FROM t_product_trial_limit_item 
+        where groupid = #{groupid}
+    </select>
+    <select id="getProductTrialLimitItemByProductId" resultMap="ProductTrialLimitItem">
+	    SELECT ti.id id,ti.groupid groupId,ti.productid productId 
+	    FROM t_product_trial_limit_item ti 
+	    inner join t_product_trial_limit_group lg on ti.groupid=lg.id
+    	where lg.limit_start &lt;= SYSDATE() AND lg.limit_end >= SYSDATE()
+        and ti.productid = #{productId} and lg.status = 0
+    </select>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_product_trial_limit_item SET            
+            productid = #{productId} ,
+            groupid = #{groupId} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_product_trial_limit_item WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="ProductTrialLimitItem">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_product_trial_limit_item 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="ProductTrialLimitItem">
+          SELECT <include refid="columns" /> FROM t_product_trial_limit_item 
+	        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(productId)">
+                AND productid = #{productId}
+            </if>
+           <if test="@Ognl@isNotEmpty(groupId)">
+                AND groupid = #{groupId}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

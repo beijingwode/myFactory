@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ProductMapper">
+
+	<resultMap id="Product" type="com.wode.factory.model.Product">
+        <result property="id" column="id"/>
+        <result property="brandId" column="brand_id"/>
+        <result property="partnumber" column="partnumber"/>
+        <result property="fullName" column="full_name"/>
+        <result property="name" column="name"/>
+        <result property="promotion" column="promotion"/>
+        <result property="keyword" column="keyword"/>
+        <result property="unit" column="unit"/>
+        <result property="weight" column="weight"/>
+        <result property="type" column="type"/>
+        <result property="model" column="model"/>
+        <result property="showPrice" column="show_price"/>
+        <result property="introduction" column="introduction"/>
+        <result property="image" column="image"/>
+        <result property="isMarketable" column="is_marketable"/>
+        <result property="isRecomment" column="is_recomment"/>
+        <result property="status" column="status"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="marque" column="marque"/>
+        <result property="barcode" column="barcode"/>
+        <result property="roughWeight" column="rough_weight"/>
+        <result property="netWeight" column="net_weight"/>
+        <result property="length" column="length"/>
+        <result property="width" column="width"/>
+        <result property="height" column="height"/>
+        <result property="bulk" column="bulk"/>
+        <result property="hasSku" column="has_sku"/>
+        <result property="stockLockType" column="stock_lock_type"/>
+        <result property="province" column="province"/>
+        <result property="town" column="town"/>
+        <result property="county" column="county"/>
+        <result property="produceaddress" column="produceaddress"/>
+        <result property="carriage" column="carriage"/>
+        <result property="storeId" column="storeId"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="afterService" column="afterService"/>
+        <result property="sendProvince" column="sendProvince"/>
+        <result property="sendTown" column="sendTown"/>
+        <result property="sendCounty" column="sendCounty"/>
+        <result property="sendAddress" column="sendAddress"/>
+        <result property="minprice" column="minprice"/>
+        <result property="maxprice" column="maxprice"/>
+        <result property="allnum" column="allnum"/>
+        <result property="sellNum" column="sell_num"/>
+        <result property="limitCnt" column="limit_cnt"/>
+        <result property="areasName" column="areas_name"/>
+        <result property="areasCode" column="areas_code"/>
+        <result property="commentCount" column="comment_count"/>
+        <result property="saleKbn" column="sale_kbn"/>
+        <result property="saleNote" column="sale_note"/>
+        <result property="limitKbn" column="limit_kbn"/>  
+        <result property="empPrice" column="emp_price"/>
+        <result property="empCash" column="emp_cash"/>
+        <result property="empLevel" column="emp_level"/> 
+        <result property="questionnaireId" column="questionnaire_id"/>
+        <result property="selfType" column="self_type"/>
+        <result property="selfTime" column="self_time"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,brand_id,partnumber,full_name,name,promotion,keyword,unit,weight,type,model,show_price,introduction,image,is_marketable,is_recomment,status,
+			supplier_id,shop_id,createDate,updateDate,marque,barcode,rough_weight,net_weight,length,width,height,bulk,has_sku,stock_lock_type,province,
+			town,county,produceaddress,carriage,storeId,categoryId,afterService,sendProvince,sendTown,sendCounty,sendAddress,minprice,maxprice,allnum,
+			sell_num,limit_cnt,areas_name,areas_code,comment_count,sale_kbn,sale_note,limit_kbn,emp_price,emp_cash,emp_level,questionnaire_id,self_type,self_time
+	    ]]>
+	</sql>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_product 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="Product">
+    	SELECT <include refid="columns" />
+	    FROM t_product 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+    <select id="getById" resultMap="Product">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_product 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+	
+    <select id="getQuestionnaireId" resultType="Long">
+		SELECT questionnaire_id
+		FROM t_product
+		WHERE id = #{id} 
+    </select>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_product SET	       
+	        updateDate = #{updateDate} ,	              
+	        allnum = #{allnum} ,
+	        sell_num = #{sellNum} ,
+	        comment_count = #{commentCount}
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(brandId)">
+				AND brand_id = #{brandId}
+			</if>
+	      
+	       <if test="@Ognl@isNotEmpty(partnumber)">
+				AND partnumber = #{partnumber}
+			</if>
+	       <if test="@Ognl@isNotEmpty(fullName)">
+				AND full_name = #{fullName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(name)">
+				AND name = #{name}
+			</if>
+	       <if test="@Ognl@isNotEmpty(promotion)">
+				AND promotion = #{promotion}
+			</if>
+	       <if test="@Ognl@isNotEmpty(keyword)">
+				AND keyword = #{keyword}
+			</if>
+	       <if test="@Ognl@isNotEmpty(unit)">
+				AND unit = #{unit}
+			</if>
+	       <if test="@Ognl@isNotEmpty(weight)">
+				AND weight = #{weight}
+			</if>
+	       <if test="@Ognl@isNotEmpty(type)">
+				AND type = #{type}
+			</if>
+	       <if test="@Ognl@isNotEmpty(model)">
+				AND model = #{model}
+			</if>
+	       <if test="@Ognl@isNotEmpty(showPrice)">
+				AND show_price = #{showPrice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(introduction)">
+				AND introduction = #{introduction}
+			</if>
+	       <if test="@Ognl@isNotEmpty(image)">
+				AND image = #{image}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isMarketable)">
+				AND is_marketable = #{isMarketable}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isRecomment)">
+				AND is_recomment = #{isRecomment}
+			</if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(supplierId)">
+				AND supplier_id = #{supplierId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(shopId)">
+				AND shop_id = #{shopId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createDateBegin)">
+				AND createDate >= #{createDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createDateEnd)">
+				AND createDate &lt;= #{createDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateDateBegin)">
+				AND updateDate >= #{updateDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateDateEnd)">
+				AND updateDate &lt;= #{updateDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(marque)">
+				AND marque = #{marque}
+			</if>
+	       <if test="@Ognl@isNotEmpty(barcode)">
+				AND barcode = #{barcode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(roughWeight)">
+				AND rough_weight = #{roughWeight}
+			</if>
+	       <if test="@Ognl@isNotEmpty(netWeight)">
+				AND net_weight = #{netWeight}
+			</if>
+	       <if test="@Ognl@isNotEmpty(length)">
+				AND length = #{length}
+			</if>
+	       <if test="@Ognl@isNotEmpty(width)">
+				AND width = #{width}
+			</if>
+	       <if test="@Ognl@isNotEmpty(height)">
+				AND height = #{height}
+			</if>
+	       <if test="@Ognl@isNotEmpty(bulk)">
+				AND bulk = #{bulk}
+			</if>
+	       <if test="@Ognl@isNotEmpty(hasSku)">
+				AND has_sku = #{hasSku}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stockLockType)">
+				AND stock_lock_type = #{stockLockType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(province)">
+				AND province = #{province}
+			</if>
+	       <if test="@Ognl@isNotEmpty(town)">
+				AND town = #{town}
+			</if>
+	       <if test="@Ognl@isNotEmpty(county)">
+				AND county = #{county}
+			</if>
+	       <if test="@Ognl@isNotEmpty(produceaddress)">
+				AND produceaddress = #{produceaddress}
+			</if>
+	       <if test="@Ognl@isNotEmpty(carriage)">
+				AND carriage = #{carriage}
+			</if>
+	       <if test="@Ognl@isNotEmpty(storeId)">
+				AND storeId = #{storeId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(categoryId)">
+				AND categoryId = #{categoryId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(afterService)">
+				AND afterService = #{afterService}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sendProvince)">
+				AND sendProvince = #{sendProvince}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sendTown)">
+				AND sendTown = #{sendTown}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sendCounty)">
+				AND sendCounty = #{sendCounty}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sendAddress)">
+				AND sendAddress = #{sendAddress}
+			</if>
+	       <if test="@Ognl@isNotEmpty(minprice)">
+				AND minprice = #{minprice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(maxprice)">
+				AND maxprice = #{maxprice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(allnum)">
+				AND allnum = #{allnum}
+			</if>
+		</where>
+	</sql>
+	 <!-- 根据userId查询收藏总数 -->
+	<select id="findByShop" resultMap="Product">
+		select <include refid="columns" /> from t_product where supplier_id=#{supplierId} and  shop_id=#{shopId} and is_marketable=1 and (self_type!=2 AND self_type!=1) order by createDate desc limit 0,8 ;
+	</select>
+	
+	 <!-- 根据userId查询收藏总数 -->
+	<select id="getBrandLevel" resultType="Long">
+		select pb.category_id from t_product_brand pb INNER JOIN t_shop s ON(pb.shop_id=s.id)  where pb.name=#{name} OR pb.nameEN=#{name} limit 1;
+	</select>
+</mapper>
+

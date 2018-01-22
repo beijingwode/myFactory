@@ -1,0 +1,127 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/cmsPage/dataList" method="post" id="search-form" target="list-page" class="center clearfix">
+					<input type="hidden" name="payType" value="2">
+					<div class="row col-sm-12">
+						<div class="col-sm-4">
+							<label>渠道：</label>
+							<select name="channel" id="channel" onchange="getPages()">
+								@if(channel == 1){
+									<option value="1" selected="selected">pc</option>
+									<option value="2">微信/APP</option>
+								@} else{
+									<option value="1">pc</option>
+									<option value="2" selected="selected">微信/APP</option>
+								@}
+							</select>
+						</div>
+						<div class="col-sm-4">
+							<label>所属页面：</label>
+							<select name="pageId" id="pageId" onchange="getSections()">
+								<option value="">全部</option>
+								@for(item in plist){
+									@if(item.id == pid){
+									<option value="${item.id! }" selected="selected" >${item.title! }</option>
+									@} else{
+									<option value="${item.id! }" >${item.title! }</option>
+									@}
+								@}
+							</select>
+						</div>
+						<div class="col-sm-4">
+							<label>所属位置：</label>
+							<select name="sectionId" id="sectionId">
+								<option value="">全部</option>
+							</select>
+						</div>
+					</div>
+					<div class="row padding-tb-10">
+						<div class="col-sm-4">
+							<label>楼层单品tab：</label>
+							<select class="width-50" id="tab" name="ex1Value" id="ex1Value">
+								<option value="" selected>请选择</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+	      					</select>
+						</div>
+						<div class="col-sm-4">
+							<label>链接（商品ID）：</label>
+							<input type="text" class="width-50" name="link" />
+						</div>
+					</div>
+					<div class="padding-trb-10 col-sm-12">
+							<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">全部</span>
+							<span class="btn btn-info btn-sm col-sm-6" id="search-btn">查询</span>
+							
+					</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+	</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script>
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	
+	function getPages()
+	{
+		$.ajax( {  
+		    url:'${ctxPath}/cmsPage/getPages?channel='+$("#channel").val(),
+		    type:'post',
+		    dataType:'json',
+		    success:function(data) {
+				var html='<option value="">全部</option>';
+		    	//再添加
+		    	for(var i =0;i<data.length;i++){
+		    		html += '<option value="'+ data[i].id +'">'+ data[i].title +'</option>';
+		    	}
+		    	
+		    	$("#pageId").html(html);
+		    	
+		    	getSections();
+		    },  
+		     error : function() {  
+		     }  
+		});
+	}
+	
+	function getSections()
+	{
+		var pid= $("#pageId").val();
+		if(pid!="") {
+			$.ajax( {  
+			    url:'${ctxPath}/cmsPage/getSections?pid='+pid,
+			    type:'post',
+			    dataType:'json',
+			    success:function(data) {
+					var html='<option value="">全部</option>';
+			    	//再添加
+			    	for(var i =0;i<data.length;i++){
+			    		html += '<option value="'+ data[i].id +'">'+ data[i].title +'</option>';
+			    	}
+			    	
+			    	$("#sectionId").html(html);
+			    },  
+			     error : function() {  
+			     }  
+			});
+		} else {
+	    	$("#sectionId").html('<option value="">全部</option>');
+		}		
+	}
+	getSections();
+</script>

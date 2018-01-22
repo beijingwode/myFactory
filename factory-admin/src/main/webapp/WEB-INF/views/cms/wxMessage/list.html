@@ -1,0 +1,133 @@
+<table class="table table-striped table-bordered table-hover nomargin-bottom">
+	<thead>
+		<tr>
+			<th class="center">事件</th>
+			<th class="center">类型</th>
+			<th class="center">标题</th>
+			<th class="center">图片</th>
+			<th class="center">描述</th>
+			<th class="center">链接</th>
+			<th class="center">状态</th>
+			<th class="center">开始日期</th>
+			<th class="center">结束日期</th>
+			<th class="center">操作</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@for(item in page.list){
+			<tr>
+				<td class="center">
+				@if(item.eventType == "company"){
+					员工绑定
+				@}else if(item.eventType == "share"){
+					好友邀请（一起购）
+				@}else if(item.eventType == "autoBuyC"){
+					员工绑定（自动下单）
+				@}else if(item.eventType == "autoBuyU"){
+					好友邀请（自动下单）
+				@}else if(item.eventType == "ticketE"){
+					员工获得换领币
+				@}else {
+					普通关注
+				@}
+				</td>
+				<td class="center">
+				@if(item.msgType == "1"){
+					默认
+				@}else {
+					临时
+				@}
+				</td>
+				<td class="center">${item.title!}</td>
+				<td class="center">
+					<a href="${item.picUrl!}" target="_blank" id="picUrl">
+		  			<img id="picUrl"  src="${item.picUrl!}" style="width:100px;height: 50px"/>
+		  		</a>
+				</td>
+				<td class="center">${item.description!}</td>
+				<td class="center"><a href="${item.linkUrl!}">${item.linkUrl!}</a></td>
+				<td class="center">
+				@if(item.status == 1){
+					使用中
+				@}else if(item.status == 0) {
+					未使用
+				@}else{
+					手动停用
+				@}
+				</td>
+				<td class="center">${item.limitStart!,dateFormat="yyyy-MM-dd "}</td>
+				<td class="center">${item.limitEnd!,dateFormat="yyyy-MM-dd "}</td>
+				<td class="center">
+					<div class="hidden-sm hidden-xs action-buttons">
+					
+						@if(item.eventType == "company"){
+						<a class="green" href="javascript:void(0);" title="编辑"
+							data-mode="page" data-title="员工绑定 推送消息 编辑"
+							data-url="${ctxPath}/wxMessage/edit"
+							data-data="{id:'${item.id}'}" data-width="50%">
+							<i class="ace-icon fa fa-pencil bigger-130"></i>
+						</a>
+						@}else if(item.eventType == "share"){							
+						<a class="green" href="javascript:void(0);" title="编辑"
+							data-mode="page" data-title="好友邀请（一起购） 推送消息 编辑"
+							data-url="${ctxPath}/wxMessage/edit"
+							data-data="{id:'${item.id}'}" data-width="50%">
+							<i class="ace-icon fa fa-pencil bigger-130"></i>
+						</a>
+						@}else {			
+						<a class="green" href="javascript:void(0);" title="编辑"
+							data-mode="page" data-title="普通关注 推送消息 编辑"
+							data-url="${ctxPath}/wxMessage/edit"
+							data-data="{id:'${item.id}'}" data-width="50%">
+							<i class="ace-icon fa fa-pencil bigger-130"></i>
+						</a>
+						@}
+						
+						@if(item.status == 1){
+						<a class="red taskAct" href="javascript:void(0);" title="停止"
+							data-data="${item.id}" act="stop">
+							<i class="ace-icon fa fa-stop bigger-130"></i>
+						</a>
+						@}else{
+							<a class="red taskAct" href="javascript:void(0);" title="启动"  
+							data-data="${item.id}" act="start">
+							<i class="ace-icon fa fa-bolt bigger-130"></i>
+							</a>
+						@}
+					</div>
+			</tr>
+		@}
+	</tbody>
+</table>
+<div class="space-8"></div>
+<#paginate page="${page}"/>
+<script>	
+$(".taskAct").on("click",function(){
+	//询问框
+	var tt=$(this).attr("title");
+	var act=$(this).attr("act");
+	var param={id:$(this).attr("data-data")};
+	layer.confirm('确认'+tt+'？',function(){
+		$.ajax({
+			url:"${ctxPath}/wxMessage/"+act,
+			data:param,
+			type:'post',
+			beforeSend:function(){
+				loadi = layer.load(5,0);
+			}
+		}).done(function(data){
+			layer.close(loadi);
+			if(data.success) {
+				layer.msg(tt+'成功',1, 1, function(){
+				    location.reload(); //自动关闭后可做一些刷新页面等操作
+				});
+			}else {
+				layer.alert('<span class="red bigger-120">失败，'+data.msg+'</span>', 8, !1);
+			}
+		}).fail(function(error){
+			layer.msg('<span class="red bigger-120">'+tt+'失败</span>', 2, 8);
+		});
+	},"确认");
+})
+</script>

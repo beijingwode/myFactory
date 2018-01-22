@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserContactsMapper">
+
+    <resultMap id="UserContacts" type="com.wode.factory.user.model.UserContacts">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="contactsId" column="contacts_id"/>
+        <result property="contactsMemo" column="contacts_memo"/>
+        <result property="contactsDesc" column="contacts_desc"/>
+        <result property="contactsTags" column="contacts_tags"/>
+        <result property="contactsImg" column="contacts_img"/>
+        <result property="optEx1" column="opt_ex1"/>
+        <result property="optEx2" column="opt_ex2"/>
+        <result property="optEx3" column="opt_ex3"/>
+        <result property="createTime" column="create_time"/>
+        <result property="apprFrom" column="appr_from"/>
+        <result property="contactsImId" column="contacts_im_id"/>
+        <result property="firendType" column="firend_type"/>
+    </resultMap>
+
+    <resultMap id="UserContactsVo" type="com.wode.factory.user.vo.UserContactsVo">
+        <result property="id" column="id"/>
+        <result property="userid" column="user_id"/>
+        <result property="nickname" column="contacts_memo"/>
+        <result property="employeeid" column="contacts_id"/>
+        <result property="memo" column="contacts_memo"/>
+    </resultMap>
+    
+    <resultMap id="ContactsVo" type="com.wode.factory.user.vo.ContactsVo">
+        <result property="userId" column="userId"/>
+        <result property="nickname" column="nickname"/>
+        <result property="userType" column="userType"/>
+        <result property="relationType" column="relationType"/>
+        <result property="imUser" column="imUser"/>
+        <result property="appType" column="appType"/>
+        <result property="appKey" column="appKey"/>
+        <result property="avatar" column="avatar"/>
+        <result property="birthDay" column="birthday"/>
+        <result property="username" column="username"/>
+        <result property="gender" column="gender"/>
+        <result property="userNote" column="userNote"/>
+        <result property="duty" column="duty"/>
+        <result property="phone" column="phone"/>
+        <result property="workName" column="workName"/>
+        <result property="hideInfo" column="hideInfo"/>
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,user_id,contacts_id,contacts_memo,contacts_desc,contacts_tags,contacts_img,opt_ex1,opt_ex2,opt_ex3,create_time,appr_from,contacts_im_id,firend_type
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_contacts (
+            id ,
+            user_id ,
+            contacts_id ,
+            contacts_memo ,
+            contacts_desc ,
+            contacts_tags ,
+            contacts_img ,
+            opt_ex1 ,
+            opt_ex2 ,
+            opt_ex3 ,
+            create_time ,
+            appr_from,
+            contacts_im_id,
+            firend_type
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{contactsId} ,
+            #{contactsMemo} ,
+            #{contactsDesc} ,
+            #{contactsTags} ,
+            #{contactsImg} ,
+            #{optEx1} ,
+            #{optEx2} ,
+            #{optEx3} ,
+            #{createTime} ,
+            #{apprFrom},
+            #{contactsImId},
+            #{firendType}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_contacts SET            
+            user_id = #{userId} ,
+            contacts_id = #{contactsId} ,
+            contacts_memo = #{contactsMemo} ,
+            contacts_desc = #{contactsDesc} ,
+            contacts_tags = #{contactsTags} ,
+            contacts_img = #{contactsImg} ,
+            opt_ex1 = #{optEx1} ,
+            opt_ex2 = #{optEx2} ,
+            opt_ex3 = #{optEx3} ,
+            create_time = #{createTime} ,
+            appr_from = #{apprFrom} ,
+            contacts_im_id = #{contactsImId} ,
+            firend_type = #{firendType} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_contacts WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserContacts">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_contacts 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="UserContacts">
+        SELECT <include refid="columns" /> FROM t_user_contacts 
+        <include refid="find_where"/>
+    </select>
+
+    <select id="selectVoByModel" resultMap="UserContactsVo">
+        SELECT <include refid="columns" /> FROM t_user_contacts 
+        <include refid="find_where"/>
+    </select>
+    
+    <select id="selectFriendWithIm" resultMap="ContactsVo">
+        SELECT uc.contacts_id userId,uc.firend_type relationType,im.openim_id imUser,im.app_type appType,im.app_key appKey,uc.contacts_memo userNote
+        FROM t_user_contacts uc
+        LEFT JOIN t_user_im im ON(im.user_id=uc.contacts_id AND im.app_type="user")
+        WHERE uc.user_id = #{userId}
+        <if test="@Ognl@isNotEmpty(firendType)">
+             AND uc.firend_type = #{firendType}
+         </if>
+        <if test="@Ognl@isNotEmpty(friendId)">
+             AND uc.contacts_id = #{friendId}
+         </if>
+    </select>
+    
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(contactsId)">
+                AND contacts_id = #{contactsId}
+            </if>
+           <if test="@Ognl@isNotEmpty(contactsMemo)">
+                AND contacts_memo = #{contactsMemo}
+            </if>
+           <if test="@Ognl@isNotEmpty(contactsDesc)">
+                AND contacts_desc = #{contactsDesc}
+            </if>
+           <if test="@Ognl@isNotEmpty(contactsTags)">
+                AND contacts_tags = #{contactsTags}
+            </if>
+           <if test="@Ognl@isNotEmpty(contactsImg)">
+                AND contacts_img = #{contactsImg}
+            </if>
+           <if test="@Ognl@isNotEmpty(optEx1)">
+                AND opt_ex1 = #{optEx1}
+            </if>
+           <if test="@Ognl@isNotEmpty(optEx2)">
+                AND opt_ex2 = #{optEx2}
+            </if>
+           <if test="@Ognl@isNotEmpty(optEx3)">
+                AND opt_ex3 = #{optEx3}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(apprFrom)">
+                AND appr_from = #{apprFrom}
+            </if>
+           <if test="@Ognl@isNotEmpty(firendType)">
+                AND firend_type = #{firendType}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

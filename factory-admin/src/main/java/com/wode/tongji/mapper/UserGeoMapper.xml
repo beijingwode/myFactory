@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wode.tongji.mapper.UserGeoMapper" >
+  <resultMap id="BaseResultMap" type="com.wode.tongji.model.UserGeo" >
+    <id column="city" property="city" jdbcType="CHAR" />
+    <result column="regist_number" property="registNumber" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    city, regist_number, update_time
+  </sql>
+  <!-- 根据主键查询 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_geo
+    where city = #{city,jdbcType=CHAR}
+  </select>
+  <!-- 查询所有的城市信息 -->
+  <select id="selectAllCity" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_geo
+  </select>
+  <!-- 查询注册量最大值 -->
+  <select id="selectMaxRegistNumber" resultType="java.lang.Long">
+    select 
+    regist_number
+    from t_user_geo
+    order by regist_number desc limit 0,1
+  </select>
+  <!-- 查询注册量最小值 -->
+  <select id="selectMinRegistNumber" resultType="java.lang.Long">
+    select 
+    regist_number
+    from t_user_geo
+    order by regist_number asc limit 0,1
+  </select>
+  <!-- 查询注册量最大的几个城市-->
+  <select id="selectRegistNumberMaxCity" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_geo
+    order by regist_number desc,update_time asc limit 0,5
+  </select>
+  
+  <insert id="insertSelective" parameterType="com.wode.tongji.model.UserGeo" >
+    insert into t_user_geo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="registNumber != null" >
+        regist_number,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="city != null" >
+        #{city,jdbcType=CHAR},
+      </if>
+      <if test="registNumber != null" >
+        #{registNumber,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wode.tongji.model.UserGeo" >
+    update t_user_geo
+    <set >
+      <if test="registNumber != null" >
+        regist_number = #{registNumber,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where city = #{city,jdbcType=CHAR}
+  </update>
+</mapper>

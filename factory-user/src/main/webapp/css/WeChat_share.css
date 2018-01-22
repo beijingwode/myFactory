@@ -1,0 +1,16 @@
+@charset "utf-8";
+/* CSS Document */
+
+.main-cont{width:100%;margin:0 auto;background:#FFF;padding:0 0 20px 0}
+.con_box{width:94%;height:auto;margin:0 auto;padding-top:18px;}
+.con_box h3{font-size:1.6em;line-height:25px;}
+.con_box p{font-size:1.4em;line-height:25px;margin:10px 0;}
+.con_box img{width:100%;margin:5px 0 0 0;}
+.con_box .ewm_img{width:100%;text-align:center;}
+.con_box .ewm_img p{width:100%;height:30px;text-align:center;color:#ccc;}
+.con_box .ewm_img p span{color:#F00}
+
+
+
+
+

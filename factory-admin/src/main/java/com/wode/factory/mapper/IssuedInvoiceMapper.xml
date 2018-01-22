@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.IssuedInvoiceDao">
+
+	<resultMap id="IssuedInvoice" type="com.wode.factory.model.IssuedInvoice">
+		<result property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="invoice" column="invoice" />
+		<result property="seller" column="seller" />
+		<result property="suborderid" column="suborderid" />
+		<result property="electronicInvoice" column="electronic_invoice" />
+		<result property="paperInvoice" column="paper_invoice" />
+		<result property="price" column="price" />
+		<result property="createtime" column="createtime" />
+		<result property="type" column="type" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,title,invoice,seller,price,createtime,suborderid,electronic_invoice,paper_invoice,type
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_issued_invoice (
+        	id,
+            title,
+            invoice,
+            seller,
+            price,
+            createtime,
+            suborderid,
+            electronic_invoice,
+            paper_invoice,
+            type
+        ) VALUES (
+        	#{id},
+            #{title},
+            #{invoice},
+            #{seller},
+            #{price},
+            #{createtime},
+            #{suborderid},
+            #{electronicInvoice},
+            #{paperInvoice},
+            #{type}
+        )
+    ]]>
+	</insert>
+
+	<update id="update">
+    <![CDATA[
+        UPDATE t_issued_invoice SET
+	        invoice = #{invoice},
+            seller = #{seller},
+            price = #{price},
+            title = #{title}, 
+            electronic_invoice = #{electronicInvoice},
+            paper_invoice = #{paperInvoice},
+            type = #{type}
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+
+	<select id="getIssuedInvoice" resultMap="IssuedInvoice">
+		SELECT
+		<include refid="columns" />
+	    <![CDATA[
+		    FROM t_issued_invoice 
+	        WHERE 
+		        suborderid = #{suborderId} 
+	    ]]>
+	</select>
+
+</mapper>
+

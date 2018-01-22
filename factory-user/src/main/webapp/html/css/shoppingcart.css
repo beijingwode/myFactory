@@ -1,0 +1,166 @@
+@charset "utf-8";
+/* CSS Document */
+/*****************************************我的购物车页 begin************************************************/
+/*content*/
+#middle { width:100%; margin:0 auto; background:#f5f5f5; }
+.middle_content { width:990px; margin:0 auto; padding-bottom:26px; }
+.cart_hd { width:100%; margin:0 auto; height:44px; padding-top:8px; }
+.cart_hd h2 { font:22px/44px "Microsoft YaHei"; color:#6a6a6a; }
+.cart_info { width:100%; margin:0 auto; background:#fff; }
+.cart_thead { padding:22px 20px 0; height:32px; }
+.cart_thead .column { width:95px; height:32px; float:left; text-align:center; font:12px/32px "Microsoft YaHei"; color:#6a6a6a; }
+.cart_thead .t_checkbox { width:57px; line-height:normal; text-align:left; }
+.cart_thead .t_checkbox input { width:12px; height:12px; vertical-align:middle; }
+.cart_thead .t_checkbox label { line-height:32px; }
+.cart_thead .t_goods { width:332px; }
+.cart_thead .t_price { width:112px; }
+.cart_thead .t_quantity { width:120px; }
+.cart_thead .t_amount { width:114px; }
+.cart_thead .t_inventory { width:115px; text-align:left; }
+.cart_thead .t_action { width:100px; }
+.product_list_wrap { width:100%; padding-bottom:10px; border-top:1px solid #e5e5e5; border-bottom:2px solid #f9fafb; }
+.product_list { width:930px; padding:0 30px; }
+.product_itemhead { width:100%; height:36px; margin-top:9px; }
+.product_itemhead input { width:12px; height:12px; vertical-align:middle; background:#fff; border:1px solid #e5e5e5; display:inline; }
+.product_itemhead label { font:12px/36px "Microsoft YaHei"; color:#6a6a6a; }
+.product_itemhead label a:link { font:12px/36px "Microsoft YaHei"; color:#6a6a6a; }
+.product_itemhead label a:visited { font:12px/36px "Microsoft YaHei"; color:#6a6a6a; }
+.product_itemhead label a:hover {}
+.order_content { width:100%; height:100px; margin-bottom:10px; background:#f9fafb; overflow:hidden; }
+.order_content .comn { float:left; height:100px; text-align:center; font:12px "Microsoft YaHei"; color:#6a6a6a; }
+.order_content .d_checkbox { width:37px; }
+.order_content .d_checkbox input { width:12px; height:12px; vertical-align:middle; margin-top:42px; }
+.order_content .d_goods { width:332px; margin-top:10px; }
+.order_content .d_goods .cart_product { width:78px; height:78px; float:left; margin-right:10px; border:1px solid #e5e5e5; }
+.order_content .d_goods .cart_product img { width:78px; height:78px; }
+.order_content .d_goods p { text-align:left; font:12px "Microsoft YaHei"; color:#6a6a6a; height:34px; overflow:hidden; margin-top:22px; }
+.order_content .d_goods p a:link { font:12px "Microsoft YaHei"; color:#6a6a6a; }
+.order_content .d_goods p a:visited { font:12px "Microsoft YaHei"; color:#6a6a6a; }
+.order_content .d_goods p a:hover {}
+.order_content .d_price { width:120px; line-height:100px; }
+.order_content .d_quantity { width:120px; line-height:10px; }
+.order_content .d_quantity a { display:inline-block; color:#6a6a6a; width:12px; text-align:center; height:12px; background:#fff; border:1px solid #e5e5e5; border-radius:2px; behavior:url(iecss3/PIE.htc); position:relative; z-index:2; }
+.order_content .d_quantity .text_amount { width:48px; height:18px; margin-top:41px; border:1px solid #e5e5e5; text-align:center; font:12px ""; color:#6a6a6a; }
+.order_content .d_amount { width:114px; line-height:100px; }
+.order_content .d_inventory { width:115px; color:#75d868; text-align:left; line-height:100px; }
+.order_content .d_action { width:92px; margin-top:30px; }
+.order_content .d_action p { font:12px/20px "Microsoft YaHei"; color:#2b8dff; }
+.order_content .d_action p a:link { font:12px/20px "Microsoft YaHei"; color:#2b8dff; }
+.order_content .d_action p a:visited { font:12px/20px "Microsoft YaHei"; color:#2b8dff; }
+.order_content .d_action p a:hover {}
+.order_content .d_action strong { font:12px/20px "Microsoft YaHei"; color:#ff6161; }
+.order_content .d_action strong a:link { font:12px/20px "Microsoft YaHei"; color:#ff6161; }
+.order_content .d_action strong a:visited { font:12px/20px "Microsoft YaHei"; color:#ff6161; }
+.order_content .d_action strong a:hover {}
+.accounting { width:100%; height:80px; overflow:hidden; }
+.accounting .price_sum { float:right; line-height:80px; }
+.accounting .price_sum .price_acount { font:18px "Microsoft YaHei"; color:#6a6a6a; }
+.accounting .price_sum .txt { font:14px "Microsoft YaHei"; color:#6a6a6a; }
+.accounting .price_sum .price { font:30px "Microsoft YaHei"; color:#ff6161; }
+.accounting .btn_area { width:150px; height:50px; text-align:center; float:right; margin:10px 30px 0 34px; background:#ff6161; border-radius:4px; behavior:url(iecss3/PIE.htc); position:relative; z-index:2; }
+.accounting .btn_area a:link { display:block; font:24px/50px "Microsoft YaHei"; color:#fff; }
+.accounting .btn_area a:visited { display:block; font:24px/50px "Microsoft YaHei"; color:#fff; }
+.accounting .btn_area a:hover {}
+
+/*****************************************填写订单信息 begin************************************************/
+/*content*/
+.order_info { width:100%; margin:0 auto; }
+.one_infomation { width:930px; margin:0 auto; padding:24px 30px 26px; border-bottom:2px solid #f5f5f5; }
+.one_infomation h2 { font:16px "Microsoft YaHei"; color:#434343; }
+.one_infomation h2 span { font:12px "Microsoft YaHei"; color:#2b8dff; margin-left:20px; }
+.one_infomation h2 span a:link { font:12px "Microsoft YaHei"; color:#2b8dff; }
+.one_infomation h2 span a:visited { font:12px "Microsoft YaHei"; color:#2b8dff; }
+.one_infomation h2 span a:hover {}
+.selradio { vertical-align:middle; margin-right:6px; width:14px; height:14px; }
+.one_infomation p { font:12px "Microsoft YaHei"; color:#434343; margin-top:16px; padding-left:10px; }
+.one_infomation p span { font:12px "Microsoft YaHei"; color:#434343; margin-right:30px; }
+.shopping_clearing { width:930px; margin:0 auto; }
+.shopping_clearing_title { width:100%; margin:20px auto 0; }
+.shopping_clearing_title h2 { font:16px "Microsoft YaHei"; color:#434343; }
+.shopping_clearing_title h2 span { font:12px "Microsoft YaHei"; color:#2b8dff; margin-left:20px; }
+.shopping_clearing_title h2 span a:link { font:12px "Microsoft YaHei"; color:#2b8dff; }
+.shopping_clearing_title h2 span a:visited { font:12px "Microsoft YaHei"; color:#2b8dff; }
+.shopping_clearing_title h2 span a:hover {}
+.shopping_clearing_thead { width:100%; height:32px; margin:10px 0 13px; border-bottom:1px solid #e5e5e5; }
+.shopping_clearing_thead .com { float:left; font:12px/32px "Microsoft YaHei"; color:#434343; text-align:center; }
+.shopping_clearing_thead .s_goods { width:466px; }
+.shopping_clearing_thead .s_price { width:166px; }
+.shopping_clearing_thead .s_quantity { width:143px; }
+.shopping_clearing_thead .s_cmount { width:155px; }
+.shopping_list { width:100%; overflow:hidden; }
+.shopping_list_tl { width:100%; height:32px; }
+.shopping_list_tl h2 { font:12px/32px "Microsoft YaHei"; color:#6a6a6a; }
+.shopping_list_tl h2 a:link { font:12px/32px "Microsoft YaHei"; color:#2b8dff; }
+.shopping_list_tl h2 a:visited { font:12px/32px "Microsoft YaHei"; color:#2b8dff; }
+.shopping_list_tl h2 a:hover {}
+.shopping_list_cont { width:100%; height:100px; margin-bottom:10px; overflow:hidden; background:#e9f0ff; }
+.shopping_list_cont .pub { float:left; text-align:center; line-height:100px; }
+.shopping_list_cont .c_goods { width:466px; text-align:left; margin-top:10px; }
+.shopping_list_cont .c_goods .shopping_product { width:78px; height:78px; float:left; margin:0 10px; border:1px solid #e5e5e5; }
+.shopping_list_cont .c_goods .shopping_product img { width:78px; height:78px; }
+.shopping_list_cont .c_goods p { font:12px/22px "Microsoft YaHei"; color:#2b8dff; margin-top:7px; }
+.shopping_list_cont .c_goods strong { display:block; font:12px/22px "Microsoft YaHei"; color:#6a6a6a; }
+.shopping_list_cont .c_price { width:166px; }
+.shopping_list_cont .c_quantity { width:143px; }
+.shopping_list_cont .c_cmount { width:155px; }
+.shopping_alert_info { width:210px; float:right; margin-right:30px; border:1px solid #ff6161; text-align:center; height:28px; font:14px/28px "Microsoft YaHei"; color:#ff6161; }
+
+/*修改收货地址 begin*/
+.alter_address { width:930px; margin:0 auto; padding:22px 28px 28px; border:2px solid #ff6161; }
+.alter_address h2 { font:16px/29px "Microsoft YaHei"; color:#434343; height:29px; border-bottom:1px solid #e5e5e5; }
+.alter_address p { font:12px "Microsoft YaHei"; color:#434343; margin-top:16px; padding-left:10px; }
+.alter_address p span { font:12px "Microsoft YaHei"; color:#a0a0a0; margin-left:30px; }
+.alter_address p strong { margin-left:60px; }
+.alter_address p strong a:link { font:12px "Microsoft YaHei"; color:#2b8dff; }
+.alter_address p strong a:visited { font:12px "Microsoft YaHei"; color:#2b8dff; }
+.alter_address p strong a:hover {}
+.newaddress { height:30px; background:#e9f0ff; }
+.newaddress a:link { font:12px/30px "Microsoft YaHei"; color:#2b8dff; }
+.newaddress a:visited { font:12px/30px "Microsoft YaHei"; color:#2b8dff; }
+.newaddress a:hover {}
+.address_info_wrap { width:892px; padding-left:38px; overflow:hidden; }
+.address_info_wrap .address_info { width:100%; height:30px; float:left; margin-top:10px; }
+.address_info_wrap .address_info span { display:inline-block; float:left; width:86px; font:12px/28px "Microsoft YaHei"; color:#434343; }
+.address_info_wrap .address_info span b { color:#ff6161; margin-right:5px; }
+.address_info_wrap .address_info .txt_input { width:124px; height:28px; border:1px solid #bfbfbf; padding-left:4px; }
+.address_info_wrap .address_info .f_input { width:404px; height:28px; border:1px solid #bfbfbf; padding-left:4px; }
+.save_btn { width:130px; height:38px; text-align:center; margin-top:20px; background:#ff6161; border-radius:4px; behavior:url(iecss3/PIE.htc); position:relative; z-index:2; }
+.DivSelect { width:130px; height:30px; overflow:hidden; margin-right:6px; background:url(../images/factory_img.png) no-repeat 99px -113px; background-position:100px -113px!important; display:inline-block; }
+.DivSelect select { width:130px; height:30px; border:1px solid #bfbfbf; overflow:hidden; font:12px/28px "Microsoft YaHei"; color:#434343; background:transparent; -webkit-appearance:none; }
+/*仅IE6和IE7、IE8识别*/
+@media \0screen\,screen\9 {   
+	.DivSelect select { width:150px; } 
+}
+/*仅IE9和IE10识别*/
+@media screen and (min-width:0\0) {   
+	.DivSelect select { width:150px; }
+} 
+.save_btn a:link { display:block; font:16px/38px "Microsoft YaHei"; color:#fff; }
+.save_btn a:visited { display:block; font:16px/38px "Microsoft YaHei"; color:#fff; }
+.save_btn a:hover {}
+
+/*编辑发票信息 begin*/
+.edit_bill { width:930px; margin:0 auto; padding:22px 28px 28px; border:2px solid #ff6161; }
+.edit_bill h2 { font:16px/29px "Microsoft YaHei"; color:#434343; height:29px; border-bottom:1px solid #e5e5e5; }
+.bill { width:100%; margin-top:16px; overflow:hidden; }
+.bill h3 { font:14px "Microsoft YaHei"; color:#434343; }
+.bill p { font:12px "Microsoft YaHei"; color:#434343; margin-top:4px; }
+.bill p b { font-weight:normal; margin-left:20px; }
+.bill p span { margin-left:80px; font:12px "Microsoft YaHei"; color:#2b8dff; }
+.bill p span a:link { font:12px "Microsoft YaHei"; color:#2b8dff; }
+.bill p span a:link { font:12px "Microsoft YaHei"; color:#2b8dff; }
+.bill p span a:link {}
+.bill p strong { margin-left:18px; font:12px "Microsoft YaHei"; color:#ff6161; }
+.bill p strong a:link { font:12px "Microsoft YaHei"; color:#ff6161; }
+.bill p strong a:link { font:12px "Microsoft YaHei"; color:#ff6161; }
+.bill p strong a:link {}
+.bill .newbill { height:30px; background:#e9f0ff; margin-top:4px; }
+.bill .newbill p { font:12px/30px "Microsoft YaHei"; color:#434343; margin-top:8px; padding-left:10px; }
+.bill .edit_bill_wrap { width:892px; padding-left:38px; overflow:hidden; }
+.bill .edit_bill_wrap .bill_info { font:12px "Microsoft YaHei"; color:#434343; margin-top:8px; }
+.bill .edit_bill_wrap .bill_info span { width:68px; display:inline-block; }
+.bill .edit_bill_wrap .bill_info strong { font-weight:normal; }
+.bill .edit_bill_wrap .bill_info .bill_input { width:234px; height:28px; border:1px solid #bfbfbf; padding-left:4px; }
+.bill .bill_type { width:100%; margin-top:4px; font:12px "Microsoft YaHei"; color:#434343; }
+.bill .bill_type span { margin-right:28px; }
+.comment { font:12px "Microsoft YaHei"; color:#ff6161; margin-top:16px; }

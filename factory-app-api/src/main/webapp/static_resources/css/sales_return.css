@@ -1,0 +1,60 @@
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, iframe,h1, h2, h3, h4, h5, h6,p,pre,a,del, em, font, ins, q, s, samp,dl, dt, dd, ol, ul, li, form,label, legend, caption,textarea, tbody{ margin:0; padding:0; }
+
+body{font-size:62.5%;font-family:Arial, 'Microsoft YaHei', sans-serif;  width:100%;background:#eeecf3;}
+
+ol,ul,li {	list-style: none; }
+
+blockquote:before, blockquote:after,q:before, q:after {	content: ""; }
+
+blockquote, q { quotes: "" ""; }
+
+a img {	border: 0; }
+
+article, aside, details, figcaption, figure,
+
+footer, header, hgroup, menu, nav, section { display: block; }
+
+h1,h2,h3,h4,h5,h6{font-weight:700}
+
+strong{font-weight:700}
+
+cite,em{font-style:normal}
+
+i{font-style:italic}
+
+img,objiect{ max-width:100%;vertical-align:middle/* 此样式会控制前端图片属性所以去掉*/ }
+
+a { text-decoration:none;border:none;-webkit-tap-highlight-color:transparent;outline:none;-webkit-touch-callout: none;-webkit-user-select: none; }
+a:focus {outline:none; -moz-outline:none}
+input,textarea{ outline:none; resize:none;-webkit-appearance:none;}
+@font-face{font-family: myFirstFont;src:url('font/hyqihei-45s_0-webfont.ttf'),url('font/hyqihei-45s_0-webfont.eot');}
+
+.main_box{width:100%;height:auto;overflow:hidden;padding-bottom:50px;}
+.return_hit{width:92%;height:auto;padding:12px 4%;overflow:hidden;}
+.return_hit img{width:44px;height:44px;float:left;margin-right:10px;}
+.return_hit p{width:80%;height:auto;float:left;font-size:1.6em;line-height:22px;color:#444;}
+.refusal_box{width:92%;height:auto;padding:15px 4%;background:#fff;margin-bottom:10px;overflow:hidden;}
+.refusal_box span{width:22%;display:blcok;font-size:1.4em;float:left;color:#c22936;}
+.refusal_box p{width:78%;height:auto;overflow:hidden;font-size:1.4em;float:left;color:#444;}
+
+.logistics{width:96%;height:auto;padding-left:4%;overflow:hidden;background:#fff;margin-bottom:10px;}
+.logistics ul{width:100%;height:auto;overflow:hidden;}
+.logistics ul li{width:100%;height:auto;font-size:1.4em;padding:12px 0;overflow:hidden;border-bottom:1px solid #e0e0e0;}
+.logistics ul .li4{border:none;}
+.logistics ul .li4 a{width:68%;}
+.logistics ul li span{float:left;margin-right:2%;}
+.logistics ul .li1 span{color:#c22936;}
+.logistics ul li span i{font-style:normal;color:#c22936;padding-right:3px;}
+.logistics ul li p{width:74%;height:auto;float:left;color:#444;}
+.logistics ul li a{width:74%;height:auto;float:left;color:#c22936;background:url(../images/go_next.png) no-repeat right center;background-size:7px 14px; }
+.logistics ul li input{width:65%;height:auto;float:left;border:none;background:none;margin-top:2px;}
+
+.details_refund ul li span{width:28%;float:left;}
+.details_refund ul li p{width:65%;text-align:right;float:right;padding-right:14px;}
+
+.btns{width:92%;height:auto;overflow:hidden;background:#fff;padding:10px 4%;position:fixed;bottom:0;left:0;}
+.btns a{font-size:1.4em;padding:3px 7px;border:1px solid #c22936;border-radius:4px;color:#c22936;float:right;margin-left:10px;}
+
+

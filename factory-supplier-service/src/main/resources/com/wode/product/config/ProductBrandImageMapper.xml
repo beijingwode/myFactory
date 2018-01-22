@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ProductBrandImageMapper">
+
+    <resultMap id="ProductBrandImage" type="com.wode.factory.model.ProductBrandImage">
+        <result property="id" column="id"/>
+        <result property="orders" column="orders"/>
+        <result property="source" column="source"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="brandId" column="brand_id"/>
+        <result property="size" column="size"/>
+        <result property="height" column="height"/>
+        <result property="width" column="width"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,orders,source,createDate,updateDate,supplier_id,brand_id,size,height,width
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_brand_image (
+            id ,
+            orders ,
+            source ,
+            createDate ,
+            updateDate ,
+            supplier_id ,
+            brand_id ,
+            size ,
+            height ,
+            width
+        ) VALUES (
+            #{id} ,
+            #{orders} ,
+            #{source} ,
+            #{createDate} ,
+            #{updateDate} ,
+            #{supplierId} ,
+            #{brandId} ,
+            #{size} ,
+            #{height} ,
+            #{width}
+        )
+    ]]>
+    </insert>
+
+    <insert id="copyByShop">
+    <![CDATA[
+       INSERT INTO t_product_brand_image (
+            id ,
+            orders ,
+            source ,
+            createDate ,
+            updateDate ,
+            supplier_id ,
+            brand_id ,
+            size ,
+            height ,
+            width
+		)
+       SELECT  
+          nextval('t_product_brand_image') id,
+          bi.orders ,
+          bi.source ,
+          bi.createDate ,
+          bi.updateDate ,
+          bi.supplier_id ,
+          b.id brand_id,
+          bi.size ,
+          bi.height ,
+          bi.width
+       FROM t_product_brand_image bi 
+			 INNER JOIN t_product_brand b on (bi.brand_id=b.old_id AND bi.supplier_id=b.supplier_id)
+       WHERE b.supplier_id=#{supplierId} AND b.shop_id = #{shopId}
+    ]]>
+	</insert>
+	
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_product_brand_image SET            
+            orders = #{orders} ,
+            source = #{source} ,
+            createDate = #{createDate} ,
+            updateDate = #{updateDate} ,
+            supplier_id = #{supplierId} ,
+            brand_id = #{brandId} ,
+            size = #{size} ,
+            height = #{height} ,
+            width = #{width} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_product_brand_image WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <delete id="deleteByShop">
+    <![CDATA[
+        DELETE FROM t_product_brand_image WHERE brand_id in (select id from t_product_brand where shop_id = #{shopId})
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="ProductBrandImage">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_product_brand_image 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="ProductBrandImage">
+        SELECT <include refid="columns" /> FROM t_product_brand_image 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(orders)">
+                AND orders = #{orders}
+            </if>
+           <if test="@Ognl@isNotEmpty(source)">
+                AND source = #{source}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND createDate = #{createDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateDate)">
+                AND updateDate = #{updateDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(brandId)">
+                AND brand_id = #{brandId}
+            </if>
+           <if test="@Ognl@isNotEmpty(size)">
+                AND size = #{size}
+            </if>
+           <if test="@Ognl@isNotEmpty(height)">
+                AND height = #{height}
+            </if>
+           <if test="@Ognl@isNotEmpty(width)">
+                AND width = #{width}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

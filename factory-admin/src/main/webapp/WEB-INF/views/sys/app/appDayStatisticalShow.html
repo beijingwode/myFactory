@@ -1,0 +1,125 @@
+<div id="appDayStatistical_parentDiv">
+	<div class="tab-content">
+	<div id="home" class="tab-pane clearfix active">
+	<div class="">
+	<label>开始：</label>
+	<input type="text" id="day_search_startTime"><label>&nbsp;&nbsp;结束：</label><input type="text" id="day_search_endTime">
+	&nbsp;&nbsp;
+	<select id="appCode" style="width: 100px">
+		<option value="">全部</option>
+		@for(code in appDayInfo.appCode!){
+		<option value="${code!}">${code!}</option>
+		@}
+	</select>&nbsp;&nbsp;
+	<span id="search-btn" class="btn btn-info btn-sm ">查 询</span>
+	</div>
+	</div>
+	</div>
+	<div class="pull-left width-30">
+	</div>
+	<div id="appDayStatistical" style="height: 400px">
+	</div>
+</div>
+	<input type="hidden" value="${appDayInfo.appDayActive!}" id="appDayActive">
+	<input type="hidden" value="${appDayInfo.appDayDate!}" id="appDayDate">
+	<input type="hidden" value="${appDayInfo.appDayCodeName!}" id="appDayCode">
+	<script type="text/javascript">
+	laydate({
+	    elem: '#day_search_startTime',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	    /* choose: function(datas){ //选择日期完毕的回调
+	        alert('得到：'+datas);
+	    } */
+	});
+	laydate({
+	    elem: '#day_search_endTime',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	    /* choose: function(datas){ //选择日期完毕的回调
+	        alert('得到：'+datas);
+	    } */
+	});
+	</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		baidu_echarts_day();
+		/*按时间搜索*/
+		$("#search-btn").click(function(){
+			var $target = $("#appDayStatistical_parentDiv");
+			var spinner;
+			$.ajax({
+				"dataType":'json',
+				"type":'POST',
+				"data":{"startTime":$("#day_search_startTime").val(),"endTime":$("#day_search_endTime").val(),"mark":$("#appCode").val()},
+				"url":'${ctxPath!}/appDayStatistics/searchAppDayInfo',
+				beforeSend : function(){
+					spinner = new Spinner({color: '#3d9bce',width:20,radius:20}).spin($target[0]);
+				},
+				success:function(da){
+					$("#appDayActive").val(da.appDayActive);
+					$("#appDayDate").val(da.appDayDate);
+					$("#appDayCode").val(da.appDayCodeName);
+					//关闭spinner  
+                    spinner.spin();
+					baidu_echarts_day();
+					
+				}
+			});
+						
+		});
+	/*百度统计方法*/
+	function baidu_echarts_day(){
+		var da = $("#appDayDate").val();
+		var appDayActive = $("#appDayActive").val();
+		var appDayCode = $("#appDayCode").val();
+		// 基于准备好的dom，初始化echarts图表
+		var myChart = echarts.init(document.getElementById('appDayStatistical'));
+		var option = {
+			title : {
+				text : 'app:'+appDayCode,
+				x:50,
+				padding:15,
+				textStyle:{
+					fontSize: 30,
+					color: '#3d9bce',
+					fontFamily:'sans-serif',
+					}
+			},
+			tooltip : {
+				trigger : 'axis'
+			},
+			legend : {
+				data : [ '日活量' ]/*appDayCode.split(",") [ '日注量', '日活量' ] */
+			},
+			toolbox : {
+				show : true,
+				feature : {
+					magicType : {
+						show : true,
+						type : [ 'line', 'bar' ]
+					},
+				}
+			},
+			calculable : true,
+			xAxis : [ {
+				type : 'category',
+				boundaryGap : true,
+				data : da.split(",")
+			} ],
+			yAxis : [ {
+				type : 'value',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			} ],
+			series : [ {
+				name : '日活量',
+				type : 'line',
+				data : appDayActive.split(","),
+			} ]
+		};
+		// 为echarts对象加载数据 
+		myChart.setOption(option);
+	}
+	
+	});
+</script>

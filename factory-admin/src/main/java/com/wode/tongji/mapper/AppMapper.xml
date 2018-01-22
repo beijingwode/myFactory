@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wode.tongji.mapper.AppMapper">
+  <resultMap id="BaseResultMap" type="com.wode.tongji.model.App">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="introduce" jdbcType="VARCHAR" property="introduce" />
+    <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="download_times" jdbcType="BIGINT" property="downloadTimes" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, code, url, version, introduce, creat_time, download_times
+  </sql>
+
+<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_app
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByUrl" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_app
+    where url = #{url,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_app
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wode.tongji.model.App">
+    insert into t_app (id, code, url, 
+      version, introduce, creat_time, 
+      download_times)
+    values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{version,jdbcType=VARCHAR}, #{introduce,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, 
+      #{downloadTimes,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wode.tongji.model.App">
+    insert into t_app
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="introduce != null">
+        introduce,
+      </if>
+      <if test="creatTime == null">
+        creat_time,
+      </if>
+      <if test="downloadTimes != null">
+        download_times,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null">
+        #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime == null">
+        now(),
+      </if>
+      <if test="downloadTimes != null">
+        #{downloadTimes,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wode.tongji.model.App">
+    update t_app
+    <set>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null">
+        introduce = #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadTimes != null">
+        download_times = #{downloadTimes,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wode.tongji.model.App">
+    update t_app
+    set code = #{code,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      introduce = #{introduce,jdbcType=VARCHAR},
+      creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      download_times = #{downloadTimes,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findPageInfo" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from t_app 
+    <where>
+    	<if test="@Ognl@isNotBlank(code)">
+        	code = #{code}
+      	</if>
+      	<if test="@Ognl@isNotBlank(version)">
+        	and version = #{version}
+      	</if>
+     </where>
+     ORDER BY creat_time desc
+  </select>
+</mapper>

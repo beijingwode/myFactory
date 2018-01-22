@@ -1,0 +1,56 @@
+@charset "utf-8";
+/* CSS Document */
+body{background:#fff;}
+.main-box{width:100%;height:auto;position:absolute;top:60px;}
+/*帮助与反馈*/
+.main-box .hc_ul{width:100%;height:auto;background:#fff;}
+.main-box .hc_ul li{width:96%;height:45px;padding-left:4%;}
+.main-box .hc_ul li a{width:100%;height:44px;display:block;line-height:45px;font-size:1.5em;color:#333333;background:url(../images/hc_icon6.png) no-repeat 96% center;border-bottom:1px solid #e0e0e0;}
+.p_none{padding-left:4%;}
+.dis_none{display:none;}
+/*代收点服务*/
+.main-box .tit1{height:auto;width:96%;margin-left:4%;line-height:24px;font-size:1.4em;color:#999999;}
+.main-one ul{height:auto;width:92%;background:#fff;margin-top:5px;padding:10px 4% 10px 4%;}
+.main-one ul li{width:100%;font-size:1.5em;color:#666666;line-height:26px;}
+.main-two{width:100%;margin-top:10px;}
+.main-two ul{height:auto;width:96%;background:#fff;margin-top:5px;padding:0 0 0 4%;}
+.main-two ul li{height:35px;width:100%;border-bottom:1px solid #e0e0e0;}
+.main-two ul li a{height:35px;width:100%;display:block;line-height:35px;font-size:1.4em;color:#333333;background:url(../images/hc_icon6.png) no-repeat 96% center;}
+.main-two ul li a span{width:15px;height:35px;display:block;color:#F00;float:left;line-height:34px;}
+
+/*取消订单流程*/
+.box_con{width:92%;height:auto;margin:0 auto;}
+.box_con p{width:100%;color:#606060;line-height:20px;}
+.box_con .con_p1{font-size:1.4em;}
+.box_con .con_p2{font-size:1.4em;text-indent:2em}
+.box_con .con_img{margin:12px 0;}
+
+/*支付流程*/
+
+/*意见反馈*/
+.text_box{height:84px;width:95%;padding:8px;background:#fff;margin-bottom:10px;}
+.text_box textarea{height:70px;width:100%;font-size:1.4em;border:none;}
+.text_box .num{text-align:right;color:#b8b8b8;}
+
+.inp_box{width:95%;height:16px;background:#fff;margin-bottom:10px;padding:7px 8px;}
+.inp_box span{width:16px;display:block;line-height:16px;float:left;margin-right:5px;}
+.inp_box input{width:85%;height:16px;line-height:16px;float:left;border:none;font-size:1.4em;}
+
+.inp_sub{width:100%;height:35px;}
+.inp_sub button{width:100%;height:35px;background:#c22936;border:none;font-size:1.7em;color:#fff;line-height:35px;margin-top:18px;-moz-border-radius: 4px; -webkit-border-radius: 4px;border-radius:4px;}
+
+/*购物流程*/
+.pro_con{width:100%;height:auto;border-top:1px solid #ff7676;background:#fff;padding-bottom:10px;margin-bottom:10px;}
+.pro_con .pro_tit{height:21px;width:55%;margin-left:4%;background:url(../images/pro_tit_bg.png) no-repeat;background-size:100% 100%;line-height:21px;text-align:center;font-size:1.5em;color:#fff;}
+
+.pro_con p{font-size:1.4em;color:#656565;line-height:20px;margin-top:10px;}
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="EmpSeasonActMapper" >
+  <resultMap id="BaseResultMap" type="com.wode.factory.model.EmpSeasonAct" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="emp_id" property="empId" jdbcType="BIGINT" />
+    <result column="give_ticket_sum" property="giveTicketSum" jdbcType="DECIMAL" />
+    <result column="give_cash_sum" property="giveCashSum" jdbcType="DECIMAL" />
+    <result column="cur_year" property="curYear" jdbcType="CHAR" />
+    <result column="cur_season" property="curSeason" jdbcType="CHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="enterprise_id" property="enterpriseId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="GiveBenefitRecordVo" type="com.wode.factory.company.query.GiveBenefitRecordVo" >
+    <id column="p_id" property="id" jdbcType="BIGINT" />
+    <result column="give_ticket_sum" property="giveTicketSason" jdbcType="DECIMAL" />
+    <result column="give_cash_sum" property="giveCashSason" jdbcType="DECIMAL" />
+    <result column="id" property="empId" jdbcType="BIGINT" />
+    <result column="emp_number" property="empNumber" jdbcType="VARCHAR" />
+    <result column="welfare_level" property="welfareLevel" jdbcType="INTEGER" />
+    <result column="seniority" property="startSeniority" jdbcType="INTEGER" />
+    <result column="end_seniority" property="endSeniority" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="enterprise_id" property="enterpriseId" jdbcType="BIGINT" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="logout" property="logout" jdbcType="TINYINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, emp_id, give_ticket_sum, give_cash_sum, cur_year, cur_season, create_date, update_date, 
+    update_user, enterprise_id
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_emp_season_act
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+   <!-- 分页(条件)查询员工福利发放信息 -->
+  <select id="selectPageInfo" resultMap="GiveBenefitRecordVo">
+    select 
+    u.* , a.give_ticket_sum ,a.give_cash_sum ,a.cur_year,a.cur_season , a.id as p_id
+    from t_enterprise_user u 
+    left join t_emp_season_act a
+    on u.id = a.emp_id and u.enterprise_id = a.enterprise_id
+    	<if test="cur_year !=null&amp;&amp;cur_year!=''" >
+	       and (a.cur_year = #{curYear,jdbcType=VARCHAR}  or a.cur_year is null)
+	     </if>
+	     <if test="cur_season !=null&amp;&amp;cur_season!=''" >
+	       and (a.cur_season = #{curSeason,jdbcType=VARCHAR} or a.cur_season is null)
+	     </if>
+    <!-- where type = 2 -->
+    <where>
+    	<!-- type 2 表示员工 ,查询当年，当季度数据-->
+	     <if test="1==1" >
+	       u.type = 2   
+	     </if>
+	     <if test="enterpriseId!=null" >
+	       and u.enterprise_id = #{enterpriseId,jdbcType=BIGINT}   
+	     </if>
+	     <!-- 根据员工序号进行查找 -->
+	     <if test="empNumber !=null&amp;&amp;empNumber!=''" >
+			AND u.emp_number LIKE CONCAT(CONCAT('%',#{empNumber}),'%')
+	     </if>
+		 <!-- 根据名字进行查找 -->
+	     <if test="name !=null&amp;&amp;name!=''" >
+			AND u.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+	     </if>
+	     <if test="cur_year !=null&amp;&amp;cur_year!=''" >
+	       and (a.cur_year = #{curYear,jdbcType=VARCHAR}  or a.cur_year is null)
+	     </if>
+	     <if test="cur_season !=null&amp;&amp;cur_season!=''" >
+	       and (a.cur_season = #{curSeason,jdbcType=VARCHAR} or a.cur_season is null)
+	     </if>
+		<!-- 根据等级进行查找 -->
+	     <if test="welfareLevel != null&amp;&amp;welfareLevel!=''" >
+	        and u.welfare_level = #{welfareLevel,jdbcType=INTEGER}
+	     </if>
+	     <!-- 根据手机号进行查找 -->
+	     <if test="phone != null&amp;&amp;phone!=''" >
+			AND u.phone LIKE CONCAT(CONCAT('%',#{phone}),'%')
+	     </if>
+	     <!-- 根据手机号进行查找 -->
+	     <if test="email != null&amp;&amp;email!=''" >
+			AND u.email LIKE CONCAT(CONCAT('%',#{email}),'%')
+	     </if>
+	     <!-- 根据工龄进行查找 区间查找-->
+	     <if test="startSeniority != null&amp;&amp;startSeniority!=''&amp;&amp;endSeniority!=null&amp;&amp;endSeniority!=''" >
+	        and u.seniority &gt;= #{startSeniority,jdbcType=INTEGER} and u.seniority &lt;=#{endSeniority,jdbcType=INTEGER}
+	     </if>
+	     <!-- 根据工龄进行查找 精确查找-->
+	     <if test="startSeniority != null&amp;&amp;startSeniority!=''&amp;&amp;endSeniority==null" >
+	        and u.seniority  &gt;= #{startSeniority,jdbcType=INTEGER}
+	     </if>
+	     <!-- 根据工龄进行查找 精确查找-->
+	     <if test="startSeniority == null&amp;&amp;endSeniority!=null&amp;&amp;endSeniority!=''" >
+	        and u.seniority  &lt;= #{endSeniority,jdbcType=INTEGER}
+	     </if>
+	     <!-- 根据性别进行查找 -->
+	     <if test="sex != null&amp;&amp;sex!=''" >
+	        and u.sex = #{sex,jdbcType=VARCHAR}
+	     </if>
+	    </where>
+	    ORDER BY u.emp_number 
+  </select>
+  
+    
+   <!-- 分页(条件)查询员工福利发放信息 -->
+  <select id="selectOneByModel" resultMap="GiveBenefitRecordVo">
+    select 
+    u.* , a.give_ticket_sum ,a.give_cash_sum ,a.cur_year,a.cur_season , a.id as p_id
+    from t_enterprise_user u 
+    left join t_emp_season_act a
+    on u.id = a.emp_id
+    <!-- where type = 2 -->
+    <where>
+    	<!-- type 2 表示员工 ,查询当年，当季度数据-->
+	     <if test="1==1" >
+	       u.type = 2  
+	     </if>
+		<!-- 根据名字进行查找 -->
+	     <if test="name !=null" >
+	       and u.name = #{name,jdbcType=VARCHAR} 
+	     </if>
+	     <if test="cur_year !=null" >
+	       and a.cur_year = #{curYear,jdbcType=VARCHAR} 
+	     </if>
+	     <if test="cur_season !=null" >
+	       and a.cur_season = #{curSeason,jdbcType=VARCHAR} 
+	     </if>
+		<!-- 根据等级进行查找 -->
+	     <if test="welfareLevel != null" >
+	        and u.welfare_level = #{welfareLevel,jdbcType=INTEGER}
+	     </if>
+	     <!-- 根据手机号进行查找 -->
+	     <if test="userName != null&amp;&amp;userName!=''" >
+	        and u.user_name = #{userName,jdbcType=VARCHAR}
+	     </if>
+	     <!-- 根据工龄进行查找 区间查找-->
+	     <if test="startSeniority != null&amp;&amp;endSeniority!=null" >
+	        and u.seniority &gt;= #{startSeniority,jdbcType=INTEGER} and u.seniority &lt;=#{endSeniority,jdbcType=INTEGER}
+	     </if>
+	     <!-- 根据工龄进行查找 精确查找-->
+	     <if test="startSeniority != null&amp;&amp;endSeniority==null" >
+	        and u.seniority = #{startSeniority,jdbcType=INTEGER}
+	     </if>
+	     <!-- 根据性别进行查找 -->
+	     <if test="sex != null" >
+	        and u.sex = #{sex,jdbcType=VARCHAR}
+	     </if>
+	    </where>
+  </select>
+	<select id="selectByModel" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from t_emp_season_act
+	    <where>		
+	      <if test="empId != null" >
+	         emp_id = #{empId,jdbcType=BIGINT}
+	      </if>
+	      <if test="giveTicketSum != null" >
+	        and give_ticket_sum = #{giveTicketSum,jdbcType=DECIMAL}
+	      </if>
+	      <if test="giveCashSum != null" >
+	        and give_cash_sum = #{giveCashSum,jdbcType=DECIMAL}
+	      </if>
+	      <if test="curYear != null" >
+	        and cur_year = #{curYear,jdbcType=CHAR}
+	      </if>
+	      <if test="curSeason != null" >
+	        and cur_season = #{curSeason,jdbcType=CHAR}
+	      </if>
+	      <if test="createDate != null" >
+	        and create_date = #{createDate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="updateDate != null" >
+	        and update_date = #{updateDate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="updateUser != null" >
+	        and update_user = #{updateUser,jdbcType=VARCHAR}
+	      </if>
+	      <if test="enterpriseId != null" >
+	        and enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+	      </if>
+	    </where>
+	</select>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_emp_season_act
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wode.factory.model.EmpSeasonAct" >
+    insert into t_emp_season_act (id, emp_id, give_ticket_sum, 
+      give_cash_sum, cur_year, cur_season, 
+      create_date, update_date, update_user, 
+      enterprise_id)
+    values (#{id,jdbcType=BIGINT}, #{empId,jdbcType=BIGINT}, #{giveTicketSum,jdbcType=DECIMAL}, 
+      #{giveCashSum,jdbcType=DECIMAL}, #{curYear,jdbcType=CHAR}, #{curSeason,jdbcType=CHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, 
+      #{enterpriseId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wode.factory.model.EmpSeasonAct" >
+    insert into t_emp_season_act
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="empId != null" >
+        emp_id,
+      </if>
+      <if test="giveTicketSum != null" >
+        give_ticket_sum,
+      </if>
+      <if test="giveCashSum != null" >
+        give_cash_sum,
+      </if>
+      <if test="curYear != null" >
+        cur_year,
+      </if>
+      <if test="curSeason != null" >
+        cur_season,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="enterpriseId != null" >
+        enterprise_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="empId != null" >
+        #{empId,jdbcType=BIGINT},
+      </if>
+      <if test="giveTicketSum != null" >
+        #{giveTicketSum,jdbcType=DECIMAL},
+      </if>
+      <if test="giveCashSum != null" >
+        #{giveCashSum,jdbcType=DECIMAL},
+      </if>
+      <if test="curYear != null" >
+        #{curYear,jdbcType=CHAR},
+      </if>
+      <if test="curSeason != null" >
+        #{curSeason,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseId != null" >
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wode.factory.model.EmpSeasonAct" >
+    update t_emp_season_act
+    <set >
+      <if test="empId != null" >
+        emp_id = #{empId,jdbcType=BIGINT},
+      </if>
+      <if test="giveTicketSum != null" >
+        give_ticket_sum = #{giveTicketSum,jdbcType=DECIMAL},
+      </if>
+      <if test="giveCashSum != null" >
+        give_cash_sum = #{giveCashSum,jdbcType=DECIMAL},
+      </if>
+      <if test="curYear != null" >
+        cur_year = #{curYear,jdbcType=CHAR},
+      </if>
+      <if test="curSeason != null" >
+        cur_season = #{curSeason,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseId != null" >
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="update" parameterType="com.wode.factory.model.EmpSeasonAct" >
+    update t_emp_season_act
+    set emp_id = #{empId,jdbcType=BIGINT},
+      give_ticket_sum = #{giveTicketSum,jdbcType=DECIMAL},
+      give_cash_sum = #{giveCashSum,jdbcType=DECIMAL},
+      cur_year = #{curYear,jdbcType=CHAR},
+      cur_season = #{curSeason,jdbcType=CHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

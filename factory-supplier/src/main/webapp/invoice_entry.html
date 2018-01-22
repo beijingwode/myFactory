@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>发票录入</title>
+<link rel="stylesheet" type="text/css" href="static_resources/css/style.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/invoice_entry.css" />
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+</head>
+
+<body>
+<!-- 公用头部信息开始 -->
+
+<!-- 公用头部信息结束 -->
+
+<!-- 主体内容区开始 -->
+<div  id="content">
+	<div class="mainbody">
+        <div class="position">
+            <span>您所在的位置：</span>
+            <a href="javascript:void(0);">商家中心</a><em>></em>
+            <a href="JavaScript:void(0);">配送管理</a><em>></em>
+            <a href="JavaScript:void(0);">发票录入</a>
+        </div>
+     </div>
+     
+     <div class="main_top">
+     	<div class="tit tit1"></div>
+     </div>
+     <div class="main_con">
+     	<div class="main_left">
+     		<div class="lt_tit">发票申请</div>
+     		<dl>
+     			<dt>
+     				<a href="javascript:;"><img src="static_resources/images/error.jpg" /></a>
+     				<div class="picon"><img src="static_resources/images/picon_t2.png"></div>
+     			</dt>
+     			<dd><a href="javascript:;">精纯芦荟金缕梅爽肤水（滋润型）卡就得喝个</a></dd>
+     			<dd class="dd2">规格：237</dd>
+     			<dd class="dd2">数量：2</dd>
+     		</dl>
+     		<ul class="ul1">
+     			<li><span>订单编号：</span><p>22335455648795-1</p></li>
+     			<li><span>订单金额：</span><p class="red">￥100.00</p></li>
+     			<li><span>快递费用：</span><p>￥10.00</p></li>
+     			<li><span>收货地址：</span><p>贾贾，15324124970，河北省唐山市迁安市（电话：15324124970）</p></li>
+     			<li><span>物流状态：</span><p>已收到货</p></li>
+     		</ul>
+     		<ul class="ul2">
+     			<li><span>申请日期：</span><p>2017-06-21</p></li>
+     			<li><span>发票抬头：</span><p>北京我的网科技有限公司</p></li>
+      		</ul>
+     	</div>
+     	<div class="main_right">
+     		<div class="lt_tit">录入发票</div>
+     		<p>请将电子发票链接地址，或者上传纸质发票扫描件(拍照)，以便消费者查看</p>
+     		<div class="rt_con">     			
+	     		<ul>
+	     			<li><span>抬头：</span><p>北京我的网科技有限公司</p></li>
+	     			<li>
+	     				<span>发票类型：</span>
+						<select>
+						  <option value ="volvo">电子增值税普通发票</option>
+						  <option value ="saab">电子增值税专用发票</option>
+						  <option value="opel">纸质发票</option>
+						</select>
+					</li>
+	     			<li><span>发票号：</span><input type="text" value="" /></li>
+	     			<li><span>销售方：</span><input type="text" value="" /></li>
+	     			<li><span>价税合计：</span><input type="text" value="" /></li>
+	     			<li><span>电子发票链接：</span><input type="text" value="" /></li>
+	     			<li><span>录入时间：</span><p>17-06-28</p></li>
+	     		</ul>
+	     		<div class="up">
+	     			<div class="up_top"><span>纸质发票扫描件（拍照）</span><a href="javascript:;" onclick="toUpload();">上传</a></div>
+	     			<div class="up_img"><img src="static_resources/images/error.jpg"></div>
+	     			<div class="del_btn"><a href="javascript:;"  onclick="removeImg();">删除</a></div>
+	     		</div>
+     		</div>
+     		<div class="btn"><a href="javascript:;">保存信息</a></div>
+     		<div class="rt_bottom">
+     			<div class="btm_tit">其他申请信息</div>
+     			<div class="btm_con"><span>备注：</span><p>根本无法使用</p></div>
+     		</div>
+     		
+     	</div>
+     </div>
+     
+</div>
+<div style="display:none;" id="tmp-upload_container">
+ <input type="file" id="uploadFile" name="file" onchange="" style="position:absolute;filter:alpha(opacity=0);width:50px;height:20px;"  />
+</div>
+<!-- 主体内容区结束 -->
+
+<!-- 公用底部信息开始 -->
+
+<!-- 公用底部信息结束 -->
+<script>
+function toUpload() {
+	$("#uploadFile").click();
+}
+function removeImg() {
+	$(".up_img img").attr("src","static_resources/images/fapiao_img.png");
+}
+</script>
+</body>
+</html>

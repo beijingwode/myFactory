@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="QuestionnaireOptionMapper">
+
+    <resultMap id="QuestionnaireOption" type="com.wode.factory.model.QuestionnaireOption">
+        <result property="id" column="id"/>
+        <result property="questionnaireId" column="questionnaire_id"/>
+        <result property="questionId" column="question_id"/>
+        <result property="optionTitle" column="option_title"/>
+        <result property="selectType" column="select_type"/>
+        <result property="image" column="image"/>
+        <result property="orders" column="orders"/>
+        
+        <result property="cnt" column="cnt"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,questionnaire_id,question_id,option_title,select_type,orders,image
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_questionnaire_option (
+            id ,
+            questionnaire_id ,
+            question_id ,
+            option_title ,
+            select_type ,
+            orders,
+            image
+        ) VALUES (
+            nextval('t_questionnaire_option')  ,
+            #{questionnaireId} ,
+            #{questionId} ,
+            #{optionTitle} ,
+            #{selectType} ,
+            #{orders},
+            #{image}
+        )
+    ]]>
+    </insert>
+    
+    <insert id="copyFromTemplate">
+    <![CDATA[
+        INSERT INTO t_questionnaire_option (
+            id ,
+            questionnaire_id ,
+            question_id ,
+            option_title ,
+            select_type ,
+            orders,
+            image
+        ) 
+        SELECT  
+          nextval('t_questionnaire_option') id,
+          #{newId} ,
+          qq.id questionnaire_id ,
+          qo.option_title ,
+          qo.select_type ,
+          qo.orders,
+          qo.image
+        FROM t_questionnaire_option qo
+        INNER JOIN t_questionnaire_question qq ON(qq.old_id = qo.question_id)
+        WHERE qo.questionnaire_id=#{oldId} AND qq.questionnaire_id = #{newId}
+    ]]>
+    </insert>
+    
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_questionnaire_option SET
+            questionnaire_id = #{questionnaireId} ,
+            question_id = #{questionId} ,
+            option_title = #{optionTitle} ,
+            select_type = #{selectType} ,
+            orders = #{orders} ,
+            image = #{image} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <update id="afterInsert" >
+    <![CDATA[
+        UPDATE t_questionnaire_option qo
+        INNER JOIN t_questionnaire_question qq ON (qq.old_id = qo.question_id)
+           SET qo.question_id = qq.id
+        WHERE 
+            qo.questionnaire_id = #{id} 
+    ]]>
+    </update>
+    
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_questionnaire_option WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <delete id="deleteByQuestionnaire">
+    <![CDATA[
+        DELETE FROM t_questionnaire_option WHERE
+        questionnaire_id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="QuestionnaireOption">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_questionnaire_option 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="QuestionnaireOption">
+        SELECT <include refid="columns" /> FROM t_questionnaire_option 
+        <include refid="find_where"/>
+        ORDER BY orders
+    </select>
+
+    <select id="selectExByQuestionnaire" resultMap="QuestionnaireOption">
+        SELECT <include refid="columns" /> 
+        	,(SELECT count(1) FROM t_questionnaire_answer WHERE t_questionnaire_answer.questionnaire_id=t_questionnaire_option.questionnaire_id AND t_questionnaire_answer.option_id=t_questionnaire_option.id) cnt
+        FROM t_questionnaire_option WHERE
+        questionnaire_id = #{id} 
+        ORDER BY orders
+    </select>
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(questionnaireId)">
+                AND questionnaire_id = #{questionnaireId}
+            </if>
+           <if test="@Ognl@isNotEmpty(questionId)">
+                AND question_id = #{questionId}
+            </if>
+           <if test="@Ognl@isNotEmpty(optionTitle)">
+                AND option_title = #{optionTitle}
+            </if>
+           <if test="@Ognl@isNotEmpty(selectType)">
+                AND select_type = #{selectType}
+            </if>
+           <if test="@Ognl@isNotEmpty(orders)">
+                AND orders = #{orders}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

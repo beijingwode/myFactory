@@ -1,0 +1,70 @@
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, iframe,h1, h2, h3, h4, h5, h6,p,pre,a,del, em, font, ins, q, s, samp,dl, dt, dd, ol, ul, li, form,label, legend, caption,textarea, tbody{ margin:0; padding:0; }
+
+body{font-size:62.5%;font-family:Arial, 'Microsoft YaHei', sans-serif;  width:100%;background:#efeff4;}
+
+ol,ul,li {	list-style: none; }
+
+blockquote:before, blockquote:after,q:before, q:after {	content: ""; }
+
+blockquote, q { quotes: "" ""; }
+
+a img {	border: 0; }
+
+article, aside, details, figcaption, figure,
+
+footer, header, hgroup, menu, nav, section { display: block; }
+
+h1,h2,h3,h4,h5,h6{font-weight:700}
+
+strong{font-weight:700}
+
+cite,em{font-style:normal}
+
+i{font-style:italic}
+
+img,objiect{ max-width:100%;vertical-align:middle/* 此样式会控制前端图片属性所以去掉*/ }
+
+a { text-decoration:none;border:none;-webkit-tap-highlight-color:transparent;outline:none;-webkit-touch-callout: none;-webkit-user-select: none; }
+a:focus {outline:none; -moz-outline:none}
+
+input,textarea{ outline:none; resize:none;-webkit-appearance:none;}
+@font-face{font-family: myFirstFont;src:url('font/hyqihei-45s_0-webfont.ttf'),url('font/hyqihei-45s_0-webfont.eot');}
+
+/*特省*/
+.ts_box{width:100%;height:auto;overflow:hidden;margin:0 auto;background:#fff;}
+.ts_tit{height:40px;width:100%;text-align:center;line-height:40px;font-size:14px;font-weight:600;color:#333333;}
+.ts_con{width:100%;height:auto;overflow:hidden;}
+.ts_con ul{width:101%;height:auto;margin-left:-1px;}
+.ts_con ul li{width:33%;height:auto;float:left;margin:0 0px 1px 1px;position:relative;}
+.ts_con ul li img{width:100%;height:auto;}
+
+
+.ts_con ul li .bp{width:100%;height:100%;background:#000;filter:alpha(opacity=40);-moz-opacity:0.3;-khtml-opacity: 0.4;opacity: 0.4; position:absolute;top:0;left:0;}
+.ts_con ul li dl{width:100%;height:auto;position:absolute;top:18%;left:0;}
+.ts_con ul li dl dd{width:100%;height:auto;text-align:center;line-height:25px;}
+.ts_con ul li dl dd a{color:#fff;font-size:1.2em;font-weight:600;}
+.ts_con ul li dl dd span{font-size:1.2em;color:#fff;border-top:1px solid #fff;border-bottom:1px solid #fff;padding:5px 0;}
+.ts_con ul li dl dd span i{font-style:normal;font-size:1.2em;}
+.ts_con ul li dl dd em{font-style:normal;font-size:1.2em;color:#fff;}
+
+.main_box{width:100%;height:auto;overflow:hidden;background:#f5f5f5;}
+.item{width:100%;height:auto;margin:0 auto;overflow:hidden;}
+.item_con{width:100%;height:auto;overflow:hidden;}
+.item_con ul{width:101%;height:auto;margin-left:-1px;}
+.item_con ul li{width:33%;height:auto;float:left;margin:0 0 1px 1px;position:relative;}
+.item_con ul li dl{width:100%;height:auto;}
+.item_con ul li dl dt{width:100%;height:auto;overflow:hidden;text-align:center;background:#fff;}
+.item_con ul li dl dt img{width:100%;height:auto;display:block;-webkit-transition:1s;transition:1s;}
+.item_con ul li dl dt img:hover{-webkit-transform:scale(1.05);-moz-transform:scale(1.05);}
+
+.item_con ul li dl dd{width:100%;height:30px;text-align:center;overflow:hidden;}
+.item_con ul li dl .dd1{height:20px;line-height:20px;}
+.item_con ul li dl dd a{height:20px;line-height:20px;display:block;color:#333333;font-size:1.2em;font-weight:600;}
+.item_con ul li dl dd span{font-size:1.2em;color:#8a0000;border-bottom:1px solid #808080;padding:5px 0 10px 0;}
+.item_con ul li dl dd span i{font-style:normal;font-size:1.2em;}
+.item_con ul li dl dd em{font-style:normal;font-size:1.2em;color:#808080;}
+
+.hl_con{width:100%;background:#fff;}
+.hl_con img{width:100%;}

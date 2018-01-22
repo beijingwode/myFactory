@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.ProductDao">
+
+	<resultMap id="Product" type="com.wode.factory.vo.ProductVO">
+        <result property="id" column="id"/>
+        <result property="brandId" column="brand_id"/>
+        <result property="partnumber" column="partnumber"/>
+        <result property="fullName" column="full_name"/>
+        <result property="name" column="name"/>
+        <result property="promotion" column="promotion"/>
+        <result property="keyword" column="keyword"/>
+        <result property="unit" column="unit"/>
+        <result property="weight" column="weight"/>
+        <result property="type" column="type"/>
+        <result property="model" column="model"/>
+        <result property="showPrice" column="show_price"/>
+        <result property="introduction" column="introduction"/>
+        <result property="introductionMobile" column="introduction_mobile"/>
+        <result property="image" column="image"/>
+        <result property="isMarketable" column="is_marketable"/>
+        <result property="isRecomment" column="is_recomment"/>
+        <result property="status" column="status"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="marque" column="marque"/>
+        <result property="barcode" column="barcode"/>
+        <result property="roughWeight" column="rough_weight"/>
+        <result property="netWeight" column="net_weight"/>
+        <result property="length" column="length"/>
+        <result property="width" column="width"/>
+        <result property="height" column="height"/>
+        <result property="bulk" column="bulk"/>
+        <result property="hasSku" column="has_sku"/>
+        <result property="stockLockType" column="stock_lock_type"/>
+        <result property="province" column="province"/>
+        <result property="town" column="town"/>
+        <result property="county" column="county"/>
+        <result property="produceaddress" column="produceaddress"/>
+        <result property="carriage" column="carriage"/>
+        <result property="storeId" column="storeId"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="afterService" column="afterService"/>
+        <result property="sendProvince" column="sendProvince"/>
+        <result property="sendTown" column="sendTown"/>
+        <result property="sendCounty" column="sendCounty"/>
+        <result property="sendAddress" column="sendAddress"/>
+        <result property="minprice" column="minprice"/>
+        <result property="maxprice" column="maxprice"/>
+        <result property="allnum" column="allnum"/>
+        <result property="sellNum" column="sell_num"/>
+        <result property="sortNum" column="sortNum"/>
+        <result property="commentCount" column="comment_count"/>
+		<result property="storeCategoryId" column="customCat"/>
+        <result property="categoryName" column="categoryName"/>
+        <result property="brandName" column="brandName"/>
+        <result property="supplierName" column="supplierName"/>
+        <result property="shopname" column="shopname"/>        
+        <result property="limitCnt" column="limit_cnt"/>
+        <result property="areasName" column="areas_name"/>
+        <result property="areasCode" column="areas_code"/>
+        <result property="saleKbn" column="sale_kbn"/>
+        <result property="saleNote" column="sale_note"/>
+        <result property="limitKbn" column="limit_kbn"/>        
+        <result property="locked" column="locked"/>
+        <result property="lockReason" column="lock_reason"/>
+        <result property="welfarePrice" column="welfare_price"/>  
+        <result property="divLevel" column="div_level"/>
+        <result property="empPrice" column="emp_price"/>
+        <result property="empCash" column="emp_cash"/>
+        <result property="empLevel" column="emp_level"/>
+        <result property="questionnaireId" column="questionnaire_id"/>
+        <result property="selfType" column="self_type"/>
+        <result property="selfTime" column="self_time"/>
+        
+        <!--规格 list -->
+        <!-- <collection property="productSpecificationValuelist" ofType="com.wode.factory.model.ProductSpecificationValue">  
+	        <result property="id" column="id_specificationValue"/>
+	        <result property="specificationValue" column="specification_value_specificationValue"/>
+	        <result property="specificationId" column="specification_id_specificationValue"/>
+	        <result property="specificationName" column="name_speci"/>
+	        
+		</collection> -->
+		<!--规格集 list -->
+		<collection property="productSpecificationslist" ofType="com.wode.factory.model.ProductSpecifications">  
+	        <result property="id" column="id_specifications"/>
+	        <result property="price" column="specifications_price"/>
+	        <result property="maxFucoin" column="specifications_maxFucoin"/>
+	        <result property="itemValues" column="specifications_itemValues"/>
+	        <result property="itemids" column="specifications_itemids"/>
+	        <result property="stock" column="specifications_stock"/>
+	        <result property="minLimitNum" column="min_limit_num"/>
+		</collection>
+		
+		<!--属性 list -->
+        <collection property="productAttributelist" ofType="com.wode.factory.model.ProductAttribute">  
+	        <result property="attributeName" column="name_attr"/>
+	        <result property="value" column="value_attribute"/>
+		</collection>
+		
+		<!--清单 list -->
+        <collection property="productDetaillist" ofType="com.wode.factory.model.ProductDetailList">
+	        <result property="name" column="name_detail"/>
+	        <result property="num" column="num_detail"/>
+		</collection>
+		
+		<!--清单 list -->
+        <collection property="productLadderlist" ofType="com.wode.factory.model.ProductLadder">
+	        <result property="id" column="id_productLadder"/>
+	        <result property="num" column="num_productLadder"/>
+	        <result property="price" column="price_productLadder"/>
+	        <result property="skuids" column="skuids_productLadder"/>
+		</collection>
+		
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,brand_id,partnumber,full_name,name,promotion,keyword,unit,weight,type,model,show_price,introduction,image,is_marketable,is_recomment,status,supplier_id,shop_id,createDate,updateDate,marque,barcode,rough_weight,
+			net_weight,length,width,height,bulk,has_sku,stock_lock_type,province,town,county,produceaddress,carriage,storeId,categoryId,afterService,sendProvince,sendTown,sendCounty,sendAddress,minprice,maxprice,
+			allnum,sell_num,sortNum,comment_count,limit_cnt,areas_name,areas_code,sale_kbn,sale_note,limit_kbn,locked,lock_reason,welfare_price,div_level,emp_price,emp_cash,emp_level,questionnaire_id,self_type,self_time
+	    ]]>
+	</sql> 
+	
+	<delete id="deleteBySupplierId">
+	delete from t_product where supplier_id = #{supplierId}
+	</delete>
+    
+    <select id="selectById" resultMap="Product">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_product 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_product 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="Product">
+    	SELECT <include refid="columns" />
+	    FROM t_product 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(brandId)">
+				AND brand_id = #{brandId}
+			</if>
+	      
+	       <if test="@Ognl@isNotEmpty(partnumber)">
+				AND partnumber = #{partnumber}
+			</if>
+	       <if test="@Ognl@isNotEmpty(fullName)">
+				AND full_name = #{fullName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(name)">
+				AND name = #{name}
+			</if>
+	       <if test="@Ognl@isNotEmpty(promotion)">
+				AND promotion = #{promotion}
+			</if>
+	       <if test="@Ognl@isNotEmpty(keyword)">
+				AND keyword = #{keyword}
+			</if>
+	       <if test="@Ognl@isNotEmpty(unit)">
+				AND unit = #{unit}
+			</if>
+	       <if test="@Ognl@isNotEmpty(weight)">
+				AND weight = #{weight}
+			</if>
+	       <if test="@Ognl@isNotEmpty(type)">
+				AND type = #{type}
+			</if>
+	       <if test="@Ognl@isNotEmpty(model)">
+				AND model = #{model}
+			</if>
+	       <if test="@Ognl@isNotEmpty(showPrice)">
+				AND show_price = #{showPrice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(introduction)">
+				AND introduction = #{introduction}
+			</if>
+	       <if test="@Ognl@isNotEmpty(image)">
+				AND image = #{image}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isMarketable)">
+				AND is_marketable = #{isMarketable}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isRecomment)">
+				AND is_recomment = #{isRecomment}
+			</if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(supplierId)">
+				AND supplier_id = #{supplierId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createDateBegin)">
+				AND createDate >= #{createDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createDateEnd)">
+				AND createDate &lt;= #{createDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateDateBegin)">
+				AND updateDate >= #{updateDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateDateEnd)">
+				AND updateDate &lt;= #{updateDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(marque)">
+				AND marque = #{marque}
+			</if>
+	       <if test="@Ognl@isNotEmpty(barcode)">
+				AND barcode = #{barcode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(roughWeight)">
+				AND rough_weight = #{roughWeight}
+			</if>
+	       <if test="@Ognl@isNotEmpty(netWeight)">
+				AND net_weight = #{netWeight}
+			</if>
+	       <if test="@Ognl@isNotEmpty(length)">
+				AND length = #{length}
+			</if>
+	       <if test="@Ognl@isNotEmpty(width)">
+				AND width = #{width}
+			</if>
+	       <if test="@Ognl@isNotEmpty(height)">
+				AND height = #{height}
+			</if>
+	       <if test="@Ognl@isNotEmpty(bulk)">
+				AND bulk = #{bulk}
+			</if>
+	       <if test="@Ognl@isNotEmpty(hasSku)">
+				AND has_sku = #{hasSku}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stockLockType)">
+				AND stock_lock_type = #{stockLockType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(province)">
+				AND province = #{province}
+			</if>
+	       <if test="@Ognl@isNotEmpty(town)">
+				AND town = #{town}
+			</if>
+	       <if test="@Ognl@isNotEmpty(county)">
+				AND county = #{county}
+			</if>
+	       <if test="@Ognl@isNotEmpty(produceaddress)">
+				AND produceaddress = #{produceaddress}
+			</if>
+	       <if test="@Ognl@isNotEmpty(carriage)">
+				AND carriage = #{carriage}
+			</if>
+	       <if test="@Ognl@isNotEmpty(storeId)">
+				AND storeId = #{storeId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(categoryId)">
+				AND categoryId = #{categoryId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(afterService)">
+				AND afterService = #{afterService}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sendProvince)">
+				AND sendProvince = #{sendProvince}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sendTown)">
+				AND sendTown = #{sendTown}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sendCounty)">
+				AND sendCounty = #{sendCounty}
+			</if>
+	       <if test="@Ognl@isNotEmpty(sendAddress)">
+				AND sendAddress = #{sendAddress}
+			</if>
+	       <if test="@Ognl@isNotEmpty(minprice)">
+				AND minprice = #{minprice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(maxprice)">
+				AND maxprice = #{maxprice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(allnum)">
+				AND allnum = #{allnum}
+			</if>
+	       <if test="@Ognl@isNotEmpty(saleKbn)">
+				AND sale_kbn >= #{saleKbn}
+			</if>
+	       <if test="@Ognl@isNotEmpty(locked)">
+				AND locked = #{locked}
+			</if>
+		</where>
+	</sql>
+	 <!-- 根据userId查询收藏总数 -->
+	<select id="findBySupplier" parameterType="long" resultMap="Product">
+		select <include refid="columns" /> from t_product where supplier_id=#{supplierId} and is_marketable=1 order by createDate desc limit 0,8 ;
+	</select>
+	
+	<select id="findRecormendHotPro" resultMap="Product">
+		SELECT id,self_type FROM t_product where is_marketable = 1 
+		<if test="@Ognl@isNotEmpty(categoryId)">
+				 and categoryId = #{categoryId}
+		</if>
+		 ORDER BY sell_num DESC ,createDate ASC 
+	</select>
+	
+	<!-- 专享变普通 -->
+	<update id="updateProductSaleKbnByMap">
+       <![CDATA[
+          UPDATE t_product SET
+	        sale_kbn = 0
+          WHERE
+	        id = #{productId}
+    	]]>
+	</update>
+	
+	<!-- 审核 -->
+	<update id="checkByid">
+       <![CDATA[
+          UPDATE t_product SET
+	        is_marketable = #{isMarketable},
+	        status = #{status}
+          WHERE
+	        id = #{id}
+    	]]>
+	</update>
+	
+	<!-- 编辑时检查下架 -->
+	<update id="selloffByid">
+       <![CDATA[
+          UPDATE t_product SET
+	        is_marketable = #{isMarketable}
+          WHERE
+	        id = #{id}
+    	]]>
+	</update>
+	<update id="updateAllNum">
+       <![CDATA[
+          UPDATE t_product SET
+	        allnum = #{allnum}
+          WHERE
+	        id = #{id}
+    	]]>
+	</update>
+	<update id="unlockExchangeProduct">
+       <![CDATA[
+          UPDATE t_product SET
+	        sale_kbn = 1,
+	        locked=0,
+	        lock_reason=null
+          WHERE
+	        id = #{id}
+    	]]>
+	</update>
+	
+	<!-- 审核 -->
+	<update id="updateByBusiness">
+       <![CDATA[
+          UPDATE t_product SET
+	        locked = #{locked},
+	        lock_reason = #{lockReason},
+	        welfare_price = #{welfarePrice}
+          WHERE
+	        id = #{id}
+    	]]>
+	</update>
+	<update id="updateProductSelfType">
+       <![CDATA[
+          UPDATE t_product SET
+	        self_type = 1
+          WHERE
+	        id = #{id}
+    	]]>
+	</update>
+	<update id="changeBrand">
+       <![CDATA[
+          UPDATE t_product INNER JOIN t_product_brand ON(t_product.brand_id = t_product_brand.old_id AND t_product_brand.supplier_id=t_product.supplier_id AND t_product_brand.shop_id=t_product.shop_id) 
+	        SET brand_id = t_product_brand.id
+          WHERE
+	        t_product.supplier_id = #{supplierId} AND t_product.shop_id=#{shopId} AND is_marketable>-10
+    	]]>
+	</update>
+	<!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findList" resultMap="Product">
+		SELECT pro.id,pro.brand_id,pro.partnumber,pro.full_name,pro.name,pro.promotion,pro.keyword,pro.unit,pro.weight,pro.type,pro.model,pro.show_price,pro.introduction,pro.image,pro.is_marketable,pro.is_recomment,pro.status,pro.supplier_id,pro.createDate,pro.updateDate,pro.marque,pro.barcode,pro.rough_weight,pro.net_weight,pro.length,pro.width,pro.height,pro.bulk,pro.has_sku,pro.stock_lock_type,pro.province,pro.town,pro.county,pro.produceaddress,pro.carriage,pro.storeId,pro.categoryId,pro.afterService,pro.sendProvince,pro.sendTown,pro.sendCounty,pro.sendAddress,pro.minprice,pro.maxprice,pro.allnum,
+		pro.sell_num,pro.sale_kbn,pro.sale_note,pro.comment_count,pro.locked,pro.lock_reason,pro.welfare_price,pro.div_level,pro.emp_price,pro.emp_cash,pro.emp_level,sup.com_name as supplierName,pro.self_type,pro.self_time
+	    FROM t_product pro INNER JOIN t_supplier sup ON pro.supplier_id = sup.id
+	    <where>	
+            <if test="@Ognl@isNotEmpty(isMarketable)">
+                AND pro.is_marketable = #{isMarketable}
+             </if>
+			<if test="@Ognl@isEmpty(isMarketable)">
+				AND pro.is_marketable > -10
+			</if>
+			<if test="@Ognl@isNotEmpty(brandId)">
+                AND pro.brand_id = #{brandId}
+             </if>
+			<if test="@Ognl@isNotEmpty(status)">
+				AND pro.status = #{status}
+			</if>
+			<if test="@Ognl@isNotEmpty(saleKbn)">
+				AND FIND_IN_SET(pro.sale_kbn,#{saleKbn})
+			</if>
+	       <if test="@Ognl@isNotEmpty(locked)">
+				AND pro.locked = #{locked}
+			</if>
+			<if test="@Ognl@isNotEmpty(name)">
+				AND pro.full_name like CONCAT(CONCAT('%',#{name}),'%')
+			</if>
+			<if test="@Ognl@isNotEmpty(id)">
+				AND pro.id like CONCAT(CONCAT('%',#{id}),'%')
+			</if>
+			<if test="@Ognl@isNotEmpty(startDate)">
+				AND pro.createDate >= #{startDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endDate)">
+				AND pro.createDate &lt;= #{endDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(managerId)">
+				AND sup.manager_id= #{managerId}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(supplierId)">
+				AND pro.supplier_id= #{supplierId}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(supplierName)">
+				AND sup.com_name like CONCAT(CONCAT('%',#{supplierName}),'%')
+		   </if>
+		   <if test="@Ognl@isNotEmpty(saleKbnTJ)">
+				AND pro.sale_kbn = #{saleKbnTJ}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(dateTJ)">
+                AND DATE_FORMAT(pro.createDate,'%Y-%m')=#{dateTJ}
+                <!-- 统计用 -->
+		   </if>
+		    <if test="@Ognl@isNotEmpty(selfType)">
+				AND FIND_IN_SET(pro.self_type,#{selfType})
+		   </if>
+		</where>
+		ORDER BY createDate DESC
+    </select>
+    
+    <!-- 获取商品信息 -->
+    <select id="getById" resultMap="Product">
+		SELECT
+		product.*,category.name as categoryName,
+		IFNULL(brand.name,brand.nameEn) as brandName,
+		supplier.com_name as supplierName,
+		shop.shopname as shopname,
+		attr.name as name_attr,attribute.value as value_attribute,
+		para.name as name_para,paramater.parameter_value as parameter_value_parameter,
+		detail.name as name_detail,detail.num as num_detail,
+		proSpe.min_limit_num as min_limit_num,
+		proSpe.id as id_specifications,proSpe.price as specifications_price,proSpe.maxFucoin as specifications_maxFucoin,proSpe.itemValues as specifications_itemValues,proSpe.itemids as specifications_itemids,
+		(SELECT quantity FROM t_inventory where productSpecificationsId=proSpe.id) as specifications_stock
+		FROM t_product as product
+		LEFT JOIN t_product_brand as brand on brand.id=product.brand_id
+		LEFT JOIN t_supplier as supplier on supplier.id=product.supplier_id 
+		LEFT JOIN t_shop as shop on shop.id=product.shop_id 
+		LEFT JOIN t_product_category as category on category.id = product.categoryId
+		LEFT JOIN t_product_specifications as proSpe ON product.id = proSpe.product_id  AND proSpe.isDelete = 0
+ 
+		LEFT JOIN (SELECT * from t_product_attribute where product_id=#{id}) as attribute on attribute.product_id=product.id
+		LEFT JOIN (SELECT * from t_attribute) as attr ON attr.id = attribute.attribute_id
+		LEFT JOIN (SELECT * from t_product_parameter_value where productId=#{id}) as paramater on paramater.productId = product.id
+		LEFT JOIN (SELECT * from t_parameter_group) as para on para.id = paramater.parameter_group_id
+		LEFT JOIN (SELECT * from t_product_detail_list where product_id=#{id}) as detail on detail.product_id=product.id
+		WHERE product.id = #{id}
+		ORDER BY product.createDate DESC,attr.orders asc,para.orders asc,detail.orders asc
+</select>
+
+	  <!-- 查看企业的人数（未注销） -->
+	  <select id="getCountBySupplier" resultType="java.lang.Integer">
+	    select count(1) from t_product where is_marketable = 1 and  supplier_id = #{supplierId}
+	  </select>
+	  <!-- 查看企业的人数（未注销） -->
+	  <select id="getCountBySupplierDate" resultType="java.lang.Integer">
+	    select count(1) from t_product where is_marketable = 1 and  supplier_id = #{supplierId} and createDate BETWEEN #{startDate} AND #{endDate}  
+	  </select>
+	  
+	  <!-- 通过商品上架状态和上架时间获取商品信息 -->
+	  <select id="findBySelfTypeAndSelfTime" resultMap="Product">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_product 
+            WHERE 
+                self_time <= #{selfTime} 
+            AND self_type = #{selfType}
+            AND status = 2
+            AND is_marketable = 1 
+        ]]>
+    </select>
+    <!-- 修改上线状态 -->
+    <update id="updateSelfType">
+       <![CDATA[
+          UPDATE t_product SET
+	        self_type = #{selfType}
+          WHERE
+	        id = #{id}
+    	]]>
+	</update>
+</mapper>
+

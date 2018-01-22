@@ -1,0 +1,32 @@
+<table class="table table-striped table-bordered table-hover nomargin-bottom">
+	<thead>
+		<tr>
+			<th class="center">月份</th>
+			<th class="center">招商经理</th>
+			<th class="center">员工首单（单）</th>
+			<th class="center">换领总额</th>
+			<th class="center">试用总额</th>
+			<th class="center">生日礼金（人次）</th>
+			<th class="center">过节费</th>
+			<th class="center">销售总额</th>
+			<th class="center">商家首单（单）</th>
+		</tr>
+	</thead>
+	<tbody>
+		@for(item in page.list){
+			<tr>
+				<td class="center">${item.month!}</td>
+				<td class="center">${item.managerName!}</td>
+				<td class="center">${item.empOrderCnt!}</td>
+				<td class="center">${item.exchangeAmount!}</td>
+				<td class="center">${item.trailAmount!}</td>
+				<td class="center">${item.birthDayCnt!}</td>
+				<td class="center">${item.festivalAmount!}</td>
+				<td class="center">${item.orderAmount!}</td>
+				<td class="center">${item.supplierOrderCnt!}</td>
+			</tr>
+		@}
+	</tbody>
+</table>
+<div class="space-8"></div>
+<#paginate page="${page}" />

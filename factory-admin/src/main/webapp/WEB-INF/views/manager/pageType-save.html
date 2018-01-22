@@ -1,0 +1,44 @@
+<div class="layer">
+	<form name="FormPost" id="sysuser-save" class="FormGrid"  method="post"
+		action="${ctxPath}/pageType/doEdit">
+		
+		<input type="hidden" value="${pageType.pageTypeId!}" name="pageTypeId"/>
+		<table class="EditTable" width="100%">
+			<tbody>
+				<tr class="FormData">
+					<td class="CaptionTD">位置名称</td>
+					<td class="DataTD width-100"><input type="text"
+						name="name" datatype="*" nullmsg="请输入位置名称！"
+						value="${pageType.name!}"></td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">位置标题</td>
+					<td class="DataTD">
+					<input type="text" value="${pageType.title!}" name="title"
+					datatype="*"  nullmsg="请输入标题！"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">排序</td>
+					<td class="DataTD">
+					<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" maxlength="3" value="${pageType.orders!}" name="orders"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">最大数量</td>
+					<td class="DataTD">
+					<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" maxlength="3" value="${pageType.maxNum!}" name="maxNum"/>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+<#save formId="sysuser-save" />
+
+<script type="text/javascript">
+
+//描述框自动扩张高度
+$('textarea[class*=autosize]').autosize({append: "\n"});
+$("#user-role-update").chosen({width: "100%",search_contains: true}); 
+</script>

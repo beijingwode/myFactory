@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SuborderitemMapper">
+
+	<resultMap id="Suborderitem" type="com.wode.factory.model.Suborderitem">
+        <result property="subOrderItemId" column="subOrderItemId"/>
+        <result property="subOrderId" column="subOrderId"/>
+        <result property="partNumber" column="partNumber"/>
+        <result property="price" column="price"/>
+        <result property="number" column="number"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="productId" column="productId"/>
+        <result property="skuId" column="skuId"/>
+        <result property="commentFlag" column="commentFlag"/>
+        <result property="promotionId" column="promotion_id"/>
+        <result property="promotionProductId" column="promotion_product_id"/>
+        <result property="realPay" column="real_pay"/>
+        <result property="shipping" column="shipping"/>
+        <result property="orderId" column="order_id"/>
+        <result property="saleBillId" column="sale_bill_id"/>
+        <result property="commissionRatio" column="commissionRatio"/>
+        <result property="companyTicket" column="companyTicket"/>
+        <result property="benefitType" column="benefit_type"/>
+        <result property="benefitAmount" column="benefit_amount"/>
+        <result property="saleKbn" column="sale_kbn"/>
+        <result property="productName" column="productName"/>
+        <result property="empPrice" column="emp_price"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="categoryName" column="categoryName"/>
+        <result property="productCode" column="product_code"/>
+        <result property="itemValues" column="itemValues"/>
+        <result property="image" column="image"/>
+        <result property="benefitTicket" column="benefit_ticket"/>
+        <result property="benefitSelf" column="benefit_self"/>
+	    <result property="internalPurchasePrice" column="internal_purchase_price"/>
+	    <result property="fromWay" column="from_way"/>
+	    <result property="fromType" column="from_type"/>
+        
+	</resultMap>
+	
+	<resultMap id="SuborderitemVo2" type="com.wode.factory.user.vo.SubOrderItemVo2">
+        <result property="subOrderItemId" column="subOrderItemId"/>
+        <result property="subOrderId" column="subOrderId"/>
+        <result property="partNumber" column="partNumber"/>
+        <result property="price" column="price"/>
+        <result property="number" column="number"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="productId" column="productId"/>
+        <result property="skuId" column="skuId"/>
+        <result property="commentFlag" column="commentFlag"/>
+        <result property="promotionId" column="promotion_id"/>
+        <result property="promotionProductId" column="promotion_product_id"/>
+        <result property="realPay" column="real_pay"/>
+        <result property="shipping" column="shipping"/>
+        <result property="orderId" column="order_id"/>
+        <result property="saleBillId" column="sale_bill_id"/>
+        <result property="commissionRatio" column="commissionRatio"/>
+        <result property="companyTicket" column="companyTicket"/>
+        <result property="benefitType" column="benefit_type"/>
+        <result property="benefitAmount" column="benefit_amount"/>
+        <result property="saleKbn" column="sale_kbn"/>
+        <result property="productName" column="productName"/>
+        <result property="empPrice" column="emp_price"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="categoryName" column="categoryName"/>
+        <result property="productCode" column="product_code"/>
+        <result property="itemValues" column="itemValues"/>
+        <result property="image" column="image"/>
+        <result property="fromWay" column="from_way"/>
+	    <result property="fromType" column="from_type"/>
+        <!-- vo 属性 -->
+        <result property="supplierId" column="supplier_id"/>
+        <result property="userId" column="userId"/>
+        <result property="benefitTicket" column="benefit_ticket"/>
+        <result property="benefitSelf" column="benefit_self"/>
+        <result property="internalPurchasePrice" column="internal_purchase_price"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		subOrderItemId,subOrderId,partNumber,price,number,createTime,updateTime,updateBy,productId,skuId,commentFlag,promotion_id,
+		promotion_product_id,real_pay,shipping,order_id,sale_bill_id,commissionRatio,companyTicket,benefit_type,benefit_amount,sale_kbn,
+		productName,emp_price,categoryId,categoryName,product_code,itemValues,image,benefit_ticket,benefit_self,internal_purchase_price,from_way,from_type
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="subOrderItemId">
+    <![CDATA[
+        INSERT INTO t_suborderitem (
+        	subOrderItemId ,
+        	subOrderId ,
+        	partNumber ,
+        	price ,
+        	number ,
+        	createTime ,
+        	updateTime ,
+        	updateBy ,
+        	productId,
+        	skuId,
+        	commentFlag,
+        	promotion_id,
+        	promotion_product_id,
+        	real_pay,
+        	shipping,
+        	order_id,
+        	sale_bill_id,
+        	commissionRatio,
+        	companyTicket,
+        	benefit_type,
+        	benefit_amount,
+        	sale_kbn,
+        	productName,
+        	emp_price,
+        	categoryId,
+        	categoryName,
+        	product_code,
+        	itemValues,
+        	image,
+        	benefit_ticket,
+        	benefit_self,
+        	internal_purchase_price,
+        	from_way,
+        	from_type
+        ) VALUES (
+        	#{subOrderItemId} ,
+        	#{subOrderId} ,
+        	#{partNumber} ,
+        	#{price} ,
+        	#{number} ,
+        	#{createTime} ,
+        	#{updateTime} ,
+        	#{updateBy} ,
+        	#{productId} ,
+        	#{skuId} ,
+        	#{commentFlag},
+        	#{promotionId},
+        	#{promotionProductId},
+        	#{realPay},
+        	#{shipping},
+        	#{orderId},
+        	#{saleBillId},
+        	#{commissionRatio},
+        	#{companyTicket},
+        	#{benefitType},
+        	#{benefitAmount},
+        	#{saleKbn},
+        	#{productName},
+        	#{empPrice},
+        	#{categoryId},
+        	#{categoryName},
+        	#{productCode},
+        	#{itemValues},
+        	#{image},
+        	#{benefitTicket},
+        	#{benefitSelf},
+        	#{internalPurchasePrice},
+        	#{fromWay},
+        	#{fromType}
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_suborderitem SET
+	        subOrderId = #{subOrderId} ,
+	        partNumber = #{partNumber} ,
+	        price = #{price} ,
+	        number = #{number} ,
+	        createTime = #{createTime} ,
+	        updateTime = #{updateTime} ,
+	        updateBy = #{updateBy} ,
+	        productId= #{productId} ,
+        	skuId= #{skuId} ,
+        	commentFlag= #{commentFlag},
+        	promotion_id=#{promotionId},
+        	promotion_product_id=#{promotionProductId},
+        	real_pay=#{realPay},
+        	shipping=#{shipping},
+        	order_id=#{orderId},
+        	sale_bill_id=#{saleBillId},
+        	commissionRatio=#{commissionRatio},
+        	companyTicket=#{companyTicket},
+        	benefit_type=#{benefitType},
+        	benefit_amount=#{benefitAmount},
+        	benefit_ticket=#{benefitTicket},
+        	benefit_self=#{benefitSelf},
+        	internal_purchase_price=#{internalPurchasePrice},
+        	from_way=#{fromWay},
+        	from_type=#{fromType}
+        	
+        WHERE 
+	        subOrderItemId = #{subOrderItemId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_suborderitem WHERE
+        subOrderItemId = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="Suborderitem">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_suborderitem 
+	        WHERE 
+		        subOrderItemId = #{id} 
+	    ]]>
+	</select>
+	
+	<select id="getSuborderitemListByProductId" resultType="java.lang.Integer">
+		SELECT count(*)
+		FROM t_suborderitem soi INNER JOIN t_orders o ON o.orderId = soi.order_id
+		INNER JOIN t_suborder s on (s.subOrderId=soi.subOrderId AND s.`status` != -1)
+		WHERE o.userId = #{userId}  
+		  AND soi.productid in (
+			SELECT item.productid 
+			FROM t_product_trial_limit_group lg
+	      	INNER JOIN t_product_trial_limit_item item on(item.groupid=lg.id)
+			WHERE lg.status=0 and (SYSDATE() BETWEEN lg.limit_start AND lg.limit_end) 
+	      	  AND EXISTS (SELECT 1 from t_product_trial_limit_item li where li.groupid=lg.id AND li.productid=#{productId}) 
+			  AND item.productid != #{productId}
+	          AND soi.productId = item.productid AND (s.createTime >= lg.limit_start AND s.createTime &lt;=lg.limit_end)
+	     )
+	</select>
+	    
+	<select id="findBySubOrderId" resultMap="Suborderitem" parameterType="String">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_suborderitem 
+	        WHERE 
+		        subOrderId = #{subOrderId} 
+	    ]]>
+	</select>
+	    
+	  <!-- 查看企业的人数（未注销） -->
+	  <select id="getCountByUserAndProduct" resultType="java.lang.Integer">
+	    select sum(number) from t_suborderitem soi INNER JOIN t_orders o ON (o.orderId=soi.order_id) 
+	    INNER JOIN t_suborder s on (s.subOrderId=soi.subOrderId AND s.`status` != -1)
+		where soi.productId = #{productId} AND o.userId=#{userId}
+	  </select>
+	  
+	  <!-- 查看企业的人数（未注销） -->
+	  <select id="getTrialCountByUser" resultType="java.lang.Integer">
+	    select count(1) from t_suborderitem soi INNER JOIN t_orders o ON (o.orderId=soi.order_id) INNER JOIN t_suborder s ON (s.subOrderId=soi.subOrderId) 
+		where soi.sale_kbn = 5 AND soi.emp_price>0  AND s.`status`>=4 AND s.commentStatus=0 AND o.userId=#{userId}
+	  </select>
+	  
+	  <!-- 查看企业的人数（未注销） -->
+	  <select id="getTrialReturnByOrder" resultType="java.math.BigDecimal">
+	    select sum(IFNULL(soi.emp_price,0)*soi.number) from t_suborderitem soi 
+		where soi.sale_kbn = 5 AND soi.subOrderId=#{subOrderId} AND soi.emp_price>0
+	  </select>
+	  
+	<select id="findForComment" resultMap="SuborderitemVo2" parameterType="com.wode.factory.user.vo.SubOrderItemVo2">
+       select i.productName,i.image,i.commentFlag,i.subOrderItemId,i.createTime,
+       	i.productId,i.subOrderId,s.supplierId supplier_id,i.itemValues,i.price,i.shipping,i.emp_price,
+       	i.companyTicket,i.benefit_type,i.benefit_amount,i.sale_kbn,i.real_pay,i.number,i.benefit_ticket,i.benefit_self
+	   from t_suborderitem i 
+       inner join t_suborder s on i.subOrderId = s.subOrderId 
+       inner join t_orders o on s.orderId= o.orderId 
+       where o.userId = #{userId} AND s.status in (3,4,5,11,12)
+	   <if test="@Ognl@isNotEmpty(commentFlag)">
+	       AND i.commentFlag = #{commentFlag}
+	   </if>
+	   <if test="@Ognl@isNotEmpty(subOrderId)">
+	       AND i.subOrderId = #{subOrderId}
+	   </if>
+	   order by i.createTime desc
+	</select>
+	<select id="findForComment_count" resultMap="SuborderitemVo2" parameterType="com.wode.factory.user.vo.SubOrderItemVo2">
+       select count(*) from t_suborderitem i 
+       inner join t_suborder s on i.subOrderId = s.subOrderId 
+       inner join t_orders o on s.orderId= o.orderId 
+	   where o.userId = #{userId} AND s.status in (3,4,5,11,12)
+	   <if test="@Ognl@isNotEmpty(commentFlag)">
+	       AND i.commentFlag = #{commentFlag}
+	   </if>
+	   <if test="@Ognl@isNotEmpty(subOrderId)">
+	       AND i.subOrderId = #{subOrderId}
+	   </if>
+	</select>
+		
+	<!-- 查看企业的人数（未注销） -->
+  	<select id="findLastOne" resultMap="Suborderitem">
+	    SELECT soi.*
+	    FROM t_suborderitem soi 
+	    INNER JOIN t_orders o ON (o.orderId=soi.order_id)
+		WHERE soi.skuId = #{skuId} AND o.userId=#{userId}
+		ORDER BY createTime DESC LIMIT 1
+	</select>
+    
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_suborderitem 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="Suborderitem">
+    	SELECT <include refid="columns" />
+	    FROM t_suborderitem 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(subOrderItemId)">
+				AND subOrderItemId = #{subOrderItemId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(subOrderId)">
+				AND subOrderId = #{subOrderId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(partNumber)">
+				AND partNumber = #{partNumber}
+			</if>
+	       <if test="@Ognl@isNotEmpty(price)">
+				AND price = #{price}
+			</if>
+	       <if test="@Ognl@isNotEmpty(number)">
+				AND number = #{number}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createTimeBegin)">
+				AND createTime >= #{createTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createTimeEnd)">
+				AND createTime &lt;= #{createTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+				AND updateTime >= #{updateTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+				AND updateTime &lt;= #{updateTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateBy)">
+				AND updateBy = #{updateBy}
+			</if>
+			<if test="@Ognl@isNotEmpty(promotionId)">
+				AND promotion_id = #{promotionId}
+			</if>
+			<if test="@Ognl@isNotEmpty(promotionProductId)">
+				AND promotion_product_id = #{promotionProductId}
+			</if>
+			<if test="@Ognl@isNotEmpty(realPay)">
+				AND real_pay = #{realPay}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(shipping)">
+				AND shipping = #{shipping}
+			</if>
+			<if test="@Ognl@isNotEmpty(orderId)">
+				AND order_id = #{orderId}
+			</if>
+			<if test="@Ognl@isNotEmpty(saleBillId)">
+				AND sale_bill_id = #{saleBillId}
+			</if>
+			<if test="@Ognl@isNotEmpty(commissionRatio)">
+				AND commissionRatio = #{commissionRatio}
+			</if>
+		</where>
+	</sql>
+	<!-- 查看企业的人数（未注销） -->
+	  <select id="getCountByPageKeyAndProduct" resultType="java.lang.Integer">
+	    select sum(number) from t_suborderitem soi INNER JOIN t_orders o ON (o.orderId=soi.order_id) 
+	    INNER JOIN t_suborder s on (s.subOrderId=soi.subOrderId AND s.`status` > -1)
+		where soi.productId = #{productId} AND soi.from_way=#{fromWay} AND soi.createTime >= CURDATE() AND o.self_delivery=1
+	  </select>
+	  
+	  <select id="findByOrderId" resultMap="Suborderitem" parameterType="String">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_suborderitem 
+	        WHERE 
+		        order_id = #{orderId} 
+	    ]]>
+	</select>
+	
+</mapper>
+

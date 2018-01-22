@@ -1,0 +1,97 @@
+<div class="tabbable">
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active">
+		<a data-toggle="tab" href="#order_home"> 
+			<i class="green ace-icon fa fa-users bigger-120"></i> 商家列表
+		</a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/supplierList/list" method="post" id="search-form" 
+				target="list-page" class="center clearfix">
+				<input type="hidden" name="viewStatus" value="${viewStatus!}">
+				<div class="row padding-tb-10">
+				<div class="col-sm-4">
+						<label>类型：</label>
+						<select name="property">
+							<option value="">全部</option>
+							<option value="0" >生产厂商</option>
+							<option value="1" >品牌商</option>
+							<option value="2" >代理商</option>
+						</select>
+						<select name="status">
+							<option value="">状态</option>
+							<option value="4" selected="selected" >正常商家</option>
+							<option value="-2" >已退出</option>
+						</select>
+				</div>
+				<div class="col-sm-4">
+						<label>商家名称：</label>
+						<input type="text" id="comName" name="comName">
+						@if(!isEmpty(mlist)){
+						<#select name="managerId" width="45%">
+							<option value="-1">招商经理</option>
+							@for(item in mlist){
+								@if(item.id == uid){
+								<option value="${item.id! }" selected="selected" >${item.name! }</option>
+								@}
+								@if(item.status != 2){
+								<option value="${item.id! }" >${item.name! }</option>
+								@}
+							@}
+						</#select>
+						@}
+				</div>
+				<div class="col-sm-4">
+					<label>创建日期：</label>
+					<input type="text" id="startDate" name="creatTimeBegin">
+					<label>-</label>
+					<input type="text" id="endDate" name="creatTimeEnd">
+					&nbsp;&nbsp;
+					<div class="padding-trb-10 col-sm-12">
+						<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">商家列表</span>
+						<span class="btn btn-info btn-sm col-sm-6" id="search-btn">条件查询</span>
+					</div>
+				</div>
+				<div style="width:100px;float: right;margin-right: 40px" onclick="exportExcel()">
+					<span class="btn fa fa-file-excel-o" id="excel-btn">&nbsp;&nbsp;导出全部</span>
+				</div>
+				</div>
+				
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	laydate({
+	    elem: '#startDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#endDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	</script>
+<script>
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	
+	function exportExcel() {
+		var action,target;
+		var thisform=document.getElementById('search-form');
+		action=thisform.action;
+		target=thisform.target;
+		
+		thisform.action="${ctxPath}/supplierList/exportExcel";
+		thisform.target="_blank";
+		thisform.submit();
+		
+		thisform.action=action;
+		thisform.target=target;
+	}
+</script>

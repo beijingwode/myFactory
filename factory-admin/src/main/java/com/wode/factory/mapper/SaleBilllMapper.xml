@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+
+<mapper namespace="com.wode.factory.mapper.SaleBillDao">
+
+	<resultMap id="SaleBill" type="com.wode.factory.model.SaleBill">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="billId" column="billId"/>
+        <result property="title" column="title"/>
+        <result property="name" column="name"/>
+        <result property="startTime" column="startTime"/>
+        <result property="endTime" column="endTime"/>
+        <result property="receivePrice" column="receivePrice"/>
+        <result property="carriagePrice" column="carriagePrice"/>
+        <result property="commissionPrice" column="commissionPrice"/>
+        <result property="deductPrice" column="deductPrice"/>
+        <result property="payStatus" column="payStatus"/>
+        <result property="payPrice" column="payPrice"/>
+        <result property="payTime" column="payTime"/>
+        <result property="fuCoin" column="fuCoin"/>
+        <result property="confirmStatus" column="confirmStatus"/>
+        <result property="confirmTime" column="confirmTime"/>
+        <result property="receiptStatus" column="receiptStatus"/>
+        <result property="receiptTime" column="receiptTime"/>
+        <result property="printStatus" column="printStatus"/>
+        <result property="printTime" column="printTime"/>
+        <result property="createTime" column="createTime"/>
+        <result property="createUserid" column="createUserid"/>
+        <result property="isDelete" column="isDelete"/>
+        <result property="receiptCode" column="receipt_code"/>
+        <result property="receiptId" column="receipt_id"/>
+        <result property="refundId" column="refund_id"/>
+        <result property="refundAmount" column="refund_amount"/>
+        <result property="financeCode" column="finance_code"/>
+        <result property="closeType" column="close_type"/>
+        <result property="closeNote" column="close_note"/>
+        <result property="saleDurationKey" column="saleDurationKey"/>
+        <result property="relationType" column="relation_type"/>
+        <result property="relationKey" column="relation_key"/>
+        <result property="relationDate" column="relation_date"/>
+        <result property="relationUser" column="relation_user"/>
+        <result property="payType" column="pay_type"/>
+        <result property="payNote" column="pay_note"/>
+        <result property="lastUpdateTime1" column="last_update_time1"/>
+        <result property="lastUpdateTime2" column="last_update_time2"/>
+        <result property="lastUpdateTime3" column="last_update_time3"/>
+        <result property="lastUpdateTime4" column="last_update_time4"/>
+	</resultMap>
+	
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,supplierId,billId,title,name,startTime,endTime,receivePrice,carriagePrice,commissionPrice,deductPrice,payStatus,payPrice,
+		payTime,fuCoin,confirmStatus,confirmTime,receiptStatus,receiptTime,printStatus,printTime,createTime,createUserid,isDelete,
+		receipt_code,receipt_id,refund_id,refund_amount,close_type,close_note,saleDurationKey,relation_type,relation_key,relation_date,
+		relation_user,pay_type,pay_note,last_update_time1,last_update_time2,last_update_time3,last_update_time4
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_sale_bill (
+        	id ,
+        	supplierId ,
+        	billId,
+        	title ,
+        	name ,
+        	startTime ,
+        	endTime ,
+        	receivePrice ,
+        	carriagePrice ,
+        	commissionPrice ,
+        	deductPrice ,
+        	payStatus ,
+        	payPrice ,
+        	payTime ,
+        	fuCoin ,
+        	confirmStatus ,
+        	confirmTime ,
+        	receiptStatus ,
+        	receiptTime ,
+        	printStatus ,
+        	printTime ,
+        	createTime ,
+        	createUserid ,
+        	isDelete ,
+        	refund_id ,
+        	refund_amount ,
+        	close_type ,
+        	close_note ,
+        	saleDurationKey ,
+        	relation_type ,
+        	relation_key ,
+        	relation_date ,
+        	relation_user,
+        	pay_type,
+        	pay_note
+        ) VALUES (
+        	#{id} ,
+        	#{supplierId} ,
+        	#{billId},
+        	#{title} ,
+        	#{name} ,
+        	#{startTime} ,
+        	#{endTime} ,
+        	#{receivePrice} ,
+        	#{carriagePrice} ,
+        	#{commissionPrice} ,
+        	#{deductPrice} ,
+        	#{payStatus} ,
+        	#{payPrice} ,
+        	#{payTime} ,
+        	#{fuCoin} ,
+        	#{confirmStatus} ,
+        	#{confirmTime} ,
+        	#{receiptStatus} ,
+        	#{receiptTime} ,
+        	#{printStatus} ,
+        	#{printTime} ,
+        	#{createTime} ,
+        	#{createUserid} ,
+        	#{isDelete}  ,
+        	#{refundId}  ,
+        	#{refundAmount} ,
+        	#{closeType} ,
+        	#{closeNote} ,
+        	#{saleDurationKey} ,
+        	#{relationType} ,
+        	#{relationKey} ,
+        	#{relationDate} ,
+        	#{relationUser},
+        	#{payType} ,
+        	#{payNote}
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_sale_bill SET
+	        supplierId = #{supplierId} ,
+	        billId =#{billId},
+	        title = #{title} ,
+	        name = #{name} ,
+	        startTime = #{startTime} ,
+	        endTime = #{endTime} ,
+	        receivePrice = #{receivePrice} ,
+	        carriagePrice = #{carriagePrice} ,
+	        commissionPrice = #{commissionPrice} ,
+	        deductPrice = #{deductPrice} ,
+	        payStatus = #{payStatus} ,
+	        payPrice = #{payPrice} ,
+	        payTime = #{payTime} ,
+	        fuCoin = #{fuCoin} ,
+	        confirmStatus = #{confirmStatus} ,
+	        confirmTime = #{confirmTime} ,
+	        receiptStatus = #{receiptStatus} ,
+	        receiptTime = #{receiptTime} ,
+	        printStatus = #{printStatus} ,
+	        printTime = #{printTime} ,
+	        createTime = #{createTime} ,
+	        createUserid = #{createUserid} ,
+	        isDelete = #{isDelete} ,
+	        receipt_code = #{receiptCode} ,
+	        receipt_id = #{receiptId} ,
+	        relation_type = #{relationType} ,
+	        relation_key = #{relationKey} ,
+	        relation_date = #{relationDate} ,
+	        relation_user = #{relationUser},
+	        pay_type = #{payType},
+	        pay_note = #{payNote},
+	        last_update_time1 = #{lastUpdateTime1},
+	        last_update_time2 = #{lastUpdateTime2},
+	        last_update_time3 = #{lastUpdateTime3},
+	        last_update_time4 = #{lastUpdateTime4}
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_sale_bill WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="SaleBill">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_sale_bill 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+	
+    <select id="getByIds" resultMap="SaleBill">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_sale_bill 
+	        WHERE FIND_IN_SET(id,#{ids}) 
+	    ]]>
+	</select>
+	
+	<!-- 根据对账单id查询发票信息 -->
+	<select id="getSaleBillDetail" resultMap="SaleBill">
+	select sale.*,supp.com_name as name 
+	from t_sale_bill  sale left join t_supplier supp on sale.supplierId=supp.id
+	where sale.id=${id}
+	</select>
+		
+	<!-- 分页条件查询对账单 -->
+	<select id="findPageSaleBill" resultMap="SaleBill">
+		SELECT <include refid="columns" />,(select finance_code from t_supplier_duration where t_supplier_duration.supplierId=t_sale_bill.supplierId limit 1)  finance_code
+	    FROM t_sale_bill 
+	    <where>
+	    	<if test="@Ognl@isNotEmpty(id)">
+				id = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(supplierId)">
+				AND supplierId = #{supplierId}
+			</if>
+			<if test="@Ognl@isNotEmpty(billId)">
+				AND billId = #{billId}
+			</if>
+			<if test="@Ognl@isNotEmpty(title)">
+				AND title = #{title}
+			</if>
+			<if test="@Ognl@isNotEmpty(name)">
+				AND name = #{name}
+			</if>
+			<if test="@Ognl@isNotEmpty(startTime)">
+				AND startTime &gt;= #{startTime}
+			</if>
+			<if test="@Ognl@isNotEmpty(endTime)">
+				AND endTime &lt;= #{endTime}
+			</if>
+			<if test="@Ognl@isNotEmpty(payStatus)">
+				AND payStatus = #{payStatus}
+			</if>
+			<if test="@Ognl@isNotEmpty(startPayTime)">
+				AND payTime &gt;= #{startPayTime}
+			</if>
+			<if test="@Ognl@isNotEmpty(endPayTime)">
+				AND payTime &lt;= #{endPayTime}
+			</if>
+			<if test="@Ognl@isNotEmpty(confirmStatus)">
+				AND confirmStatus = #{confirmStatus}
+			</if>
+			<if test="@Ognl@isNotEmpty(receiptStatus)">
+				AND receiptStatus = #{receiptStatus}
+			</if>
+			<if test="@Ognl@isNotEmpty(printStatus)">
+				AND printStatus = #{printStatus}
+			</if>
+		   <if test="@Ognl@isNotEmpty(managerId)">
+				AND supplierId IN (select id from t_supplier where manager_id=#{managerId}) 
+		   </if>
+		   <if test="@Ognl@isNotEmpty(financeCode)">
+				AND supplierId IN (select supplierId from t_supplier_duration where finance_code=#{financeCode}) 
+		   </if>
+		   <if test="@Ognl@isNotEmpty(durationKey)">
+				AND FIND_IN_SET(saleDurationKey,#{durationKey}) 
+		   </if>
+	       <if test="@Ognl@isNotEmpty(receiptCode)">
+				AND receipt_code = #{receiptCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(receiptId)">
+				AND receipt_id = #{receiptId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(closeType)">
+				AND close_type = #{closeType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(saleDurationKey)">
+				AND saleDurationKey = #{saleDurationKey}
+			</if>
+	       <if test="@Ognl@isNotEmpty(relationType)">
+				AND relation_type = #{relationType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(relationKey)">
+				AND relation_key = #{relationKey}
+			</if>
+	    </where>
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+		<if test="@Ognl@isEmpty(sortColumns)">
+	   		ORDER BY createTime DESC
+		</if>
+	</select>
+	
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_sale_bill 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="SaleBill">
+    	SELECT <include refid="columns" />
+	    FROM t_sale_bill 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(supplierId)">
+				AND supplierId = #{supplierId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(title)">
+				AND title = #{title}
+			</if>
+	       <if test="@Ognl@isNotEmpty(name)">
+				AND name = #{name}
+			</if>
+	       <if test="@Ognl@isNotEmpty(startTimeBegin)">
+				AND startTime &gt;= #{startTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(startTimeEnd)">
+				AND startTime &lt;= #{startTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(endTimeBegin)">
+				AND endTime >= #{endTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endTimeEnd)">
+				AND endTime &lt;= #{endTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(receivePrice)">
+				AND receivePrice = #{receivePrice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(carriagePrice)">
+				AND carriagePrice = #{carriagePrice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(commissionPrice)">
+				AND commissionPrice = #{commissionPrice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(deductPrice)">
+				AND deductPrice = #{deductPrice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(payStatus)">
+				AND payStatus = #{payStatus}
+			</if>
+	       <if test="@Ognl@isNotEmpty(payPrice)">
+				AND payPrice = #{payPrice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(payTimeBegin)">
+				AND payTime >= #{payTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(payTimeEnd)">
+				AND payTime &lt;= #{payTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(fuCoin)">
+				AND fuCoin = #{fuCoin}
+			</if>
+	       <if test="@Ognl@isNotEmpty(confirmStatus)">
+				AND confirmStatus = #{confirmStatus}
+			</if>
+	       <if test="@Ognl@isNotEmpty(confirmTimeBegin)">
+				AND confirmTime >= #{confirmTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(confirmTimeEnd)">
+				AND confirmTime &lt;= #{confirmTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(receiptStatus)">
+				AND receiptStatus = #{receiptStatus}
+			</if>
+	       <if test="@Ognl@isNotEmpty(receiptTimeBegin)">
+				AND receiptTime >= #{receiptTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(receiptTimeEnd)">
+				AND receiptTime &lt;= #{receiptTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(printStatus)">
+				AND printStatus = #{printStatus}
+			</if>
+	       <if test="@Ognl@isNotEmpty(printTimeBegin)">
+				AND printTime >= #{printTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(printTimeEnd)">
+				AND printTime &lt;= #{printTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(createTimeBegin)">
+				AND createTime >= #{createTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createTimeEnd)">
+				AND createTime &lt;= #{createTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(createUserid)">
+				AND createUserid = #{createUserid}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isDelete)">
+				AND isDelete = #{isDelete}
+			</if>
+	       <if test="@Ognl@isNotEmpty(closeType)">
+				AND close_type = #{closeType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(saleDurationKey)">
+				AND saleDurationKey = #{saleDurationKey}
+			</if>
+	       <if test="@Ognl@isNotEmpty(relationType)">
+				AND relation_type = #{relationType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(relationKey)">
+				AND relation_key = #{relationKey}
+			</if>
+		</where>
+	</sql>
+		
+    <!--
+    	从明细中合计出账单信息
+    -->
+    <select id="sumBydetail" resultMap="SaleBill">
+		SELECT
+			null id,
+			null supplierId,
+			null billId,
+			null title,
+			null 'name',
+			null startTime,
+			null endTime,
+			SUM(T.realPrice * T.`status`) receivePrice,
+			SUM(T.carriagePrice* T.`status`) carriagePrice,
+			SUM(T.commission* T.`status`) commissionPrice,
+			0 deductPrice,
+			0 payStatus,
+			SUM(T.payPrice * T.`status`) payPrice,
+			null payTime,
+			SUM(T.fuCoin) fuCoin,
+			0 confirmStatus,
+			null confirmTime,
+			0 receiptStatus,
+			null receiptTime,
+			0 printStatus,
+			null printTime,
+			null createTime,
+			null createUserid,
+			0 isDelete
+		FROM t_sale_detail AS T
+		WHERE T.saleBillId = #{id}
+    </select>
+</mapper>
+

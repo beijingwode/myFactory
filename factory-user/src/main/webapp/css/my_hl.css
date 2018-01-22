@@ -1,0 +1,120 @@
+.hl_tit_li{width:1020px;height:36px;margin:0 auto;margin-top:10px;border-bottom:1px solid #e6e6e6;}
+.hl_tit_li ul{width:1020px;height:36px;}
+.hl_tit_li ul li{width:100px;height:36px;float:left;}
+.hl_tit_li ul li a{width:100px;height:36px;display:block;text-align:center;line-height:36px;font-size:16px;font-weight:600;color:#333333;}
+.hl_tit_li ul li.bg{background:url(../images/hl_tit_li_bg.png) no-repeat right center}
+.hl_tit_li ul li.crr {border-bottom:1px solid #ff4040;}
+.hl_tit_li ul li.crr a{color:#ff4040} 
+
+.table_top{width:1020px;height:42px;margin:0 auto;background:#fbfbfb;margin-bottom:20px;}
+.table_top ul{width:1020px;height:42px;}
+.table_top ul li{height:42px;float:left;line-height:42px;text-align:center;font-size:12px;color:#333333;font-weight:600;}
+.w80{width:80px;}
+.w90{width:90px;}
+.w100{width:100px;}
+.w110{width:110px;}
+.w120{width:120px;}
+.w124{width:124px;}
+.w344{width:344px;}
+.w408{width:408px;}
+.bor{border-left:1px solid #e5e5e5}
+.table_top ul li select{width:90px;height:25px;}
+
+.pro_box{width:1018px;height:auto;margin:0 auto;margin-bottom:10px;border:1px solid #e5e5e5;}
+.pro_box_top{height:39px;width:978px;background:#fbfbfb;padding:0 20px;}
+.pro_box_top p{height:39px;float:left;line-height:39px;font-size:12px;color:#6a6a6a;}
+.pro_box_top .p1{width:245px;}
+.pro_box_top .p2{width:400px;color:#959595;}
+.pro_box_top .p3{float:right;}
+
+.pro_con{width:1018px;height:auto;padding:11px 0;border-top:1px solid #e5e5e5}
+.green_bg{background:#f8fffa;}
+.yellow_bg{background:#fffbf5;}
+.pro_con tr{width:1018px;height:96px;overflow:hidden; }
+.pro_con tr td{height:96px;text-align:center;font-size:12px;color:#333333;}
+.pro_con tr td.col_green{color:#29a513;}
+.pro_con tr td.col_yellow{color:#ff9900;}
+.pro_con tr td a{color:#2b8dff}
+
+
+
+.pro_con tr td dl{width:280px;height:82px;padding-left:20px;}
+.pro_con tr td dl dt{width:80px;height:80px;border:1px solid #e5e5e5;float:left;margin-right:10px;}
+.pro_con tr td dl dt img{width:80px;height:80px;}
+.pro_con tr td dl dd{width:170px;float:left;text-align:left;line-height:18px;color:#959595;}
+.pro_con tr td dl .dd1{margin:12px 0 5px 0;}
+
+/*调剂清单*/
+.change_list{width:300px;height:30px;margin:16px 0 0 20px;}
+.change_list a{width:62px;height:28px;display:block;line-height:28px;text-align:center;font-size:14px;color:#333333;border:1px solid #e6e6e6;border-radius:3px;float:left;margin-right:14px;}
+.change_list .wancheng{background:#ff4040;color:#fff;border:1px solid #ff4040;display:none;}
+.change_list .quxiao{background:#f2f2f2;color:#333333;border:1px solid #e3e3e3;display:none;}
+
+.list_box{width:1020px;height:auto;overflow:hidden;margin:0 auto;margin-top:16px;}
+.list_con{width:468px;height:auto;padding:10px 15px 15px 15px;}
+.lt{float:left;border:1px solid #888888;}
+.rt{float:right;border:none;}
+.list_con p{width:468px;text-align:center;}
+.list_tit{height:30px;font-size:14px;color:#333}
+.list_con ul{width:480px;height:auto;overflow:hidden;margin-left:-12px;}
+.list_con ul li{width:134px;height:134px;padding:6px;float:left;border:1px solid #e6e6e6;margin:0 0 12px 12px;position:relative;}
+.list_con ul li em{width:134px;height:134px;display:block;}
+.list_con ul li em img{width:134px;height:134px;}
+
+.list_con ul li .mengceng{width:146px;height:146px;position:absolute;top:0;left:0;background:#fff;filter:alpha(Opacity=80);-moz-opacity:0.8;opacity: 0.8;display:none;}
+
+.list_pro_detail{height:98px;width:126px;padding:24px 10px;position:absolute;top:0;left:0;display:none;}
+
+.list_pro_detail .detail_a{height:28px;width:114px;padding:8px 5px;border:1px solid #333333;}
+.list_pro_detail .detail_a a{height:28px;width:114px;display:block;line-height:14px;overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;}
+.list_pro_detail span{width:126px;height:18px;display:block;text-align:center;}
+.span1{margin-top:20px;font-size:14px;color:#333333;font-weight:600}
+.list_pro_detail a:hover p{color:#333;}
+.list_pro_detail a:hover span{color:#333;}
+
+.add_bx_box{width:64px;height:64px;position:absolute;top:42px;left:42px;cursor:pointer;display:none;background-image: url(../images/add_yx1.png);}
+.add_bx_box:hover{background-image: url(../images/add_yx2.png);}
+.add_yx_box{width:64px;height:64px;position:absolute;top:42px;left:42px;cursor:pointer;display:none;background-image: url(../images/add_bx1.png);}
+.add_yx_box:hover{background-image: url(../images/add_bx2.png);}
+.add_bx_box img,.add_yx_box img{width:64px;height:64px;}
+
+.page {padding:0;float: right;height: 30px;margin: 10px 0;text-align:right;}
+.page a {
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 11px;
+    border: 1px solid #e5e5e5;
+    border-radius: 2px;
+}
+.page .next_page{width:56px;color:#333333;border:1px solid #333333;}
+.page .more_page{border:none;margin:0;}
+.page .this_page{color:#333333;border:1px solid #333333;}
+
+/*调剂详情*/
+.w408 .back_btn{width:58px;height:26px;display:block;border:1px solid #e6e6e6;text-align:center;line-height:26px;float:left;margin:6px 0 0 13px;border-radius:3px;font-size:14px;color:#333333;font-weight:500;}
+.w408 .back_btn:hover{border:1px solid #2b8dff;color:#2b8dff}
+.zj_details{height:auto;width:1018px;overflow:hidden;margin:0 auto;margin-top:20px;}
+.zj_details ul{width:100%;}
+.zj_details ul li{margin-top:15px;text-align:right;font-size:14px;color:#797979;}
+.zj_details ul .li1 em{height:20px;font-style:normal;width:165px;display:block;line-height:20px;float:right;}
+.zj_details ul .li1 em i{height:20px;width:20px;display:block;float:right;margin-left:5px;}
+.zj_details ul .li2{height:28px;font-size:22px;color:#333333;line-height:28px;}
+.zj_details ul .li2 span{height:28px;display:block;float:right;font-size:26px;color:#ff4040;}
+.zj_details ul .li2 span i{margin-left:5px;float:right;}
+.zj_details ul .li4{font-size:12px;}
+
+/*查看原匹配商品*/
+.ypp_tit{width:1020px;height:36px;line-height:36px;margin:0 auto;border-bottom:1px solid #e5e5e5;margin-top:20px;margin-bottom:10px;}
+.ypp_tit a{padding-right:20px;font-size:16px;color:#333333;background:url(../images/ypp_tit_bg.png) no-repeat right center}
+.ypp_con{display:none;}
+
+
+
+
+
+
+
+
+
+

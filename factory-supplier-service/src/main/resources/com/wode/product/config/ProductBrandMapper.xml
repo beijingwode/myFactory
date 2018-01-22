@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ProductBrandMapper">
+
+	<resultMap id="ProductBrand" type="com.wode.factory.model.ProductBrand">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="logo" column="logo"/>
+        <result property="url" column="url"/>
+        <result property="orders" column="orders"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="introduction" column="introduction"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="nameEn" column="nameEN"/>
+        <result property="natural" column="natural"/>
+        <result property="importFlg" column="import_flg"/>
+        <result property="brandType" column="brand_type"/>
+        <result property="brandNo" column="brandNo"/>
+        <result property="brandcreatedTm" column="brandcreatedTM"/>
+        <result property="begintimeR" column="begintimeR"/>
+        <result property="endtimeR" column="endtimeR"/>
+        <result property="brandurl" column="brandurl"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="oldId" column="old_id"/>
+        <result property="status" column="status"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="begintimeAuth" column="begintimeAuth"/>
+        <result property="endtimeAuth" column="endtimeAuth"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,name,logo,url,orders,category_id,introduction,createDate,updateDate,updateBy,nameEN,`natural`,import_flg,brand_type,brandNo,brandcreatedTM,begintimeR,endtimeR,brandurl,supplier_id,shop_id,old_id,status,is_delete,begintimeAuth,endtimeAuth
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_brand (
+        	id ,
+        	name ,
+        	logo ,
+        	url ,
+        	orders ,
+        	category_id ,
+        	introduction ,
+        	createDate ,
+        	updateDate ,
+        	updateBy ,
+        	nameEN ,
+        	`natural` ,
+        	import_flg ,
+        	brand_type ,
+        	brandNo ,
+        	brandcreatedTM ,
+        	begintimeR ,
+        	endtimeR ,
+        	brandurl ,
+        	supplier_id ,
+        	shop_id ,
+        	old_id ,
+        	status ,
+        	is_delete ,
+        	begintimeAuth ,
+        	endtimeAuth 
+        ) VALUES (
+        	#{id} ,
+        	#{name} ,
+        	#{logo} ,
+        	#{url} ,
+        	#{orders} ,
+        	#{categoryId} ,
+        	#{introduction} ,
+        	#{createDate} ,
+        	#{updateDate} ,
+        	#{updateBy} ,
+        	#{nameEn} ,
+        	#{natural} ,
+        	#{importFlg} ,
+        	#{brandType} ,
+        	#{brandNo} ,
+        	#{brandcreatedTm} ,
+        	#{begintimeR} ,
+        	#{endtimeR} ,
+        	#{brandurl} ,
+        	#{supplierId} ,
+        	#{shopId} ,
+        	#{oldId} ,
+        	#{status} ,
+        	#{isDelete}  ,
+        	#{begintimeAuth}  ,
+        	#{endtimeAuth} 
+        )
+    ]]>
+	</insert>
+    
+    <insert id="copyByShop">
+    <![CDATA[
+    	INSERT INTO t_product_brand (
+        	id ,
+        	name ,
+        	logo ,
+        	url ,
+        	orders ,
+        	category_id ,
+        	introduction ,
+        	createDate ,
+        	updateDate ,
+        	updateBy ,
+        	nameEN ,
+        	`natural` ,
+        	import_flg ,
+        	brand_type ,
+        	brandNo ,
+        	brandcreatedTM ,
+        	begintimeR ,
+        	endtimeR ,
+        	brandurl ,
+        	supplier_id ,
+        	shop_id ,
+        	old_id ,
+        	status ,
+        	is_delete ,
+        	begintimeAuth ,
+        	endtimeAuth 
+        ) 
+       SELECT  
+        	nextval('t_product_brand') id,
+        	name ,
+        	logo ,
+        	url ,
+        	orders ,
+        	category_id ,
+        	introduction ,
+        	createDate ,
+        	updateDate ,
+        	updateBy ,
+        	nameEN ,
+        	`natural` ,
+        	import_flg ,
+        	brand_type ,
+        	brandNo ,
+        	brandcreatedTM ,
+        	begintimeR ,
+        	endtimeR ,
+        	brandurl ,
+        	supplier_id ,
+        	#{shopId} shop_id ,
+        	id old_id ,
+        	status ,
+        	is_delete ,
+        	begintimeAuth ,
+        	endtimeAuth
+       FROM t_product_brand 
+       WHERE supplier_id=#{supplierId} AND shop_id = #{oldId} and is_delete=0
+    ]]>
+	</insert>
+	
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_product_brand SET
+	        name = #{name} ,
+	        logo = #{logo} ,
+	        url = #{url} ,
+	        orders = #{orders} ,
+	        introduction = #{introduction} ,
+	        createDate = #{createDate} ,
+	        updateDate = #{updateDate} ,
+	        updateBy = #{updateBy} ,
+	        nameEN = #{nameEn} ,
+	        `natural` = #{natural} ,
+	        import_flg = #{importFlg} ,
+	        brand_type = #{brandType} ,
+	        brandNo = #{brandNo} ,
+	        brandcreatedTM = #{brandcreatedTm} ,
+	        begintimeR = #{begintimeR} ,
+	        endtimeR = #{endtimeR} ,
+	        brandurl = #{brandurl} ,
+	        supplier_id = #{supplierId} ,
+	        shop_id = #{shopId} ,
+	        old_id = #{oldId} ,
+	        status = #{status} ,
+	        is_delete = #{isDelete}  ,
+	        begintimeAuth = #{begintimeAuth}  ,
+	        endtimeAuth = #{endtimeAuth}  
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_product_brand WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+
+    <delete id="deleteByShop">
+    <![CDATA[
+        DELETE FROM t_product_brand WHERE
+        shop_id = #{shopId} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="ProductBrand">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_product_brand 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_product_brand 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ProductBrand">
+    	SELECT <include refid="columns" />
+	    FROM t_product_brand 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(name)">
+				AND name = #{name}
+			</if>
+	       <if test="@Ognl@isNotEmpty(logo)">
+				AND logo = #{logo}
+			</if>
+	       <if test="@Ognl@isNotEmpty(url)">
+				AND url = #{url}
+			</if>
+	       <if test="@Ognl@isNotEmpty(orders)">
+				AND orders = #{orders}
+			</if>
+	       <if test="@Ognl@isNotEmpty(categoryId)">
+				AND category_id = #{categoryId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(introduction)">
+				AND introduction = #{introduction}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createDateBegin)">
+				AND createDate >= #{createDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createDateEnd)">
+				AND createDate &lt;= #{createDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateDateBegin)">
+				AND updateDate >= #{updateDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateDateEnd)">
+				AND updateDate &lt;= #{updateDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateBy)">
+				AND updateBy = #{updateBy}
+			</if>
+	       <if test="@Ognl@isNotEmpty(nameEn)">
+				AND nameEN = #{nameEn}
+			</if>
+	       <if test="@Ognl@isNotEmpty(natural)">
+				AND `natural` = #{natural}
+			</if>
+	       <if test="@Ognl@isNotEmpty(brandType)">
+				AND brand_type = #{brandType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(brandNo)">
+				AND brandNo = #{brandNo}
+			</if>
+	       <if test="@Ognl@isNotEmpty(brandcreatedTmBegin)">
+				AND brandcreatedTM >= #{brandcreatedTmBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(brandcreatedTmEnd)">
+				AND brandcreatedTM &lt;= #{brandcreatedTmEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(begintimeRBegin)">
+				AND begintimeR >= #{begintimeRBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(begintimeREnd)">
+				AND begintimeR &lt;= #{begintimeREnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(endtimeRBegin)">
+				AND endtimeR >= #{endtimeRBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endtimeREnd)">
+				AND endtimeR &lt;= #{endtimeREnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(brandurl)">
+				AND brandurl = #{brandurl}
+			</if>
+	       <if test="@Ognl@isNotEmpty(supplierId)">
+				AND supplier_id = #{supplierId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(shopId)">
+				AND shop_id = #{shopId}
+			</if>
+			<if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(isDelete)">
+				AND is_delete = #{isDelete}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="findAllBymap" resultMap="ProductBrand">
+    	SELECT <include refid="columns" />
+	    FROM t_product_brand 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+	
+	<select id="getAddBrands" resultMap="ProductBrand">
+    	SELECT <include refid="columns" />
+	    FROM t_product_brand A
+	    <![CDATA[
+	        WHERE 
+		        A.supplier_id = #{supplierId} AND A.shop_id=#{shopId} AND NOT EXISTS (select 1 from t_product_brand O WHERE O.supplier_id = #{supplierId} AND O.shop_id=#{oldId} AND A.name=O.name AND A.nameEN=O.nameEN)
+	    ]]>
+	</select>
+	
+	<select id="getByShopAndCategory" resultMap="ProductBrand">
+    	SELECT <include refid="columns" />
+	    FROM t_product_brand 
+	    <![CDATA[
+	        WHERE 
+		        supplier_id = #{supplierId} AND shop_id=#{shopId} 
+		        AND id IN (select brand_id FROM t_brand_producttype WHERE supplier_id=#{supplierId} AND category_id=#{categoryId} )
+	    ]]>
+	</select>
+</mapper>
+

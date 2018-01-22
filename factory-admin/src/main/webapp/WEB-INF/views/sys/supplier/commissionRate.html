@@ -1,0 +1,27 @@
+<div class="layer">
+    <div>
+        <form action="${ctxPath}/supplierList/commission-rate" id="commissionForm" method="post" target="list-page" class="center clearfix">
+            <input type="hidden" name="id" value="${id}" id="id"/>
+            <div class="col-sm-6">
+                <label>佣金比例：</label>
+                <input type="text" name="commissionRate" id="rate" value="${commissionRate}"/><b>%</b>  <small>请输入大于0小于100的数字,可保留两位小数</small>
+            </div>
+            <span class="btn btn-info btn-sm col-sm-3" id="pass" onclick='doCheck();'>确认修改</span>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    function doCheck(){
+        var reg1 = /^\d{1,2}$/, reg2 = /^\d{1,2}[.]\d{1,2}$/, val = $.trim($("#rate").val()), isLegal = reg1.test(val) || reg2.test(val);
+        if (isLegal) {
+            $.post("${ctxPath}/supplierList/commission-rate",{id:$('#id').val(),commissionRate: $.trim($('#rate').val())},function(rep){
+                if(rep.success && $.trim($('#rate').val()) == String(rep.msg)){
+                    alert("佣金比例修改成功,目前是"+rep.msg+"%");
+                }
+            }, 'json');
+        } else {
+            alert("请输入大于0小于100的数字,可保留两位小数");
+            return;
+        }
+    }
+</script>

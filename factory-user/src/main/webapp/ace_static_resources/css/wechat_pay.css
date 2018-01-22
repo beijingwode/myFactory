@@ -1,0 +1,235 @@
+@charset "utf-8";
+/* CSS Document */
+body{font: 12px/150% Arial,Verdana,"\5b8b\4f53";
+    color: #666;
+    background: #fff;}
+.p-header {
+    background-color: #fff;
+}
+.p-header .w {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.w {
+    width: 990px;
+    margin: 0 auto;
+}
+div#logo {
+    margin: 0;
+    padding: 0;
+}
+.main, .promotion {
+    background-color: #F1F2F7;
+    padding-bottom: 50px;
+}
+.order {
+    position: relative;
+}
+.order .o-left {
+    float: left;
+    width: 640px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+}
+.order .o-title {
+    line-height: 26px;
+    height: 26px;
+    overflow: hidden;
+    font-size: 14px;
+}
+h2, h3 {
+    font-size: 14px;
+}
+h3.o-title {
+    line-height: 20px;
+    height: 20px;
+	margin:0;padding:0;
+}
+.order .o-tips {
+    line-height: 20px;
+    height: 20px;
+	font-size:12px;
+	color:#666;
+	padding:0;margin:0;
+}
+
+.font-red {
+    color: #ff5d5b;
+	font-size:12px;
+}
+.pay-safeguard {
+    position: relative;
+    display: inline-block;
+    padding-left: 24px;
+    background: url(i/bao.png) no-repeat;
+    cursor: default;
+}
+.order .o-right {
+    float: right;
+    width: 190px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 125px;
+    overflow: hidden;
+}
+.order .o-price {
+    text-align: right;
+    line-height: 26px;
+    margin-bottom: 4px;
+}
+.order .o-price em {
+    vertical-align: bottom;
+}
+.order .o-price strong {
+    font-size: 18px;
+    vertical-align: bottom;
+    color: #ff5d5b;
+    margin: 0 3px;
+}
+em {
+    font-style: normal;
+}
+i{
+    font-style: normal;
+	margin-top:-2px;
+}
+.order .o-detail {
+    text-align: right;
+    line-height: 20px;
+    color: #2ea7e7;
+}
+.order .o-detail a {
+    display: inline-block;
+    padding-right: 15px;
+    position: relative;
+}
+a {
+    color: #2ea7e7;
+}
+a {
+    text-decoration: none;
+}
+.order .o-detail a i {
+    right: 0;
+    top: 3px;
+    position: absolute;
+    display: block;
+    width: 12px;
+    height: 12px;
+    
+}
+
+.clr {
+    display: block;
+    overflow: hidden;
+    clear: both;
+    height: 0;
+    line-height: 0;
+    font-size: 0;
+}
+.order .o-list {
+    display: none;
+    padding: 12px 0 25px;
+    margin: 0 30px;
+    border-top: 1px solid #ddd;
+}
+.order .o-list .o-list-info {
+    line-height: 24px;
+}
+div {
+    display: block;
+}
+.mr10 {
+    margin-right: 10px;
+}
+.order .o-list .o-list-info {
+    line-height: 24px;
+}
+.payment {
+    border-top: 4px solid #4b5b78;
+    background-color: #fff;
+    padding: 12px 30px 0;
+}
+.p-w-bd:after, .pay-weixin:after {
+    display: table;
+    content: "";
+    clear: both;
+}
+.p-w-hd {
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-family: "Microsoft Yahei";
+}
+.p-w-bd {
+    padding-left: 130px;
+    margin-bottom: 30px;
+}
+.p-w-bd, .pay-weixin {
+    zoom: 1;
+}
+.p-w-box {
+    float: left;
+    width: 300px;
+}
+.pw-box-hd {
+    margin-bottom: 20px;
+}
+.pw-box-hd img {
+    border: 1px solid #ddd;
+}
+img {
+    vertical-align: middle;
+}
+.pw-box-ft {
+    height: 44px;
+    padding: 8px 0 8px 125px;
+    background: url(../images/icon-red.png) 50px 8px no-repeat #FFCA00;
+}
+.pw-box-ft p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 22px;
+    color: #fff;
+    font-weight: 700;
+}
+.p-w-sidebar {
+    float: left;
+    width: 379px;
+    height: 421px;
+    padding-left: 50px;
+    margin-top: -20px;
+    background: url(../images/phone-bg.png) 50px 0 no-repeat;
+}
+.payment-change .pc-wrap {
+    display: block;
+    height: 56px;
+    line-height: 56px;
+    padding: 0 20px;
+    -webkit-transition: all .1s;
+    -moz-transition: all .1s;
+    -ms-transition: all .1s;
+    transition: all .1s;
+}
+.payment-change .pc-wrap .pc-w-arrow-left {
+    float: left;
+    margin-right: 15px;
+	font-family: "\5b8b\4f53";
+    font-style: normal;
+    font-size: 22px;
+    width: 20px;
+    text-align: center;
+    color: #2fa1dd;
+}
+
+
+
+
+
+
+
+
+
+
+
+

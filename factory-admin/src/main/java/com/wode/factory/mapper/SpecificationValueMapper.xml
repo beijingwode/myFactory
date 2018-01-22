@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.SpecificationValueDao">
+
+
+	<resultMap id="SpecificationValue" type="com.wode.factory.model.SpecificationValue">
+		<id property="id" column="id" />
+		<result property="specificationId" column="specificationId" />
+		<result property="name" column="name" />
+		<result property="image" column="image" />
+		<result property="orders" column="orders" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,specification_id as specificationId,name,image,orders
+	    ]]>
+	</sql>
+	<!-- 根据 speciFicationId 查询规格的细节信息 -->
+	<select id="selectBySpecificationId" resultMap="SpecificationValue"
+		parameterType="java.lang.Long">
+		select
+		<include refid="columns" />
+		from t_specification_value where specification_id = #{specificationId}
+		order by orders asc
+	</select>
+
+	<!-- 批量添加 -->
+	<insert id="insertBatchSpecification" parameterType="java.util.List">
+		insert into t_specification_value (specification_id,name,orders)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.specificationId},#{item.name},#{item.orders})
+		</foreach>
+	</insert>
+
+	<!-- 批量删除 -->
+	<delete id="deleteBatchByPrimaryKey" parameterType="java.util.List">
+       <![CDATA[
+        delete from t_specification_value where id in
+       ]]>
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+
+	<update id="updateBatchSpecification" parameterType="list">
+		update t_specification_value
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="orders =case" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.orders!=null">
+						when id=#{i.id} then #{i.orders}
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix=" specification_id =case" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.specificationId!=null">
+						when id=#{i.id} then #{i.specificationId}
+					</if>
+				</foreach>
+			</trim>
+
+			<trim prefix="name =case" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.name!=null">
+						when id=#{i.id} then #{i.name}
+					</if>
+				</foreach>
+			</trim>
+		</trim>
+		where
+		<foreach collection="list" separator="or" item="i" index="index">
+			id=#{i.id}
+		</foreach>
+	</update>
+
+
+
+
+	<!-- 根据规格值删除数据 -->
+	<delete id="deleteById">
+		delete from t_specification_value where id =#{id}
+	</delete>
+	<!-- 根据规格id删除数据 -->
+	<delete id="deleteBySpecificationId">
+		delete from t_specification_value where specification_id =#{specificationId}
+	</delete>
+
+	<!-- 添加频道页所属频道信息 -->
+	<insert id="insertSpecification" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into t_specification_value
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="@Ognl@isNotEmpty(specificationId)">
+				specification_id,
+			</if>
+			<if test="@Ognl@isNotEmpty(name)">
+				name,
+			</if>
+			<if test="@Ognl@isNotEmpty(image)">
+				image,
+			</if>
+			<if test="@Ognl@isNotEmpty(orders)">
+				orders,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="@Ognl@isNotEmpty(specificationId)">
+				#{specificationId},
+			</if>
+			<if test="@Ognl@isNotEmpty(name)">
+				#{name},
+			</if>
+			<if test="@Ognl@isNotEmpty(image)">
+				#{image},
+			</if>
+			<if test="@Ognl@isNotEmpty(orders)">
+				#{orders},
+			</if>
+		</trim>
+	</insert>
+	<!-- 修改频道页所属频道信息 -->
+	<update id="updateById">
+		update t_specification_value set
+		specification_id = #{specificationId},
+		name = #{name},
+		image = #{image},
+		orders = #{orders}
+		where id = #{id}
+	</update>
+
+
+</mapper>
+

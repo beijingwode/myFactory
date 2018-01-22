@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="EntBenefitApprMapper" >
+  <resultMap id="BaseResultMap" type="com.wode.factory.model.EntBenefitAppr" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="enterprise_id" property="enterpriseId" jdbcType="BIGINT" />
+    <result column="apply_limit" property="applyLimit" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="cur_year" property="curYear" jdbcType="CHAR" />
+    <result column="cur_season" property="curSeason" jdbcType="CHAR" />
+    <result column="create_date" property="createDate" jdbcType="DATE" />
+    <result column="update_date" property="updateDate" jdbcType="DATE" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, enterprise_id, apply_limit, status, cur_year, cur_season, create_date, update_date, 
+    update_user
+  </sql>
+  <select id="selectByModel" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from t_ent_benefit_appr
+	    <where>		
+	      <if test="id != null" >
+	         id = #{id,jdbcType=BIGINT}
+	      </if>
+	      <if test="enterpriseId != null" >
+	        and enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+	      </if>
+	      <if test="applyLimit != null" >
+	        and apply_limit = #{applyLimit,jdbcType=DECIMAL}
+	      </if>
+	      <if test="curYear != null" >
+	        and cur_year = #{curYear,jdbcType=CHAR}
+	      </if>
+	      <if test="curSeason != null" >
+	        and cur_season = #{curSeason,jdbcType=CHAR}
+	      </if>
+	      <if test="createDate != null" >
+	        and create_date = #{createDate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="updateDate != null" >
+	        and update_date = #{updateDate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="updateUser != null" >
+	        and update_user = #{updateUser,jdbcType=VARCHAR}
+	      </if>
+	      <if test="status != null" >
+	        and enterprise_id = #{status,jdbcType=Integer}
+	      </if>
+	    </where>
+	</select>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ent_benefit_appr
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_ent_benefit_appr
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wode.factory.model.EntBenefitAppr" >
+    insert into t_ent_benefit_appr (id, enterprise_id, apply_limit, 
+      status, cur_year, cur_season, 
+      create_date, update_date, update_user
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{applyLimit,jdbcType=DECIMAL}, 
+      #{status,jdbcType=INTEGER}, #{curYear,jdbcType=CHAR}, #{curSeason,jdbcType=CHAR}, 
+      #{createDate,jdbcType=DATE}, #{updateDate,jdbcType=DATE}, #{updateUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wode.factory.model.EntBenefitAppr" >
+    insert into t_ent_benefit_appr
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="enterpriseId != null" >
+        enterprise_id,
+      </if>
+      <if test="applyLimit != null" >
+        apply_limit,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="curYear != null" >
+        cur_year,
+      </if>
+      <if test="curSeason != null" >
+        cur_season,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null" >
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="applyLimit != null" >
+        #{applyLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="curYear != null" >
+        #{curYear,jdbcType=CHAR},
+      </if>
+      <if test="curSeason != null" >
+        #{curSeason,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wode.factory.model.EntBenefitAppr" >
+    update t_ent_benefit_appr
+    <set >
+      <if test="enterpriseId != null" >
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="applyLimit != null" >
+        apply_limit = #{applyLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="curYear != null" >
+        cur_year = #{curYear,jdbcType=CHAR},
+      </if>
+      <if test="curSeason != null" >
+        cur_season = #{curSeason,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="update" parameterType="com.wode.factory.model.EntBenefitAppr" >
+    update t_ent_benefit_appr
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      apply_limit = #{applyLimit,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      cur_year = #{curYear,jdbcType=CHAR},
+      cur_season = #{curSeason,jdbcType=CHAR},
+      create_date = #{createDate,jdbcType=DATE},
+      update_date = #{updateDate,jdbcType=DATE},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

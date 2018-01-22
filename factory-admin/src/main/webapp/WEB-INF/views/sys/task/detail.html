@@ -1,0 +1,52 @@
+<div class="layer">
+	<form name="FormPost" id="task-save" class="FormGrid"  method="post"
+		action="${ctxPath}/task/save">
+		
+		<input type="hidden" value="${task.id!}" name="id"/>
+		<table class="EditTable" width="100%">
+			<tbody>
+				
+				<tr class="FormData">
+					<td class="CaptionTD">class</td>
+					<td class="DataTD">
+					<input type="text" value="${task.beanClass!}" name="beanClass"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">方法名</td>
+					<td class="DataTD">
+					<input type="text" value="${task.methodName!}" name="methodName"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">cron</td>
+					<td class="DataTD">
+					<input type="text" value="${task.cron!}" name="cron"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">创建时间</td>
+					<td class="DataTD">
+					${task.creatTime!,dateFormat="yyyy-MM-dd HH:mm:ss"}
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">描述</td>
+					<td class="DataTD">
+						<textarea name="description" class="autosize-transition form-control "
+						style="resize: none;">${task.description!}</textarea>	
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+<#save formId="task-save" />
+
+<script type="text/javascript">
+
+//描述框自动扩张高度
+$('textarea[class*=autosize]').autosize({append: "\n"});
+$("#user-role-update").chosen({width: "100%",search_contains: true}); 
+</script>
+

@@ -1,0 +1,41 @@
+@charset "utf-8";
+/* CSS Document */
+
+.main-box{width:100%;position:absolute;top:55px;margin:0 auto;}
+.main-con{width:100%;height:auto;overflow:hidden;}
+
+.main_one{height:auto;width:88%;padding:5% 6%;overflow:hidden;background:#fff}
+.logistics_logo{width:21%;float:left;border:1px solid #e2e2e2;margin-top:5px;margin-right:3.2%;}
+.logistics_logo img{width:100%;}
+.main_one ul{width:72%;float:left;}
+.main_one ul .li1{font-size:1.6em;color:#ff7766;line-height:30px;}
+.main_one ul .li2{line-height:20px;}
+.main_one ul .li2 span{font-size:1.4em;color:#d0d2d4;}
+.main_one ul .li2 em{font-size:1.4em;color:#666;}
+
+.main_two{height:auto;width:100%;padding:5% 0;overflow:hidden;background:#fff;margin-top:10px;overflow:hidden;}
+.main_two .t-1{height:auto;width:94%;padding:0 0 0 6%;}
+.shop_name{font-size:1.4em;color:#333333;padding-bottom:10px;}
+.com-news{padding:5% 0;overflow:hidden;border-top:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;}
+
+.news-lt,.news-mid{float:left;height:auto;overflow:hidden;}
+.news-lt{width:21%;border:1px solid #e2e2e2;margin-right:3.2%}
+.news-lt img{width:100%;}
+.news-mid{width:47%;margin-right:3%}
+.news-mid p{font-size:1.4em;color:#333333;line-height:20px;}
+.news-mid span{font-size:1.4em;display:block;color:#a9a9a9;padding-top:7px;}
+.news-rt {width:22%;float:left;}
+.news-rt span{font-size:1.3em;height:auto;width:100%;display:block;text-align:right;color:#333333;line-height:40px;}
+.news-rt em{font-size:1.4em;height:auto;width:100%;display:block;text-align:right;color:#999999;}
+
+.main_two .t-2{height:auto;width:88%;padding:0 6%;}
+.ls-tit1{border-bottom:1px solid #e0e0e0;padding:0 0 5% 0;font-size:1.4em;}
+.tit-con{width:100%;height:auto;margin-top:5%;/*border-left:1px solid #cccccc;*/padding-bottom:20px;background:url(../images/repeat-bg.png) repeat-y left ;}
+.tit-con ul{width:100%;height:auto;/*position:absolute;left:-8px;top:-5%;*/}
+.tit-con ul li{width:87.5%;height:auto;overflow:hidden;background:url(../images/ls_p4.png) no-repeat left 0px;margin-top:3%;padding-left:40px;}
+.tit-con ul .tit-con-li1{background:url(../images/ls_p3.png) no-repeat left 0px ;}
+.tit-con ul li p{width:100%;float:left;color:#999999;font-size:1.4em;line-height:20px;padding:0 0 2% 0;border-bottom:1px solid #e0e0e0}
+.tit-con ul .tit-con-li1 p{color:#333333;}
+
+
+

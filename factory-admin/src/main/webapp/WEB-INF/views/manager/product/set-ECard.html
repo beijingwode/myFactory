@@ -1,0 +1,84 @@
+<div class="layer">
+<form id="CardseFormId">
+	<input type="hidden" id="Cardserid" name="id" value="${list.id}">
+	<input type="hidden" id="productId" name="productId" value="${list.productId}">
+	<input type="hidden" name="productName" value="${list.productName}">
+		<table id="formUseFeeTable"
+		class="table table-striped table-bordered table-hover nomargin-bottom">
+		<thead>
+			<tr>
+				<th class="center">商品名称</th> 
+				<td class="center">
+					${list.productName}
+				</td>
+			</tr>
+			<tr>
+				<th class="center">自动发货</th> 
+				<td class="center">
+					<input type="checkbox" disabled="disabled" value="1" checked >自动发货
+					<input type="hidden" name="sendType" value="1">
+				</td>
+			</tr>
+			<tr>
+				<th class="center">卡券页</th> 
+				<td class="center">
+					<input type="text" value="${list.cardPage}" name="cardPage" style="width:98%">
+				</td>
+			</tr>
+			<tr>
+				<th class="center">电子卡券密码</th>
+				<td class="center">
+					<textarea class="autosize-transition form-control" style="overflow-x:auto" id="opinion"  style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 69px;" name="cardPws">${list.cardPws}</textarea>
+				</td>
+			</tr>
+		<tbody>
+		</tbody>
+	</table>
+	</form>
+</div>
+<div class="width-100 clearfix" tag-save-btn
+	style="bottom: 0px; left: 0px; position: absolute;">
+	<span id="speVal_submit" onclick="ajaxSave()" class="btn btn-primary btn-sm bigger-110 width-50  pull-left">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i> 确定
+	</span>
+	<span id="speVal_submit" onclick="ajaxdelete()" class="btn btn-yellow btn-sm bigger-110 width-50 pull-right">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i> 删除
+	</span>
+</div>
+<script type="text/javascript">
+function ajaxSave(){
+	 $.ajax({
+		type: "post",
+		data:$("#CardseFormId").serialize(),
+		url: "${ctxPath}/product/updateCardse",
+		success:function(){
+			var pageNo = 1;
+			//刷新页面
+			paging('search-form',pageNo);
+			layer.closeAll();
+		},
+		error: function(){
+			alert("error")
+		}
+	}) 
+}
+function ajaxdelete(){
+	
+		$.ajax({
+			type: "post",
+			data:{"id":$("#Cardserid").val()},
+			url: "${ctxPath}/product/delectECard",
+			success:function(){
+				var pageNo = 1;
+				//刷新页面
+				paging('search-form',pageNo);
+				layer.closeAll();
+			},
+			error: function(){
+				alert("error")
+			}
+		})
+	
+	
+}
+</script>

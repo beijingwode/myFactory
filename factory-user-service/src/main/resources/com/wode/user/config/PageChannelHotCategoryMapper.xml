@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="PageChannelHotCategoryMapper">
+
+	<resultMap id="PageChannelHotCategory" type="com.wode.factory.model.PageChannelHotCategory">
+        <result property="id" column="id"/>
+        <result property="channelId" column="channel_id"/>
+        <result property="hotCategoryId" column="hot_category_id"/>
+        <result property="orders" column="orders"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,channel_id,hot_category_id,orders
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_page_channel_hot_category (
+        	id ,
+        	channel_id ,
+        	hot_category_id ,
+        	orders 
+        ) VALUES (
+        	#{id} ,
+        	#{channelId} ,
+        	#{hotCategoryId} ,
+        	#{orders} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_page_channel_hot_category SET
+	        channel_id = #{channelId} ,
+	        hot_category_id = #{hotCategoryId} ,
+	        orders = #{orders} 
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_page_channel_hot_category WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="PageChannelHotCategory">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_page_channel_hot_category 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_page_channel_hot_category 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="PageChannelHotCategory">
+    	SELECT <include refid="columns" />
+	    FROM t_page_channel_hot_category 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(channelId)">
+				AND channel_id = #{channelId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(hotCategoryId)">
+				AND hot_category_id = #{hotCategoryId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(orders)">
+				AND orders = #{orders}
+			</if>
+		</where>
+	</sql>
+	<!-- 根据ChannelId查询所有hotChannelId -->
+	<select id="findByChannelId" parameterType="long" resultMap="PageChannelHotCategory">
+		select <include refid="columns" /> from t_page_channel_hot_category where channel_id=#{channelId} order by orders ASC;
+	</select>
+</mapper>
+

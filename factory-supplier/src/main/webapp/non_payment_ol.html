@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/transaction_management.css" />
+<title>待付款</title>
+</head>
+
+<body>
+<div class="main_box">
+	
+    <div class="main_two">
+    	
+        <div class="main_two_con">
+        	<div class="con_top"><span>订单编号：1736117107426996-1</span><em>未支付</em></div>
+            <div class="con_time">创建时间：2016-12-20 13:29:07</div>
+            <div class="con_details">
+            	<dl>
+                	<dt><a href="javascript:void(0);"><img src="static_resources/images/shop_dt.png" /></a>
+                    	<div class="picon"><img src="static_resources/images/picon_c2.png" /></div>
+                    </dt>
+                    <dd class="dd1"><a href="javascript:void(0);">使用商品测试</a></dd>
+                    <dd class="dd2">尺码：35  颜色：绿</dd>
+                </dl>
+                <div class="ds_rt"><span>￥10.00</span><em>x1</em></div>
+            </div>
+            <div class="con_details">
+            	<dl>
+                	<dt><a href="javascript:void(0);"><img src="static_resources/images/shop_dt.png" /></a>
+                    	<div class="picon"><img src="static_resources/images/picon_c2.png" /></div>
+                    </dt>
+                    <dd class="dd1"><a href="javascript:void(0);">使用商品测试</a></dd>
+                    <dd class="dd2">尺码：35  颜色：绿</dd>
+                </dl>
+                <div class="ds_rt"><span>￥10.00</span><em>x1</em></div>
+            </div>
+            <div class="clearing">实付款：￥123.00(含运费：0.00元)</div>
+            <div class="btns"><div class="non_pay_btns_rt"><a href="close_order_list" class="close_list">关闭订单</a><a  href="javascript:;" style="margin:0;" class="mod">修改运费</a></div></div>
+            
+        </div>
+        
+        
+    </div>
+    <div class="bottom_con">没有更多内容了</div>
+</div>
+<div class="theme-popover add_money"  style="display: none">
+     <div class="theme-tit">修改运费</div>
+     <div class="theme-input"><input type="text"  placeholder="10.00" /></div>
+     <div class="theme-popbod" >
+        <a href="javascript:void(0);">取消</a>
+        <a href="javascript:void(0);" style="border:none;">确定</a>  
+     </div>
+     
+</div>
+<div class="theme-popover-mask" style="display: none"></div>
+</body>
+<script type="text/javascript" src="js/jquery1.8.0.js"></script>
+<script>
+$(function(){
+	
+	$(".non_pay_btns_rt .mod").click(function(){
+		$(".theme-popover-mask").show();
+		$(".add_money").show();
+	})
+	
+	$(".theme-popbod a").click(function(){
+		$(".theme-popover-mask").hide();
+		$(".add_money").hide();
+	})
+		
+})
+</script>
+</html>

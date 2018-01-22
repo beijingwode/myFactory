@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserLimitTicketMapper">
+
+    <resultMap id="UserLimitTicket" type="com.wode.factory.model.UserLimitTicket">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userNickname" column="user_nickname"/>
+        <result property="limitTicketId" column="limit_ticket_id"/>
+        <result property="oneceFlag" column="onece_flag"/>
+        <result property="ticketType" column="ticket_type"/>
+        <result property="limitType" column="limit_type"/>
+        <result property="limitKey" column="limit_key"/>
+        <result property="ticketTotal" column="ticket_total"/>
+        <result property="ticketBalance" column="ticket_balance"/>
+        <result property="cashTotal" column="cash_total"/>
+        <result property="cashBalance" column="cash_balance"/>
+        <result property="limitStart" column="limit_start"/>
+        <result property="limitEnd" column="limit_end"/>
+        <result property="ticketNote" column="ticket_note"/>
+        <result property="nextAction" column="next_action"/>
+        <result property="exp1" column="exp1"/>
+        <result property="exp2" column="exp2"/>
+        <result property="exp3" column="exp3"/>
+        <result property="status" column="status"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="updateUser" column="update_user"/>
+    </resultMap>
+	
+	<resultMap id="UserLimitTicketVo" type="com.wode.factory.user.vo.UserLimitTicketVo">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userNickname" column="user_nickname"/>
+        <result property="limitTicketId" column="limit_ticket_id"/>
+        <result property="oneceFlag" column="onece_flag"/>
+        <result property="ticketType" column="ticket_type"/>
+        <result property="limitType" column="limit_type"/>
+        <result property="limitKey" column="limit_key"/>
+        <result property="ticketTotal" column="ticket_total"/>
+        <result property="ticketBalance" column="ticket_balance"/>
+        <result property="cashTotal" column="cash_total"/>
+        <result property="cashBalance" column="cash_balance"/>
+        <result property="limitStart" column="limit_start"/>
+        <result property="limitEnd" column="limit_end"/>
+        <result property="ticketNote" column="ticket_note"/>
+        <result property="nextAction" column="next_action"/>
+        <result property="exp1" column="exp1"/>
+        <result property="exp2" column="exp2"/>
+        <result property="exp3" column="exp3"/>
+        <result property="status" column="status"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="updateUser" column="update_user"/>
+        
+        <!-- vo 属性 -->
+        <collection property="supplierLimitTicketSkuList" column="limit_ticket_id" ofType="com.wode.factory.model.SupplierLimitTicketSku" select="selectSupplierLimitTicketSkuByTicketId"/>
+    </resultMap>
+    
+    <resultMap id="SupplierLimitTicketSku" type="com.wode.factory.model.SupplierLimitTicketSku">
+        <result property="productId" column="productId"/>
+        <result property="productName" column="productName"/>
+        <result property="skuId" column="skuId"/>
+        <result property="image" column="image"/>
+        <result property="itemValues" column="itemValues"/>
+        <result property="skuNum" column="sku_num"/>
+        <result property="price" column="price"/>
+        <result property="salePrice" column="sale_price"/>
+        <result property="ticket" column="ticket"/>
+        <result property="exp1" column="exp1"/>
+        <result property="exp2" column="exp2"/>
+        <result property="exp3" column="exp3"/>
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,user_id,user_nickname,limit_ticket_id,onece_flag,ticket_type,limit_key,ticket_total,ticket_balance,cash_total,cash_balance,limit_start,limit_end,ticket_note,next_action,exp1,exp2,exp3,status,create_date,update_date,update_user,limit_type
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_limit_ticket (
+            id ,
+            user_id ,
+            user_nickname ,
+            limit_ticket_id ,
+            onece_flag ,
+            ticket_type ,
+            limit_type,
+            limit_key ,
+            ticket_total ,
+            ticket_balance ,
+            cash_total ,
+            cash_balance ,
+            limit_start ,
+            limit_end ,
+            ticket_note ,
+            next_action ,
+            exp1 ,
+            exp2 ,
+            exp3 ,
+            status ,
+            create_date ,
+            update_date ,
+            update_user
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{userNickname} ,
+            #{limitTicketId} ,
+            #{oneceFlag} ,
+            #{ticketType} ,
+            #{limitType},
+            #{limitKey} ,
+            #{ticketTotal} ,
+            #{ticketBalance} ,
+            #{cashTotal} ,
+            #{cashBalance} ,
+            #{limitStart} ,
+            #{limitEnd} ,
+            #{ticketNote} ,
+            #{nextAction} ,
+            #{exp1} ,
+            #{exp2} ,
+            #{exp3} ,
+            #{status} ,
+            #{createDate} ,
+            #{updateDate} ,
+            #{updateUser}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_limit_ticket SET            
+            user_id = #{userId} ,
+            user_nickname = #{userNickname} ,
+            limit_ticket_id = #{limitTicketId} ,
+            onece_flag = #{oneceFlag} ,
+            ticket_type = #{ticketType} ,
+            limit_key = #{limitKey} ,
+            ticket_total = #{ticketTotal} ,
+            ticket_balance = #{ticketBalance} ,
+            cash_total = #{cashTotal} ,
+            cash_balance = #{cashBalance} ,
+            limit_start = #{limitStart} ,
+            limit_end = #{limitEnd} ,
+            ticket_note = #{ticketNote} ,
+            next_action = #{nextAction} ,
+            exp1 = #{exp1} ,
+            exp2 = #{exp2} ,
+            exp3 = #{exp3} ,
+            status = #{status} ,
+            create_date = #{createDate} ,
+            update_date = #{updateDate} ,
+            update_user = #{updateUser} ,
+            limit_type = #{limitType}
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_limit_ticket WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserLimitTicket">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_limit_ticket 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+	<select id="getByUserId" resultMap="UserLimitTicketVo">
+		SELECT <include refid="columns" /> FROM t_user_limit_ticket WHERE user_id = #{userId} ORDER BY status,limit_end 
+	</select>
+    <select id="selectByModel" resultMap="UserLimitTicket">
+        SELECT <include refid="columns" /> FROM t_user_limit_ticket 
+        <include refid="find_where"/>
+    </select>
+	<select id="getTicketCount" resultType="Integer">
+		SELECT COUNT(*) FROM t_user_limit_ticket WHERE user_id = #{uid} AND (status = 0 or status = 1) AND limit_end &gt;= #{date}
+	</select>
+	
+	<select id="selectUnusedById" resultMap="UserLimitTicketVo">
+        SELECT <include refid="columns" /> FROM t_user_limit_ticket 
+        <![CDATA[
+            WHERE 
+                user_id = #{userId}
+            AND limit_end >= #{date}
+            AND limit_ticket_id = #{limitTicketId}
+        ]]>
+    </select>
+    <select id="getByLimitTicketIdAndUserId" resultMap="UserLimitTicket">
+    	 SELECT <include refid="columns" /> FROM t_user_limit_ticket 
+        <![CDATA[
+            WHERE 
+                user_id = #{userId}
+            AND limit_ticket_id = #{limitTicketId}
+        ]]>
+    </select>
+    <select id="getAvailableTickets" resultMap="UserLimitTicketVo">
+        SELECT <include refid="columns" /> FROM t_user_limit_ticket 
+        <![CDATA[
+            WHERE 
+                user_id = #{userId}
+            AND (status = 0 or status = 1) 
+            AND limit_end >= NOW()
+        ]]>
+    </select>
+    <select id="getAvailableTicketMap" resultMap="UserLimitTicket">
+        SELECT <include refid="columns" /> FROM t_user_limit_ticket 
+        <![CDATA[
+            WHERE 
+                user_id = #{userId}
+            AND (status = 0 or status = 1) 
+            AND limit_end >= NOW()
+        ]]>
+        <if test="@Ognl@isNotEmpty(skuIds)">
+            AND EXISTS (SELECT 1 FROM t_supplier_limit_ticket_sku WHERE t_supplier_limit_ticket_sku.limit_ticket_id=t_user_limit_ticket.limit_ticket_id AND FIND_IN_SET(skuId,#{skuIds}))
+        </if>
+        <if test="@Ognl@isNotEmpty(limitType)">
+            AND limit_type=#{limitType}
+        </if>
+    </select>
+    
+	<select id="selectSupplierLimitTicketSkuByTicketId" resultMap="SupplierLimitTicketSku" parameterType="String">
+        SELECT 
+        i.productId,
+		i.skuId,
+		i.image,
+		i.itemValues,
+		i.sku_num,
+		i.price,
+		i.sale_price,
+		i.ticket,
+		i.limit_ticket_id
+		FROM t_supplier_limit_ticket_sku i 
+		INNER JOIN t_user_limit_ticket s ON i.limit_ticket_id = s.limit_ticket_id
+        WHERE 
+           s.limit_ticket_id = #{limitTicketId}
+    </select>
+	
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(userNickname)">
+                AND user_nickname = #{userNickname}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitTicketId)">
+                AND limit_ticket_id = #{limitTicketId}
+            </if>
+           <if test="@Ognl@isNotEmpty(oneceFlag)">
+                AND onece_flag = #{oneceFlag}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticketType)">
+                AND ticket_type = #{ticketType}
+            </if>
+            <if test="@Ognl@isNotEmpty(limitType)">
+                AND limit_type = #{limitType}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitKey)">
+                AND limit_key = #{limitKey}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticketTotal)">
+                AND ticket_total = #{ticketTotal}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticketBalance)">
+                AND ticket_balance = #{ticketBalance}
+            </if>
+           <if test="@Ognl@isNotEmpty(cashTotal)">
+                AND cash_total = #{cashTotal}
+            </if>
+           <if test="@Ognl@isNotEmpty(cashBalance)">
+                AND cash_balance = #{cashBalance}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitStart)">
+                AND limit_start = #{limitStart}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitEnd)">
+                AND limit_end = #{limitEnd}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticketNote)">
+                AND ticket_note = #{ticketNote}
+            </if>
+           <if test="@Ognl@isNotEmpty(nextAction)">
+                AND next_action = #{nextAction}
+            </if>
+           <if test="@Ognl@isNotEmpty(exp1)">
+                AND exp1 = #{exp1}
+            </if>
+           <if test="@Ognl@isNotEmpty(exp2)">
+                AND exp2 = #{exp2}
+            </if>
+           <if test="@Ognl@isNotEmpty(exp3)">
+                AND exp3 = #{exp3}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date = #{createDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateDate)">
+                AND update_date = #{updateDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateUser)">
+                AND update_user = #{updateUser}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

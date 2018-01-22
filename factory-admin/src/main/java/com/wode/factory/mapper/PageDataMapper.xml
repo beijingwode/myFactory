@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.PageDataDao">
+	
+
+	<resultMap id="PageSetting" type="com.wode.factory.model.PageData">
+        <result property="id" column="id"/>
+        <result property="pageTypeId" column="pageTypeId"/>
+        <result property="title" column="title"/>
+        <result property="imagePath" column="imagePath"/>
+        <result property="orders" column="orders"/>
+        <result property="link" column="link"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="page" column="page"/>
+        
+        <association property="pageTypeSetting" resultMap="pageTypeSetting"/>
+	</resultMap>
+	<!-- pageTypeSetting -->
+	<resultMap type="com.wode.factory.model.PageTypeSetting" id="pageTypeSetting">
+		<result property="pageTypeId" column="pageTypeId1"/>
+        <result property="title" column="pageSettingtitle"/>
+        <result property="channelId" column="channelId"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,pageTypeId,title,imagePath,orders,link,createDate,updateDate,page
+	    ]]>
+	</sql>
+	
+	<select id="getList" resultMap="PageSetting">
+		SELECT 
+ 	   pageData.id,pageData.pageTypeId,pageData.imagePath,pageData.orders,pageData.link,pageData.createDate,pageData.updateDate,pageData.page,pageData.title,
+ 	   
+ 	   type.pageTypeId as pageTypeId1,type.title as pageSettingtitle,type.channelId
+       FROM t_page_data pageData LEFT JOIN t_page_type_setting type on type.pageTypeId=pageData.pageTypeId
+	   <include refid="findPage_where"/>
+	   ORDER BY pageData.pageTypeId,pageData.orders
+	</select>
+	
+	<!-- 根据channelId区分查询pc端和app端的数据 -->
+	<select id="selectByChannelId" resultMap="PageSetting" parameterType="java.lang.Integer">
+       SELECT 
+ 	   page.id,page.pageTypeId,page.imagePath,page.orders,page.link,page.createDate,page.updateDate,page.page,
+ 	   type.pageTypeId,type.title as pageSettingtitle,page.title
+       FROM t_page_data page  LEFT JOIN t_page_type_setting type on type.pageTypeId=page.pageTypeId
+	    
+	  WHERE type.channelId = #{channelId} order by type.orders asc,page.orders asc
+	</select>
+	<!-- 根据pageTypeId查询总数量 -->
+	<select id="selectCountByPageTypeId" resultType="java.lang.Integer" parameterType="java.lang.Long">
+       SELECT count(*)
+       FROM t_page_data page
+	  WHERE page.pageTypeId=#{pageTypeId}
+	</select>
+	<!-- 根据pageTypeId查询总数量 -->
+	<select id="selectCountByLink" resultType="java.lang.Integer" parameterType="java.lang.String">
+       SELECT count(1)
+       FROM t_page_data page
+	  WHERE page.link=#{link}
+	</select>
+	
+	<!-- 根据pageTypeId查询对应的信息 -->
+	<select id="selectByPageTypeId" resultMap="PageSetting" parameterType="map">
+       SELECT 
+ 	   page.id,page.pageTypeId,page.imagePath,page.orders,page.link,page.createDate,page.updateDate,page.page,
+ 	   type.pageTypeId,type.title as pageSettingtitle,page.title
+       FROM t_page_data page  LEFT JOIN t_page_type_setting type on type.pageTypeId=page.pageTypeId
+	   WHERE page.pageTypeId = #{pageTypeId} and
+	  type.channelId = #{channelId} order by type.orders asc,page.orders asc
+	</select>
+	
+	<select id="selectList" resultMap="PageSetting" parameterType="map">
+       SELECT 
+ 	   page.id,page.pageTypeId,page.imagePath,page.orders,page.link,page.createDate,page.updateDate,page.page,
+ 	   type.pageTypeId,type.title as pageSettingtitle,page.title
+       FROM t_page_data page  LEFT JOIN t_page_type_setting type on type.pageTypeId=page.pageTypeId
+	   WHERE page.pageTypeId = #{pageTypeId} and
+	  type.channelId = #{channelId} order by type.orders asc,page.orders asc
+	</select>
+	
+	<!-- 根据数据的id查询 -->
+	<select id="selectById" resultMap="PageSetting">
+		SELECT 
+ 	   page.id,page.pageTypeId,page.imagePath,page.orders,page.link,page.createDate,page.updateDate,page.page,
+ 	   type.pageTypeId,type.title as pageSettingtitle,page.title
+       FROM t_page_data page LEFT JOIN t_page_type_setting type on type.pageTypeId=page.pageTypeId
+	   WHERE 
+	  page.id = #{id}
+	</select>
+	
+	
+	 <sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(pageTypeId)">
+				AND pageData.pageTypeId = #{pageTypeId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(page)">
+				AND pageData.page = #{page}
+			</if>
+	       <if test="@Ognl@isNotEmpty(channelId)">
+				AND channelId = #{channelId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(tab)">
+				AND pageData.title like CONCAT('%',#{tab})
+			</if>
+	       <if test="@Ognl@isNotEmpty(link)">
+				AND pageData.link like CONCAT(CONCAT('%',#{link}),'%')
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 删除数据 -->
+	<delete id = "deleteByPageId">
+	     delete from t_page_data where id =#{id}
+	</delete>
+	
+	
+	<!-- 添加频道页所属频道信息 -->
+	<insert id="insertPageSetting" useGeneratedKeys="true" keyProperty="id">
+		insert into t_page_data
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="@Ognl@isNotEmpty(pageTypeId)" >
+	        pageTypeId,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(title)" >
+	        title,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(imagePath)" >
+	        imagePath,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(orders)" >
+	        orders,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(link)" >
+	        link,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(createDate)" >
+	        createDate,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(updateDate)" >
+	        updateDate,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(page)" >
+	        page,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	      <if test="@Ognl@isNotEmpty(pageTypeId)" >
+	        #{pageTypeId},
+	      </if>
+	       <if test="@Ognl@isNotEmpty(title)" >
+	        #{title},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(imagePath)" >
+	        #{imagePath},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(orders)" >
+	        #{orders},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(link)" >
+	        #{link},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(createDate)" >
+	        #{createDate},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(updateDate)" >
+	        #{updateDate},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(page)" >
+	        #{page},
+	      </if>
+	    </trim>
+	</insert>
+	<!-- 修改频道页所属频道信息 -->
+	<update id="updateById">
+    update t_page_data set
+	        pageTypeId = #{pageTypeId},
+	        title = #{title},
+	        imagePath = #{imagePath},
+	        orders = #{orders},
+	        link = #{link},
+	        updateDate = #{updateDate},
+	        page = #{page}
+    where id = #{id}
+  </update>
+  
+</mapper>
+

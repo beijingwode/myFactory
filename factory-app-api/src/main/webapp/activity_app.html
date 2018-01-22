@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/public.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/wx_dm.css" />
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="static_resources/js/h5_exit.js"></script>
+<script type="text/javascript" src="cart/activityLog?app=app&url=activity"></script>
+<title>我的福利</title>
+</head>
+
+<body>
+<div class="main-cont" id="main-cont" >
+	<div class="top">
+        <h1><a href="javascript:close();" class="aleft"></a>我的福利</h1>
+    </div>
+	<div class="main_box" style="position:absolute;top:45px;left:0;">
+		<div class="main_one">
+			<img src="static_resources/images/activity/banner1.png" />
+			<img src="static_resources/images/activity/banner2.png" />
+		</div>										
+	    
+	    <div class="tit"><img src="static_resources/images/activity/tit1.png" /></div>
+	    <div class="main_two">
+	    	<a href="http://wd-w.com/2232558379042679.html"><img src="static_resources/images/activity/main_pic1.png" /></a>
+	    	<a href="http://wd-w.com/1914113727202757.html"><img src="static_resources/images/activity/main_pic2.png" /></a>
+	    	<a href="http://wd-w.com/2135018210952746.html"><img src="static_resources/images/activity/main_pic3.png" /></a>
+	    	<a href="http://wd-w.com/1235378738595678.html"><img src="static_resources/images/activity/main_pic4.png" /></a>
+	    </div>
+	    <div class="tit"><img src="static_resources/images/activity/tit2.png" /></div>
+	    <div class="main_two">
+	    	<a href="http://wd-w.com/1224023745201340.html"><img src="static_resources/images/activity/main_pic5.png" /></a>
+	    	<a href="http://wd-w.com/1232251698218545.html"><img src="static_resources/images/activity/main_pic6.png" /></a>
+	    	<a href="http://wd-w.com/2149767230948840.html"><img src="static_resources/images/activity/main_pic7.png" /></a>
+	    	<a href="http://wd-w.com/1482484902396938.html"><img src="static_resources/images/activity/main_pic8.png" /></a>
+	    </div>
+	    <div class="tit"><img src="static_resources/images/activity/tit3.png" /></div>
+	    <div class="main_two">
+	    	<a href="http://wd-w.com/2152635165378145.html"><img src="static_resources/images/activity/main_pic9.png" /></a>
+	    	<a href="http://wd-w.com/2152666682263169.html"><img src="static_resources/images/activity/main_pic10.png" /></a>
+	    	<a href="http://wd-w.com/1872489135081390.html"><img src="static_resources/images/activity/main_pic11.png" /></a>
+	    	<a href="http://wd-w.com/1948246806693059.html"><img src="static_resources/images/activity/main_pic12.png" /></a>
+	    </div>
+	    
+	    <div class="tit"><img src="static_resources/images/activity/tit4.png" /></div>
+	    <div class="main_two">
+	    	<a href="http://wd-w.com/2158199715726838.html"><img src="static_resources/images/activity/main_pic13.png" /></a>
+	    	<a href="http://wd-w.com/2149694357013914.html"><img src="static_resources/images/activity/main_pic14.png" /></a>
+	    	<a href="http://wd-w.com/2188903403718464.html"><img src="static_resources/images/activity/main_pic15.png" /></a>
+	    	<a href="http://wd-w.com/2050014841112320.html"><img src="static_resources/images/activity/main_pic16.png" /></a>
+	    	<a href="http://wd-w.com/2159942763185231.html"><img src="static_resources/images/activity/main_pic17.png" /></a>
+	    	<a href="http://wd-w.com/2155359115838955.html"><img src="static_resources/images/activity/main_pic18.png" /></a>
+	    	<a href="http://wd-w.com/1181330786354641.html"><img src="static_resources/images/activity/main_pic19.png" /></a>
+	    	<a href="http://wd-w.com/1897909855323227.html"><img src="static_resources/images/activity/main_pic20.png" /></a>
+	    </div>
+	    <div class="main_three"><img src="static_resources/images/activity/footer_bg.png" /></div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	if(isWeiXinH5()) {
+		$(".top").hide();
+		$(".main_box").css("top","0");
+		
+	    $("a").each(function(i){
+	    	var href = $(this).attr("href");
+	    	if(href.length>21) {
+	    		href =href.substring(16,href.length-5);
+	   			href = "http://api.wd-w.com/productm?productId=" + href;
+	   			
+	   			$(this).attr("href",href);
+            }
+	    });
+	}
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,384 @@
+<div class="layer">
+	<div>
+		<form action="${ctxPath}/appr/supplier/lawyerList" method="post"
+			id="search-form1" target="list-page" class="center clearfix">
+			<div class="col-sm-12">
+				<label>审核意见：</label>
+<!-- 				<textarea style="overflow: visible; margin: 0px; width: 899px; height: 55px;" id="opinion" ></textarea> -->
+				<textarea cols="100" rows="3" id="opinion" ></textarea>
+			</div>
+			<span class="btn btn-info btn-sm col-sm-6" id="pass" onclick='doCheck(1)'>通过</span> <span
+				class="btn btn-yellow btn-sm col-sm-6" id="nopass" onclick='doCheck(-1)'>回退</span>
+		</form>
+		@if(!isEmpty(checkList)){ 
+		<table class="table table-striped table-bordered table-hover nomargin-bottom">
+			<div class="col-sm-12">
+				<label>历史审核</label>
+			</div>
+	<thead>
+		<tr>
+			<th class="center">审核人</th>
+			<th class="center">审核时间</th>
+			<th class="center">审核意见</th>
+			<th class="center">审核结果</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@for(item in checkList){
+			<tr>
+				<td class="center">
+					${item.username!}
+				</td>
+				<td class="center">
+					${item.time!,dateFormat="yyyy-MM-dd HH:mm:ss"}
+				</td>
+				<td class="center">
+					${item.opinion!}
+				</td>
+				<td class="center">
+					@if(item.result == 1){
+						审核通过
+					@}
+					@if(item.result == 2){
+						审核通过
+					@}
+					@if(item.result == -1){ 
+						审核未通过
+					@} 
+				</td>
+			</tr>
+		@}
+	</tbody>
+	</table>
+	@}
+	</div>
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active"><a data-toggle="tab" href="#supplier_home">
+				<i class="green ace-icon fa fa-users bigger-120"></i> 基本信息
+		</a></li>
+		<li class=""><a data-toggle="tab" href="#supplier_aptitude">
+				<i class="green ace-icon fa fa-users bigger-120"></i> 商家资质
+		</a></li>
+		<li class=""><a data-toggle="tab" href="#bill_manage"> <i
+				class="green ace-icon fa fa-users bigger-120"></i> 账期管理
+		</a></li>
+		<li class=""><a data-toggle="tab" href="#platformUseFee"> <i
+				class="green ace-icon fa fa-users bigger-120"></i> 平台使用费
+		</a></li>
+		<li class=""><a data-toggle="tab" href="#cashDeposit"> <i
+				class="green ace-icon fa fa-users bigger-120"></i> 保证金
+		</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active clearfix profile-user-info profile-user-info-striped"
+			id="supplier_home">
+			<input id="id" value="${supplier.id }" style="display: none;">
+			<div class="profile-info-row">
+				<div class="profile-info-name">企业类型</div>
+				<div class="profile-info-value">
+				@if(supplier.property == '1'){
+					品牌商
+				@} 
+				@if(supplier.property == '2'){
+					代理商
+				@} 
+				@if(supplier.property == '0'){
+					生产厂商 
+				@}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">商家名称</div>
+				<div class="profile-info-value">${supplier.comName!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">商家传真</div>
+				<div class="profile-info-value">${supplier.comPortraiture!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">座机</div>
+				<div class="profile-info-value">${supplier.comTel!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">企业人数</div>
+				<div class="profile-info-value">${supplier.peopleNumber!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">公司营业执照注册号</div>
+				<div class="profile-info-value">${supplier.comRegisternum!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">状态</div>
+				<div class="profile-info-value">
+				@if(supplier.status == 2){ 
+					招商审核通过
+				@} 
+				@if(supplier.status == -1){ 
+					审核未通过 
+				@} 
+				@if(supplier.status == 1){
+					未审核 
+				@} 
+				@if(supplier.status == 0){
+					 未完成
+				@}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">邮编</div>
+				<div class="profile-info-value">${supplier.comPc!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">公司地址</div>
+				<div class="profile-info-value">${supplier.comState!}
+					${supplier.comCity!} ${supplier.comAddress!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">推荐人</div>
+				<div class="profile-info-value">${supplier.referee!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">营业执照地址</div>
+				<div class="profile-info-value">${supplier.busState}
+					${supplier.busCity} ${supplier.busAddress}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">注册资本</div>
+				<div class="profile-info-value">${supplier.registeredCapital!} (万元)
+				&nbsp;
+				@if(supplier.registeredCapitalCurrency == 1){
+					人民币
+				@}
+				@if(supplier.registeredCapitalCurrency == 2){
+					 美元
+				@}
+				@if(supplier.registeredCapitalCurrency == 3){
+					 港元
+				@}
+				@if(supplier.registeredCapitalCurrency == 4){
+					欧元
+				@}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">营业范围</div>
+				<div class="profile-info-value">${supplier.busScope!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">营业执照有效期</div>
+				<div class="profile-info-value">
+					${supplier.busBegintime!,dateFormat="yyyy-MM-dd"}~${supplier.busEndtime!,dateFormat="yyyy-MM-dd"}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">组织机构代码证编号</div>
+				<div class="profile-info-value">${supplier.orgNum!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">组织机构证有效期</div>
+				<div class="profile-info-value">
+					${supplier.orgBegintime!,dateFormat="yyyy-MM-dd"}~${supplier.orgEndtime!,dateFormat="yyyy-MM-dd"}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">税务登记证编号</div>
+				<div class="profile-info-value">${supplier.taxNum!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">是否普通纳税人</div>
+				<div class="profile-info-value">
+				@if(supplier.istaxpayer == 0){
+					 是
+				@}
+				@if(supplier.istaxpayer == 1){
+					 否
+				@}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">法人归属地</div>
+				<div class="profile-info-value">
+				@if(supplier.corCome == 0){
+					 中国大陆
+				@}
+				@if(supplier.corCome == 1){
+					 港澳
+				@}
+				@if(supplier.corCome == 2){
+					 台湾
+				@}
+				@if(supplier.corCome == 3){
+					 外籍
+				@}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">
+				@if(supplier.corCome == 0){
+					身份证
+				@}
+				@if(supplier.corCome == 1){
+					 往来内地通行证号码
+				@}
+				@if(supplier.corCome == 2){
+					往来大陆通行证号码
+				@}
+				@if(supplier.corCome == 3){
+					 护照号码
+				@}
+				</div>
+				<div class="profile-info-value">${supplier.corNum!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">开户人</div>
+				<div class="profile-info-value">${supplier.bankPeople!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">法人代表姓名</div>
+				<div class="profile-info-value">${supplier.corName!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">开户行</div>
+				<div class="profile-info-value">${supplier.bankId!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">银行账号</div>
+				<div class="profile-info-value">${supplier.bankNum!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">开户行地址</div>
+				<div class="profile-info-value">${supplier.bankState}
+					${supplier.bankCity}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">开户行支行名称</div>
+				<div class="profile-info-value">${supplier.bankName!}</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">我的网平台联盟协议</div>
+				<div class="profile-info-value">
+				@if(supplier.protocolFile != null){
+					<a target="_blank" href="http://www.wd-w.com/${supplier.protocolFile!}">《${supplier.protocolFile!}》</a>
+				@}
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane profile-user-info profile-user-info-striped" id="supplier_aptitude">
+			<div class="profile-info-row">
+				<div class="profile-info-name">企业营业执照副本复印件</div>
+				<div class="profile-info-value"><img src="${supplier.busImgUrl!}" style="width:300px"/></div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">银行开户许可证</div>
+				<div class="profile-info-value"><img src="${supplier.bankImgUrl!}" style="width:300px"/></div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">法定代表人身份证正反面复印件</div>
+				<div class="profile-info-value"><img src="${supplier.corImgUrl!}" style="width:300px"/></div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">组织机构代码证复印件</div>
+				<div class="profile-info-value"><img src="${supplier.orgImgUrl!}" style="width:300px"/></div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">税务登记证复印件</div>
+				<div class="profile-info-value"><img src="${supplier.taxImgUrl!}" style="width:300px"/></div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">一般纳税人资质证明</div>
+				<div class="profile-info-value"><img src="${supplier.istaxpayerImgUrl!}" style="width:300px"/></div>
+			</div>
+		</div>
+		<div class="tab-pane profile-user-info profile-user-info-striped" id="bill_manage">
+			<div class="profile-info-row">
+				<div class="profile-info-name">账单日类型:</div>
+				<div class="profile-info-value">
+					${durationType!}
+				</div>
+			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">首次账单日:</div>
+				<div class="profile-info-value">
+					${startTime,'yyyy-MM-dd'}
+				</div>
+			</div>
+		</div>
+		
+		<div class="tab-pane profile-user-info profile-user-info-striped" id="platformUseFee">
+			<div class="profile-info-row">
+				<div class="profile-info-name">平台使用费:</div>
+				<div class="profile-info-value">
+				@if(supplier.platformUseFee!=null){
+					${supplier.platformUseFee!}
+				@}
+				</div>
+			</div>
+		</div>
+		
+		<div class="tab-pane profile-user-info profile-user-info-striped" id="cashDeposit">
+			<div class="profile-info-row">
+				<div class="profile-info-name">保证金:</div>
+				<div class="profile-info-value">${supplier.cashDeposit!}</div>
+			</div>
+		</div>
+		
+	</div>
+</div>
+<script>
+
+function doCheck(isEable){
+	var opinion =$("#opinion").val();
+	if(isEable ==-1){
+		if(opinion == ""){
+			layer.msg('请输入审核意见！', 3, 3);
+			//alert("请输入审核意见！");
+			return;
+		}
+	}
+
+		
+	$.ajax({
+
+		type: "post",
+		data:{
+			id:$("#id").val(),
+			status:isEable,
+        	opinion:opinion,
+			},
+		url: "${ctxPath}/appr/supplier/lawyerCheck",
+		dataType: "json",
+		success: function(data, textStatus){
+			//刷新页面
+			location.reload();
+		},
+		error: function(){
+
+		}
+		});
+	
+}
+
+
+var  $imgs=$("img");
+ $imgs.each(function(){
+	 var img = $(this);
+	 var imgsrc=img.attr("src");
+	 var url=imgsrc;
+
+	 if(isPdf(imgsrc)) {
+		 imgsrc="${ctxPath}/static/img/pdf.png";
+	 }
+	 img.attr("src",imgsrc);
+	 img.attr("onclick","winOpen('"+url+"');");
+	});
+	 
+function isPdf(str) {
+	if(str==null || str=='' || str.length<5) return false;
+	
+	var ppostfix=str.substring(str.length-4);
+	return ppostfix==".pdf" || ppostfix==".PDF";
+}
+
+function winOpen(url){
+	window.open(url);
+}
+</script>

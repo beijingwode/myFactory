@@ -1,0 +1,134 @@
+@charset "utf-8";
+/* CSS Document */
+.main-box{width:100%;height:auto;position:absolute;top:46px;left:0;}
+.rob_banner{width:100%;overflow:hidden;position:relative;}
+.rob_banner_con{width:73%;position:absolute;top:8px;left:6%;font-size:1.2em;line-height:19px;color:#fff;}
+
+.stamps_box{width:92%;height:auto;overflow:hidden;padding:0 4%;margin-top:8px;}
+.stamps_con{width:100%;height:auto;overflow:hidden;margin-bottom:8px;position:relative;}
+.sp_con_lt{width:60%;height:auto;padding:0 4%;position:absolute;top:0;left:0;}
+.sp_con_lt ul{width:100%;height:auto;overflow:hidden;}
+
+
+.price em{font-style:normal;color:#c22936;font-size:1.4em}
+.price span{color:#c22936;font-size:2.2em;font-weight:600}
+.bor_jd{padding-top:7px;}
+.sp_con_rt{width:32%;height:auto;position:absolute;top:0;right:0;}
+.sp_con_rt a{width:100%;height:50px;padding-top:25px;display:block;}
+.sp_con_rt a .span1{width:100%;height:20px;display:block;line-height:20px;text-align:center;color:#cb1b1b;}
+
+.barbox{width:100%;height:auto;overflow:hidden;}
+.barbox .barline{width:100%;float:left;position:absolute;top:0;left:0;}
+.barbox .barline .charts{overflow:hidden}
+.barbox .barline .charts .charts1{width:100%;}
+
+.sp_con_rt a .span2,.sp_con_rt .cjl_btn,.sp_con_rt .qsy_btn{width:52%;padding:2px 5px;font-size:1.4em;display:block;color:#c22936;background:#ffedf1;margin:0% 0 0 20%;text-align:center;border-radius:90px;}
+.sp_con_rt .cjl_btn{height:20px;margin:10% 0 0 20%;}
+.sp_con_rt .qsy_btn{height:20px;margin:10% 0 0 20%;}
+.sp_con_lt ul .li1 {height:24px;margin-top:7px;}
+.sp_con_lt ul .li1 i,.sp_con_lt ul .li1 span,.sp_con_lt ul .li1 em{height:24px;display:block;font-style:normal;float:left;color:#c22936}
+.sp_con_lt ul .li1 i{font-size:1.4em;line-height:24px;}
+.sp_con_lt ul .li1 span{font-size:1.8em;line-height:24px;}
+.sp_con_lt ul .li1 em{margin:3px 0 0 5px;}
+.sp_con_lt ul .li1 em img{height:18px;width:18px;}
+.stamps_con2 .sp_con_rt a .span2{color:#e5c4c9;background:#cb1b1b;}
+
+
+@media screen and (min-width: 320px)  {
+	.price{position:absolute;top:6%;left:18%;}
+	.tuzhang{width:54px;height:54px;position:absolute;top:14%;left:58%;z-index:9}
+    .sp_con_lt ul li{width:100%;height:auto;overflow:hidden;}
+	.sp_con_lt ul .li2{color:#333;font-size:1.2em;}
+	.sp_con_lt ul .li3{color:#aaaaaa;font-size:1.2em;height:12px;line-height:16px;overflow:hidden;margin-top:2px;}
+	.stamps_con3 .sp_con_rt a .span2{margin-top:8%;}
+	.rob_banner_con{font-size:1.2em;line-height:16px;color:#fff;}
+	.price span{color:#cb1b1b;font-size:2.0em;font-weight:600}
+	.sp_con_rt .qsy_btn{margin-top:8%;}
+	.sp_con_rt .exStutis{margin-top: 22%;}
+}
+@media screen and (min-width: 360px)  {
+	.tuzhang{width:54px;height:54px;position:absolute;top:14%;left:58%;z-index:9}
+    .sp_con_lt ul li{width:100%;height:auto;overflow:hidden;}
+	.sp_con_lt ul .li2{color:#333;font-size:1.2em;}
+	.sp_con_lt ul .li3{color:#aaaaaa;font-size:1.2em;height:12px;line-height:16px;overflow:hidden;margin-top:2px;}
+	.stamps_con3 .sp_con_rt a .span2{margin-top:8%;}
+	.rob_banner_con{width:70%;font-size:1.4em;line-height:18px;color:#fff;}
+	.price span{color:#cb1b1b;font-size:2.0em;font-weight:600}
+	.sp_con_rt .qsy_btn{margin-top:8%;}
+	.sp_con_rt .exStutis{margin-top: 26%;}
+}
+@media screen and (min-width: 375px)  {
+	.price{position:absolute;top:8%;left:18%;}
+	.tuzhang{width:64px;height:64px;position:absolute;top:14%;left:58%;z-index:9}
+    .sp_con_lt ul li{width:100%;height:auto;overflow:hidden;}
+	.sp_con_lt ul .li2{color:#333;font-size:1.4em;margin-top:5px;}
+	.sp_con_lt ul .li3{color:#aaaaaa;font-size:1.2em;height:12px;line-height:16px;overflow:hidden;margin-top:5px;}
+	.sp_con_rt a .span1{font-size:1.4em;}
+	.sp_con_rt a{height:57px;padding-top:29px;}
+	.sp_con_rt .cjl_btn{margin-top:12%;}
+	.bor_jd {padding-top:10px;}
+	.sp_con_rt a .span2{margin-top:0%;}
+	.stamps_con3 .sp_con_rt a .span2{margin-top:10%;}
+	.rob_banner_con{font-size:1.4em;line-height:18px;color:#fff;}
+	.sp_con_rt .exStutis{margin-top: 26%;}
+}
+@media screen and (min-width: 414px) {
+	.price{position:absolute;top:8%;left:18%;}
+	.tuzhang{width:70px;height:70px;position:absolute;top:14%;left:58%;z-index:9}
+    .sp_con_lt ul li{width:100%;height:auto;overflow:hidden;}
+    .sp_con_lt ul .li1{margin-top:12px;}
+    
+	.sp_con_lt ul .li2{color:#333;font-size:1.4em;}
+	.sp_con_lt ul .li3{color:#aaaaaa;font-size:1.2em;height:12px;line-height:16px;overflow:hidden;}
+	.sp_con_rt a .span1{font-size:1.4em;}
+	.sp_con_rt a{height:59px;padding-top:35px;}
+	.sp_con_rt .cjl_btn{margin-top:14%;}
+	.bor_jd {padding-top:14px;}
+	.sp_con_rt a .span2{margin-top:0%;}
+	.stamps_con3 .sp_con_rt a .span2{margin-top:12%;}
+	.rob_banner_con{font-size:1.5em;line-height:20px;color:#fff;}
+	.sp_con_rt .exStutis{margin-top: 29%;}
+}
+
+.stamps_con3 .sp_con_lt ul .li1{color:#fff;font-size:1.4em;}
+.stamps_con3 .sp_con_lt ul .li2{color:#fff;font-size:1.2em;}
+.stamps_con3 .sp_con_lt ul .li3{color:#fff;font-size:1.2em;height:12px;line-height:16px;overflow:hidden;}
+.stamps_con3 .price span {color: #fff;}
+.stamps_con3 .price em {color: #fff;}
+
+.lt_yyw ul .li1,.lt_yyw ul .li2,.lt_yyw ul .li3,.lt_yyw .price span,.lt_yyw .price em{color:#FFF;}
+
+.lt_ygq ul .li1,.lt_ygq .price span,.lt_ygq .price em{color:#333333;}
+.lt_ygq ul .li2,.lt_ygq ul .li3{color:#808080;}
+
+.lt_yzx ul .li1,.lt_yzx ul .li2,.lt_yzx .price span,.lt_yzx .price em{color:#fff;}
+.lt_yzx ul .li3{color:#fff;}
+
+.lt_xxhl ul .li1,.lt_xxhl ul .li2,.lt_xxhl .price span,.lt_xxhl .price em{color:#999999;}
+.lt_xxhl ul .li3{color:#4c4c4c;}
+
+
+/*内购券详情*/
+.top1{background:#c22936;}
+.top1 h1{color:#fff}
+.top1 a.aleft{background:url(../images/go_back_btn.png) no-repeat center center;background-size:16px 22px;}
+
+.details_tit{width:90px;height:28px;margin:0 auto;margin-top:12px;}
+.details_tit span{width:90px;height:28px;display:block;background:#c22936;border-radius:5px;line-height:28px;text-align:center;color:#fff;font-size:1.4em;}
+.details_tit2 span{background:#c22936;color:#fff;}
+
+.details_con{width:100%;height:auto;overflow:hidden;margin-top:10px;}
+.details_con p{width:92%;height:20px;padding:0 4%;line-height:20px;color:#707070;}
+.details_con dl{width:92%;height:auto;padding:10px 4%;background:#fff;overflow:hidden;margin-top:3px;}
+.details_con dl dt{width:11%;height:auto;float:left;margin-right:5%;}
+.details_con dl dd{width:75%;float:left;}
+.details_con dl .dd1{font-size:1.4em;color:#444444;}
+.details_con dl .dd2{font-size:1.2em;color:#707070;margin-top:10px;}
+
+
+
+
+
+
+
+

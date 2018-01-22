@@ -1,0 +1,137 @@
+@charset "utf-8";
+/* CSS Document */
+strong, b {
+    font-weight: bold;
+}
+/*投票详情*/
+.main_bd {
+    padding: 40px 62px 0 62px;
+    font-size:14px;
+    color: #222;
+}
+.msg_pre_view {
+    margin-bottom: 60px;
+}
+.msg_pre_view li {
+    margin-bottom: 20px;
+}
+.msg_pre_view .title {
+    width: 4em;
+    vertical-align: top;
+    text-align: left;
+}
+.msg_pre_view .msg {
+    width: 80%;
+    padding-left: 1em;
+    word-break: break-all;
+    word-wrap: break-word;
+    zoom: 1;
+    display: inline-block;
+}
+.msg_pre_view .dec {
+    color: #8d8d8d;
+}
+
+.vote_list {
+    margin-top: 30px;
+    color: #222;
+   
+}
+.vote_item {
+    margin-bottom: 50px;
+     
+}
+.vote_item_hd {
+    padding-bottom: 5px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e7e7eb;
+}
+.vote_title {
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+}
+.vote_option:first-child {
+    margin-top: 0;
+}
+.vote_option {
+    margin-bottom: 30px;
+}
+.vote_option_msg {
+    margin-bottom: 7px;
+    height:auto;
+    overflow:hidden;
+}
+.vote_option_msg label{float:left;margin:1px 10px 0 0;}
+.vote_option_title {
+    font-weight: 400;
+    font-style: normal;
+}
+.vote_result_meta {
+    position: relative;
+    padding: 8px 10em 0 0;
+    color: #8d8d8d;
+    text-align: right;
+}
+.vote_graph {
+    display: block;
+    background-color: #f4f5f9;
+    text-align: left;
+    position: relative;
+}
+.vote_progress {
+    display: block;
+    height: 5px;
+    background-color: #f4f5f9;
+}
+.vote_result_meta .vote_result_tips {
+    position: absolute;
+    top: 0;
+}
+.vote_result_meta .vote_number {
+    right: 4em;
+    width: 11em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+}
+.vote_result_meta .vote_percent {
+    right: 0;
+    width: 4em;
+}
+.img_panel {
+    display: block;
+    float: left;
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+    background:#ccc;
+}
+.img_panel .preview {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+span.bg_img {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.tool_bar{width:100%;height:30px;border-top:1px solid #e7e7eb;padding-top:30px;}
+.tool_bar a {
+    width: 60px;
+    height: 35px;
+    display: block;
+    background: #5d6781;
+    color: #fff;
+    line-height: 35px;
+    text-align:center;
+    padding: 0 22px;
+    margin:0 auto;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+

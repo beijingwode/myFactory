@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <title>我的福利客户端下载</title>
+  <style>.browser-tips{position:fixed;top:0;left:0;width:100%}.browser-tips-content{position:relative;z-index:1;margin:0 10px;padding:5px;background-color:#fff;border-radius:0 0 5px 5px}.browser-tips-content label{position:relative;z-index:1;padding:0 6px;line-height:42px;/*background-color:#fff;*/font-size:14px;color:#707070;}.browser-tips-content .line-with-bg{display:block;/*background-color:#d7eaf6;*/border-radius:2px}.browser-tips-content .tips-arrow{position:absolute;top:6px;right:20px;width:30px;height:30px;background:url("resources/images/wechat_tips_arrow_v2.png") no-repeat right top;background-size:30px 30px}.browser-tips-content .font-attention{color:#ff6161}.browser-tips-mask{position:fixed;top:0;left:0;width:100%;height:100%;/*background-color:rgba(36,39,42,.8)*/}</style>
+  <script type="text/javascript">
+
+    window.onload = function(){
+        if(isWeiXin()){
+            document.getElementById("nomarl").style.display='none';
+            document.getElementById("wechat").style.display='block';
+
+            document.addEventListener('WeixinJSBridgeReady', function onBridgeReady(){WeixinJSBridge.call('showOptionMenu');});
+        } else {
+           window.location.href='my_welfare_160118.apk';
+        }
+    }
+
+    function isWeiXin(){
+    	
+    	
+        var browser = window.browser;
+        if (browser && browser.isWechatBrowser) return true;
+
+        var ua = window.navigator.userAgent.toLowerCase();
+        if(ua.match(/MicroMessenger/i) == 'micromessenger') return true;
+        else{return false;}
+    } 
+  </script> 
+</head>
+<body>
+<div class="browser-tips">
+    <div class='browser-tips-content'>
+        <div id="wechat" style="display:none;text-align:center">
+            <label>亲，微信内无法下载，请点击<span class='font-attention'>右上角按钮</span></label>
+            <label class='line-with-bg'>选择<span class='font-attention'>「在浏览器中打开」</span>即可正常下载APP。谢谢~~</label>
+        </div>
+        <label id="nomarl" class='line-with-bg' style="display:block;text-align:center">我的福利安卓版已经开始下载，请稍后...</label>
+        <div class='tips-arrow'></div>
+        <div class='browser-tips-mask'></div>
+    </div>
+</div>
+</body>
+</html>

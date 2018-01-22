@@ -1,0 +1,11 @@
+@charset "utf-8";
+/* CSS Document */
+body{background:#fff;}
+h2,h4,h5{font-weight:normal}
+.main-box{width:100%;height:auto;position:absolute;top:60px;}
+.protocol-con{width:92%;margin:0 auto;}
+.protocol-con h2{height:45px;width:100%;font-size:1.7em;line-height:40px;text-align:center;color:#333333;}
+.protocol-con h4{height:40px;width:100%;font-size:1.6em;line-height:40px;text-align:center;color:#666666;}
+.protocol-con h5{font-size:1.5em;color:#333333}
+.protocol-con p {margin:10px 0;font-size:1.4em;line-height:22px;color:#666666;text-indent:2em}
+.protocol-con p span{color:#444444;}	

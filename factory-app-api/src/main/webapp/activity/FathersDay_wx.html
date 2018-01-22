@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+
+<link rel="stylesheet" type="text/css" href="../static_resources/css/wx_dm.css" />
+<link rel="stylesheet" type="text/css" href="../static_resources/css/alert.css" />
+<script type="text/javascript" src="../static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="../static_resources/js/wxGetUid.js"></script>
+<script type="text/javascript" src="../cart/activityLog?app=wx&url=FathersDay"></script>
+<title>我的福利</title>
+<style type="text/css">
+.theme-poptit{font-size:1.4em}
+</style>
+</head>
+
+<body style="background:#f9dfaa;">
+
+	<input type="hidden" id="firstLoad" value="1">
+	<div class="main_box">
+	    <div class="main_one">
+	    	<img src="../static_resources/images/FathersDay/app_banner1.png" />
+	    	<img src="../static_resources/images/FathersDay/app_banner2.png" />	
+	    	<img src="../static_resources/images/FathersDay/app_banner3.png" /> 
+	    </div>	
+	    <div class="tit"><img src="../static_resources/images/FathersDay/app_tit1.png" /></div>      
+	    <div class="main_three">
+	    	<a href="http://api.wd-w.com/productm?productId=2188966791317382"><img src="../static_resources/images/FathersDay/app_main_pic1.png" /></a>	     	
+	    </div>
+        <div class="main_four">
+	    	<a href="http://api.wd-w.com/productm?productId=2217457943447456"><img src="../static_resources/images/FathersDay/app_main_pic2.png" /></a>
+            <a href="http://api.wd-w.com/productm?productId=2075316873889377"><img src="../static_resources/images/FathersDay/app_main_pic3.png" /></a>
+            <a href="http://api.wd-w.com/productm?productId=1195716547609621"><img src="../static_resources/images/FathersDay/app_main_pic4.png" /></a>	     	
+	    </div>
+        
+	    <div class="tit"><img src="../static_resources/images/FathersDay/app_tit2.png" /></div>
+	    <div class="main_two">
+	    	<a href="http://api.wd-w.com/productm?productId=2134931048302011"><img src="../static_resources/images/FathersDay/app_main_pic5.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=1878062204028168"><img src="../static_resources/images/FathersDay/app_main_pic6.png" /></a>	    	
+	    	<a href="http://api.wd-w.com/productm?productId=2313996952012097"><img src="../static_resources/images/FathersDay/app_main_pic8.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2216973312165211"><img src="../static_resources/images/FathersDay/app_main_pic9.png" /></a>	    	
+	    </div>
+        <div class="tit"><img src="../static_resources/images/FathersDay/app_tit3.png" /></div>
+	    <div class="main_two">
+	    	<a href="http://api.wd-w.com/productm?productId=1198318071907733"><img src="../static_resources/images/FathersDay/app_main_pic10.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2135186554652504"><img src="../static_resources/images/FathersDay/app_main_pic11.png" /></a>	    	
+	    	<a href="http://api.wd-w.com/productm?productId=1434166053537732"><img src="../static_resources/images/FathersDay/app_main_pic12.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=1869418050848328"><img src="../static_resources/images/FathersDay/app_main_pic13.png" /></a>	    	
+	    </div>
+        <div class="tit"><img src="../static_resources/images/FathersDay/app_tit4.png" /></div>
+	    <div class="main_two">
+	    	<a href="http://api.wd-w.com/productm?productId=2232077672613613"><img src="../static_resources/images/FathersDay/app_main_pic14.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=1478524230174712"><img src="../static_resources/images/FathersDay/app_main_pic15.png" /></a>	    	
+	    	<a href="http://api.wd-w.com/productm?productId=2285969489954419"><img src="../static_resources/images/FathersDay/app_main_pic16.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2135056707586007"><img src="../static_resources/images/FathersDay/app_main_pic17.png" /></a>	    	
+	    </div>
+	    <div class="main_three"><a href="http://api.wd-w.com/index_m.htm"><img src="../static_resources/images/FathersDay/app_footer.png" /></a></div>
+	</div>
+
+<div class="theme-popover" id="msgShowDiv" style="display: none">
+     <div class="theme-poptit"></div>
+     <div class="theme-popbod1" >
+        <a href="javascript:void(0);">确定</a>
+     </div>
+</div>
+<div class="theme-popover-mask" style="display: none"></div>
+<script type="text/javascript">
+function closeMsg(){ 
+	$(".theme-popover-mask").hide();
+	$("#msgShowDiv").hide();
+}
+
+function msgShow(){
+	$(".theme-popover-mask").show();
+	$("#msgShowDiv").show();
+}
+
+function goIndex(){
+	window.location = "/index_m.htm?wxOpen=1";
+}
+
+
+function showInfoBox(msg,act){
+	$(".theme-popover .theme-poptit").html(msg);
+	$(".theme-popover .theme-popbod1").show();
+	if(act != null && act!="") {
+		$(".theme-popbod1 a").attr("onclick",act + ";closeMsg();");
+	} else {
+		$(".theme-popbod1 a").attr("onclick","closeMsg();");		
+	}
+	msgShow();
+}
+
+function bind(share)
+{		
+	var userName = window.location.href;
+	var openId = window.location.href;
+	userName = userName.substring(userName.indexOf("userName=")+9);
+	openId = openId.substring(openId.indexOf("openId=")+7);
+	openId = openId.substring(0,openId.indexOf("&"));
+	$.ajax({
+	    url:"http://api.wd-w.com/userShare/companyBind"+share+"?companyType=company",
+	    type : "POST",
+		dataType: "json",  //返回json格式的数据  
+		data: {"userName":userName},  //返回json格式的数据  
+	    async: true,
+	    success:function(data){
+	    	if(data.success) {
+				$.ajax({
+				    url:"http://api.wd-w.com/wx/bindUser.user",
+				    type : "POST",
+					dataType: "json",  //返回json格式的数据  
+					data: {"uid":data.data,"openId":openId},  //返回json格式的数据  
+				    async: true,
+				    success:function(rtn){
+				    	if(rtn.success) {
+				    	} else {
+				    		showInfoBox(rtn.msg);
+				    	}
+				    },
+				 	error:function(){
+					}
+				});
+	    	} else {
+	    		showInfoBox(data.msg);
+	    	}
+	    },
+	 	error:function(){
+		}
+	});
+}
+
+function offLine() {
+	showInfoBox("线下内购会专供");
+}
+
+$(document).ready(function() {	
+	var uid=GetUidCookie();
+	if(uid=='') {
+		goIndex();
+	} else {
+		if($("#firstLoad").val() == "1") {
+			$("#firstLoad").val("0");
+			var msg = window.location.href;
+			var i=msg.indexOf("msg=");
+			if(i>-1) {
+				msg = msg.substring(i+4);
+				if(msg.indexOf("&")>-1) {
+					msg = msg.substring(0,msg.indexOf("&"));
+				}
+				
+				showInfoBox(decodeURI(msg));	
+			}
+		}
+	}
+});
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<div class="layer" id="updateAppImg">
+	<form name="FormPost" id="pageData-update" class="FormGrid"  method="post"
+		action="${ctxPath}/pageData/update">
+		
+		<input type="hidden" value="${pageInfo.id!}" name="id"/>
+		<input type="hidden" value="${pageInfo.pageTypeId!}" name="oldPageTypeId"/>
+		<input type="hidden" name="page" value="${pageInfo.page}"></input>
+		<table class="EditTable" width="100%">
+			<tbody>
+				<tr style="display: none;">
+					<td class="ui-state-error" id="FormError"></td>
+				</tr>
+				 
+				<tr class="FormData">
+					<td class="CaptionTD">所属位置</td>
+					<td class="DataTD width-100">
+						<select name="pageTypeId">
+								@for(pt in pageType){
+									@if(pt.pageTypeId==pageInfo.pageTypeId){
+										<option value="${pt.pageTypeId!}" selected="selected">
+										${pt.title!}
+										</option>
+									@}else{
+										<option value="${pt.pageTypeId!}">
+										${pt.title!}
+										</option>
+									@}
+								@}
+							</select>
+				    </td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">位置标题</td>
+					<td class="DataTD">
+					<input type="text" value="${pageInfo.title!}" name="title"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">排序</td>
+					<td class="DataTD">
+						<input type="text" value="${pageInfo.orders!}" name="orders"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">连接</td>
+					<td class="DataTD">
+						<input type="text" value="${pageInfo.link!}" name="link"/>
+					</td>
+				</tr>
+				<!-- $(".pageSetImg").attr("src", imgPath);
+			$(".heddenPageSetImg").attr("value", imgPath); -->
+				<tr class="FormData">
+					<td class="CaptionTD">图片</td>
+					<td class="DataTD width-100">
+					<div id="ImageId">
+					<img alt="" class="Img" src="${pageInfo.imagePath!}" name="type" height="50px" width="150px">
+					</div>
+					<input type="hidden" value="${pageInfo.imagePath!}" class="heddenImg" name="image" id="p_imagePath"/>
+					<input type="button" value="删除图片" onclick="deleteImage()"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">上传</td>
+					<td class="DataTD width-100">
+					<input type="file" name="type" id="uploadFile"/>
+					<input type="button" value="上传" onclick="pageDataUpdateUploadImg()"/>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+<#save formId="pageData-update" reloadPage="true"/>
+<script type="text/javascript" src="${ctxPath!}/static/js/manageUploadImg.js"></script>
+<script type="text/javascript">
+function pageDataUpdateUploadImg() {
+	if($("#uploadFile").val() == ""){
+		alert("请选择上传的图片！")
+	}else{
+		uploadImg($("#updateAppImg"),"uploadFile","pageData/upload/pic");
+		document.getElementById("ImageId").style.display="";
+	}
+	
+}
+function deleteImage(){
+	document.getElementById("ImageId").style.display="none";
+	$("#p_imagePath").val("");
+}
+
+
+//描述框自动扩张高度
+$('textarea[class*=autosize]').autosize({append: "\n"});
+
+</script>

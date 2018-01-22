@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SuborderMapper">
+
+    <resultMap id="Suborder" type="com.wode.factory.model.Suborder">
+        <result property="subOrderId" column="subOrderId"/>
+        <result property="orderId" column="orderId"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="totalProduct" column="totalProduct"/>
+        <result property="totalShipping" column="totalShipping"/>
+        <result property="totalAdjustment" column="totalAdjustment"/>
+        <result property="realPrice" column="realPrice"/>
+        <result property="status" column="status"/>
+        <result property="expressNo" column="expressNo"/>
+        <result property="expressType" column="expressType"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="returnedAddress" column="returnedAddress"/>
+        <result property="sendAddress" column="sendAddress"/>
+        <result property="takeTime" column="takeTime"/>
+        <result property="lasttakeTime" column="lasttakeTime"/>
+        <result property="sendTime" column="sendTime"/>
+        <result property="closeReason" column="closeReason"/>
+        <result property="afterserviceStatus" column="afterserviceStatus"/>
+        <result property="commentStatus" column="commentStatus"/>
+        <result property="urgeNumber" column="urgeNumber"/>
+        <result property="itemnum" column="itemnum"/>
+        <result property="monthcount" column="monthcount"/>
+        <result property="monthtotal" column="monthtotal"/>
+        <result property="payTime" column="payTime"/>
+        <result property="refuseNote" column="refuseNote"/>
+        <result property="returnOrderId" column="returnOrderId"/>
+        <result property="refundOrderId" column="refundOrderId"/>
+        <result property="closeFlg" column="close_flg"/>
+        <result property="saleBillId" column="sale_bill_id"/>
+        <result property="billId" column="billId"/>
+        <result property="cashPay" column="cashPay"/>
+        <result property="cashNo" column="cashNo"/>
+        <result property="thirdPay" column="thirdPay"/>
+        <result property="thirdType" column="thirdType"/>
+        <result property="thirdNo" column="thirdNo"/>
+        <result property="cancelTime" column="cancelTime"/>
+        <result property="stockUp" column="stock_up"/>
+        <result property="companyTicket" column="companyTicket"/>
+        <result property="benefitType" column="benefit_type"/>
+        <result property="benefitAmount" column="benefit_amount"/>
+        <result property="noto" column="noto"/>
+        <result property="invoiceStatus" column="invoice_status"/>
+        <result property="orderType" column="order_type"/>
+        <result property="relationId" column="relation_id"/>
+        <result property="limitTicketCnt" column="limit_ticket_cnt"/>
+        <result property="userId" column="user_id"/>
+        <!-- 非数据库字段 -->
+        <result property="subOrderCount" column="subOrderCount"/>
+        <result property="sumPrice" column="sumPrice"/>
+
+        <!-- 父单 实体 -->
+        <association property="orders" javaType="com.wode.factory.model.Orders">
+            <result property="address" column="address_orders"/>
+            <result property="name" column="name_orders"/>
+            <result property="mobile" column="mobile_orders"/>
+            <result property="phone" column="phone_orders"/>
+            <result property="note" column="note_orders"/>
+            <result property="userId" column="userId"/>
+            <result property="invoiceTitle" column="invoiceTitle"/>
+            <result property="updateBy" column="supplierId_user"/>
+        	<result property="selfDelivery" column="self_delivery"/>
+        </association>
+        <!-- sku list -->
+        <collection property="suborderitemlist" column="subOrderId" ofType="com.wode.factory.model.Suborderitem" select="_select_items_of_suborder"/>
+    </resultMap>
+
+    <resultMap id="itemsMap" type="com.wode.factory.model.Suborderitem">
+        <result property="subOrderItemId" column="subOrderItemId_suborderitem"/>
+        <result property="price" column="price_suborderitem"/>
+        <result property="realPay" column="real_pay_suborderitem"/>
+        <result property="saleKbn" column="sale_kbn"/>
+        <result property="number" column="number_suborderitem"/>
+        <result property="productId" column="productId"/>
+        <result property="useFuliCoin" column="useFuliCoin_currency"/>
+        <result property="companyTicket" column="companyTicket_suborderitem"/>
+        <result property="benefitType" column="benefit_type_suborderitem"/>
+        <result property="benefitAmount" column="benefit_amount_suborderitem"/>
+		<result property="saleKbn" column="sale_kbn"/>
+        <result property="productName" column="productName"/>
+        <result property="empPrice" column="emp_price"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="categoryName" column="categoryName"/>
+        <result property="productCode" column="product_code"/>
+        <result property="itemValues" column="itemValues"/>
+        <result property="image" column="image"/>
+        <result property="commissionRatio" column="commissionRatio"/>
+        <result property="internalPurchasePrice" column="internal_purchase_price"/>
+    </resultMap>
+
+	<resultMap id="OrderTypeCountVO" type="com.wode.factory.supplier.query.OrderTypeCountVO">
+        <result property="status" column="status"/>
+        <result property="cnt" column="cnt"/>
+	</resultMap>
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+	    <![CDATA[
+		subOrderId,orderId,supplierId,totalProduct,totalShipping,totalAdjustment,realPrice,status,expressNo,
+			expressType,createTime,updateTime,updateBy,returnedAddress,sendAddress,takeTime,lasttakeTime,sendTime,
+			closeReason,afterserviceStatus,commentStatus,payTime,refuseNote,close_flg,sale_bill_id
+			,cashPay,cashNo,thirdPay,thirdType,thirdNo,cancelTime,stock_up,companyTicket,benefit_type,benefit_amount,returnOrderId,refundOrderId,invoice_status
+			,order_type,relation_id,limit_ticket_cnt,user_id
+        ]]>
+	</sql>
+
+
+    <update id="update">
+    <![CDATA[
+
+        UPDATE t_suborder SET
+	        orderId = #{orderId} ,
+	        supplierId = #{supplierId} ,
+	        totalProduct = #{totalProduct} ,
+	        totalShipping = #{totalShipping} ,
+	        totalAdjustment = #{totalAdjustment} ,
+	        realPrice = #{realPrice} ,
+	        status = #{status} ,
+	        expressNo = #{expressNo} ,
+	        expressType = #{expressType} ,
+	        createTime = #{createTime} ,
+	        updateTime = #{updateTime} ,
+	        updateBy = #{updateBy} ,
+	        returnedAddress=#{returnedAddress},
+        	sendAddress = #{sendAddress},
+        	takeTime = #{takeTime} ,
+	        lasttakeTime=#{lasttakeTime},
+        	sendTime = #{sendTime},
+        	closeReason = #{closeReason},
+        	afterserviceStatus=#{afterserviceStatus},
+        	commentStatus=#{commentStatus},
+        	refuseNote=#{refuseNote},
+        	stock_up=#{stockUp},
+        	invoice_status = #{invoiceStatus}
+        WHERE 
+	        subOrderId = #{subOrderId} 
+
+        ]]>
+	</update>
+
+    <update id="updateCashNo">
+    <![CDATA[
+
+        UPDATE t_suborder SET
+	        cashNo = #{tradeNo} 
+        WHERE 
+	        subOrderId = #{subOrderId} 
+	        AND cashPay>0
+        ]]>
+	</update>
+	
+    <update id="updateStockUp">
+    <![CDATA[
+        UPDATE t_suborder SET
+	        stock_up=#{stockUp}
+        WHERE 
+	        subOrderId = #{subOrderId} 
+        ]]>
+	</update>
+	
+	
+    <delete id="delete">
+    <![CDATA[
+
+        DELETE FROM t_suborder WHERE
+        subOrderId = #{id} 
+
+        ]]>
+    </delete>
+
+    <select id="getById" resultMap="Suborder">
+        SELECT
+        <include refid="columns"/>
+        <![CDATA[
+		    FROM t_suborder 
+	        WHERE 
+		        subOrderId = #{id} 
+	    ]]>
+    </select>
+
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_suborder
+        <include refid="findPage_where"/>
+    </select>
+
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="Suborder">
+        SELECT
+        <include refid="columns"/>
+        FROM t_suborder
+        <include refid="findPage_where"/>
+
+        <if test="@Ognl@isNotEmpty(sortColumns)">
+            ORDER BY ${sortColumns}
+        </if>
+    </select>
+
+    <sql id="findPage_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+            <if test="@Ognl@isNotEmpty(subOrderId)">
+                AND subOrderId = #{subOrderId}
+            </if>
+            <if test="@Ognl@isNotEmpty(orderId)">
+                AND orderId = #{orderId}
+            </if>
+            <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplierId = #{supplierId}
+            </if>
+            <if test="@Ognl@isNotEmpty(totalProduct)">
+                AND totalProduct = #{totalProduct}
+            </if>
+            <if test="@Ognl@isNotEmpty(totalShipping)">
+                AND totalShipping = #{totalShipping}
+            </if>
+            <if test="@Ognl@isNotEmpty(totalAdjustment)">
+                AND totalAdjustment = #{totalAdjustment}
+            </if>
+            <if test="@Ognl@isNotEmpty(realPrice)">
+                AND realPrice = #{realPrice}
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+            <if test="@Ognl@isNotEmpty(expressNo)">
+                AND expressNo = #{expressNo}
+            </if>
+            <if test="@Ognl@isNotEmpty(expressType)">
+                AND expressType = #{expressType}
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                AND createTime >= #{createTimeBegin}
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                AND createTime &lt;= #{createTimeEnd}
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                AND updateTime >= #{updateTimeBegin}
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                AND updateTime &lt;= #{updateTimeEnd}
+            </if>
+            <if test="@Ognl@isNotEmpty(updateBy)">
+                AND updateBy = #{updateBy}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 获取商品列表带分页信息 -->
+    <select id="findSuborderlistPage_count" resultType="Integer">
+        SELECT COUNT(suborder.subOrderId)
+        FROM t_suborder as suborder
+        LEFT JOIN t_orders as orders on orders.orderId = suborder.orderId
+        WHERE suborder.supplierId = #{supplierId}
+        <include refid="findSuborderlistPage_where"/>
+    </select>
+
+    <select id="findOrderTotalByMap" resultType="Integer">
+        SELECT count(*) FROM t_suborder s left join t_suborderitem si on s.subOrderId = si.subOrderId
+         where s.status > -1
+         <if test="@Ognl@isNotEmpty(productId)">
+            AND si.productId = #{productId}
+        </if>
+    </select>
+    
+    <select id="findExchangeSuNumByMap" resultType="Integer">
+        SELECT SUM(si.number) FROM t_suborder s left join t_suborderitem si on s.subOrderId = si.subOrderId
+         where s.status > -1
+         <if test="@Ognl@isNotEmpty(productId)">
+            AND si.productId = #{productId}
+        </if>
+    </select>
+    
+    <select id="findSubOrderItemByMap" resultType="com.wode.factory.company.query.ExchangeProductVo">
+       SELECT esi.itemValues itemValues,esi.number number,u.phone phone,
+       o.createTime createDate,su.nick_name nickname,su.com_name comName
+       from t_suborderitem esi 
+		LEFT join t_suborder es on es.subOrderId = esi.subOrderId  
+		LEFT join t_orders o on o.orderId = es.orderId 
+		LEFT JOIN t_user u on u.id = o.userId
+		LEFT join t_supplier su on su.id = u.supplierId
+         where es.status > -1
+         <if test="@Ognl@isNotEmpty(productId)">
+            AND esi.productId = #{productId}
+        </if>
+        <if test="@Ognl@isNotEmpty(startnum)">
+            LIMIT #{startnum},#{size}
+        </if>
+    </select>
+    
+    
+    <select id="findCountByMap" resultType="Integer">
+        SELECT count(*) FROM t_suborder
+        <include refid="findPage_where"/>
+    </select>
+
+    <select id="_select_items_of_suborder" resultMap="itemsMap">
+        select suborderitem.price as price_suborderitem, suborderitem.number as number_suborderitem, suborderitem.subOrderItemId as subOrderItemId_suborderitem,
+        suborderitem.itemValues,suborderitem.productName, suborderitem.sale_kbn,
+        suborderitem.companyTicket companyTicket_suborderitem,suborderitem.benefit_type benefit_type_suborderitem,suborderitem.benefit_amount benefit_amount_suborderitem,
+        suborderitem.image image,suborderitem.internal_purchase_price,
+        suborderitem.productId,suborderitem.real_pay as real_pay_suborderitem,suborderitem.product_code,suborderitem.commissionRatio
+        FROM t_suborderitem as suborderitem
+        WHERE suborderitem.subOrderId = #{suborderId}
+    </select>
+
+    <!-- 获取商品列表带分页信息 -->
+    <select id="findSuborderlistPage" resultMap="Suborder">
+        SELECT suborder.orderId,suborder.subOrderId,suborder.createTime,suborder.expressNo,suborder.expressType,suborder.status,suborder.realPrice,suborder.totalProduct,suborder.totalShipping,suborder.urgeNumber,suborder.commentStatus,suborder.refuseNote,suborder.invoice_status,
+
+        suborder.closeReason,orders.userId,suborder.payTime,suborder.sendAddress,suborder.returnedAddress,suborder.noto,suborder.supplierId,
+        orders.note as note_orders,orders.address as address_orders,orders.name as name_orders,orders.mobile as mobile_orders,takeTime,lasttakeTime,sendTime,orders.invoiceTitle,orders.self_delivery
+        ,returnOrderId,refundOrderId,close_flg,sale_bill_id
+        ,suborder.cashPay sumPrice
+        ,suborder.stock_up,suborder.companyTicket,suborder.benefit_type,suborder.benefit_amount,user.supplierId supplierId_user
+        FROM t_suborder as suborder
+        LEFT JOIN t_orders as orders on orders.orderId = suborder.orderId
+        INNER JOIN t_user as user on user.id= orders.userId 
+        WHERE suborder.supplierId = #{supplierId}
+        <include refid="findSuborderlistPage_where"/>
+        ORDER BY suborder.createTime
+        <choose>
+            <when test="status==2">DESC</when>
+            <otherwise>ASC</otherwise>
+        </choose>
+        <if test="@Ognl@isNotEmpty(startnum)">
+            LIMIT #{startnum},#{size}
+        </if>
+    </select>
+
+    <sql id="findSuborderlistPage_where">
+        <if test="@Ognl@isNotEmpty(name)">
+            AND orders.name like CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+        <if test="@Ognl@isNotEmpty(starttime)">
+            AND suborder.createTime>= #{starttime}
+        </if>
+        <if test="@Ognl@isNotEmpty(endtime)">
+            AND suborder.createTime &lt;= #{endtime}
+        </if>
+        <if test="@Ognl@isNotEmpty(subOrderId)">
+            AND suborder.subOrderId like CONCAT(CONCAT('%', #{subOrderId}),'%')
+        </if>
+        <if test="@Ognl@isNotEmpty(expressType)">
+            AND suborder.expressType = #{expressType}
+        </if>
+        <if test="@Ognl@isNotEmpty(expressNo)">
+            AND suborder.expressNo like CONCAT(CONCAT('%', #{expressNo}),'%')
+        </if>
+        <if test="@Ognl@isNotEmpty(invoiceStatus)">
+            AND suborder.invoice_status = #{invoiceStatus}
+        </if>
+        <if test="@Ognl@isNotEmpty(status)">
+            AND suborder.status = #{status}
+        </if>
+        <if test="@Ognl@isNotEmpty(selfDelivery) and selfDelivery ==0">
+            AND orders.self_delivery = #{selfDelivery}
+        </if>
+        <if test="@Ognl@isNotEmpty(subOrderIds)">
+            AND suborder.subOrderId in
+            <foreach collection="subOrderIds" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+
+    <!-- 获取已售商品列表带分页信息 -->
+    <select id="findSelllistPage_count" resultType="Integer">
+        SELECT COUNT(suborder.subOrderId)
+        FROM t_suborder as suborder
+        LEFT JOIN t_orders as orders on orders.orderId = suborder.orderId
+        WHERE suborder.subOrderId in(
+        <include refid="findSelllistPage_where"/>
+        )
+    </select>
+
+    <!-- 获取已售商品列表带分页信息 -->
+    <select id="findSelllistPage" resultMap="Suborder">
+        SELECT suborder.subOrderId,suborder.createTime,suborder.expressNo,suborder.expressType,suborder.status,suborder.stock_up,suborder.realPrice,suborder.totalProduct,suborder.totalShipping,suborder.urgeNumber,suborder.commentStatus,suborder.invoice_status,
+        suborderitem.price as price_suborderitem,suborderitem.number as number_suborderitem,suborderitem.productName,suborderitem.sale_kbn,
+        suborderitem.companyTicket companyTicket_suborderitem,suborderitem.benefit_type benefit_type_suborderitem,suborderitem.benefit_amount benefit_amount_suborderitem,
+        suborderitem.image,
+        suborderitem.subOrderItemId as subOrderItemId_suborderitem,suborderitem.companyTicket as useFuliCoin_currency,suborderitem.real_pay as real_pay_suborderitem,suborderitem.product_code,
+        suborderitem.itemValues,suborder.payTime,
+        
+        orders.address as address_orders,orders.name as name_orders,orders.mobile as mobile_orders,orders.phone as phone_orders,takeTime,lasttakeTime,sendTime,orders.invoiceTitle,orders.self_delivery
+		,suborder.close_flg,suborder.sale_bill_id,(select billId from t_sale_bill where t_sale_bill.id=suborder.sale_bill_id) billId
+		
+        ,suborder.cashPay sumPrice
+        ,suborder.stock_up,suborder.companyTicket,suborder.benefit_type,suborder.benefit_amount
+        FROM t_suborder as suborder
+        LEFT JOIN t_suborderitem as suborderitem ON suborderitem.subOrderId=suborder.subOrderId
+        LEFT JOIN t_orders as orders on orders.orderId = suborder.orderId
+        <if test="status==311">
+            LEFT JOIN t_refundorder as rf on rf.refundOrderId =suborder.refundOrderId
+        </if>
+        WHERE suborder.subOrderId in(
+        <include refid="findSelllistPage_where"/>
+        )
+        <choose>
+          	<when test="status==311">
+          		ORDER BY rf.status ASC,rf.createTime DESC
+          	</when>
+          	<when test="status==1">
+          		ORDER BY suborder.createTime ASC
+          	</when>
+        	<otherwise>
+        		ORDER BY suborder.createTime DESC
+        	</otherwise>  
+        </choose>
+    </select>
+
+    <sql id="findSelllistPage_where">
+        SELECT ab.* from(
+        SELECT suborder.subOrderId from t_suborder as suborder
+        LEFT JOIN t_orders as orders on orders.orderId = suborder.orderId
+        WHERE suborder.subOrderId in(
+        SELECT DISTINCT(a.subOrderId) from t_suborderitem as a
+        LEFT JOIN t_suborder as b on a.subOrderId=b.subOrderId
+        WHERE b.supplierId=#{supplierId}
+        <if test="@Ognl@isNotEmpty(productName)">
+            AND a.productName like CONCAT(CONCAT('%', #{productName}),'%')
+        </if>
+        )
+        <if test="@Ognl@isNotEmpty(starttime)">
+            AND suborder.createTime>= #{starttime}
+        </if>
+        <if test="@Ognl@isNotEmpty(endtime)">
+            AND suborder.createTime &lt;= #{endtime}
+        </if>
+        <if test="@Ognl@isNotEmpty(starttimeTemp)">
+            AND suborder.createTime>= #{starttimeTemp}
+        </if>
+        <if test="@Ognl@isNotEmpty(endtimeTemp)">
+            AND suborder.createTime &lt;= #{endtimeTemp}
+        </if>
+        <if test="@Ognl@isNotEmpty(buyerName)">
+            AND orders.name like CONCAT(CONCAT('%', #{buyerName}),'%')
+        </if>
+        <if test="@Ognl@isNotEmpty(subOrderId)">
+            AND suborder.subOrderId like CONCAT(CONCAT('%', #{subOrderId}),'%')
+        </if>
+        <if test="@Ognl@isNotEmpty(status)">
+            <if test="status!=311">
+                AND suborder.status = #{status}
+            </if>
+            <if test="status==311">
+                AND suborder.status in (3,5,11,-11,-12,13,14,15,16)
+            </if>
+        </if>
+        <if test="@Ognl@isNotEmpty(stockUp)">
+        	AND suborder.stock_up = #{stockUp}
+        </if>
+        <if test="@Ognl@isNotEmpty(commentStatus)">
+            AND suborder.commentStatus = #{commentStatus}
+        </if>
+        <if test="@Ognl@isNotEmpty(invoiceStatus)">
+            AND suborder.invoice_status = #{invoiceStatus}
+        </if>
+        <if test="afterserviceStatus==3">
+            AND suborder.status in (3,5)
+        </if>
+        <if test="afterserviceStatus==11">
+            AND suborder.status in (11,12)
+        </if>
+        <if test="@Ognl@isNotEmpty(afterserviceStatus) and afterserviceStatus !=3 and afterserviceStatus != 11">
+            AND suborder.status = #{afterserviceStatus}
+        </if>
+        <if test="@Ognl@isNotEmpty(selfDelivery) and selfDelivery ==0">
+            AND orders.self_delivery = #{selfDelivery}
+        </if>
+        ORDER BY suborder.createTime
+        <choose>
+            <when test="status==1">ASC</when>
+            <otherwise>DESC</otherwise>
+        </choose>
+        <if test="@Ognl@isNotEmpty(startnum)">
+            LIMIT #{startnum},#{size}
+        </if>
+        )as ab
+    </sql>
+
+    <!-- findAllBymap-->
+    <select id="findOrderSum" resultMap="Suborder">
+        SELECT supplierId,SUM(realPrice) as realPrice,COUNT(supplierId) as itemnum
+        from t_suborder WHERE supplierId = #{supplierId} and
+        createTime >=#{starttime} AND createTime &lt;=#{endtime} GROUP BY supplierId
+    </select>
+    <!-- 统计日/月销售额  1./*根据商家ID获取日销售或是月销售，/*仅退款*/的订单的单数、/*仅退款*/后剩余的总的销售额*/ -->
+    <select id="findJustRefundOrderStatistics" resultMap="Suborder">
+        SELECT
+        COUNT(DISTINCT s.subOrderId) subOrderCount,
+        SUM(IFNULL(s.realPrice, 0) - IFNULL(ro.refundPrice, 0)) sumPrice
+        FROM
+        t_suborder s
+        INNER JOIN t_refundorder ro
+        ON s.refundOrderId = ro.refundOrderId
+        AND ro.`status` = 10
+        WHERE
+        s.supplierId = #{supplierId}
+        AND s.`status` = 12
+        AND s.createTime >= #{begin}
+        AND s.createTime &lt;= #{end}
+    </select>
+    <!-- 统计日/月销售额  2.根据商家ID获取日销售或是月销售，/*退货退款*/的订单的单数、/*退货退款*/后剩余的总的销售额 -->
+    <select id="findReturnAndRefundOrderStatistics" resultMap="Suborder">
+        SELECT
+        COUNT(DISTINCT s.subOrderId) subOrderCount,
+        SUM(IFNULL(s.realPrice, 0) - IFNULL(rfo.refundPrice, 0)) sumPrice
+        FROM
+        t_suborder s
+        INNER JOIN t_returnorder ro
+        ON s.returnOrderId = ro.returnOrderId
+        AND s.subOrderId = ro.subOrderId
+        AND ro.`status` = 1
+        INNER JOIN t_refundorder rfo
+        ON rfo.returnOrderId = ro.returnOrderId
+        AND rfo.`status` = 10
+        WHERE
+        s.supplierId = #{supplierId}
+        AND s.`status` = 11
+        AND s.createTime >= #{begin}
+        AND s.createTime &lt;= #{end}
+    </select>
+    <!-- 统计日/月销售额  3./*根据商家ID获取日销售或是月销售，/*已收货*/的订单的单数、/*已收货*/的销售额*/ -->
+    <select id="findReceivedOrderStatistics" resultMap="Suborder">
+        SELECT
+        COUNT(DISTINCT subOrderId) subOrderCount,
+        SUM(IFNULL(realPrice, 0)) sumPrice
+        FROM
+        t_suborder
+        WHERE
+        supplierId = #{supplierId}
+        AND payTime >= #{begin}
+        AND payTime &lt;= #{end}
+    </select>
+    
+	<select id="getOrderCount" resultMap="OrderTypeCountVO">
+        SELECT status,COUNT(1) cnt
+		FROM t_suborder 
+		WHERE supplierId = #{supplierId}
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(commentStatus)">
+				AND commentStatus = #{commentStatus}
+			</if>
+		GROUP BY status
+    </select>
+    
+    <!-- 通过退款单id获取订单 -->
+    <select id="getSuborderByRefundOrderId" resultMap="Suborder">
+        SELECT *
+		FROM t_suborder 
+		WHERE refundOrderId = #{refundOrderId}
+    </select>
+</mapper>
+

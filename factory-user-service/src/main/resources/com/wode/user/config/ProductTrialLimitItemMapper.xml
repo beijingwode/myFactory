@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ProductTrialLimitItemMapper">
+
+    <resultMap id="ProductTrialLimitItem" type="com.wode.factory.model.ProductTrialLimitItem">
+        <result property="id" column="id"/>
+        <result property="productId" column="productid"/>
+        <result property="groupId" column="groupid"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,productid,groupid
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_trial_limit_item (
+            id ,
+            productid,
+            groupid
+        ) VALUES (
+            #{id} ,
+            #{productId} ,
+            #{groupId} 
+        )
+    ]]>
+    </insert>
+    
+    <select id="getListByProductId" resultMap="ProductTrialLimitItem">
+	    SELECT <include refid="columns" /> FROM t_product_trial_limit_item tpi
+        where tpi.groupid = (select tpli.groupid from t_product_trial_limit_item tpli where tpli.productid = #{productId}) 
+        and tpi.productid != #{productId}
+    </select>
+    
+    <select id="getProductTrialLimitItemByProductId" resultType="java.lang.Integer">
+	    select count(*) from (SELECT groupid,COUNT(1) cnt 
+		FROM t_product_trial_limit_item
+		where productid in 
+		<foreach item="productId" collection="list" open="(" separator="," close=")">
+            #{productId,jdbcType=BIGINT}
+        </foreach>
+		GROUP BY groupid
+		HAVING COUNT(1)>1) s
+    </select>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_product_trial_limit_item SET            
+            productid = #{productId} ,
+            groupid = #{groupId} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_product_trial_limit_item WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="ProductTrialLimitItem">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_product_trial_limit_item 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="ProductTrialLimitItem">
+          SELECT <include refid="columns" /> FROM t_product_trial_limit_item 
+	        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(productId)">
+                AND productid = #{productId}
+            </if>
+           <if test="@Ognl@isNotEmpty(groupId)">
+                AND groupid = #{groupId}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

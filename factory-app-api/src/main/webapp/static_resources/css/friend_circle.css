@@ -1,0 +1,96 @@
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, iframe,h1, h2, h3, h4, h5, h6,p,pre,a,del, em, font, ins, q, s, samp,dl, dt, dd, ol, ul, li, form,label, legend, caption,textarea, tbody{ margin:0; padding:0; }
+
+body{font-size:62.5%;font-family:Arial, 'Microsoft YaHei', sans-serif;  width:100%;background:#efeff4;}
+
+ol,ul,li {	list-style: none; }
+
+blockquote:before, blockquote:after,q:before, q:after {	content: ""; }
+
+blockquote, q { quotes: "" ""; }
+
+a img {	border: 0; }
+
+article, aside, details, figcaption, figure,
+
+footer, header, hgroup, menu, nav, section { display: block; }
+
+h1,h2,h3,h4,h5,h6{font-weight:700}
+
+strong{font-weight:700}
+
+cite,em{font-style:normal}
+
+i{font-style:italic}
+
+img,objiect{ max-width:100%;vertical-align:middle/* 此样式会控制前端图片属性所以去掉*/ }
+a {text-decoration:none;border:none;-webkit-tap-highlight-color:transparent;outline:none;-webkit-touch-callout: none;-webkit-user-select: none; }
+a:focus {outline:none; -moz-outline:none}
+input,textarea{ outline:none; resize:none;-webkit-appearance:none;}
+
+
+@font-face{font-family: myFirstFont;src:url('font/hyqihei-45s_0-webfont.ttf'),url('font/hyqihei-45s_0-webfont.eot');}
+
+#main-cont{width:100%; margin:0 auto; position:relative}
+.top_box { width:100%; height:45px;overflow:hidden; position:fixed;z-index:9;left:0}
+.top{width:100%; height:45px; margin:0 auto;background:#f8f8f8;position:relative}
+.top ul{width:80%;height:45px;float:left;margin-top:6px;position:absolute;left:50%;margin-left:-33%; }
+.top ul li{width:40%;border:1px solid #ff7766;height:30px;float:left;}
+.top ul .li1{border-right:none;border-radius: 4px 0 0 4px;}
+.top ul .li2{border-left:none;border-radius:0 4px 4px 0;}
+
+.top ul li a{width:100%;height:30px;float:left;font-size:1.4em;line-height:30px; color:#ff7766; text-align:center;display:block; }
+.top ul .thisone a{background:#ff7766;color:#fff;}
+.top .add_btn{height:20px;width:20px;position:absolute;top:12px;right:15px;}
+.top .add_btn a{height:20px;width:20px;display:block;background:url(../images/add_btn.png) no-repeat;background-size:20px;}
+.dis_none{display:none;}
+
+.main-box{width: 96%;height: auto;padding:0 0 0 4%;overflow: hidden;position: absolute;top: 46px;background:#fff;}
+.shop_con{width:100%;height:70px;border-bottom:1px solid #e2e2e2;position:relative;transform: translateZ(0);-webkit-transform: translateZ(0);}
+.sl-li .sl-content {height: 100%;width:100%;padding:5px 0;overflow: hidden;height:60px;float:left;position: relative;z-index: 10;background-color: #fff;}
+.sl-content dl{width:60%;float:left;}
+.sl-content dl dt{font-size:1.4em;color:#333;line-height:20px;}
+.sl-content dl dd{font-size:1.4em;color:#a9a9a9;line-height:20px;}
+
+.option_btn{width:100px;height:24px;float:right;margin-top:18px;margin-right:4%;}
+.option_btn .btn_span1,.option_btn .btn_span2{width:44px;height:24px;font-size:1.2em;display:block;text-align:center;line-height:24px;border-radius:4px;}
+.option_btn .btn_span1{float:left;border:1px solid #e2e2e2;background:#fff;color:#999;}
+.option_btn .btn_span2{float:right;background:#ff7766;color:#fff;}
+.option_btn .btn_span3{width:78px;height:24px;display:block;float:right;background:#e2e2e2;font-size:1.2em;color:#989898;text-align:center;line-height:24px;border-radius:4px;}
+.option_btn .dis_none{display:none;}
+
+.sl-li .sl-content.animated {-webkit-transition: -webkit-transform .2s ease-out;transition: transform .2s ease-out;}
+.sl-opts{height:70px;width:65px;position:absolute;top:0;right:0;display: -webkit-box;-webkit-box-pack: center;-webkit-box-align: center;z-index: 0;}
+.sl-opts span{height:70px;width:65px;display:block;background:#c22936;color:#fff;line-height:70px;text-align:center;display: -webkit-box; -webkit-box-pack: center;-webkit-box-align: center;}
+
+.shop_con1{width:100%;height:44px;}
+
+.sl-li .sl-content1{height:24px;padding:10px 0}
+.sl-li .sl-content1 dl{height:24px;width:55%;float:left;}
+.sl-li .sl-content1 dl dt{height:24px;width:24px;float:left;margin-right:5px;}
+.sl-li .sl-content1 dl dd{height:24px;line-height:24px;float:left;}
+.sl-li .sl-content1 dl dd span{margin-right:10px;color:#333;overflow: hidden; text-overflow:ellipsis; }
+.sl-li .sl-content1 dl dd em{font-style:normal;color:#a9a9a9;}
+.sl-li .sl-content1 p{height:24px;width:38%;line-height:24px;float:right;margin-right:4%;text-align:right;color:#747474}
+.sl-li .sl-content1 p span{height:24px;width:38px;display:block;line-height:24px;text-align:center;color:#fff;font-size:1.2em;float:right;background:#c22936;margin-left:5px;border-radius:4px;}
+.shop_con1 .sl-opts{height:44px;width:65px;position:absolute;top:0;right:0;display: -webkit-box;-webkit-box-pack: center;-webkit-box-align: center;z-index: 0;}
+.shop_con1 .sl-opts span{height:44px;width:65px;display:block;background:#c22936;color:#fff;line-height:40px;text-align:center;display: -webkit-box; -webkit-box-pack: center;-webkit-box-align: center;}
+
+.theme-popover-mask {z-index: 11119998;position:fixed;top:0;left:0;width:100%;height:100%;background:#000;opacity:0.4;filter:alpha(opacity=40);display:block;}
+.theme-popover {z-index:11119999;position:fixed;top:50%;left:50%;width:84%;height:auto;margin:-100px 0 0 -42%;border-radius:5px;border:solid 2px #666;background-color:#fff;display:block;box-shadow: 0 0 10px #666;}
+.theme-tit{height:40px;width:100%;background:#f1f1f1;line-height:40px;text-align:center;border-radius:4px;font-size:1.6em;color:#5a5a5a;}
+.theme-input{height:44px;width:100%;border-bottom:1px solid #e0dfdf;}
+.theme-input input{height:40px;width:100%;border:none;background:none;line-height:40px;text-align:center;font-size:1.6em;color:#353535;}
+.theme-popbod {height:40px;width:100%}
+.theme-popbod a{height:40px;width:49.5%;border-right:1px solid #e0dfdf;font-size:1.6em;color:#007aff;display:block;text-align:center;line-height:40px;float:left;}
+.theme-popbod1{height:40px;width:100%}
+.theme-popbod1 a{height:40px;width:100%;font-size:1.6em;color:#007aff;display:block;text-align:center;line-height:40px;float:left;}
+
+
+
+
+
+
+
+

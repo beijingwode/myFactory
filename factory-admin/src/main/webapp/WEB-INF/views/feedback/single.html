@@ -1,0 +1,56 @@
+<div class="layer">
+    <div class="profile-user-info profile-user-info-striped">
+        <div class="profile-info-row">
+            <div class="profile-info-name">姓名</div>
+            <div class="profile-info-value">
+                <span class="editable editable-click">${feedback.name!}</span>
+            </div>
+        </div>
+        <div class="profile-info-row">
+            <div class="profile-info-name">手机号</div>
+            <div class="profile-info-value">
+			<span class="editable editable-click">
+			${feedback.phone}
+			</span>
+            </div>
+        </div>
+        <div class="profile-info-row">
+            <div class="profile-info-name">满意度</div>
+            <div class="profile-info-value">
+                <span class="editable editable-click">
+                    @if(feedback.score == 5){
+                    非常满意
+                    @}
+                    @if(feedback.score == 4){
+                    满意
+                    @}
+                    @if(feedback.score == 3){
+                    一般
+                    @}
+                    @if(feedback.score == 2){
+                    不满意
+                    @}
+                    @if(feedback.score == 1){
+                    非常不满意
+                    @}
+                </span>
+            </div>
+        </div>
+        <div class="profile-info-row">
+            <div class="profile-info-name">创建时间</div>
+            <div class="profile-info-value">
+			<span class="editable editable-click">
+			${feedback.createDate!, dateFormat="yyyy-MM-dd HH:mm:ss"}
+			</span>
+            </div>
+        </div>
+        <div class="profile-info-row">
+            <div class="profile-info-name">反馈内容</div>
+            <div class="profile-info-value">
+			<span class="editable editable-click">
+			${feedback.content}
+			</span>
+            </div>
+        </div>
+    </div>
+</div>

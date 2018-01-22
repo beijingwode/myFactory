@@ -1,0 +1,155 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/exchange/orderList" method="post" id="search-form" target="list-page" class="center clearfix">
+					<input type="hidden" name="viewStatus" value="${status!}">
+					<div class="row padding-tb-10 col-sm-12">
+						<div class="col-sm-4">
+							<label>匹配状态：</label>
+							<select name="exchangeStatus">
+								<option value="">全部</option>
+								<option value="0">未支付</option>
+								<option value="1" selected="selected">匹配中</option>
+								<option value="2">匹配成功</option>
+								<option value="3">匹配失败 已退款</option>
+								<option value="4">匹配失败 调剂成功</option>
+								<option value="-1">已取消</option>
+							</select>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="checkbox" value="1" name="freeSwap" id="freeSwap" checked="checked">
+							<label for="freeSwap">同意调剂</label>
+						</div>
+						<div class="col-sm-4">
+							<label>订单id：</label>
+							<input type="text" id="subOrderId" name="subOrderId">
+						</div>
+						<div class="col-sm-4">
+							<label>下单日期：</label>
+							<input type="text" id="startDate" name="startDate">
+							<label>-</label>
+							<input type="text" id="endDate" name="endDate">
+							&nbsp;&nbsp;
+						</div>
+						<!-- <div style="width:100px;float: right;margin-right: 10px;margin-top: -30px" onclick="exportExcel()">
+							<span class="btn fa fa-file-excel-o" id="excel-btn">&nbsp;&nbsp;导出订单</span>
+						</div> -->
+					</div>
+					<div class="row padding-tb-10 col-sm-12">
+						<div class="col-sm-4">
+							<label>商家：</label>
+							<#select name="supplierId" width="70%">
+								<option value="">全部</option>
+								@for(item in supplierList){
+								<option value="${item.id! }">${item.comName! }</option>
+								@}
+							</#select>
+						</div>
+
+						<div class="col-sm-4">
+							<label>买家id：</label>
+							<input type="text" name="userId">
+						</div>
+						
+						<div class="col-sm-4">
+							<label>企业：</label>
+							<input type="text" id="enterpriseName" name="enterpriseName">
+						</div>
+					</div>
+					<div class="padding-trb-10 col-sm-12">
+						<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">全部</span>
+						<span class="btn btn-info btn-sm col-sm-6" id="search-btn">查询</span>
+					</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<span class="btn btn-primary btn-sm bigger-110 width-10  pull-left" id="selectAll">
+				<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>全选
+			</span>
+			<span class="btn btn-primary btn-sm bigger-110 width-10  pull-left" id="selectNone">
+				<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>全不选
+			</span>
+			
+			<a href="javascript:;" data-title="匹配调剂" id="mergeOrder">匹配调剂</a>
+			<div id="list-page"></div>
+		</div>
+	</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script>
+$(function(){
+
+	//全选
+	$("#selectAll").click(function(){
+		$("input[name='chk_list']:enabled").prop("checked",true);
+	});
+
+	//全不选  checked="checked"
+	$("#selectNone").click(function(){
+		$("input[name='chk_list']:enabled").prop("checked",false);
+	});
+
+	$("#mergeOrder").click(function(){
+		var userId="";
+		var ids = "";
+		var hasErr = false;
+		$("input[name='chk_list']:checked").each(function(index){
+			
+			//索引0  是id,索引1是商家id
+			var data = $(this).val().split(",");
+			//将id值方入集合中
+			ids +=data[0]+",";
+			if(userId=="")  {
+				userId = data[1];
+			} else {
+				if(userId != data[1]) {
+					hasErr=true;
+					return;
+				}
+			}			
+		});
+		
+
+		if(hasErr){
+			layer.msg('请选择要处理的订单', 3, 1);			
+			return false;
+		} else if(ids=="") {
+			//商家id不相同，报错提示
+			layer.msg('请选择要处理的订单', 3, 1);	
+			return false;	
+		}
+		
+		var data = {"mode":"detail","data":{"ids":ids,"userId":userId},
+			"url":"exchange/toMergeOrder","title":"换领调剂","width":"80%","height":"80%"};
+		$.cuslayer(data);
+		
+	});
+})
+	laydate({
+	    elem: '#startDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#endDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	$("#role-select").chosen({width: "80%",search_contains: true});
+	$("#role-choose").chosen({width: "100%",search_contains: true}); 
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	
+	function exportExcel() {
+		var action,target;
+		var thisform=document.getElementById('search-form');
+		action=thisform.action;
+		target=thisform.target;
+		
+		thisform.action="${ctxPath}/orderList/exportExcel";
+		thisform.target="_blank";
+		thisform.submit();
+		
+		thisform.action=action;
+		thisform.target=target;
+	}
+</script>

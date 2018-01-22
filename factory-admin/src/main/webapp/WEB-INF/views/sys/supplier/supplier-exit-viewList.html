@@ -1,0 +1,108 @@
+<table class="table table-striped table-bordered table-hover nomargin-bottom">
+	<thead>
+		<tr>
+			<th class="center">商家ID</th>
+			<th class="center">商家名称</th>
+			<th class="center">类型</th>
+			<th class="center">状态</th>
+			<th class="center">上架商品数</th>
+			<th class="center">招商经理</th>
+			<th class="center">入驻时间</th>
+			<th class="center">订单总数</th>
+			<th class="center">未结订单总数</th>
+			<th class="center">未结对账单数</th>
+			<th class="center">现金账户余额</th>
+			<th class="center">申请时间</th>
+			<th class="center">退出时间</th>
+			<th class="center">操作</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@for(item in page.list){
+			<tr>
+				<td class="center">
+					<a data-mode="detail" data-url="${ctxPath}/supplierList/detail/showlayer"
+						data-data="{id:'${item.supplierId}',viewStatus:'view'}" href="javascript:void(0);"
+						data-title="详情" data-width="70%">
+						${item.supplierId!}
+					</a>
+				</td>
+				<td class="center">
+					${item.supplierName! }
+				</td>
+				<td class="center">
+					@if(item.property == '2'){
+						代理商
+					@}
+					@if(item.property == '1'){
+						品牌商
+					@}
+					@if(item.property == '0'){
+						生产厂商
+					@}
+				</td>
+				<td class="center">
+				    @if(item.status == 1){
+						审核驳回
+					@}
+					@if(item.status == 2){
+						待运营审核
+					@}
+					@if(item.status == 3){
+						待财务审核
+					@}
+					@if(item.status == 4){
+						待退出执行
+					@}
+					@if(item.status == 5){
+						已退出
+					@}
+					@if(item.status == -1){
+						已取消
+					@}
+				</td>
+				<td class="center">
+					${item.productCnt! }
+				</td>
+				<td class="center">
+					${item.managerName! }
+				</td>
+				<td class="center">
+					${item.joinTime!,dateFormat="yyyy-MM-dd HH:mm:ss" }
+				</td>
+				<td class="center">
+					${item.orderCnt! }
+				</td>
+				<td class="center">
+					${item.unCloseOrderCnt! }
+				</td>
+				<td class="center">
+					${item.unClosebillCnt! }
+				</td>
+				<td class="center">
+					${item.cashBalance! }
+				</td>
+				<td class="center">
+				${item.editTime!,dateFormat="yyyy-MM-dd HH:mm:ss" }
+				</td>
+				<td class="center">
+				@if(item.status == 5){
+					${item.updateTime!,dateFormat="yyyy-MM-dd HH:mm:ss" }
+				@}
+				</td>
+				<td class="center">
+				@if(item.managerId == uid){
+					<a data-mode="detail" data-url="${ctxPath}/supplierExit/checkViewPage"
+							data-data="{id:'${item.supplierId}'}" href="javascript:void(0);"
+							data-title="处理执行" data-width="50%" data-height="80%">
+							处理
+						</a>
+						@}
+				</td>
+			</tr>
+		@}
+	</tbody>
+</table>
+<div class="space-8"></div>
+<#paginate page="${page}" />

@@ -1,0 +1,100 @@
+<div id="userMonthStatistical_parentDiv">
+	<div class="tab-content">
+	<div id="home" class="tab-pane clearfix active">
+	<div class="">
+	<label>开始：</label>
+	<input type="text" id="search_startTime"><label>&nbsp;&nbsp;结束：</label><input type="text" id="search_endTime">
+	&nbsp;&nbsp;
+	<span id="search-btn" class="btn btn-info btn-sm ">查 询</span>
+	</div>
+	</div>
+	</div>
+	<div class="pull-left width-30">
+	</div>
+	<div id="monthStatistical" style="height: 400px">
+	</div>
+</div>
+	<input type="hidden" value="${monthInfo.monthRegister!}" id="monthRegister">
+	<input type="hidden" value="${monthInfo.monthActive!}" id="monthActive">
+	<input type="hidden" value="${monthInfo.dateYear!}" id="date">
+	<script src="${ctxPath!}/static/js/timeControls.js"></script>
+	
+    <script type="text/javascript">
+	$(document).ready(function(){
+		baidu_echarts_month();
+		/*按时间搜索*/
+		$("#search-btn").click(function(){
+			var $target = $("#userMonthStatistical_parentDiv");
+			var spinner;
+			$.ajax({
+				"dataType":'json',
+				"type":'POST',
+				"data":{"monthStartTime":$("#search_startTime").val(),"monthEndTime":$("#search_endTime").val()},
+				"url":'${ctxPath!}/userStatistical/monthSearch',
+				beforeSend : function(){
+					spinner = new Spinner({color: '#3d9bce',width:20,radius:20}).spin($target[0]);
+				},
+				success:function(da){
+					$("#monthRegister").val(da.monthRegister);
+					$("#date").val(da.dateYear);
+					$("#monthActive").val(da.monthActive);
+					//关闭spinner  
+                    spinner.spin();			
+			
+					baidu_echarts_month();
+					
+				}
+			});
+						
+		});
+	/*百度统计方法*/
+	function baidu_echarts_month(){
+		var da = $("#date").val();
+		var monthRegister = $("#monthRegister").val();
+		var monthActive = $("#monthActive").val();
+		// 基于准备好的dom，初始化echarts图表
+		var myChart = echarts.init(document.getElementById('monthStatistical'));
+		var option = {
+			tooltip : {
+				trigger : 'axis'
+			},
+			legend : {
+				data : [ '月注量','月活量']
+			},
+			toolbox : {
+				show : true,
+				feature : {
+					magicType : {
+						show : true,
+						type : [ 'line', 'bar' ]
+					},
+				}
+			},
+			calculable : true,
+			xAxis : [ {
+				type : 'category',
+				boundaryGap : true,
+				data : da.split(",")
+			} ],
+			yAxis : [ {
+				type : 'value',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			} ],
+			series : [ {
+				name : '月注量',
+				type : 'line',
+				data : monthRegister.split(","),
+			}, {
+				name : '月活量',
+				type : 'line',
+				data : monthActive.split(","),
+			} ]
+		};
+		// 为echarts对象加载数据 
+		myChart.setOption(option);
+	}
+	
+	});
+</script>

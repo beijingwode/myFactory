@@ -1,0 +1,53 @@
+<script type="text/javascript" src="${ctxPath!}/static/bootstrap/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="${ctxPath!}/static/bootstrap/bootstrap-datetimepicker.zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="${ctxPath!}/static/bootstrap/bootstrap-timepicker.css" />
+<div class="tabbable">
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active"><a data-toggle="tab" href="#home"> <i
+				class="green ace-icon fa fa-list-alt bigger-120"></i> 日志列表
+		</a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="home" class="tab-pane active clearfix">
+			<form action="${ctxPath}/syslog/list" method="post" id="search-form" target="list-page" class="clearfix">
+			<div class="row padding-tb-10">
+				<div class="pull-left width-25">
+					<label>类型：</label>
+					@var logDict = dict.getDictListByType("sys_log_type");
+					<#select name="type" width="60%">
+						<option value="">全部</option>
+						@for(dict in logDict){
+							<option value="${dict.value!}">
+							${dict.label!}
+							</option>
+						@}
+					</#select>
+				</div>
+			</div>
+			<div class="padding-trb-10 col-sm-12">
+					<span class="btn btn-info btn-sm col-sm-6" id="search-btn"> 查 询</span>
+			</div>
+			</form>
+			<hr/>
+			<div id="list-page"></div>
+			<script type="text/javascript">
+				$("#search-form").getPageList({'submitBtnId':'search-btn'})
+			</script>
+		</div>
+
+	</div>
+</div>
+
+<<script type="text/javascript">
+$('#createDate').datetimepicker({
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0
+});
+</script>

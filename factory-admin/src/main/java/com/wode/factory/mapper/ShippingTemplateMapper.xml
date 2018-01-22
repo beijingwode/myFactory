@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wode.factory.mapper.ShippingTemplateDao" >
+  <resultMap id="BaseResultMap" type="com.wode.factory.model.ShippingTemplate" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="supplier_id" property="supplierId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="send_time_des" property="sendTimeDes" jdbcType="VARCHAR" />
+    <result column="count_type" property="countType" jdbcType="CHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="version" property="version" jdbcType="SMALLINT" />
+    <result column="is_audit" property="isAudit" jdbcType="SMALLINT" />
+    <result column="supplierName" property="supplierName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, supplier_id, name, send_time_des, count_type, create_user, create_time, update_user, 
+    update_time,version,is_audit
+  </sql>
+  
+  <delete id="deleteBySupplierId">
+  delete from t_shipping_template where supplier_id = #{supplierId}
+  </delete>
+  
+  <select id="selectList" resultMap="BaseResultMap">
+		select 
+    	tst.*,ts.com_name supplierName
+    	from t_shipping_template tst
+        LEFT JOIN t_supplier ts on ts.id = tst.supplier_id
+    	where 
+	    	1=1
+            and tst.version = 2
+            and tst.is_audit = 1
+            <if test="@Ognl@isNotEmpty(supplierName)">
+            and ts.com_name = #{supplierName}
+            </if>
+            <if test="@Ognl@isNotEmpty(startDate)">
+				AND tst.update_time >= #{startDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endDate)">
+				AND tst.update_time &lt;= #{endDate}
+		   </if>
+	    ORDER BY tst.update_time DESC
+	</select>
+	<select id="selectByModel" resultMap="BaseResultMap">
+		select 
+    	<include refid="Base_Column_List" />
+    	from t_shipping_template
+	    <where>	
+	    	1=1
+		  <if test="id != null" >
+        	and id = #{id,jdbcType=BIGINT} 
+	      </if>
+		  <if test="supplierId != null" >
+        	and supplier_id = #{supplierId,jdbcType=BIGINT} 
+	      </if>
+	      <if test="name != null" >
+	        and name = #{name,jdbcType=VARCHAR}
+	      </if>
+	      <if test="sendTimeDes != null" >
+	        and send_time_des = #{sendTimeDes,jdbcType=VARCHAR}
+	      </if>
+	      <if test="countType != null" >
+	        and count_type = #{countType,jdbcType=CHAR}
+	      </if>
+	      <if test="createUser != null" >
+	        and create_user = #{createUser,jdbcType=VARCHAR}
+	      </if>
+	      <if test="updateUser != null" >
+	        and update_user = #{updateUser,jdbcType=VARCHAR}
+	      </if>
+	      <if test="version != null">
+            and version = #{version,jdbcType=SMALLINT}
+          </if>
+           <if test="isAudit != null">
+            and is_audit = #{isAudit,jdbcType=SMALLINT}
+          </if>
+	    </where>
+	    ORDER BY update_time DESC
+	</select>
+    <update id="update">
+    update t_shipping_template
+    <set>
+    is_audit = #{isAudit,jdbcType=SMALLINT} 
+    </set>
+     <where>
+     id = #{id,jdbcType=BIGINT} 
+     </where>
+    </update>
+    <delete id="deleteById">
+    delete from t_shipping_template where id = #{id,jdbcType=BIGINT} 
+    </delete>
+</mapper>

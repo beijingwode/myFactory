@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.ParameterGroupDao">
+	
+
+	<resultMap id="ParameterGroup" type="com.wode.factory.vo.ParameterGroupVo">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="orders" column="orders"/>
+        <result property="ismust" column="ismust"/>
+        <result property="inputtype" column="inputtype"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="showType" column="showType"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="parameterCategory" column="parameterCategory"/>
+	</resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+		id,name,orders,ismust,inputtype,category_id,showType,createDate,updateDate,parameterCategory
+	    ]]>
+	</sql>
+	
+	<!-- 查询参数信息-->
+	<select id="selectParameterGroup" resultMap="ParameterGroup" parameterType="map">
+       select par.id,par.name,par.orders,par.ismust,par.inputtype,par.showType,par.createDate,par.updateDate,par.category_id,pro.name as parameterCategory  from t_parameter_group par left join t_product_category pro on pro.id=par.category_id
+       <if test="categoryId!=null" >
+	      where par.category_id = #{categoryId}
+	   </if>
+	   order by par.orders asc
+	</select>
+	<!-- 根据主键id查询-->
+	<select id="selectById" resultMap="ParameterGroup" resultType="java.lang.Long">
+		select par.id,par.name,par.orders,par.ismust,par.inputtype,par.showType,par.createDate,par.updateDate,par.category_id,pro.name as parameterCategory  from t_parameter_group par left join t_product_category pro on pro.id=par.category_id
+		where par.id = #{id}
+	</select>
+	
+	<!-- 查询参数的类别 -->
+	<select id="selectParameterGorpCategory" resultMap="ParameterGroup">
+		select distinct(pro.name) as parameterCategory,pro.id as category_id from t_parameter_group par  left join t_product_category pro on pro.id = par.category_id
+	</select>
+	
+	<!-- 删除数据 -->
+	<delete id = "deleteById">
+	     delete from t_parameter_group where id =#{id}
+	</delete>
+	
+	<!-- 添加频道页所属频道信息  -->
+	<insert id="insertParameterGorp" useGeneratedKeys="true" keyProperty="id">
+		insert into t_parameter_group
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="@Ognl@isNotEmpty(name)" >
+	        name,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(orders)" >
+	        orders,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(ismust)" >
+	        ismust,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(inputtype)" >
+	        inputtype,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(categoryId)" >
+	        category_id,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(showType)" >
+	        showType,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(createDate)" >
+	        createDate,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	      <if test="@Ognl@isNotEmpty(name)" >
+	        #{name},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(orders)" >
+	        #{orders},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(ismust)" >
+	        #{ismust},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(inputtype)" >
+	        #{inputtype},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(categoryId)" >
+	        #{categoryId},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(showType)" >
+	        #{showType},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(createDate)" >
+	        #{createDate},
+	      </if>
+	    </trim>
+	</insert>
+	<!-- 修改频道页所属频道信息-->
+	<update id="updateById">
+    update t_parameter_group set
+	        name = #{name},
+	        orders = #{orders},
+	        ismust = #{ismust},
+	        inputtype = #{inputtype},
+	        category_id = #{categoryId},
+	        showType = #{showType},
+	        updateDate = #{updateDate}
+    		where id = #{id}
+  </update>
+	
+	
+</mapper>
+

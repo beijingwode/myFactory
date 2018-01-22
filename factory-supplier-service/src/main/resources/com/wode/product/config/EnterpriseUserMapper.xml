@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="EnterpriseUserMapper" >
+  <resultMap id="BaseResultMap" type="com.wode.factory.model.EnterpriseUser" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="emp_number" property="empNumber" jdbcType="VARCHAR" />
+    <result column="welfare_level" property="welfareLevel" jdbcType="INTEGER" />
+    <result column="seniority" property="seniority" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="enterprise_id" property="enterpriseId" jdbcType="BIGINT" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="logout" property="logout" jdbcType="TINYINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="duty" property="duty" jdbcType="VARCHAR" />
+    <result column="sectionName" property="sectionName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="EnterpriseUserVo" type="com.wode.factory.company.query.EnterpriseUserVo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="emp_number" property="empNumber" jdbcType="VARCHAR" />
+    <result column="welfare_level" property="welfareLevel" jdbcType="INTEGER" />
+    <result column="seniority" property="startSeniority" jdbcType="INTEGER" />
+    <result column="end_seniority" property="endSeniority" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="enterprise_id" property="enterpriseId" jdbcType="BIGINT" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="logout" property="logout" jdbcType="TINYINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="duty" property="duty" jdbcType="VARCHAR" />
+    <result column="sectionName" property="sectionName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="EmpLevelCountVo" type="com.wode.factory.company.query.EmpLevelCountVo" >
+    <result column="enterprise_id" property="enterpriseId" jdbcType="BIGINT" />
+    <result column="welfare_level" property="welfareLevel" jdbcType="INTEGER" />
+    <result column="cnt" property="levelCount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, emp_number, welfare_level, seniority, name, sex, age, enterprise_id, 
+    email, logout, type, user_name, phone,duty,sectionName
+  </sql>
+  
+  <!-- 查看各福利级别的人数（未注销） -->
+  <select id="selectLevelCount" resultMap="EmpLevelCountVo">
+    select enterprise_id,welfare_level, count(1) cnt
+    from t_enterprise_user
+     <!-- where type = 2 -->
+    <where>
+    	logout = 0
+	     <if test="enterpriseId!=null" >
+	       and enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+	     </if>
+	     <if test="welfareLevel" >
+	       and welfare_level = #{welfareLevel,jdbcType=INTEGER}
+	     </if>
+	</where>
+	GROUP BY enterprise_id,welfare_level
+  </select>
+  
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_enterprise_user 
+		<include refid="findPage_where"/>    
+    </select>
+
+    <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enterprise_user
+    where id = #{id,jdbcType=BIGINT}
+  	</select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="EnterpriseUserVo">
+    	SELECT <include refid="Base_Column_List" />
+	    FROM t_enterprise_user 
+		<include refid="findPage_where"/>
+		ORDER BY emp_number ASC
+    </select>
+    
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	
+    	<!-- type 2 表示员工。logout 0 表示未注销 -->
+	     <if test="1==1" >
+	       type = 2 and logout = 0
+	     </if>
+	     <if test="enterpriseId!=null" >
+	       and enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+	     </if>
+	     <!-- 员工序号 -->
+	     <if test="empNumber != null&amp;&amp;empNumber!=''" >
+	        and emp_number = #{empNumber,jdbcType=VARCHAR}
+	     </if>
+	     <!-- 性别 -->
+	     <if test="sex != null&amp;&amp;sex!=''" >
+	        and sex = #{sex,jdbcType=VARCHAR}
+	     </if>
+		<!-- 根据名字进行查找 -->
+	     <if test="name !=null&amp;&amp;name!=''" >
+	       and name = #{name,jdbcType=VARCHAR}
+	     </if>
+		<!-- 根据等级进行查找 -->
+	     <if test="welfareLevel != null&amp;&amp;welfareLevel!=''" >
+	        and welfare_level = #{welfareLevel,jdbcType=INTEGER}
+	     </if>
+	     <!-- 根据手机号进行查找 -->
+	     <if test="userName != null&amp;&amp;userName!=''" >
+	        and user_name = #{userName,jdbcType=VARCHAR}
+	     </if>
+	     <!-- 根据工龄进行查找 区间查找-->
+	     <if test="startSeniority != null&amp;&amp;endSeniority!=null" >
+	        and seniority &gt;= #{startSeniority,jdbcType=INTEGER} and seniority &lt;=#{endSeniority,jdbcType=INTEGER}
+	     </if>
+	     <!-- 根据工龄进行查找 精确查找-->
+	     <if test="startSeniority != null&amp;&amp;endSeniority==null" >
+	        and seniority = #{startSeniority,jdbcType=INTEGER}
+	     </if>
+		</where>
+	</sql>
+	
+	 <!-- 分页(条件)查询员工自提订单列表 -->
+  <select id="selectTakeOrderListPageInfo" resultType="com.wode.factory.company.query.EnterpriseUserTakeOrderVo">
+    select eu.name name,eu.sectionName sectionName,eu.phone phone,soi.productName productName,
+    soi.itemValues itemValues,soi.number number,o.createTime createTime,so.status orderStatus
+    from t_enterprise_user eu left join t_orders o on eu.id = o.userid left join t_suborder so on o.orderid=so.orderid
+    left join t_suborderitem soi on soi.subOrderId = so.subOrderId
+    <where>
+    	<!-- type 2 表示员工。logout 0 表示未注销 -->
+	     <if test="1==1" >
+	      eu.logout = 0
+	     </if>
+	     <if test="1==1" >
+	      AND eu.type = 2
+	     </if>
+	     <if test="1==1" >
+	      AND o.self_delivery = 1
+	     </if>
+	     <if test="enterpriseId !=null&amp;&amp;enterpriseId!=''" >
+			AND eu.enterprise_id = #{enterpriseId}
+	     </if>
+		<!-- 根据名字进行查找 -->
+	     <if test="name !=null&amp;&amp;name!=''" >
+			AND eu.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+	     </if>
+	     <if test="productName !=null&amp;&amp;productName!=''" >
+			AND soi.productName LIKE CONCAT(CONCAT('%',#{productName}),'%')
+	     </if>
+	     <!-- 根据部门进行查找 -->
+	     <if test="sectionName !=null&amp;&amp;sectionName!=''" >
+			AND eu.sectionName LIKE CONCAT(CONCAT('%',#{sectionName}),'%')
+	     </if>
+	     <!-- 根据手机号进行查找 -->
+	     <if test="phone != null&amp;&amp;phone!=''" >
+			AND eu.phone LIKE CONCAT(CONCAT('%',#{phone}),'%')
+	     </if>
+	     <if test="@Ognl@isNotEmpty(startTime)">
+			AND o.createTime >=#{startTime}
+		</if>
+		<if test="@Ognl@isNotEmpty(endTime)">
+			AND o.createTime &lt;=#{endTime}
+		</if>
+	     <if test="orderStatus != null&amp;&amp;orderStatus!=''" >
+		     <if test="orderStatus==1" >
+				AND so.status in (1,2)
+		     </if>
+		     <if test="orderStatus==2" >
+				AND so.status >= 4
+		     </if>
+		     <if test="orderStatus==-1" >
+				AND (so.status in (1,2) or so.status>=4)
+		     </if>
+	     </if>
+	    </where>
+	    ORDER BY o.createTime DESC
+  </select>
+	
+  <!-- 分页(条件)查询员工信息 -->
+  <select id="selectPageInfo" resultMap="EnterpriseUserVo">
+    select 
+    <include refid="Base_Column_List" />
+    from t_enterprise_user
+    <!-- where type = 2 -->
+    <where>
+    	<!-- type 2 表示员工。logout 0 表示未注销 -->
+	     <if test="1==1" >
+	      logout = 0
+	     </if>
+	     <if test="enterpriseId!=null" >
+	       and enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+	     </if>
+	     <!-- 员工序号 -->
+	     <if test="empNumber != null&amp;&amp;empNumber!=''" >
+			AND emp_number LIKE CONCAT(CONCAT('%',#{empNumber}),'%')
+	     </if>
+	     <!-- 性别 -->
+	     <if test="sex != null&amp;&amp;sex!=''" >
+	        and sex = #{sex,jdbcType=VARCHAR}
+	     </if>
+		<!-- 根据名字进行查找 -->
+	     <if test="name !=null&amp;&amp;name!=''" >
+			AND name LIKE CONCAT(CONCAT('%',#{name}),'%')
+	     </if>
+	     <!-- 根据部门进行查找 -->
+	     <if test="sectionName !=null&amp;&amp;sectionName!=''" >
+			AND sectionName LIKE CONCAT(CONCAT('%',#{sectionName}),'%')
+	     </if>
+		<!-- 根据等级进行查找 -->
+	     <if test="welfareLevel != null&amp;&amp;welfareLevel!=''" >
+	        and welfare_level = #{welfareLevel,jdbcType=INTEGER}
+	     </if>
+	     <!-- 根据手机号进行查找 -->
+	     <if test="userName != null&amp;&amp;userName!=''" >
+			AND user_name LIKE CONCAT(CONCAT('%',#{userName}),'%')
+	     </if>
+	     <if test="phone != null&amp;&amp;phone!=''" >
+			AND phone LIKE CONCAT(CONCAT('%',#{phone}),'%')
+	     </if>
+	     <if test="email != null&amp;&amp;email!=''" >
+			AND email LIKE CONCAT(CONCAT('%',#{email}),'%')
+	     </if>
+	     <!-- 根据工龄进行查找 区间查找-->
+	     <if test="startSeniority != null&amp;&amp;endSeniority!=null" >
+	        and seniority &gt;= #{startSeniority,jdbcType=INTEGER} and seniority &lt;=#{endSeniority,jdbcType=INTEGER}
+	     </if>
+	     <!-- 根据工龄进行查找 精确查找-->
+	     <if test="startSeniority != null&amp;&amp;endSeniority==null" >
+	        and seniority = #{startSeniority,jdbcType=INTEGER}
+	     </if>
+	    </where>
+	    ORDER BY emp_number ASC
+  </select>
+  <select id="selectByModel" resultMap="BaseResultMap">
+     select 
+    <include refid="Base_Column_List" />
+    from t_enterprise_user
+     <!-- where type = 2 -->
+    <where>
+    	<!-- type 2 表示员工。logout 0 表示未注销 -->
+	     <if test="1==1" >
+	       	logout = 0
+	     </if>
+	     <if test="enterpriseId!=null" >
+	       and enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+	     </if>
+	     <!-- 员工序号 -->
+	     <if test="empNumber != null&amp;&amp;empNumber!=''" >
+	        and emp_number = #{empNumber,jdbcType=VARCHAR}
+	     </if>
+	     <!-- 性别 -->
+	     <if test="sex != null&amp;&amp;sex!=''" >
+	        and sex = #{sex,jdbcType=VARCHAR}
+	     </if>
+		<!-- 根据名字进行查找 -->
+	     <if test="name !=null&amp;&amp;name!=''" >
+	       and name = #{name,jdbcType=VARCHAR}
+	     </if>
+		<!-- 根据等级进行查找 -->
+	     <if test="welfareLevel != null&amp;&amp;welfareLevel!=''" >
+	        and welfare_level = #{welfareLevel,jdbcType=INTEGER}
+	     </if>
+	     <if test="userName != null&amp;&amp;userName!=''" >
+	        and user_name = #{userName,jdbcType=VARCHAR}
+	     </if>
+	     <!-- 根据工龄进行查找 精确查找-->
+	     <if test="seniority != null" >
+	        and seniority = #{seniority,jdbcType=INTEGER}
+	     </if>
+	     <!-- 根据 电话进行查找 精确查找-->
+	     <if test="phone != null" >
+	        and phone = #{phone,jdbcType=VARCHAR}
+	     </if>
+	    </where>
+  </select>
+ <!-- 根据账号查询 -->
+  <select id="selectByAccount" resultMap="EnterpriseUserVo" parameterType="java.lang.String" >
+    select 
+    entUser.id, entUser.emp_number, entUser.seniority, entUser.name, entUser.sex, entUser.age, entUser.enterprise_id, 
+    entUser.email, entUser.logout, entUser.type, entUser.user_name, entUser.phone,entUser.duty,ent.welfare_level
+    from t_enterprise_user entUser left join t_enterprise ent on ent.id = entUser.enterprise_id
+    where entUser.user_name = #{userName,jdbcType=VARCHAR}
+  </select>
+  <!-- 获取该企业中最大的员工号码 -->
+  <select id="selectMaxEmpNumber" resultType="java.lang.String" parameterType="java.lang.Long">
+  	select max(CAST(emp_number as SIGNED)) from t_enterprise_user where enterprise_id=#{enterpriseId,jdbcType=BIGINT} 
+  </select>
+  <!-- 根据企业id和福利级别查询大于改福利级别的员工信息 -->
+  <select id="selectExceedWelfareLevelEmp" resultMap="BaseResultMap" parameterType="map">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_enterprise_user
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT} and welfare_level &gt; #{welfareLevel,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enterprise_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <!-- 注销员工用户 -->
+  <update id="updateLogoutEmp" parameterType="java.lang.Long">
+  	update t_enterprise_user
+  	set logout = 1,enterprise_id = null
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_enterprise_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+ <!-- <insert id="insert" parameterType="com.wode.factory.model.EnterpriseUser" > --> 
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    insert into t_enterprise_user (id, emp_number, welfare_level, 
+      seniority, name, sex, 
+      age, enterprise_id, 
+      email, logout, type, 
+      user_name, phone)
+    values (#{id,jdbcType=BIGINT}, #{empNumber,jdbcType=VARCHAR}, #{welfareLevel,jdbcType=INTEGER}, 
+      #{seniority,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{age,jdbcType=INTEGER},  #{enterpriseId,jdbcType=BIGINT}, 
+      #{email,jdbcType=VARCHAR}, #{logout,jdbcType=TINYINT}, #{type,jdbcType=INTEGER}, 
+      #{userName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wode.factory.model.EnterpriseUser" >
+    insert into t_enterprise_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="empNumber != null" >
+        emp_number,
+      </if>
+      <if test="welfareLevel != null" >
+        welfare_level,
+      </if>
+      <if test="seniority != null" >
+        seniority,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="enterpriseId != null" >
+        enterprise_id,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="logout != null" >
+        logout,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="duty != null" >
+        duty,
+      </if>
+      <if test="sectionName != null" >
+        sectionName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="empNumber != null" >
+        #{empNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="welfareLevel != null" >
+        #{welfareLevel,jdbcType=INTEGER},
+      </if>
+      <if test="seniority != null" >
+        #{seniority,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null" >
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="logout != null" >
+        #{logout,jdbcType=TINYINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null" >
+        #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionName != null" >
+        #{sectionName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wode.factory.model.EnterpriseUser" >
+    update t_enterprise_user
+    <set >
+      <if test="empNumber != null" >
+        emp_number = #{empNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="welfareLevel != null" >
+        welfare_level = #{welfareLevel,jdbcType=INTEGER},
+      </if>
+      <if test="seniority != null" >
+        seniority = #{seniority,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null" >
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="logout != null" >
+        logout = #{logout,jdbcType=TINYINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null" >
+        duty = #{duty,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="update" parameterType="com.wode.factory.model.EnterpriseUser" >
+    update t_enterprise_user
+    set emp_number = #{empNumber,jdbcType=VARCHAR},
+      welfare_level = #{welfareLevel,jdbcType=INTEGER},
+      seniority = #{seniority,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      email = #{email,jdbcType=VARCHAR},
+      logout = #{logout,jdbcType=TINYINT},
+      type = #{type,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      duty = #{duty,jdbcType=VARCHAR},
+      sectionName = #{sectionName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateEmp" parameterType="com.wode.factory.model.EnterpriseUser" >
+    update t_enterprise_user
+    set emp_number = #{empNumber,jdbcType=VARCHAR},
+      welfare_level = #{welfareLevel,jdbcType=INTEGER},
+      seniority = #{seniority,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      email = #{email,jdbcType=VARCHAR},
+      logout = #{logout,jdbcType=TINYINT},
+      type = #{type,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      duty = #{duty,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 批量修改员工福利等级 -->
+  <update id="updateBatchEmpWelfareLevel" parameterType="map" >
+    update t_enterprise_user
+    set welfare_level = #{welfareLevel,jdbcType=INTEGER}
+    where 
+    <foreach collection="list" separator="or" item="i" index="index" >
+	    id = #{i.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <!-- 根据账号查询 -->
+  <select id="selectByEmpId" resultMap="EnterpriseUserVo" parameterType="java.lang.Long" >
+   select 
+    <include refid="Base_Column_List" />
+    from t_enterprise_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+</mapper>

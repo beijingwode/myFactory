@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wode.factory.mapper.PromotionProductDao" >
+  <resultMap id="BaseResultMap" type="com.wode.factory.model.PromotionProduct" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="promotion_id" property="promotionId" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="sku_id" property="skuId" jdbcType="BIGINT" />
+    <result column="big_image" property="bigImage" jdbcType="VARCHAR" />
+    <result column="small_image" property="smallImage" jdbcType="VARCHAR" />
+    <result column="join_quantity" property="joinQuantity" jdbcType="INTEGER" />
+    <result column="join_start" property="joinStart" jdbcType="TIMESTAMP" />
+    <result column="join_end" property="joinEnd" jdbcType="TIMESTAMP" />
+    <result column="max_quantity" property="maxQuantity" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="currency" property="currency" jdbcType="BIGINT" />
+    <result column="plus_price" property="plusPrice" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="reviewing_userId" property="reviewingUserId" jdbcType="BIGINT" />
+    <result column="reviewing_date" property="reviewingDate" jdbcType="TIMESTAMP" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="can_return" property="canReturn" jdbcType="TINYINT" />
+    <result column="can_replace" property="canReplace" jdbcType="TINYINT" />
+    <result column="can_repair" property="canRepair" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="reviewed_userId" property="reviewedUserId" jdbcType="BIGINT" />
+    <result column="reviewed_date" property="reviewedDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMapVo" type="com.wode.factory.vo.PromotionProductVo" extends="BaseResultMap">
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="originalPrice" property="originalPrice" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, promotion_id, product_id, sku_id, big_image, small_image, join_quantity, join_start, 
+    join_end, max_quantity, price, currency, plus_price, status, reviewing_userId, reviewing_date, 
+    shop_id, can_return, can_replace, can_repair, create_date, modify_date,reviewed_userId,reviewed_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_promotion_product
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteProductStoreCategoryBySupplierId">
+  delete from t_product_store_category where product_id in (SELECT id from t_product where supplier_id = #{supplierId}) 
+  </delete>
+  
+  <delete id="deleteProductTagBySupplierId">
+  delete from t_product_tag where productId in (SELECT id from t_product where supplier_id = #{supplierId})
+  </delete>
+  
+  <delete id="deleteCollectionProductBySupplierId">
+  delete from t_collection_product where product_id in (SELECT id from t_product where supplier_id = #{supplierId}) 
+  </delete>
+  
+  <delete id="deleteBySupplierId">
+  delete from t_promotion_product where product_id in (SELECT id from t_product where supplier_id = #{supplierId})
+  </delete>
+  
+  <select id="findList" resultMap="BaseResultMapVo">
+		SELECT pp.id,pp.promotion_id promotionId,pp.create_date,pp.status,pp.big_image,pp.small_image,pp.join_start,pp.status,p.`name` productName
+	    <![CDATA[
+		   from t_promotion_product pp LEFT JOIN t_product p ON pp.product_id = p.id 
+	    ]]>
+	     <include refid="findPage_where"/>
+	     ORDER BY pp.id ASC
+  </select>
+  
+  <select id="findByCreateDate" resultMap="BaseResultMapVo">
+		SELECT pp.id,pp.promotion_id,pp.create_date,pp.sku_id
+	    <![CDATA[
+		   from t_promotion_product pp
+	    ]]>
+      <where>
+      <if test="@Ognl@isNotEmpty(startCreateDate)">
+          AND pp.join_end <![CDATA[>=]]> #{startCreateDate}
+      </if>
+      <if test="@Ognl@isNotEmpty(endCreateDate)">
+          AND pp.join_start <![CDATA[<]]> #{endCreateDate}
+      </if>
+      </where>
+  </select>
+  
+  <select id="findListSet" resultMap="BaseResultMapVo">
+		SELECT pp.id,pp.promotion_id promotionId,pp.big_image,pp.small_image,pp.join_start,pp.status,p.`name` productName
+	    <![CDATA[
+		   from t_promotion_product pp LEFT JOIN t_product p ON pp.product_id = p.id 
+	    ]]>
+	     <include refid="findPageSet_where"/>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_promotion_product
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wode.factory.model.PromotionProduct" >
+    insert into t_promotion_product (id, promotion_id, product_id, 
+      sku_id, big_image, small_image, 
+      join_quantity, join_start, join_end, 
+      max_quantity, price, currency, 
+      plus_price, status, reviewing_userId, 
+      reviewing_date, shop_id, can_return, 
+      can_replace, can_repair, create_date, 
+      modify_date, reviewed_userId, reviewed_date)
+    values (#{id,jdbcType=BIGINT}, #{promotionId,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT}, 
+      #{skuId,jdbcType=BIGINT}, #{bigImage,jdbcType=VARCHAR}, #{smallImage,jdbcType=VARCHAR}, 
+      #{joinQuantity,jdbcType=INTEGER}, #{joinStart,jdbcType=TIMESTAMP}, #{joinEnd,jdbcType=TIMESTAMP}, 
+      #{maxQuantity,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{currency,jdbcType=BIGINT}, 
+      #{plusPrice,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{reviewingUserId,jdbcType=BIGINT}, 
+      #{reviewingDate,jdbcType=TIMESTAMP}, #{shopId,jdbcType=BIGINT}, #{canReturn,jdbcType=TINYINT}, 
+      #{canReplace,jdbcType=TINYINT}, #{canRepair,jdbcType=TINYINT}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{modifyDate,jdbcType=TIMESTAMP}, #{reviewedUserId,jdbcType=BIGINT}, #{reviewedDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wode.factory.model.PromotionProduct" >
+    insert into t_promotion_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="promotionId != null" >
+        promotion_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="skuId != null" >
+        sku_id,
+      </if>
+      <if test="bigImage != null" >
+        big_image,
+      </if>
+      <if test="smallImage != null" >
+        small_image,
+      </if>
+      <if test="joinQuantity != null" >
+        join_quantity,
+      </if>
+      <if test="joinStart != null" >
+        join_start,
+      </if>
+      <if test="joinEnd != null" >
+        join_end,
+      </if>
+      <if test="maxQuantity != null" >
+        max_quantity,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="currency != null" >
+        currency,
+      </if>
+      <if test="plusPrice != null" >
+        plus_price,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="reviewingUserId != null" >
+        reviewing_userId,
+      </if>
+      <if test="reviewingDate != null" >
+        reviewing_date,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="canReturn != null" >
+        can_return,
+      </if>
+      <if test="canReplace != null" >
+        can_replace,
+      </if>
+      <if test="canRepair != null" >
+        can_repair,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="modifyDate != null" >
+        modify_date,
+      </if>
+      <if test="reviewedUserId != null" >
+        reviewed_userId,
+      </if>
+      <if test="reviewedDate != null" >
+        reviewed_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="promotionId != null" >
+        #{promotionId,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="skuId != null" >
+        #{skuId,jdbcType=BIGINT},
+      </if>
+      <if test="bigImage != null" >
+        #{bigImage,jdbcType=VARCHAR},
+      </if>
+      <if test="smallImage != null" >
+        #{smallImage,jdbcType=VARCHAR},
+      </if>
+      <if test="joinQuantity != null" >
+        #{joinQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="joinStart != null" >
+        #{joinStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="joinEnd != null" >
+        #{joinEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maxQuantity != null" >
+        #{maxQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=BIGINT},
+      </if>
+      <if test="plusPrice != null" >
+        #{plusPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="reviewingUserId != null" >
+        #{reviewingUserId,jdbcType=BIGINT},
+      </if>
+      <if test="reviewingDate != null" >
+        #{reviewingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="canReturn != null" >
+        #{canReturn,jdbcType=TINYINT},
+      </if>
+      <if test="canReplace != null" >
+        #{canReplace,jdbcType=TINYINT},
+      </if>
+      <if test="canRepair != null" >
+        #{canRepair,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewedUserId != null" >
+        #{reviewedUserId,jdbcType=BIGINT},
+      </if>
+      <if test="reviewedDate != null" >
+        #{reviewedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wode.factory.model.PromotionProduct" >
+    update t_promotion_product
+    <set >
+      <if test="promotionId != null" >
+        promotion_id = #{promotionId,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="skuId != null" >
+        sku_id = #{skuId,jdbcType=BIGINT},
+      </if>
+      <if test="bigImage != null" >
+        big_image = #{bigImage,jdbcType=VARCHAR},
+      </if>
+      <if test="smallImage != null" >
+        small_image = #{smallImage,jdbcType=VARCHAR},
+      </if>
+      <if test="joinQuantity != null" >
+        join_quantity = #{joinQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="joinStart != null" >
+        join_start = #{joinStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="joinEnd != null" >
+        join_end = #{joinEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maxQuantity != null" >
+        max_quantity = #{maxQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        currency = #{currency,jdbcType=BIGINT},
+      </if>
+      <if test="plusPrice != null" >
+        plus_price = #{plusPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="reviewingUserId != null" >
+        reviewing_userId = #{reviewingUserId,jdbcType=BIGINT},
+      </if>
+      <if test="reviewingDate != null" >
+        reviewing_date = #{reviewingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="canReturn != null" >
+        can_return = #{canReturn,jdbcType=TINYINT},
+      </if>
+      <if test="canReplace != null" >
+        can_replace = #{canReplace,jdbcType=TINYINT},
+      </if>
+      <if test="canRepair != null" >
+        can_repair = #{canRepair,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewedUserId != null" >
+        reviewed_userId = #{reviewedUserId,jdbcType=BIGINT},
+      </if>
+      <if test="reviewedDate != null" >
+        reviewed_date = #{reviewedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wode.factory.model.PromotionProduct" >
+    update t_promotion_product
+    set promotion_id = #{promotionId,jdbcType=BIGINT},
+      product_id = #{productId,jdbcType=BIGINT},
+      sku_id = #{skuId,jdbcType=BIGINT},
+      big_image = #{bigImage,jdbcType=VARCHAR},
+      small_image = #{smallImage,jdbcType=VARCHAR},
+      join_quantity = #{joinQuantity,jdbcType=INTEGER},
+      join_start = #{joinStart,jdbcType=TIMESTAMP},
+      join_end = #{joinEnd,jdbcType=TIMESTAMP},
+      max_quantity = #{maxQuantity,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      currency = #{currency,jdbcType=BIGINT},
+      plus_price = #{plusPrice,jdbcType=DECIMAL},
+      status = #{status,jdbcType=TINYINT},
+      reviewing_userId = #{reviewingUserId,jdbcType=BIGINT},
+      reviewing_date = #{reviewingDate,jdbcType=TIMESTAMP},
+      shop_id = #{shopId,jdbcType=BIGINT},
+      can_return = #{canReturn,jdbcType=TINYINT},
+      can_replace = #{canReplace,jdbcType=TINYINT},
+      can_repair = #{canRepair,jdbcType=TINYINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      reviewed_userId = #{reviewedUserId,jdbcType=BIGINT},
+      reviewed_date = #{reviewedDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND pp.id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createDate)">
+				AND DATE_FORMAT(pp.create_date,'%Y-%m-%d') = #{createDate}
+			</if>
+	       <if test="@Ognl@isNotEmpty(startCreateDate)">
+				AND DATE_FORMAT(pp.create_date,'%Y-%m-%d') <![CDATA[>=]]> #{startCreateDate}
+			</if>
+	       <if test="@Ognl@isNotEmpty(endCreateDate)">
+				AND DATE_FORMAT(pp.create_date,'%Y-%m-%d') <![CDATA[<=]]> #{endCreateDate}
+			</if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND (pp.status = #{status} or (pp.reviewing_userId = #{userId} and pp.status = 1))
+			</if>
+	       <if test="@Ognl@isNotEmpty(productName)">
+				AND p.name like #{productName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(promotionId)">
+				AND pp.promotion_id = #{promotionId}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="findPageSet_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND pp.id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND pp.status = #{status}
+			</if>
+	       <if test="@Ognl@isEmpty(status)">
+				AND (pp.status = 2 or pp.status = -1) 
+			</if>
+	       <if test="@Ognl@isNotEmpty(joinStartStart)">
+				AND p.joinStart <![CDATA[>]]> #{joinStartStart}
+			</if>
+	       <if test="@Ognl@isNotEmpty(joinStartEnd)">
+				AND p.joinStart <![CDATA[<]]> #{joinStartEnd}
+			</if>
+	       <if test="@Ognl@isNotEmpty(productName)">
+				AND p.name = #{productName}
+			</if>
+			<if test="@Ognl@isNotEmpty(promotionId)">
+				AND pp.promotion_id = #{promotionId}
+			</if>
+		</where>
+	</sql>
+  <!-- 根据不同条件查询促销商品列表 -->
+  <select id="selectListSelective" parameterType="com.wode.factory.model.PromotionProduct" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from t_promotion_product
+  	<where>
+		<if test="id != null" >
+			id = #{id,jdbcType=BIGINT}
+		</if>
+		<if test="promotionId != null" >
+			and promotion_id = #{promotionId,jdbcType=BIGINT}
+		</if>
+		<if test="productId != null" >
+			and product_id = #{productId,jdbcType=BIGINT}
+		</if>
+		<if test="skuId != null" >
+			and sku_id = #{skuId,jdbcType=BIGINT}
+		</if>
+		<if test="bigImage != null" >
+			and big_image = #{bigImage,jdbcType=VARCHAR}
+		</if>
+		<if test="smallImage != null" >
+			and small_image = #{smallImage,jdbcType=VARCHAR}
+		</if>
+		<if test="joinQuantity != null" >
+			and join_quantity = #{joinQuantity,jdbcType=INTEGER}
+		</if>
+		<if test="joinStart != null" >
+			and join_start = #{joinStart,jdbcType=TIMESTAMP}
+		</if>
+		<if test="joinEnd != null" >
+			and join_end = #{joinEnd,jdbcType=TIMESTAMP}
+		</if>
+		<if test="maxQuantity != null" >
+			and max_quantity = #{maxQuantity,jdbcType=INTEGER}
+		</if>
+		<if test="price != null" >
+			and price = #{price,jdbcType=DECIMAL}
+		</if>
+		<if test="currency != null" >
+			and currency = #{currency,jdbcType=BIGINT}
+		</if>
+		<if test="plusPrice != null" >
+			and plus_price = #{plusPrice,jdbcType=DECIMAL}
+		</if>
+		<if test="status != null" >
+			and status = #{status,jdbcType=TINYINT}
+		</if>
+		<if test="reviewingUserId != null" >
+			and reviewing_userId = #{reviewingUserId,jdbcType=BIGINT}
+		</if>
+		<if test="reviewingDate != null" >
+			and reviewing_date = #{reviewingDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="shopId != null" >
+			and shop_id = #{shopId,jdbcType=BIGINT}
+		</if>
+		<if test="canReturn != null" >
+			and can_return = #{canReturn,jdbcType=TINYINT}
+		</if>
+		<if test="canReplace != null" >
+			and can_replace = #{canReplace,jdbcType=TINYINT}
+		</if>
+		<if test="canRepair != null" >
+			and can_repair = #{canRepair,jdbcType=TINYINT}
+		</if>
+		<if test="createDate != null" >
+			and create_date = #{createDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="modifyDate != null" >
+			and modify_date = #{modifyDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="reviewedUserId != null" >
+	        and reviewed_userId = #{reviewedUserId,jdbcType=BIGINT}
+		</if>
+		<if test="reviewedDate != null" >
+			and reviewed_date = #{reviewedDate,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+  </select>
+  
+  <!-- 查询超过秒杀活动日期的商品 -->
+  <select id="findOverduePromotionProduct" parameterType="com.wode.factory.model.PromotionProduct" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from t_promotion_product
+  	<where>
+		<if test="joinStart != null" >
+			and join_start &lt;#{joinStart,jdbcType=TIMESTAMP}
+		</if>
+		<if test="status != null" >
+			and status = #{status,jdbcType=TINYINT}
+		</if>
+  	</where>
+  </select>
+  <!-- 促销商品未审核与审核中之间的状态转换 -->
+  <update id="updateUnreviewOrReviewing" parameterType="com.wode.factory.model.PromotionProduct">
+  	update t_promotion_product
+    set status = #{status,jdbcType=TINYINT},
+    reviewing_userId = #{reviewingUserId,jdbcType=BIGINT},
+  	reviewing_date = #{reviewingDate,jdbcType=TIMESTAMP},
+  	modify_date = #{modifyDate,jdbcType=TIMESTAMP}
+  	where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 促销商品未审核与本人审核中的列表（仅限秒杀活动） -->
+  <select id="selectUnreviewAndUserReviewingList"  parameterType="map"  resultMap="BaseResultMapVo">
+  	SELECT
+		DISTINCT tpp.id id, tpdt.name productName, tpp.big_image big_image, tpp.small_image small_image
+	FROM
+		t_promotion_product tpp
+	INNER JOIN t_promotion tp ON tpp.promotion_id = tp.id
+	AND tp.end_date <![CDATA[>=]]> DATE(NOW())
+	INNER JOIN t_promotion_type tpt ON tp.type = tpt.id
+	AND tpt.id = 1
+	INNER JOIN t_product tpdt ON tpdt.id = tpp.product_id
+	INNER JOIN t_product_specifications tps ON tps.id = tpp.sku_id
+	WHERE
+		(
+			tpp.id = #{id,jdbcType=BIGINT}
+			OR (tpp. STATUS = 0
+				OR (
+					tpp. STATUS = 1
+					AND tpp.reviewing_userId = #{userId,jdbcType=BIGINT}
+				)
+			)
+		)
+		AND DATE_FORMAT(tpp.join_start, '%Y-%m-%d') = #{startDate,jdbcType=VARCHAR}
+		AND DATE_FORMAT(tpp.join_end, '%Y-%m-%d') = #{startDate,jdbcType=VARCHAR}
+	ORDER BY tpp.id ASC
+  </select>
+  <!-- 促销商品审核通过与不通过 -->
+  <update id="updateReviewed" parameterType="com.wode.factory.model.PromotionProduct">
+  	update t_promotion_product
+    set 
+	   	<if test="joinStart != null" >
+			join_start = #{joinStart,jdbcType=TIMESTAMP},
+		</if>
+		<if test="joinEnd != null" >
+			join_end = #{joinEnd,jdbcType=TIMESTAMP},
+		</if>
+      status = #{status,jdbcType=TINYINT},
+      reviewing_userId = #{reviewingUserId,jdbcType=BIGINT},
+      reviewing_date = #{reviewingDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      reviewed_userId = #{reviewedUserId,jdbcType=BIGINT},
+      reviewed_date = #{reviewedDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

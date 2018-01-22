@@ -1,0 +1,41 @@
+@charset "utf-8";
+/* CSS Document */
+body,h1,h2,h3,h4,h5,h6,p,ul,ol,li,form,img,dl,dt,dd,table,th,td,blockquote,fieldset,div,strong,label,em{margin:0;padding:0;border:0;}
+body{font-size:12px;font-family:"微软雅黑";position:relative;}
+ul,ol,li{list-style:none;}
+input{vertical-align:middle;}
+table{border-collapse:collapse;border-spacing:0;}
+input,button,select,textarea{outline:none;}
+img{border:none;}
+a{text-decoration:none;}
+a:hover{cursor:pointer}
+map area {
+    outline: none;
+}
+.main_one,.main_two,.main_three,.main_four,.main_five,.main_six{width:100%;margin:0 auto;}
+.main_one_con,.main_two_con,.main_three_con,.main_four_con,.main_five_con,.main_six_con{width:1200px;margin:0 auto;}
+.main_one{height:750px;background:url(../images/banner_box.png) no-repeat top center}
+
+.main_two{height:1853px;background:url(../images/main_two_bg.png) no-repeat top center}
+
+.main_three{height:1400px;background:url(../images/main_three_bg.png) no-repeat top center}
+
+.main_four{height:1908px;background:#fffdea url(../images/main_four_bg.png) no-repeat top center;}
+
+.main_five{height:2287px;background:#baddfa url(../images/main_five_bg.png) no-repeat top center;}
+
+.main_six{height:1275px;background:url(../images/main_six_bg.png) no-repeat top center;}
+
+/**********************************漂浮代码 begin***************************************/
+.floatwrap { display:inline-block; height:auto; width:52px; position:fixed; bottom:10px; right:0px; text-indent:100%; visibility:hidden; opacity:0; }
+.floatwrap.cd-is-visible { visibility:visible; opacity:1; }
+.floatwrap.cd-fade-out { opacity:0.5; }
+.cd-top,.cd-help,.cd-app { width:52px; height:52px; display:block; background:url(../images/backtop.jpg) no-repeat; }
+.cd-top { background-position:0 0; }
+.cd-top:hover { background-position:-52px 0px; }
+.cd-help { background-position:0 -52px; margin-top:10px; }
+.cd-help:hover { background-position:-52px -52px; }
+.cd-app { background-position:0 -104px; margin-top:10px; position:relative; }
+.cd-app:hover { background-position:-52px -104px; }
+.toolbar-layer { width:160px; height:160px; padding:10px; background:#fff url(https://img2.wd-w.com/upload/regular/wdc/apk.png) no-repeat center center; display:block; position:absolute; bottom:0; right:54px; box-shadow:0px 2px 4px rgba(0,0,0,0.3); opacity:0; filter:alpha(opacity=0); transform-origin:right bottom; transform: scale(0.01); transition:all 1s; }
+

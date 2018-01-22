@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SuborderitemMapper">
+
+	<resultMap id="Suborderitem" type="com.wode.factory.model.Suborderitem">
+        <result property="subOrderItemId" column="subOrderItemId"/>
+        <result property="subOrderId" column="subOrderId"/>
+        <result property="partNumber" column="partNumber"/>
+        <result property="price" column="price"/>
+        <result property="number" column="number"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="productId" column="productId"/>
+        <result property="skuId" column="skuId"/>
+        <result property="commentFlag" column="commentFlag"/>
+        <result property="promotionId" column="promotion_id"/>
+        <result property="promotionProductId" column="promotion_product_id"/>
+        <result property="realPay" column="real_pay"/>
+        <result property="shipping" column="shipping"/>
+        <result property="orderId" column="order_id"/>
+        <result property="saleBillId" column="sale_bill_id"/>
+        <result property="commissionRatio" column="commissionRatio"/>
+        <result property="companyTicket" column="companyTicket"/>
+        <result property="benefitType" column="benefit_type"/>
+        <result property="benefitAmount" column="benefit_amount"/>
+        <result property="saleKbn" column="sale_kbn"/>
+        <result property="productName" column="productName"/>
+        <result property="empPrice" column="emp_price"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="categoryName" column="categoryName"/>
+        <result property="productCode" column="product_code"/>
+        <result property="itemValues" column="itemValues"/>
+        <result property="image" column="image"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		subOrderItemId,subOrderId,partNumber,price,number,createTime,updateTime,updateBy,productId,skuId,commentFlag,promotion_id,
+		promotion_product_id,real_pay,shipping,order_id,sale_bill_id,commissionRatio,companyTicket,benefit_type,benefit_amount,sale_kbn,
+		productName,emp_price,categoryId,categoryName,product_code,itemValues,image
+	    ]]>
+	</sql>
+
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_suborderitem WHERE
+        subOrderItemId = #{id} 
+    ]]>
+    </delete>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_suborderitem SET
+	        subOrderId = #{subOrderId} ,
+	        partNumber = #{partNumber} ,
+	        price = #{price} ,
+	        shipping = #{shipping} ,
+	        number = #{number} ,
+	        createTime = #{createTime} ,
+	        updateTime = #{updateTime} ,
+	        updateBy = #{updateBy} ,
+	        productId = #{productId} ,
+	        productId = #{productId} ,
+	        skuId = #{skuId} 
+        WHERE 
+	        subOrderItemId = #{subOrderItemId} 
+    ]]>
+	</update>
+	
+    <select id="getById" resultMap="Suborderitem">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_suborderitem 
+	        WHERE 
+		        subOrderItemId = #{id} 
+	    ]]>
+	</select>
+		
+	<select id="selectByModel" resultMap="Suborderitem">
+		SELECT <include refid="columns" />
+	    FROM t_suborderitem
+	    <where>		
+	      <if test="subOrderItemId != null" >
+	        subOrderItemId = #{subOrderItemId}
+	      </if>
+	      <if test="subOrderId != null" >
+	        and subOrderId = #{subOrderId}
+	      </if>
+	    </where>
+	</select>
+	
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_suborderitem 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="Suborderitem">
+    	SELECT <include refid="columns" />
+	    FROM t_suborderitem 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(subOrderItemId)">
+				AND subOrderItemId = #{subOrderItemId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(subOrderId)">
+				AND subOrderId = #{subOrderId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(partNumber)">
+				AND partNumber = #{partNumber}
+			</if>
+	       <if test="@Ognl@isNotEmpty(price)">
+				AND price = #{price}
+			</if>
+	       <if test="@Ognl@isNotEmpty(number)">
+				AND number = #{number}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createTimeBegin)">
+				AND createTime >= #{createTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createTimeEnd)">
+				AND createTime &lt;= #{createTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+				AND updateTime >= #{updateTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+				AND updateTime &lt;= #{updateTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateBy)">
+				AND updateBy = #{updateBy}
+			</if>
+	       <if test="@Ognl@isNotEmpty(productId)">
+				AND productId = #{productId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(skuId)">
+				AND skuId = #{skuId}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="selectSuborderItemByrenturnOrderId" resultMap="Suborderitem">
+		SELECT suborder.*
+	    FROM t_suborderitem suborder
+	    LEFT JOIN t_returnorder_item tri ON suborder.subOrderItemId = tri.sub_order_item_id
+	    <where>		
+	        and tri.returnOrderId = #{returnOrderId}
+	    </where>
+	</select>
+</mapper>
+

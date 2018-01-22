@@ -1,0 +1,104 @@
+<div class="tabbable">
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active"><a data-toggle="tab" href="#home"> <i
+				class="green ace-icon fa fa-list-alt bigger-120"></i> 参数列表
+		</a></li>
+
+		<li class=""><a data-toggle="tab" href="#profile">
+		<i class="green ace-icon fa fa-plus bigger-120"></i> 参数添加
+		</a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="home" class="tab-pane active clearfix">
+		<form action="${ctxPath!}/parameterGroup/parameterGroupInfo" method="post" id="search-form" target="list-page" class="clearfix">
+				<div class="pull-left width-25">
+					@var category = arameterGroupCategory.getParameterGroupCategory();
+					<label>类别：</label>
+					<#select name="categoryId" width="60%">
+						<option value="">全部</option>
+						@for(type in category){
+							<option value="${type.categoryId!}">
+								${type.parameterCategory!}
+							</option>
+						@}
+					</#select>
+				</div>
+				<div class="pull-left"><span class="btn btn-info btn-sm " id="search-btn">查 询</span></div>
+				</form>
+			<hr/>
+			<div id="list-page"></div>
+			<script type="text/javascript">
+				$("#search-form").getPageList({'submitBtnId':'search-btn'})
+			</script>
+		</div>
+
+
+
+		<div id="profile" class="tab-pane">
+			<form action="${ctxPath!}/parameterGroup/save" method="post" id="parameterGroup-save-form">
+				
+				<table class="EditTable" width="100%">
+			<tbody>
+				<tr class="FormData">
+					<td class="CaptionTD">名称:</td>
+					<td class="DataTD">
+						<input type="text" class="width-50" maxlength="50" name="name" datatype="*"    nullmsg="名称为空！！"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD" >类别:</td>
+					<td class="DataTD">
+					<input type="hidden" class="width-50" value="" name="categoryId" />
+					<#productcategorytreeselect class="width-50" url="productCategory/tree" scenario="category" isCheck="类别为空"/>
+				    </td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">排序:</td>
+					<td class="DataTD">
+						<input type="text" maxlength="2" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" class="width-50" name="orders"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">项目:</td>
+					<td class="DataTD">
+						<select name="ismust" class="width-50">
+								<option value=""></option>
+								<option value="0">非必填</option>
+								<option value="1">必填</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">值类型:</td>
+					<td class="DataTD">
+						<select name="inputtype" class="width-50">
+								<option value=""></option>
+								<option value="1">select</option>
+								<option value="2">input</option>
+								<option value="3">checkbox</option>
+					</select>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">展示类型:</td>
+					<td class="DataTD">
+						<select name="showType" class="width-50">
+								<option value=""></option>
+								<option value="1">文本展示</option>
+								<option value="2">图片展示</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="">
+					<td class="" colspan="2">
+					<span class="btn btn-info btn-block bigger-120" id="parameterGroup-save-btn">保 存</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+			</form>
+		</div>
+	</div>
+</div>
+<#save isHide="yes" subBtnId="parameterGroup-save-btn" formId="parameterGroup-save-form" />

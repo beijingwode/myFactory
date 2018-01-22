@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ProductSpecificationsMapper">
+
+	<resultMap id="ProductSpecifications" type="com.wode.factory.model.ProductSpecifications">
+        <result property="id" column="id"/>
+        <result property="productCode" column="product_code"/>
+        <result property="productId" column="product_id"/>
+        <result property="cost" column="cost"/>
+        <result property="marketPrice" column="market_price"/>
+        <result property="price" column="price"/>
+        <result property="itemids" column="itemids"/>
+        <result property="itemValues" column="itemValues"/>
+        <result property="stock" column="stock"/>
+        <result property="sellnum" column="sellnum"/>
+        <result property="maxFucoin" column="maxFucoin"/>
+        <result property="internalPurchasePrice" column="internal_purchase_price"/>        
+        <result property="minLimitNum" column="min_limit_num"/>
+	</resultMap>
+	<resultMap id="FLJProductModel" type="com.wode.factory.model.FLJProductModel">
+        <result property="id" column="id"/>
+        <result property="productCode" column="product_code"/>
+        <result property="productId" column="product_id"/>
+        <result property="cost" column="cost"/>
+        <result property="marketPrice" column="market_price"/>
+        <result property="price" column="price"/>
+        <result property="itemids" column="itemids"/>
+        <result property="itemValues" column="itemValues"/>
+        <result property="stock" column="stock"/>
+        <result property="sellnum" column="sellnum"/>
+        <result property="maxFucoin" column="maxFucoin"/>
+        <result property="source" column="source"/>
+	</resultMap>
+	<resultMap id="CommentsVo" type="com.wode.factory.user.model.CommentsVo">
+        <result property="commentsId" column="comments_id"/>
+        <result property="showUserName" column="show_user_name"/>
+        <result property="creatTime" column="creat_time"/>
+        <result property="attributeJson" column="attribute_json"/>
+        <result property="content" column="content"/>
+        <result property="userLevel" column="user_level"/>
+	</resultMap>
+	<resultMap id="ProductSpecificationsVo" type="com.wode.factory.user.vo.ProductSpecificationsVo">
+		<result property="id" column="id"/>
+        <result property="productCode" column="product_code"/>
+        <result property="productId" column="product_id"/>       
+        <result property="marketPrice" column="market_price"/>
+        <result property="price" column="price"/>
+        <result property="itemids" column="itemids"/>
+        <result property="itemValues" column="itemValues"/>
+        <result property="stock" column="stock"/>
+		<!-- 扩展字段 -->
+        <result property="quantity" column="quantity"/>
+        <result property="lockQuantity" column="lockQuantity"/>
+        <result property="carriage" column="carriage"/>
+        <result property="isMarketable" column="is_marketable"/>
+        <result property="internalPurchasePrice" column="internal_purchase_price"/>
+        <result property="minLimitNum" column="min_limit_num"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,product_code,product_id,cost,market_price,price,stock,itemids,itemValues,maxFucoin,internal_purchase_price,min_limit_num
+	    ]]>
+	</sql>
+   
+    <select id="getById" resultMap="ProductSpecifications">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_product_specifications 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_product_specifications 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ProductSpecifications">
+    	SELECT <include refid="columns" />
+	    FROM t_product_specifications 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(productCode)">
+				AND product_code = #{productCode}
+			</if>
+	       <if test="@Ognl@isNotEmpty(productId)">
+				AND product_id = #{productId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(cost)">
+				AND cost = #{cost}
+			</if>
+	       <if test="@Ognl@isNotEmpty(marketPrice)">
+				AND market_price = #{marketPrice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(price)">
+				AND price = #{price}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stock)">
+				AND stock = #{stock}
+			</if>
+	       <if test="@Ognl@isNotEmpty(itemids)">
+				AND itemids = #{itemids}
+			</if>
+		</where>
+	</sql>
+	<!-- 根据itemsids查询出一条商品相关信息 -->
+	<select id="findByItemids" resultMap="ProductSpecificationsVo">
+		select a.id,a.product_code,a.price,a.market_price as market_price,a.product_id as product_id,a.internal_purchase_price as internal_purchase_price,a.itemValues,a.min_limit_num,
+				b.quantity as stock,b.lockQuantity,a.maxFucoin from t_product_specifications a 
+				left join t_inventory b on a.id = b.productSpecificationsId where a.isDelete=0 and  a.itemids=#{itemids}
+	</select>
+	<!-- 根据productId查询相关评论 -->
+	<select id="findComments" parameterType="String" resultMap="CommentsVo">
+		${value}
+	</select>
+	
+	<select id="findById" resultMap="ProductSpecificationsVo">
+		select ps.*,p.carriage,p.`is_marketable` as isMarketable,i.quantity,i.lockQuantity from t_product_specifications ps INNER JOIN t_product p on ps.product_id = p.id INNER JOIN t_inventory i on ps.id = i.productSpecificationsId where ps.id = #{id} 
+	</select>
+	
+	<select id="findTop3" resultMap="FLJProductModel">
+		SELECT
+			tps.id,product_id,price,sellnum,maxFucoin,tpsi.source
+		FROM
+			t_product_specifications tps
+		LEFT JOIN t_product tp ON tps.product_id = tp.id
+		LEFT JOIN t_product_specifications_image tpsi ON tps.id = tpsi.specifications_id
+		WHERE
+			isDelete = 0
+		AND `status` = 2
+		AND is_marketable = 1
+		AND orders = 1
+		AND supplier_id = #{supplierId}
+		ORDER BY
+			sellnum DESC
+		LIMIT 3 
+	</select>
+	<select id="findByProductId" resultMap="ProductSpecifications">
+		select ps.*,i.quantity,i.lockQuantity from t_product_specifications ps INNER JOIN t_inventory i on ps.id = i.productSpecificationsId where ps.product_id = #{id} AND ps.isDelete = 0 
+	</select>
+</mapper>
+

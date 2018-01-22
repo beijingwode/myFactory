@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="CollectionShopMapper">
+
+	<resultMap id="CollectionShop" type="com.wode.factory.model.CollectionShop">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="creatTime" column="creat_time"/>
+	</resultMap>
+	<resultMap id="ShopSetting" type="com.wode.factory.model.Shop">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="logo" column="logo"/>
+        <result property="shopname" column="shopname"/>
+        <result property="introduce" column="introduce"/>
+        <result property="banner" column="banner"/>
+        <result property="type" column="type"/>
+        <result property="topImage" column="top_image"/>
+        <result property="brandIntroduce" column="brand_introduce"/>
+        <result property="supplierId" column="supplier_id"/>
+	        <result property="qq" column="qq"/>
+	        <result property="cusTel" column="cus_tel"/>
+	        <result property="cusPhone" column="cus_phone"/>
+	        <result property="cusEmail" column="cus_email"/>
+	        <result property="cusContact" column="cus_contact"/>
+	        <result property="serTel" column="ser_tel"/>
+	        <result property="serPhone" column="ser_phone"/>
+	        <result property="serEmail" column="ser_email"/>
+	        <result property="serContact" column="ser_contact"/>
+	        <result property="shopTel" column="shop_tel"/>
+	        <result property="shopPhone" column="shop_phone"/>
+	        <result property="shopEmail" column="shop_email"/>
+	        <result property="shopContact" column="shop_contact"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,user_id,shop_id,creat_time
+	    ]]>
+	</sql>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="shopColumns">
+	    <![CDATA[
+	    shop.*
+	    ]]>
+	</sql>
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_collection_shop (
+        	id ,
+        	user_id ,
+        	shop_id ,
+        	creat_time 
+        ) VALUES (
+        	#{id} ,
+        	#{userId} ,
+        	#{shopId} ,
+        	#{creatTime} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_collection_shop SET
+	        user_id = #{userId} ,
+	        shop_id = #{shopId} ,
+	        creat_time = #{creatTime} 
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_collection_shop WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="CollectionShop">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_collection_shop 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+	
+	<select id="findByShopId" resultMap="CollectionShop">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_collection_shop 
+	        WHERE 
+		        shop_id = #{shopId} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_collection_shop 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ShopSetting">
+    	SELECT <include refid="shopColumns" />
+	    FROM t_collection_shop a,t_shop shop
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>
+			a.shop_id = shop.id    				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND a.id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(userId)">
+				AND a.user_id = #{userId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(shopId)">
+				AND a.shop_id = #{shopId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(creatTimeBegin)">
+				AND a.creat_time >= #{creatTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(creatTimeEnd)">
+				AND a.creat_time &lt;= #{creatTimeEnd}
+		   </if>
+		</where>
+	</sql>
+	<select id="findOne" resultMap="CollectionShop" parameterType="Map">
+    	SELECT <include refid="columns" />
+	    FROM t_collection_shop 
+		where user_id=#{userId} and shop_id=#{shopId}
+    </select>
+    <!-- 根据productId查询相关评论总数 -->
+	<select id="findShopCount" parameterType="long" resultType="Integer">
+		select count(*) from t_collection_shop where user_id=#{userId}
+	</select>
+    <!-- 根据usreId查询相关收藏店铺 -->
+	<select id="findStore" parameterType="String" resultMap="ShopSetting">
+		${value}
+	</select>
+	<!-- 根据usreId取消收藏店铺 -->
+	<delete id="cancel">
+    <![CDATA[
+        DELETE FROM t_collection_shop WHERE
+        user_id = #{userId} and shop_id=#{shopId}
+    ]]>
+    </delete>
+    <!-- 批量取消收藏商品 -->
+	<delete id="batchDelete" >
+    <![CDATA[
+        DELETE FROM t_collection_shop WHERE user_id = #{userId} and 
+        shop_id in 
+         ]]>
+	 <foreach item="item" index="index"  collection="shopId"  open="(" separator="," close=")">  
+	  #{item}  
+	 </foreach>  
+   
+    </delete>
+</mapper>
+

@@ -1,0 +1,25 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{background:#fff;}
+.content { width:96%;margin:0 auto; margin-top:5px;padding:0 2%; }
+.menu_list { float:left; width:22.5%; }
+.menu_list ul { float:left; width:100%; }
+.menu_list ul li { width:100%; height:50px; background:#eaeaee;text-align:center; display: table;overflow:hidden;}
+.menu_list ul li a{ width:100%; height:50px;display:block; font-size:1.4em; color:#333; display: table-cell;vertical-align: middle;}
+.menu_list ul .active{background:#fff;}
+.menu_list ul .active a{color:#ff7766;}
+
+.product_list { float:left; margin-left:2.5%; width:75%;display:inline; }
+.banr{width:100%;overflow:hidden;margin-bottom:15px;}
+.pro_cont h2 {height:40px;line-height:40px; font-size:1.3em; color:#ff7766;font-weight:500; }
+.products {width:100%;}
+.products ul {width:98%;padding-left:2%;overflow:hidden;}
+.products ul li {width:28%;float:left;margin:2.5%;display:inline;}
+.products ul li a {width:100%; display:block;  }
+.products ul li a dl{width:100%;margin:0 auto;}
+.products ul li a dl dt{width:100%;}
+.products ul li a dl dt img { width:100%;  }
+.products ul li a dl dd{ height:56px;line-height:22px;text-align:center;font-size:1.3em; color:#999999;word-wrap: break-word; }
+
+

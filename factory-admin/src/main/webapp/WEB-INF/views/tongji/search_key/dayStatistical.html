@@ -1,0 +1,123 @@
+<div id="userDayStatistical_parentDiv">
+	<div class="tab-content">
+	<div id="home" class="tab-pane clearfix active">
+	<div class="">
+	<label>关键字：</label>
+	<input type="text" id="searchKey" value="${searchKey!}">&nbsp;&nbsp;
+	<label>开始：</label>
+	<input type="text" id="day_search_startTime"><label>&nbsp;&nbsp;结束：</label><input type="text" id="day_search_endTime">
+	&nbsp;&nbsp;
+	<span id="search-btn" class="btn btn-info btn-sm ">查 询</span>
+	</div>
+	</div>
+	</div>
+	<div class="pull-left width-30">
+	</div>
+	<div id="dayStatistical" style="height: 400px">
+	</div>
+</div>
+	<input type="hidden" value="${dayInfo.dayCnt!}" id="dayCnt">
+	<input type="hidden" value="${dayInfo.dayHit!}" id="dayHit">
+	<input type="hidden" value="${dayInfo.dayScore!}" id="dayScore">
+	<input type="hidden" value="${dayInfo.date!}" id="date">
+	<script type="text/javascript">
+	laydate({
+	    elem: '#day_search_startTime',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	    /* choose: function(datas){ //选择日期完毕的回调
+	        alert('得到：'+datas);
+	    } */
+	});
+	laydate({
+	    elem: '#day_search_endTime',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	    /* choose: function(datas){ //选择日期完毕的回调
+	        alert('得到：'+datas);
+	    } */
+	});
+	</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		baidu_echarts_day();
+		/*按时间搜索*/
+		$("#search-btn").click(function(){
+			var $target = $("#userDayStatistical_parentDiv");
+			var spinner;
+			$.ajax({
+				"dataType":'json',
+				"type":'POST',
+				"data":{"searchKey":$("#searchKey").val(),"startTime":$("#day_search_startTime").val(),"endTime":$("#day_search_endTime").val()},
+				"url":'${ctxPath!}/searchKey/daySearch',
+				beforeSend : function(){
+					spinner = new Spinner({color: '#3d9bce',width:20,radius:20}).spin($target[0]);
+				},
+				success:function(da){
+					$("#dayCnt").val(da.dayCnt);
+					$("#dayHit").val(da.dayHit);
+					$("#dayScore").val(da.dayScore);
+					$("#date").val(da.date);
+					//关闭spinner  
+                    spinner.spin();
+					baidu_echarts_day();
+					
+				}
+			});
+						
+		});
+	/*百度统计方法*/
+	function baidu_echarts_day(){
+		var da = $("#date").val();
+		var dayCnt = $("#dayCnt").val();
+		var dayHit = $("#dayHit").val();
+		var dayScore = $("#dayScore").val();
+		var m = $("#month").val();
+		// 基于准备好的dom，初始化echarts图表
+		var myChart = echarts.init(document.getElementById('dayStatistical'));
+		var option = {
+			tooltip : {
+				trigger : 'axis'
+			},
+			legend : {
+				data : [ '检索次数', '命中数', '命中率' ]
+			},
+			toolbox : {
+				show : true,
+				feature : {
+					magicType : {
+						show : true,
+						type : [ 'line', 'bar' ]
+					},
+				}
+			},
+			calculable : true,
+			xAxis : [ {
+				type : 'category',
+				boundaryGap : true,
+				data : da.split(",")
+			} ],
+			yAxis : [ {
+				type : 'value',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			} ],
+			series : [ {
+				name : '检索次数',
+				type : 'line',
+				data : dayCnt.split(","),
+			}, {
+				name : '命中数',
+				type : 'line',
+				data : dayHit.split(","),
+			} , {
+				name : '命中率',
+				type : 'line',
+				data : dayScore.split(","),
+			} ]
+		};
+		// 为echarts对象加载数据 
+		myChart.setOption(option);
+	}
+	
+	});
+</script>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.UserShareAutoBuyDao">
+
+    <resultMap id="UserShareAutoBuy" type="com.wode.factory.model.UserShareAutoBuy">
+        <result property="id" column="id"/>
+        <result property="shareId" column="share_id"/>
+        <result property="skuId" column="sku_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="skuNum" column="sku_num"/>
+        <result property="image" column="image"/>
+        <result property="productName" column="product_name"/>
+        <result property="itemValues" column="itemValues"/>
+        <result property="shareType" column="share_type"/>
+        <result property="wxTempQrUrl" column="wx_temp_qr_url"/>
+        <result property="wxTempLimitEnd" column="wx_temp_limit_end"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,share_id,product_id,sku_id,sku_num,image,product_name,itemValues,share_type,wx_temp_qr_url,wx_temp_limit_end
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_share_auto_buy (
+            id ,
+            share_id ,
+            product_id,
+            sku_id ,
+            sku_num ,
+            image ,
+            product_name ,
+            itemValues ,
+            share_type ,
+            wx_temp_qr_url ,
+            wx_temp_limit_end
+        ) VALUES (
+            #{id} ,
+            #{shareId} ,
+            #{productId} ,
+            #{skuId} ,
+            #{skuNum} ,
+            #{image} ,
+            #{productName} ,
+            #{itemValues} ,
+            #{shareType} ,
+            #{wxTempQrUrl} ,
+            #{wxTempLimitEnd}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_share_auto_buy SET            
+            share_id = #{shareId} ,
+            sku_id = #{skuId} ,
+            sku_num = #{skuNum} ,
+            image = #{image} ,
+            product_name = #{productName} ,
+            itemValues = #{itemValues} ,
+            share_type = #{shareType} ,
+            wx_temp_qr_url = #{wxTempQrUrl} ,
+            wx_temp_limit_end = #{wxTempLimitEnd} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_share_auto_buy WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserShareAutoBuy">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_share_auto_buy 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="UserShareAutoBuy">
+        SELECT <include refid="columns" /> FROM t_user_share_auto_buy 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(shareId)">
+                AND share_id = #{shareId}
+            </if>
+           <if test="@Ognl@isNotEmpty(skuId)">
+                AND sku_id = #{skuId}
+            </if>
+           <if test="@Ognl@isNotEmpty(skuNum)">
+                AND sku_num = #{skuNum}
+            </if>
+           <if test="@Ognl@isNotEmpty(image)">
+                AND image = #{image}
+            </if>
+           <if test="@Ognl@isNotEmpty(productName)">
+                AND product_name = #{productName}
+            </if>
+           <if test="@Ognl@isNotEmpty(itemValues)">
+                AND itemValues = #{itemValues}
+            </if>
+           <if test="@Ognl@isNotEmpty(shareType)">
+                AND share_type = #{shareType}
+            </if>
+           <if test="@Ognl@isNotEmpty(wxTempQrUrl)">
+                AND wx_temp_qr_url = #{wxTempQrUrl}
+            </if>
+           <if test="@Ognl@isNotEmpty(wxTempLimitEnd)">
+                AND wx_temp_limit_end = #{wxTempLimitEnd}
+            </if>
+        </where>
+    </sql>
+
+</mapper>
+
+

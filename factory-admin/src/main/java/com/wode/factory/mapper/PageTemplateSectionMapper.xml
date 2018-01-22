@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.PageTemplateSectionDao">
+
+    <resultMap id="PageTemplateSection" type="com.wode.factory.model.PageTemplateSection">
+        <result property="id" column="id"/>
+        <result property="templateId" column="template_id"/>
+        <result property="channel" column="channel"/>
+        <result property="title" column="title"/>
+        <result property="name" column="name"/>
+        <result property="orders" column="orders"/>
+        <result property="maxNum" column="max_num"/>
+        <result property="ex1Name" column="ex1_name"/>
+        <result property="ex2Name" column="ex2_name"/>
+        <result property="ex3Name" column="ex3_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="ex4Name" column="ex4_name"/>
+        <result property="ex5Name" column="ex5_name"/>
+        <result property="ex6Name" column="ex6_name"/>
+        <result property="title1Name" column="title1_name"/>
+        <result property="title2Name" column="title2_name"/>
+        
+         <result property="templateTitle" column="templateTitle"/> 
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,template_id,channel,title,name,orders,max_num,ex1_name,ex2_name,ex3_name,create_time,update_time,ex4_name,ex5_name,ex6_name,title1_name,title2_name
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_page_template_section (
+            template_id ,
+            channel ,
+            title ,
+            name ,
+            orders ,
+            max_num ,
+            ex1_name ,
+            ex2_name ,
+            ex3_name ,
+            create_time ,
+            update_time ,
+            ex4_name ,
+            ex5_name ,
+            ex6_name ,
+            title1_name ,
+            title2_name 
+        ) VALUES (
+            #{templateId} ,
+            #{channel} ,
+            #{title} ,
+            #{name} ,
+            #{orders} ,
+            #{maxNum} ,
+            #{ex1Name} ,
+            #{ex2Name} ,
+            #{ex3Name} ,
+            #{createTime} ,
+            #{updateTime} ,
+            #{ex4Name} ,
+            #{ex5Name} ,
+            #{ex6Name} ,
+            #{title1Name} ,
+            #{title2Name} 
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_page_template_section SET            
+            template_id = #{templateId} ,
+            channel = #{channel} ,
+            title = #{title} ,
+            name = #{name} ,
+            orders = #{orders} ,
+            max_num = #{maxNum} ,
+            ex1_name = #{ex1Name} ,
+            ex2_name = #{ex2Name} ,
+            ex3_name = #{ex3Name} ,
+            create_time = #{createTime} ,
+            update_time = #{updateTime} ,
+            ex4_name = #{ex4Name} ,
+            ex5_name = #{ex5Name} ,
+            ex6_name = #{ex6Name} ,
+            title1_name = #{title1Name} ,
+            title2_name = #{title2Name} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_page_template_section WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="PageTemplateSection">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_page_template_section 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="PageTemplateSection">
+        SELECT <include refid="columns" /> FROM t_page_template_section 
+        <include refid="find_where"/>
+    </select>
+	 <select id="findPageTemplateSectionList" resultMap="PageTemplateSection">
+    	SELECT ts.*,t.title templateTitle
+	    FROM t_page_template_section ts
+	    INNER JOIN t_page_template t ON (t.id = ts.template_id)
+		<include refid="find_otherwhere"/>
+    </select>
+     <sql id="find_otherwhere">
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(templateId)">
+                AND template_id = #{templateId}
+            </if>
+           <if test="@Ognl@isNotEmpty(channel)">
+                AND ts.channel = #{channel}
+            </if>
+           <if test="@Ognl@isNotEmpty(title)">
+                AND ts.title = #{title}
+            </if>
+           <if test="@Ognl@isNotEmpty(name)">
+                AND name = #{name}
+            </if>
+           <if test="@Ognl@isNotEmpty(orders)">
+                AND orders = #{orders}
+            </if>
+           <if test="@Ognl@isNotEmpty(maxNum)">
+                AND max_num = #{maxNum}
+            </if>
+           <if test="@Ognl@isNotEmpty(ex1Name)">
+                AND ex1_name = #{ex1Name}
+            </if>
+           <if test="@Ognl@isNotEmpty(ex2Name)">
+                AND ex2_name = #{ex2Name}
+            </if>
+           <if test="@Ognl@isNotEmpty(ex3Name)">
+                AND ex3_name = #{ex3Name}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND update_time = #{updateTime}
+            </if>
+        </where>
+    </sql>
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(templateId)">
+                AND template_id = #{templateId}
+            </if>
+           <if test="@Ognl@isNotEmpty(channel)">
+                AND channel = #{channel}
+            </if>
+           <if test="@Ognl@isNotEmpty(title)">
+                AND title = #{title}
+            </if>
+           <if test="@Ognl@isNotEmpty(name)">
+                AND name = #{name}
+            </if>
+           <if test="@Ognl@isNotEmpty(orders)">
+                AND orders = #{orders}
+            </if>
+           <if test="@Ognl@isNotEmpty(maxNum)">
+                AND max_num = #{maxNum}
+            </if>
+           <if test="@Ognl@isNotEmpty(ex1Name)">
+                AND ex1_name = #{ex1Name}
+            </if>
+           <if test="@Ognl@isNotEmpty(ex2Name)">
+                AND ex2_name = #{ex2Name}
+            </if>
+           <if test="@Ognl@isNotEmpty(ex3Name)">
+                AND ex3_name = #{ex3Name}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND update_time = #{updateTime}
+            </if>
+        </where>
+    </sql>
+</mapper>

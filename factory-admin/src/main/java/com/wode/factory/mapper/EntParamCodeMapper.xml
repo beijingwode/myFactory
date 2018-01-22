@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.EntParamCodeDao">
+
+	<resultMap id="EntParamCode" type="com.wode.factory.model.EntParamCode">
+        <result property="id" column="id"/>
+        <result property="groupCd" column="group_cd"/>
+        <result property="code" column="code"/>
+        <result property="value" column="value"/>
+        <result property="name" column="name"/>
+        <result property="descr" column="descr"/>
+        <result property="stopFlg" column="stop_flg"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+	</resultMap>
+	
+	<resultMap id="EntParamCodeVo" type="com.wode.factory.model.EntParamCodeVo">
+        <result property="id" column="id"/>
+        <result property="groupCd" column="group_cd"/>
+        <result property="code" column="code"/>
+        <result property="value" column="value"/>
+        <result property="name" column="name"/>
+        <result property="descr" column="descr"/>
+        <result property="stopFlg" column="stop_flg"/>
+        <result property="createDate" column="create_date"/>
+        <result property="useCount" column="useCount"/>
+	</resultMap>
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,group_cd,code,value,name,descr,stop_flg,create_date,update_date
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_ent_param_code (
+        	id ,
+        	group_cd ,
+        	code ,
+        	value ,
+        	name ,
+        	descr ,
+        	stop_flg ,
+        	create_date ,
+        	update_date 
+        ) VALUES (
+        	#{id} ,
+        	#{groupCd} ,
+        	#{code} ,
+        	#{value} ,
+        	#{name} ,
+        	#{descr} ,
+        	#{stopFlg} ,
+        	#{createDate} ,
+        	#{updateDate} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_ent_param_code SET
+	        group_cd = #{groupCd} ,
+	        code = #{code} ,
+	        value = #{value} ,
+	        name = #{name} ,
+	        descr = #{descr} ,
+	        stop_flg = #{stopFlg} ,
+	        create_date = #{createDate} ,
+	        update_date = #{updateDate} 
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM t_ent_param_code WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="EntParamCode">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_ent_param_code 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_ent_param_code 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="EntParamCode">
+    	SELECT <include refid="columns" />
+	    FROM t_ent_param_code 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(groupCd)">
+				AND group_cd = #{groupCd}
+			</if>
+	       <if test="@Ognl@isNotEmpty(code)">
+				AND code = #{code}
+			</if>
+	       <if test="@Ognl@isNotEmpty(value)">
+				AND value = #{value}
+			</if>
+	       <if test="@Ognl@isNotEmpty(name)">
+				AND name = #{name}
+			</if>
+	       <if test="@Ognl@isNotEmpty(descr)">
+				AND descr = #{descr}
+			</if>
+	       <if test="@Ognl@isNotEmpty(stopFlg)">
+				AND stop_flg = #{stopFlg}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createDateBegin)">
+				AND create_date >= #{createDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createDateEnd)">
+				AND create_date &lt;= #{createDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateDateBegin)">
+				AND update_date >= #{updateDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateDateEnd)">
+				AND update_date &lt;= #{updateDateEnd}
+		   </if>
+		</where>
+	</sql>
+	
+  	<select id="selectByModel" resultMap="EntParamCode">
+	    select 
+	    <include refid="columns" />
+	    from t_ent_param_code
+	    <where>		
+	      <if test="id != null" >
+	        id = #{id,jdbcType=BIGINT}
+	      </if>
+	      <if test="groupCd != null" >
+	        group_cd = #{groupCd,jdbcType=CHAR}
+	      </if>
+	      <if test="code != null" >
+	        code = #{code,jdbcType=VARCHAR}
+	      </if>
+	      <if test="value != null" >
+	        value = #{value,jdbcType=VARCHAR}
+	      </if>
+	      <if test="name != null" >
+	        name = #{name,jdbcType=VARCHAR}
+	      </if>
+	      <if test="descr != null" >
+	        descr = #{descr,jdbcType=VARCHAR}
+	      </if>
+	      <if test="stopFlg != null" >
+	        stop_flg = #{stopFlg,jdbcType=CHAR}
+	      </if>
+	      <if test="createDate != null" >
+	        create_date = #{createDate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="updateDate != null" >
+	        update_date = #{updateDate,jdbcType=BIGINT}
+	      </if>
+	    </where>
+	</select>
+	
+  	<select id="selectBanks" resultMap="EntParamCodeVo">
+	    select id,group_cd,code,value,name,descr,stop_flg,create_date,(select 1 from t_supplier where t_supplier.bankId=t_ent_param_code.name limit 1) useCount
+	    from t_ent_param_code
+	    where group_cd = '040'
+	</select>
+</mapper>
+

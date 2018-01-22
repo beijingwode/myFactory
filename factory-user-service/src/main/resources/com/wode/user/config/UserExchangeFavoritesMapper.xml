@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserExchangeFavoritesMapper">
+
+    <resultMap id="UserExchangeFavorites" type="com.wode.factory.model.UserExchangeFavorites">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="shopName" column="shop_name"/>
+        <result property="skuId" column="sku_id"/>
+        <result property="salePrice" column="sale_price"/>
+        <result property="stock" column="stock"/>
+        <result property="imagePath" column="image_path"/>
+        <result property="itemValues" column="itemValues"/>
+        <result property="createTime" column="create_time"/>
+        <result property="orders" column="orders"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,user_id,product_id,supplier_id,product_name,shop_name,sku_id,sale_price,stock,image_path,itemValues,create_time,orders
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_exchange_favorites (
+            id ,
+            user_id ,
+            product_id ,
+            supplier_id ,
+            product_name ,
+            shop_name ,
+            sku_id ,
+            sale_price ,
+            stock ,
+            image_path ,
+            itemValues ,
+            create_time ,
+            orders
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{productId} ,
+            #{supplierId} ,
+            #{productName} ,
+            #{shopName} ,
+            #{skuId} ,
+            #{salePrice} ,
+            #{stock} ,
+            #{imagePath} ,
+            #{itemValues} ,
+            #{createTime} ,
+            #{orders}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_exchange_favorites SET            
+            user_id = #{userId} ,
+            product_id = #{productId} ,
+            supplier_id = #{supplierId} ,
+            product_name = #{productName} ,
+            shop_name = #{shopName} ,
+            sku_id = #{skuId} ,
+            sale_price = #{salePrice} ,
+            stock = #{stock} ,
+            image_path = #{imagePath} ,
+            create_time = #{createTime} ,
+            orders = #{orders} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_exchange_favorites WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserExchangeFavorites">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_exchange_favorites 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="UserExchangeFavorites">
+        SELECT <include refid="columns" /> FROM t_user_exchange_favorites 
+        <include refid="find_where"/>
+        ORDER BY orders,create_time DESC
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(productId)">
+                AND product_id = #{productId}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(productName)">
+                AND product_name = #{productName}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopName)">
+                AND shop_name = #{shopName}
+            </if>
+           <if test="@Ognl@isNotEmpty(skuId)">
+                AND sku_id = #{skuId}
+            </if>
+           <if test="@Ognl@isNotEmpty(salePrice)">
+                AND sale_price = #{salePrice}
+            </if>
+           <if test="@Ognl@isNotEmpty(stock)">
+                AND stock = #{stock}
+            </if>
+           <if test="@Ognl@isNotEmpty(imagePath)">
+                AND image_path = #{imagePath}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(orders)">
+                AND orders = #{orders}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

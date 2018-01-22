@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wode.factory.mapper.ProductLadderDao" >
+  <resultMap id="ProductLadder" type="com.wode.factory.model.ProductLadder" >
+    <result column="id" property="id"/>
+    <result column="supplier_id" property="supplierId" />
+    <result column="product_id" property="productId"/>
+	<result column="skuids" property="skuids"/>
+	<result column="num" property="num"/>
+	<result column="price" property="price"/>
+	<result column="create_time" property="createTime" />
+	<result column="update_time" property="updateTime"/>
+	<result column="type" property="type"/>
+  </resultMap>
+  
+  <!-- 用于select查询公用抽取的列 -->
+  <sql id="columns">
+     <![CDATA[
+        id,supplier_id,product_id,skuids,num,price,create_time,update_time,type
+     ]]>
+  </sql>
+  
+  <delete id="deleteBySupplierId">
+  delete from t_product_ladder where supplier_id = #{supplierId}
+  </delete>
+  
+   <select id="getByProductId" resultMap="ProductLadder" parameterType="java.lang.Long" >
+    select 
+    <include refid="columns" />
+    from t_product_ladder
+    where product_id = #{productId}
+    ORDER BY price
+  </select>
+  
+  	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_ladder (
+        	id,supplier_id,product_id,skuids,num,price,create_time,update_time
+        ) VALUES (
+        	#{id} ,
+        	#{supplierId} ,
+        	#{productId} ,
+        	#{skuids} ,
+        	#{num} ,
+        	#{price} ,
+        	#{createTime} ,
+        	#{updateTime} ,
+        	#{type} 
+        )
+    ]]>
+	</insert>
+	
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_product_ladder SET
+	        supplier_id = #{supplierId} ,
+	        product_id = #{productId} ,
+	        skuids = #{skuids} ,
+	        num = #{num} ,
+	        price = #{price} ,
+	        update_time = #{updateTime} ,
+	        type = #{type}
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+  <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM t_product_ladder WHERE
+        id = #{id} 
+    ]]>
+  </delete>
+    
+</mapper>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>我的福利</title>
+<link rel="stylesheet" type="text/css" href="static_resources/css/public.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/sq.css" />
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="static_resources/js/h5_exit.js"></script>
+<script type="text/javascript" src="cart/activityLog?app=app&url=sq"></script>
+</head>
+
+<body>
+<div class="main-cont" id="main-cont" >
+	<div class="top">
+        <h1><a href="javascript:close();" class="aleft"></a>我的福利</h1>
+    </div>
+	<div class="main_box" style="position:absolute;top:45px;left:0;">
+	   <div class="main1"><img src="static_resources/images/sq/main_p1_sq.png" /></div>
+	   <div class="main1">
+	   		<a href="http://wd-w.com/2214241363362847.html"><img src="static_resources/images/sq/main_p2_sq.png" /></a>
+	   		<a href="http://wd-w.com/2208717989807339.html"><img src="static_resources/images/sq/main_p3_sq.png" /></a>
+	   		
+	   </div>
+	   
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	if(isWeiXinH5()) {
+		$(".top").hide();
+		$(".main_box").css("top","0");
+		
+	    $("a").each(function(i){
+	    	var href = $(this).attr("href");
+	    	if(href.length>21) {
+	    		href =href.substring(16,href.length-5);
+	   			href = "http://api.wd-w.com/productm?productId=" + href;
+	   			
+	   			$(this).attr("href",href);
+            }
+	    });
+	}
+});
+</script>
+</body>
+</html>

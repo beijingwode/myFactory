@@ -1,0 +1,153 @@
+@charset "utf-8";
+/* CSS Document */
+body,h1,h2,h3,h4,h5,h6,p,ul,ol,li,form,img,dl,dt,dd,table,th,td,blockquote,fieldset,div,strong,label,em{margin:0;padding:0;border:0;font-style: normal;}
+body{font-size:12px;font-family:"微软雅黑";}
+ul,ol,li{list-style:none;}
+input{vertical-align:middle;}
+table{border-collapse:collapse;border-spacing:0;}
+input,button,select,textarea{outline:none;}
+
+img{border:none}
+a{text-decoration:none;color:#333;}
+a:hover{cursor:pointer}
+
+/*头部样式*/
+/*头部*/
+
+/*top begin*/
+
+#top { width:100%; margin:0 auto; }
+
+.roof_bg { width:100%; margin:0 auto; height:27px; background: #f7f7f7; }
+
+.roof { width:1200px; height:28px; margin:0 auto; overflow:hidden}
+
+.R_wid{width:990px;}
+
+.roof_left { float:left;width:450px;}
+
+.roof_left span { float:left; font:12px/28px "Microsoft YaHei"; color:#959595; }
+
+.roof_left_list { float:left; margin-left:52px; }
+
+.roof_left_list li { float:left; }
+
+.roof_left_list li em { font:12px/28px "Microsoft YaHei"; color:#959595; margin:0 15px; }
+
+.roof_left_list li a:link { font:12px/28px "Microsoft YaHei"; color:#959595; }
+
+.roof_left_list li a:visited { font:12px/28px "Microsoft YaHei"; color:#959595; }
+
+.roof_left_list li a:hover {}
+
+
+
+.roof_right { float:right; width:500px;}
+
+.roof_right_list { float:right; }
+.roof_right_list li {
+	float: left;
+	padding:0 14px;
+	border-left:1px solid #f7f7f7;border-right:1px solid #f7f7f7;
+}
+.roof_right_list .bg_li{padding:0;height:14px;width:1px;margin-top:6px;background:url(../images/top_li_bg.png) no-repeat right center;}
+.hand_life_li{position: relative;z-index:10;}
+.hand_life_li_hover{padding:0 14px;background:#fff;border-left:1px solid #ebeaea;border-right:1px solid #ebeaea;}
+.ewm_inner{display:none;height:170px;width:170px;background:#fff;position:absolute;top:28px;left:-1px;border:1px solid #ebeaea;border-top:none;}
+.ewm_inner a{height:120px;width:150px;display:block;padding:15px 10px 0px 10px;}
+.ewm_inner p{text-align:center}
+.ewm_inner p span{color:red}
+.hand_life_li em {
+	width:10px;
+	height:8px;
+	display:block;
+	float:right;
+	margin:10px 0 0 8px;
+	background:url(../images/top_li_bg_02.png) no-repeat right center;
+}
+.roof_right_list li a:link { font:12px/28px "Microsoft YaHei"; color:#959595; }
+
+.roof_right_list li a:visited { font:12px/28px "Microsoft YaHei"; color:#959595; }
+
+.roof_right_list li a:hover {}
+
+
+
+.head { width:1200px; height:104px; margin:0 auto;clear:both;}
+
+.logo {float:left; margin-top:16px; }
+
+.search { float:left; width:518px; margin:20px 0 0 267px; }
+
+.searchbox { float:left; width:518px;position:relative; }
+
+.searchbox .searchinput { width:420px; height:36px; float:left; padding-left:10px; border:2px solid #ff4040; font:12px/36px "Microsoft YaHei"; color:#434343; outline:none; }
+
+.searchbox .search_btn { width:84px; height:40px; float:left; border:2px solid #ff4040; background:#ff4040; font:16px/36px "Microsoft YaHei"; color:#fff; border-radius:0 5px 5px 0; behavior:url(iecss3/PIE.htc); position:relative; z-index:2; }
+.search_history{width:430px;height:auto;padding:6px 0 0 0;border:1px solid #ccc;position:absolute;top:39px;left:0px;z-index:9;background:#fff;}
+
+.search_history ul{width:430px;height:auto;overflow:hidden;}
+.search_history ul li{width:410px;height:30px;line-height:30px;padding:0 10px;color:#66a2d8;cursor:pointer;}
+.search_history ul li:hover{background:#f4f2f2}
+.search_history ul li span{float:left;color:#333;}
+.search_history ul li em{font-style:normal;float:right;color:#8d8c8c;}
+.search_history ul li a{float:right;color:#8d8c8c;}
+.search_history ul li a:hover{color:#ff4040;}
+.search_history_close,.search_history_del{width:420px;height:30px;line-height:30px;border-top:1px solid #ccc;padding-right:10px;}
+.search_history_close a,.search_history_del a{float:right;}
+
+.search_list { float:left; width:518px; margin-top:8px; }
+
+.search_list ul { float:left;width:518px; }
+
+.search_list ul li { float:left; margin-right:14px; }
+
+.search_list ul li.curr { font:12px/20px "Microsoft YaHei"; color:#ff6161; }
+
+.search_list ul li.curr a:link { font:12px/20px "Microsoft YaHei"; color:#ff6161; }
+
+.search_list ul li.curr a:visited { font:12px/20px "Microsoft YaHei"; color:#ff6161; }
+
+.search_list ul li.curr a:hover {}
+
+.search_list ul li a:link { font:12px "Microsoft YaHei"; color:#707070; }
+
+.search_list ul li a:visited { font:12px "Microsoft YaHei"; color:#707070; }
+
+.search_list ul li a:hover {}
+
+/*主体内容样式*/
+.mainbody{height:auto;width:990px;margin:0 auto;margin-top:30px;padding-bottom:58px;overflow:hidden;}
+.main-box{width:990px;margin-bottom:40px;overflow:hidden;}
+.main-box .tx{height:80px;width:80px;float:left;}
+.main-con{height:auto;width:810px;border:1px solid #eeeeee;background:#f4f4f4;padding:25px;float:right;position:relative}
+.main-con .sj{height:20px;width:28px;background:url(../images/f-sj.png) no-repeat;position:absolute;top:-1px;left:-28px;}
+.main-con-one p{font-size:20px;color:#222222;line-height:28px;}
+
+.main-box-two{margin-bottom:0;}
+.main-con-two p{font-size:16px;color:#3a3a3a;line-height:28px;}
+.text-box{height:auto;width:810px;padding-bottom:40px;border-bottom:1px solid #dddddd;margin-bottom:35px;}
+.text-box textarea{height:170px;width:778px;border:1px solid #dedede;margin-top:22px;padding:15px;font-size:14px;color:#3a3a3a;line-height:28px;}
+.main-con-two p span{color:#ff4040;}
+.myd-con{height:60px;border-bottom:1px solid #dddddd;margin:22px 0 35px 0;}
+.myd-con ul{width:810px;} 
+.myd-con ul li{float:left;margin-right:20px;}
+.myd-con ul li label span{float:left;line-height:20px;font-size:14px;color:#545454; font-family:"宋体";}
+.myd-con ul li label input{height:17px;width:17px;float:left;margin-right:10px;}
+.main-con-two .p2{font-size:14px;color:#979797;line-height:28px;font-family:"宋体";}
+.name-tel-box{height:75px;width:810px;margin:16px 0 0 0}
+.name-tel{height:45px;width:340px;float:left;}
+.name-tel span{height:45px;width:48px;display:block;line-height:45px;font-size:14px;color:#545454;font-family:"宋体";float:left;}
+.name-tel .ipt-con{height:20px;width:232px;border:1px solid #b2b2b2; -moz-border-radius: 3px; 
+-webkit-border-radius: 3px; border-radius:3px;float:left;background:#FFF;padding:10px 8px;}
+.name-tel .ipt-con input{height:20px;width:240px;background:#fff;border:none;}
+
+.tj-btn{height:60px;width:862px;float:right;background:#ff4040;}
+.tj-btn a{height:60px;width:862px;display:block;font-size:24px;color:#fff;line-height:60px;text-align:center;letter-spacing:22px;}
+
+
+
+
+
+
+

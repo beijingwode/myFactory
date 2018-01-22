@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserContactsApprMapper">
+
+    <resultMap id="UserContactsAppr" type="com.wode.factory.user.model.UserContactsAppr">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userKey" column="user_key"/>
+        <result property="userNickname" column="user_nickname"/>
+        <result property="apprText" column="appr_text"/>
+        <result property="friendMemo" column="friend_memo"/>
+        <result property="firendId" column="firend_id"/>
+        <result property="friendKey" column="friend_key"/>
+        <result property="friendNickname" column="friend_nickname"/>
+        <result property="optEx1" column="opt_ex1"/>
+        <result property="optEx2" column="opt_ex2"/>
+        <result property="optEx3" column="opt_ex3"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="apprFrom" column="appr_from"/>
+    </resultMap>
+
+    <resultMap id="UserContactsApprVo" type="com.wode.factory.user.vo.UserContactsApprVo">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userKey" column="user_key"/>
+        <result property="userNickname" column="user_nickname"/>
+        <result property="apprText" column="appr_text"/>
+        <result property="friendMemo" column="friend_memo"/>
+        <result property="firendId" column="firend_id"/>
+        <result property="friendKey" column="friend_key"/>
+        <result property="friendNickname" column="friend_nickname"/>
+        <result property="optEx1" column="opt_ex1"/>
+        <result property="optEx2" column="opt_ex2"/>
+        <result property="optEx3" column="opt_ex3"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="apprFrom" column="appr_from"/>
+    </resultMap>
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,user_id,user_key,user_nickname,appr_text,friend_memo,firend_id,friend_key,friend_nickname,opt_ex1,opt_ex2,opt_ex3,status,create_time,appr_from
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_contacts_appr (
+            id ,
+            user_id ,
+            user_key ,
+            user_nickname ,
+            appr_text ,
+            friend_memo ,
+            firend_id ,
+            friend_key ,
+            friend_nickname ,
+            opt_ex1 ,
+            opt_ex2 ,
+            opt_ex3 ,
+            status ,
+            create_time ,
+            appr_from
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{userKey} ,
+            #{userNickname} ,
+            #{apprText} ,
+            #{friendMemo} ,
+            #{firendId} ,
+            #{friendKey} ,
+            #{friendNickname} ,
+            #{optEx1} ,
+            #{optEx2} ,
+            #{optEx3} ,
+            #{status} ,
+            #{createTime} ,
+            #{apprFrom}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_contacts_appr SET            
+            user_id = #{userId} ,
+            user_key = #{userKey} ,
+            user_nickname = #{userNickname} ,
+            appr_text = #{apprText} ,
+            friend_memo = #{friendMemo} ,
+            firend_id = #{firendId} ,
+            friend_key = #{friendKey} ,
+            friend_nickname = #{friendNickname} ,
+            opt_ex1 = #{optEx1} ,
+            opt_ex2 = #{optEx2} ,
+            opt_ex3 = #{optEx3} ,
+            status = #{status} ,
+            create_time = #{createTime} ,
+            appr_from = #{apprFrom} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_contacts_appr WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserContactsAppr">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_contacts_appr 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="UserContactsAppr">
+        SELECT <include refid="columns" /> FROM t_user_contacts_appr 
+        <include refid="find_where"/>
+    </select>
+
+    <select id="selectVoByModel" resultMap="UserContactsApprVo">
+        SELECT appr.id,appr.user_id,appr.user_key,IFNULL(ur.contacts_memo,appr.user_nickname) user_nickname,appr.appr_text,appr.friend_memo,appr.firend_id,appr.friend_key,appr.friend_nickname,appr.opt_ex1,appr.opt_ex2,appr.opt_ex3,appr.status,appr.create_time,appr.appr_from 
+        FROM t_user_contacts_appr appr
+        LEFT JOIN t_user_contacts ur ON (ur.user_id=appr.firend_id AND ur.contacts_id=appr.user_id)
+        WHERE appr.firend_id = #{firendId}
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(userKey)">
+                AND user_key = #{userKey}
+            </if>
+           <if test="@Ognl@isNotEmpty(userNickname)">
+                AND user_nickname = #{userNickname}
+            </if>
+           <if test="@Ognl@isNotEmpty(apprText)">
+                AND appr_text = #{apprText}
+            </if>
+           <if test="@Ognl@isNotEmpty(friendMemo)">
+                AND friend_memo = #{friendMemo}
+            </if>
+           <if test="@Ognl@isNotEmpty(firendId)">
+                AND firend_id = #{firendId}
+            </if>
+           <if test="@Ognl@isNotEmpty(friendKey)">
+                AND friend_key = #{friendKey}
+            </if>
+           <if test="@Ognl@isNotEmpty(friendNickname)">
+                AND friend_nickname = #{friendNickname}
+            </if>
+           <if test="@Ognl@isNotEmpty(optEx1)">
+                AND opt_ex1 = #{optEx1}
+            </if>
+           <if test="@Ognl@isNotEmpty(optEx2)">
+                AND opt_ex2 = #{optEx2}
+            </if>
+           <if test="@Ognl@isNotEmpty(optEx3)">
+                AND opt_ex3 = #{optEx3}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(apprFrom)">
+                AND appr_from = #{apprFrom}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

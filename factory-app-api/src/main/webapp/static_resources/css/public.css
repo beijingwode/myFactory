@@ -1,0 +1,45 @@
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, iframe,h1, h2, h3, h4, h5, h6,p,pre,a,del, em, font, ins, q, s, samp,dl, dt, dd, ol, ul, li, form,label, legend, caption,textarea, tbody{ margin:0; padding:0; }
+
+body{font-size:62.5%;font-family:Arial, 'Microsoft YaHei', sans-serif;  width:100%;background:#eaeaee;}
+
+ol,ul,li {	list-style: none; }
+
+blockquote:before, blockquote:after,q:before, q:after {	content: ""; }
+
+blockquote, q { quotes: "" ""; }
+
+a img {	border: 0; }
+
+article, aside, details, figcaption, figure,
+
+footer, header, hgroup, menu, nav, section { display: block; }
+
+h1,h2,h3,h4,h5,h6{font-weight:700}
+
+strong{font-weight:700}
+
+cite,em{font-style:normal}
+
+i{font-style:italic}
+
+img,objiect{ max-width:100%;vertical-align:middle/* 此样式会控制前端图片属性所以去掉*/ }
+
+a { text-decoration:none;border:none;-webkit-tap-highlight-color:transparent;outline:none;-webkit-touch-callout: none;-webkit-user-select: none; }
+a:focus {outline:none; -moz-outline:none}
+
+input,textarea{ outline:none; resize:none;-webkit-appearance:none;}
+map area {
+    outline: none;
+}
+
+
+#main-cont{min-width:300px;max-width:640px;  margin:0 auto;overflow:hidden;}
+
+.top { width:100%; height:45px;   background:#f8f8f8; position:fixed;top:0;z-index:1;border-bottom:1px solid #d3d0d0}
+
+.top a.aleft { background:url(../images/jt.png) no-repeat center center; width:12px; height:22px;  background-size:100%;display:block;float:left;}
+.top h1 {width:100%;font:1.8em/45px "Microsoft YaHei"; color:#3f3f3f; float:left;text-align:center;position:absolute;top:0;left:0; }
+.top h1 a{background:url(../images/jt.png) no-repeat center center; width:12px; height:22px;  background-size:100%;display:block;float:left;position:absolute;top:12px;left:6%;z-index:9}
+

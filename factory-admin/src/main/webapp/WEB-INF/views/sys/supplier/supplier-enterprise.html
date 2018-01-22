@@ -1,0 +1,66 @@
+<div class="layer">
+	<input type="hidden" id="supplierId" value="${supplierId}">
+	<table id="cashDepositTable"
+		class="table table-striped table-bordered table-hover nomargin-bottom">
+		<thead>
+			<tr>
+				<th class="center">企业</th>
+			</tr>
+		<tbody>
+			<tr class="attrValue_class">
+				<td class="center">
+					<div>
+						<#select id="entSelect" name="" width="55%">
+							<option value="">全部</option>
+							@for(ent in entInfo){
+								@if(supplierEntId==ent.id){
+									<option selected="selected" value="${ent.id!}">${ent.name!}</option>
+								@}else{
+									<option value="${ent.id!}">${ent.name!}</option>
+								@}
+							@}
+						</#select>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="width-100 clearfix" tag-save-btn
+	style="bottom: 0px; left: 0px; position: absolute;">
+	<span id="speVal_submit" onclick="setEntprise()" class="btn btn-primary btn-sm bigger-110 width-100  pull-left">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i> 确定
+	</span>
+</div>
+<script type="text/javascript">
+
+function setEntprise(){
+	var supplierId = $("#supplierId").val();
+	var entId = $("#entSelect").val();
+	if(supplierId==""){
+		layer.msg("异常错误！！！");
+	}else{
+		$.ajax({
+			type: "post",
+			data:{
+					id:supplierId,
+					enterpriseId:entId,
+				},
+			url: "${ctxPath}/supplierList/setEntprise",
+			dataType: "json",
+			success: function(data, textStatus){
+				//刷新页面
+				location.reload();
+			},
+			error: function(){
+
+			}
+			})
+	}
+	
+}
+
+$(document).ready(function() {
+	
+});
+</script>

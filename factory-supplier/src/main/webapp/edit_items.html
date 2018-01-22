@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/transaction_management.css" />
+<title>修改商品</title>
+</head>
+
+<body style="background:#fff;">
+<div class="main_box">
+	<div class="com_top">
+    	<dl>
+        	<dt><img src="static_resources/images/shop_dt.png" /></dt>
+            <dd class="dd1">商品名称：特享测试商品</dd>
+            <dd class="dd2">品牌：及恐慌噶肯德基</dd>
+        </dl>
+    </div>
+    <div class="standard_con">
+    	<ul>
+        	<li class="li1">规格:白/粉/35</li>
+            <li class="li2"><span>电商价:2.00</span></li>
+            <li class="li3"><span>内购价:1.00</span></li>
+            <li class="li4"><span class="span1">库存:1</span><span class="span2">预警值:6</span></li>
+        </ul>
+        <em></em>
+    </div>
+    <div class="standard_con">
+    	<ul>
+        	<li class="li1">规格:黑/粉/36</li>
+            <li class="li2"><span>电商价:2.00</span></li>
+            <li class="li3"><span>内购价:1.00</span></li>
+            <li class="li4"><span class="span1">库存:1</span><span class="span2">预警值:6</span></li>
+        </ul>
+        <em></em>
+    </div>
+    
+</div>
+<div class="thickdiv" ></div>
+<div class="thickbox" >
+	<div class="tit">编辑商品</div>
+	<div class="tit tit2">规格：夫好归好</div>
+    <div class="tit_con">
+    	<ul>
+        	<li><span class="tit_span">修改电商价</span><input type="text" placeholder="66.00" /></li>
+            <li><span>修改内购价</span><input type="text" placeholder="36.00" /></li>
+            <li><span>修改商品库存</span><input type="text" placeholder="4" /></li>
+            <li style="border:none;"><span>修改预警值</span><input type="text" placeholder="1" /></li>
+        </ul>
+    </div>
+    
+   <div class="thickbox_bottom"><a href="javascript:void(0);">确认保存</a><a href="javascript:void(0);" style="border:none;" class="close">取消</a></div>
+</div>
+
+<script type="text/javascript" src="js/jquery1.8.0.js"></script>
+<script>
+$(function(){
+	$(".standard_con em").click(function(e){
+		$(".thickdiv").show();
+		$(".thickbox").show();
+	});
+
+	$(".thickbox_bottom .close").click(function(e){
+		$(".thickdiv").hide();
+		$(".thickbox").hide();
+	});	
+})	
+</script>
+</body>
+</html>

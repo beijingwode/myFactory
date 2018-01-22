@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.StatisticalBenefitDao">
+  <resultMap id="StatisticalBenefit" type="com.wode.factory.model.StatisticalBenefit">
+        <result property="id" column="id"/>
+        <result property="month" column="month"/>
+        <result property="createTime" column="create_time"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="enterpriseManager" column="enterprise_manager"/>
+        <result property="exBenefitType" column="ex_benefit_type"/>
+        <result property="empCnt" column="emp_cnt"/>
+        <result property="ticketAmount" column="ticket_amount"/>
+        <result property="cashAmount" column="cash_amount"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,month,create_time,enterprise_id,enterprise_name,enterprise_manager,ex_benefit_type,emp_cnt,ticket_amount,cash_amount
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_statistical_benefit (
+            month ,
+            create_time ,
+            enterprise_id ,
+            enterprise_name ,
+            enterprise_manager ,
+            ex_benefit_type ,
+            emp_cnt ,
+            ticket_amount ,
+            cash_amount
+        ) VALUES (
+            #{month} ,
+            #{createTime} ,
+            #{enterpriseId} ,
+            #{enterpriseName} ,
+            #{enterpriseManager} ,
+            #{exBenefitType} ,
+            #{empCnt} ,
+            #{ticketAmount} ,
+            #{cashAmount}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_statistical_benefit SET            
+            month = #{month} ,
+            create_time = #{createTime} ,
+            enterprise_id = #{enterpriseId} ,
+            enterprise_name = #{enterpriseName} ,
+            enterprise_manager = #{enterpriseManager} ,
+            ex_benefit_type = #{exBenefitType} ,
+            emp_cnt = #{empCnt} ,
+            ticket_amount = #{ticketAmount} ,
+            cash_amount = #{cashAmount} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_statistical_benefit WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="StatisticalBenefit">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_statistical_benefit 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="StatisticalBenefit">
+        SELECT <include refid="columns" /> FROM t_statistical_benefit 
+        <include refid="find_where"/>
+    </select>
+
+    <select id="selectByModelEmpty" resultMap="StatisticalBenefit">
+        SELECT s.id enterprise_id,s.com_name enterprise_name,s.manager_id enterprise_manager, c.month,c.ex_benefit_type,c.emp_cnt,c.cash_amount
+    	FROM t_supplier s 
+    	LEFT JOIN (
+    	SELECT month,enterprise_id,ex_benefit_type,emp_cnt,cash_amount
+    	FROM t_statistical_benefit 
+        <include refid="find_where"/>
+    	) c ON (c.enterprise_id=s.id)
+    	<where>
+           <if test="@Ognl@isNotEmpty(enterpriseManager)">
+                AND s.manager_id = #{enterpriseManager}
+            </if>
+           <if test="@Ognl@isNotEmpty(enterpriseId)">
+                AND s.id = #{enterpriseId}
+            </if>
+        </where>        
+    </select>
+    
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(month)">
+				AND month like CONCAT(#{month},'%')
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(enterpriseId)">
+                AND enterprise_id = #{enterpriseId}
+            </if>
+           <if test="@Ognl@isNotEmpty(enterpriseName)">
+                AND enterprise_name = #{enterpriseName}
+            </if>
+           <if test="@Ognl@isNotEmpty(enterpriseManager)">
+                AND enterprise_manager = #{enterpriseManager}
+            </if>
+           <if test="@Ognl@isNotEmpty(exBenefitType)">
+                AND ex_benefit_type = #{exBenefitType}
+            </if>
+           <if test="@Ognl@isNotEmpty(empCnt)">
+                AND emp_cnt = #{empCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticketAmount)">
+                AND ticket_amount = #{ticketAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(cashAmount)">
+                AND cash_amount = #{cashAmount}
+            </if>
+            AND cash_amount > 0
+        </where>
+    </sql>
+    
+	<select id="countByDate" resultMap="StatisticalBenefit">
+		SELECT flw.enterprise_id,flw.ex_benefit_type,COUNT(1) emp_cnt,SUM(flw.ticket) ticket_amount,SUM(flw.cash) cash_amount
+		FROM t_emp_benefit_flow flw 
+		WHERE DATE_FORMAT(flw.op_date,'%Y-%m')=#{countDate}
+		AND flw.op_code = '216'
+		GROUP BY flw.enterprise_id, flw.ex_benefit_type
+    </select>
+</mapper>
+
+
+

@@ -1,0 +1,83 @@
+@charset "utf-8";
+/* CSS Document */
+input,select{
+	-webkit-appearance:none;
+	outline:none
+}
+body{height:auto;overflow:hidden;background:#fff}
+.main-box{width:100%;margin:0 auto;}
+.main_con{width:84%;height:auto;padding:0 8%;overflow:hidden;margin:0 auto;margin-bottom:24px;}
+
+.main_top_con{width:84%;height:auto;margin:65px 8% 0 8%;}
+.main_top_con p{width:100%;text-align:left;margin-top:10px;color:#292929;}
+.main_top_con .p1{font-size:1.4em;line-height:25px;}
+.main_top_con .p1 span{color:#c22936;}
+
+.input_box{width:100%;margin:0 auto;}
+.int_box{height:32px;padding:9px 0 0 0;border-bottom:1px solid #dadada;;margin-top:15px;}
+.int_box span{height:26px;width:20px;display:block;float:left;margin-right:10px;}
+.int_box .span1 {background: url(../images/bindphone_icon3.png) no-repeat 2px;background-size: 20px 19px;}
+.int_box .span2 {background: url(../images/bindphone_icon1.png) no-repeat 2px;background-size: 20px 19px;}
+.int_box input{width:84%;height:24px;float:left;font-size:1.3em;border:none;background:none;}
+
+.main-box .p3{width:100%;text-align:center;color:#4f4e53;font-size:1.3em;margin-top:16px;}
+.main-box .p3 a{color:#c22936;}
+
+.btn_box{width:84%;height:40px;text-align:center;line-height:40px;background:#c22936;border:none;color:#fff;font-size:1.6em;-moz-border-radius: 4px; -webkit-border-radius: 4px;border-radius:4px;cursor:pointer;margin:0 auto;}
+
+.protocol{width:84%;height: 20px;color: #4f4e53;font-size: 1.3em;margin:0px 0 0 8%;}
+.protocol span{height: 14px;width: 14px;display: block;margin: 2px 5px 0 0;float: left;background: url(../images/bindphone_icon44.png) no-repeat;background-size: 14px;}
+.protocol a{color:#c22936}
+
+
+
+.theme-popover-mask {
+    z-index: 9998;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#000;
+    opacity:0.4;
+    filter:alpha(opacity=40);
+    display:none;
+}
+.theme-popover {
+    z-index:9999;
+    position:fixed;
+	position:absolute;
+    top:50%;
+    left:50%;
+    width:84%;
+    height:auto;
+    margin:-100px 0 0 -42%;
+    border-radius:5px;
+    border:solid 2px #666;
+    background-color:#fff;
+    display:none;
+    box-shadow: 0 0 10px #666;
+    overflow:hidden;
+}
+.theme-poptit{height:auto;width:90%;padding:20px 5%;text-align:center;line-height:22px;border-bottom:1px solid #e0dfdf;color:#5e5d5d;}
+.theme-popbod {height:40px;width:100%;}
+.theme-popbod a{height:40px;width:100%;font-size:2.0em;color:#007aff;display:block;text-align:center;line-height:40px;}
+
+.recharge_money {width:266px;height:auto;padding:22px 12px;position:fixed;top:50%;left:50%;margin:-75px 0 0 -145px;z-index:11119999;border-radius:5px;display:block;background:#fff;}
+.recharge_money p{width:92%;padding:0 4%;text-align:center;color:#333333;}
+.recharge_money .p1{font-size:1.8em;}
+.recharge_money .p2{font-size:1.5em;margin-top:10px;}
+.recharge_money .p2 em{font-size:1.2em;color:#c22936}
+.new_theme-popbod {height:32px;width:265px;margin-top:15px;}
+.new_theme-popbod a{height:32px;width:100%;font-size:1.8em;color:#fff;display:block;text-align:center;line-height:32px;background: #c22936;border-radius:5px;}
+
+.theme-popbod1 {display:none;}
+.theme-popbod1 a{height:40px;width:50%;font-size:2.0em;color:#007aff;display:block;text-align:center;line-height:40px;float:left;}
+.theme-popbod1 .btn_no{width:49%;border-right:1px solid #e0dfdf}
+/*注册*/
+.email_text{float:left;}
+.href_login{height:30px;width:100%;line-height:30px;text-align:center;font-size:1.3em;margin-top:20px;}
+.href_login a{color:#376ccc;}
+#divselect{width:40%;float:left;  position:relative; z-index:10000;background:url(../images/xjt.png) no-repeat 90% center;}
+#divselect select {font-size:1.3em;height: 40px;width:130px;border:none;color:#434343;background:none;}
+#divselect select option{padding:15px 0}

@@ -1,0 +1,92 @@
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, iframe,h1, h2, h3, h4, h5, h6,p,pre,a,del, em, font, ins, q, s, samp,dl, dt, dd, ol, ul, li, form,label, legend, caption,textarea, tbody{ margin:0; padding:0; }
+
+body{font-size:62.5%;font-family:Arial, 'Microsoft YaHei', sans-serif;  width:100%;background:#efeff4;-webkit-text-size-adjust: 100%!important;}
+
+ol,ul,li {	list-style: none; }
+
+blockquote:before, blockquote:after,q:before, q:after {	content: ""; }
+
+blockquote, q { quotes: "" ""; }
+
+a img {	border: 0; }
+
+article, aside, details, figcaption, figure,
+
+footer, header, hgroup, menu, nav, section { display: block; }
+
+h1,h2,h3,h4,h5,h6{font-weight:700}
+
+strong{font-weight:700}
+
+cite,em{font-style:normal}
+
+i{font-style:italic}
+
+img,objiect{ max-width:100%;vertical-align:middle/* 此样式会控制前端图片属性所以去掉*/ }
+
+a {text-decoration:none;border:none;-webkit-tap-highlight-color:transparent;outline:none;-webkit-touch-callout: none;-webkit-user-select: none; }
+a:focus {outline:none; -moz-outline:none}
+input,textarea{ outline:none; resize:none;-webkit-appearance:none;}
+
+@font-face{font-family: myFirstFont;src:url('font/hyqihei-45s_0-webfont.ttf'),url('font/hyqihei-45s_0-webfont.eot');}
+
+#main-cont{width:100%;margin:0 auto; position:relative}
+.top_box { width:100%; height:45px;overflow:hidden;position:fixed;z-index:1;left:0;border-bottom:1px solid #a3a3a6;}
+.top{width:100%;height:45px; margin:0 auto;background:#f8f8f8;position:relative}
+.top a.aleft { background:url(../images/jt.png) no-repeat center center; width:12px; height:22px;  background-size:100%;display:block;float:left; margin:12px 0% 0 6%}
+.top h1 {width:100%;height:45px;font:1.8em/45px "Microsoft YaHei"; color:#333333; float:left;text-align:center;position:absolute;top:0;left:0; }
+.top span{position:absolute;right:4%;top:0;height:45px;display:block;line-height:46px;color:#c22936;font-size:1.4em;}
+.main-box{width: 100%;height: auto;overflow: hidden;position: absolute;top: 56px;background:#fff;padding-bottom:60px;}
+.order_box{width:96%;height:auto;overflow:hidden;background:#fff;padding-left:4%;}
+.order_top{width:100%;height:22px;padding:5px 0;}
+.order_top p{height:22px;padding-right:10px;float:left;line-height:22px;color:#666666;}
+.order_box em{width:14px;height:14px;display:block;float:left;font-style:normal;background:url(../images/checkbox_icon2.png) no-repeat;background-size:14px 14px;}
+.order_top em{margin:4px 10px 0 0}
+
+.order_box ul{width:96%;border-top:1px solid #e0e0e0;padding-right:4%;}
+.order_box ul li{width:100%;height:62px;padding:10px 0 10px 0;border-bottom: 1px solid #dddada;}
+.order_box ul li em{margin:23px 10px 0 0}
+.order_box ul li dl{width:82%;height:62px;float:left;}
+.order_box ul li dl dt{height:60px;width:60px;float:left;margin-right:4%;border:1px solid #e0e0e0;position:relative;}
+.order_box ul li dl dt a img{width:60px;height:60px;}
+.order_box ul li dl dt .picon{width:24px;height:24px;position:absolute;top:3px;right:3px;}
+.order_box ul li dl dt .picon img{width:24px;height:24px;}
+.order_box ul li dl dd{width:70%;float:left;}
+.order_box ul li dl .dd1{height:32px;line-height:16px;overflow:hidden;}
+.order_box ul li dl .dd1 a{color:#666666;}
+.order_box ul li dl .dd2{height:15px;line-height:15px;color:#ababab;overflow:hidden;text-overflow:ellipsis; }
+.order_box ul li dl .dd3{height:15px;line-height:15px;color:#c22936;}
+.order_box ul li dl .dd4{height:20px;float:left;width:auto;line-height:20px;margin-top: 10px;overflow:hidden;text-overflow:ellipsis;}
+.order_box ul li dl .dd4 p{height:20px;float:left;display:block;overflow:hidden;text-overflow:ellipsis;}
+.order_box ul li dl .dd4 p img{float: left;height: 16px;width: auto;margin-right: 5px;}
+.order_box ul li span{width: 100%;height: 20px;display: block;text-align: right;font-style: normal;line-height: 20px;color: #8a8a8a;margin-top: 70px;} 
+.order_box ul li .price{float:right;}
+.order_box ul li .price a{width:20px;height:20px;display:block;background:url(../images/del_btn.png) no-repeat;background-size:20px 20px;}
+.order_box ul li .price i{width:100%;height:20px;display:block;text-align:right;font-style:normal;line-height:20px;color:#8a8a8a;margin-top:20px;}
+.bottom_box{width:92%;height:50px;padding:0 4%;background:#fff;position:fixed;bottom:0;left:0;}
+.all_btn{width:60px;height:14px;margin-top:18px;float:left;}
+.all_btn em{width:14px;height:14px;display:block;float:left;font-style:normal;background:url(../images/checkbox_icon2.png) no-repeat;background-size:14px 14px;margin-right:10px;}
+.bottom_box_rt{width:78%;height:50px;float:right;}
+.rt_con{width:60%;height:50px;float:left;}
+.rt_con p{height:20px;line-height:20px;text-align:right;color:#a9a9a9;}
+.rt_con p span{font-size:1.2em;font-weight:600;color:#c22936;}
+.rt_con .p1{font-size:1.4em;margin-top:5px;}
+
+.bottom_box_rt a{width:80px;height:26px;display:block;float:right;text-align:center;line-height:26px;color:#fff;background:#c22936;-moz-border-radius: 5px;-webkit-border-radius: 5px;  border-radius:5px;font-size:1.4em;margin-top:12px;}
+.bottom_box_rt a.disable{width:80px;height:26px;display:block;float:right;text-align:center;line-height:26px;color:#fff;background:#686868;-moz-border-radius: 5px;-webkit-border-radius: 5px;  border-radius:5px;font-size:1.4em;margin-top:12px;disabled:disabled;}
+
+.quantity-wrapper {display: inline-block;height: 30px;border-radius: 5px;display:none; }
+.quantity-decrease{padding:0;float: left;font-size: 13px;text-align: center;height: 26px;background: #fff;border: 1px solid #848689;border-right:none;color: #666;display: block;line-height: 24px;width: 24px;overflow: hidden;-webkit-border-radius: 2px 0 0 2px;background-position: 10px -20px;-webkit-appearance: none;}
+.quantity{height: 24px;width: 39px;float: left;font-size: 13px;text-align: center; color: #686868;border:1px solid #686868;border-radius: 0;-webkit-appearance: none;background:#fff;padding:0;}
+.quantity-increase{padding:0;float: left;font-size: 13px;text-align: center;height: 26px;background: #fff;border: 1px solid #848689;border-left:none;color: #666;display: block;line-height: 24px;width: 24px;overflow: hidden;-webkit-border-radius: 0 2px 2px 0;-webkit-appearance: none;}
+
+/* 底部提示样式 */
+.thickdiv {position: fixed;top: 0;left: 0;z-index: 10000001;width: 100%;height: 100%;background: #000;border: 0;filter: alpha(opacity = 15);opacity: .15;display:none;} 
+.promotion_bottom{width: 100%;height: 20%;position: fixed;right: 0;bottom: 0;z-index: 10000002;overflow: hidden;background:#fff;display:none;}
+.promotion_bottom .title{height:40px;width:100%;line-height:30px;font-size:1.4em;text-align:center;}
+.promotion_bottom li{height:20px;width:auto; word-wrap:break-word; word-break:normal;}
+.promotion_bottom p{height:20px;float:left;width:auto; word-wrap:break-word; word-break:normal;}
+.promotion_bottom li i {float:left;border: 1px solid #c22936;padding: 1px 4px;font-style: normal;font-size: 12px;color: #c22936;margin-left: 5px;margin-right: 5px;}
+.thickclose{position:absolute;top:10px;right:10px;}

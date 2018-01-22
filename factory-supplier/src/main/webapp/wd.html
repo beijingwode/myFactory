@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/transaction_management.css" />
+<title>我的</title>
+</head>
+
+<body>
+<div class="main_box">
+	<div class="wd_top">
+    	<dl>
+        	<dt><img src="images/shop_dt.png" /></dt>
+            <dd>hanruxia@wo-de.com</dd>
+            <dd>店铺：容声官方旗舰店</dd>
+        </dl>
+        <span>选择店铺</span>
+    </div>	
+   <div class="my_box">
+        <div class="my">
+            <a href="javascript:;">
+                <dl>
+                    <dt><img src="static_resources/images/personal_information_down.png" /></dt>
+                    <dd>个人信息</dd>
+                </dl>
+            </a>
+        </div>
+        <div class="my" style="border:none;">
+            <a href="logout.html">
+                <dl>
+                    <dt><img src="static_resources/images/security_settings_down.png" /></dt>
+                    <dd>安全设置</dd>
+                </dl>
+            </a>
+        </div>
+
+    </div>
+    <div class="sz_tit">设置</div>
+    <div class="sz_con">
+    	<ul>
+        	<li class="li1"><a href="javascript:;">帮助中心</a></li>
+            <li class="li2"><a href="javascript:;">关于我们</a></li>
+        </ul>
+    </div>
+    
+</div>
+
+<div class="theme-popover-mask" style="display: none"></div>
+<div class="theme-popover"  style="display: none">
+    <div class="theme-tit">请您选择</div>
+    <ul>
+    	<li>容声官方旗舰店</li>
+        <li>容声专卖店</li>
+    </ul>
+</div>
+
+</body>
+<script type="text/javascript" src="js/jquery1.8.0.js"></script>
+<script>
+$(function(){
+	$(".wd_top span").click(function(){
+		$(".theme-popover-mask").show();
+		$(".theme-popover").show();
+	})
+	
+	$(".theme-popover ul li").click(function(){
+		$(".theme-popover-mask").hide();
+		$(".theme-popover").hide();
+	})	
+})
+</script>
+</html>

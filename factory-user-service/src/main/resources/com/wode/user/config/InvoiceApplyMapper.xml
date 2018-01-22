@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="InvoiceApplyMapper">
+
+    <resultMap id="InvoiceApply" type="com.wode.factory.model.InvoiceApply">
+        <result property="id" column="id"/>
+        <result property="userId" column="userId"/>
+        <result property="title" column="title"/>
+        <result property="suborderid" column="suborderid"/>
+        <result property="address" column="address"/>
+        <result property="createtime" column="createtime"/>
+        <result property="note" column="note"/>
+        <result property="type" column="type"/>
+        <result property="billType" column="billType"/>
+		<result property="taxpayerNumber" column="taxpayerNumber"/>
+		<result property="registerAddress" column="registerAddress"/>
+		<result property="registerPhone" column="registerPhone"/>
+		<result property="openingBan" column="openingBan"/>
+		<result property="openingBanNumber" column="openingBanNumber"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,userId,title,suborderid,address,createtime,type,note,billType,taxpayerNumber,
+        registerAddress,registerPhone,openingBan,openingBanNumber
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_invoice_apply (
+            id ,
+            userId ,
+            title ,
+            suborderid ,
+            address,
+            createtime,
+            type,
+            note,
+            billType,
+            taxpayerNumber,
+	        registerAddress,
+	        registerPhone,
+	        openingBan,
+	        openingBanNumber
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{title} ,
+            #{suborderid} ,
+            #{address},
+            #{createtime} ,
+            #{type} ,
+            #{note},
+             #{billType},
+            #{taxpayerNumber},
+	        #{registerAddress},
+	        #{registerPhone},
+	        #{openingBan},
+	        #{openingBanNumber}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_invoice_apply SET            
+            userId = #{userId} ,
+            title = #{title} ,
+            suborderid = #{suborderid},
+            address = #{address},
+            createtime = #{createtime},
+            type = #{type},
+            note = #{note},
+            billType = #{billType},
+            taxpayerNumber = #{taxpayerNumber},
+	        registerAddress = #{registerAddress},
+	        registerPhone = #{registerPhone},
+	        openingBan = #{openingBan},
+	        openingBanNumber = #{openingBanNumber}
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_invoice_apply WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="InvoiceApply">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_invoice_apply 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="InvoiceApply">
+        SELECT <include refid="columns" /> FROM t_invoice_apply 
+        <include refid="find_where"/>
+        
+        order by createtime desc
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND userId = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(title)">
+                AND title = #{title}
+            </if>
+           <if test="@Ognl@isNotEmpty(suborderid)">
+                AND suborderid = #{suborderid}
+            </if>
+           <if test="@Ognl@isNotEmpty(address)">
+                AND address = #{address}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

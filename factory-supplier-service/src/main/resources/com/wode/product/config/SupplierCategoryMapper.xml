@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SupplierCategoryMapper">
+
+	<resultMap id="SupplierCategory" type="com.wode.factory.model.SupplierCategory">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="categoryParentid" column="category_parentid"/>
+        <result property="categoryParentParentid" column="category_parent_parentid"/>
+        <result property="commissionRatio" column="commissionRatio"/>
+        <result property="categoryName" column="categoryName"/>
+        <collection property="productBrandList" ofType="com.wode.factory.model.ProductBrand">  
+	        <result property="id" column="id_specificationValue"/>
+	        <result property="name" column="name_tpb"/>
+		</collection>
+        
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,supplier_id,shop_id,category_id,category_parentid,category_parent_parentid,commissionRatio
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_supplier_category (
+        	id ,
+        	supplier_id ,
+        	shop_id ,
+        	category_id ,
+        	category_parentid ,
+        	category_parent_parentid,
+        	commissionRatio 
+        ) VALUES (
+        	#{id} ,
+        	#{supplierId} ,
+        	#{shopId} ,
+        	#{categoryId} ,
+        	#{categoryParentid} ,
+        	#{categoryParentParentid},
+        	#{commissionRatio} 
+        )
+    ]]>
+	</insert>
+    
+    <insert id="copyByShop">
+    <![CDATA[
+        INSERT INTO t_supplier_category (
+        	id ,
+        	supplier_id ,
+        	shop_id ,
+        	category_id ,
+        	category_parentid ,
+        	category_parent_parentid,
+        	commissionRatio 
+        ) 
+       SELECT 
+        	nextval('t_supplier_category') id,
+        	supplier_id,
+        	#{shopId} shop_id ,
+        	category_id ,
+        	category_parentid ,
+        	category_parent_parentid,
+        	commissionRatio 
+       FROM t_supplier_category 
+       WHERE supplier_id=#{supplierId} AND shop_id = #{oldId}
+    ]]>
+	</insert>
+	
+    <insert id="insertBatch">
+    <![CDATA[
+        INSERT INTO t_supplier_category (
+        	id ,
+        	supplier_id ,
+        	shop_id ,
+        	category_id ,
+        	category_parentid ,
+        	category_parent_parentid,
+        	commissionRatio 
+        ) 
+		 SELECT 
+			nextval('t_supplier_category') id,
+			#{supplierId} supplier_id,
+			#{shopId} shop_id ,
+			id category_id,
+			pid category_parentid,
+			rootId category_parent_parentid,
+			commissionScale commissionRatio 
+		 FROM t_product_category 
+		 WHERE deep=3 AND FIND_IN_SET(id,#{categoryids})
+    ]]>
+	</insert>
+	
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_supplier_category SET
+	        supplier_id = #{supplierId} ,
+	        shop_id = #{shopId} ,
+	        category_id = #{categoryId} ,
+	        category_parentid = #{categoryParentid} ,
+	        category_parent_parentid = #{categoryParentParentid} ,
+	        commissionRatio = #{commissionRatio}
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_supplier_category WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <delete id="deletebymap">
+    <![CDATA[
+        DELETE FROM t_supplier_category WHERE
+        supplier_id = #{supplierId} 
+    ]]>
+    <if test="@Ognl@isNotEmpty(categoryId)">
+		AND category_id = #{categoryId}
+	</if>
+	<if test="@Ognl@isNotEmpty(categoryParentid)">
+		AND category_parentid = #{categoryParentid}
+	</if>
+      <if test="@Ognl@isNotEmpty(categoryParentParentid)">
+		AND category_parent_parentid = #{categoryParentParentid}
+	</if>
+    </delete>
+    
+    
+    <delete id="removeBySupplierId">
+    <![CDATA[
+        DELETE FROM t_supplier_category WHERE
+        supplier_id = #{supplierId}  AND shop_id=#{shopId}
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="SupplierCategory">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_supplier_category 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+	
+	<select id="getBySupplierId" resultMap="SupplierCategory">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_supplier_category 
+	        WHERE 
+		        supplier_id = #{supplierId} AND shop_id=#{shopId}
+	    ]]>
+	</select>
+		
+	<select id="getByShopAndBrand" resultMap="SupplierCategory">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_supplier_category 
+	        WHERE 
+		        supplier_id = #{supplierId} AND shop_id=#{shopId} 
+		        AND category_id IN (select category_id FROM t_brand_producttype WHERE supplier_id=#{supplierId} AND brand_id=#{brandId} )
+	    ]]>
+	</select>
+	
+	<select id="getAddCategorys" resultMap="SupplierCategory">
+		SELECT <include refid="columns" />,(select name from t_product_category where id=A.category_id) categoryName
+	    <![CDATA[
+		    FROM t_supplier_category A
+	        WHERE 
+		        A.supplier_id = #{supplierId} AND A.shop_id=#{shopId} AND NOT EXISTS (select 1 from t_supplier_category O WHERE O.supplier_id = #{supplierId} AND O.shop_id=#{oldId} AND A.category_id=O.category_id)
+	    ]]>
+	</select>
+	
+	<select id="getShopCategory" resultMap="SupplierCategory" parameterType="map">
+	   SELECT supp.* FROM `t_supplier_category` supp inner join t_product_category pro on supp.category_id = pro.id 
+	   <where>
+	       pro.name = #{categoryName}
+	       <if test="@Ognl@isNotEmpty(supplierId)">
+				AND supp.supplier_id = #{supplierId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(shopId)">
+				AND supp.shop_id = #{shopId}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getlistByMap" resultMap="SupplierCategory">
+		SELECT tsc.id,tsc.supplier_id,tsc.category_id,tsc.commissionRatio,tpc.name as categoryName,tpb.name as name_tpb
+		FROM t_supplier_category as tsc 
+		LEFT JOIN t_product_category AS tpc on tpc.id=tsc.category_id
+		LEFT JOIN (select * from t_brand_producttype where supplier_id=#{supplierId}) as tbp on tbp.category_id = tsc.category_id
+		LEFT JOIN t_product_brand as tpb on tbp.brand_id = tpb.id  and tpb.shop_id = #{shopId}
+		WHERE tsc.supplier_id = #{supplierId}  AND tsc.shop_id=#{shopId}
+	</select>	
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_supplier_category 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="SupplierCategory">
+    	SELECT <include refid="columns" />
+	    FROM t_supplier_category 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(supplierId)">
+				AND supplier_id = #{supplierId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(shopId)">
+				AND shop_id = #{shopId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(categoryId)">
+				AND category_id = #{categoryId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(categoryParentid)">
+				AND category_parentid = #{categoryParentid}
+			</if>
+	       <if test="@Ognl@isNotEmpty(categoryParentParentid)">
+				AND category_parent_parentid = #{categoryParentParentid}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="findAllBymap" resultMap="SupplierCategory">
+		SELECT distinct category_id,category_parentid,category_parent_parentid,commissionRatio
+	    FROM t_supplier_category 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+	</select>
+</mapper>
+

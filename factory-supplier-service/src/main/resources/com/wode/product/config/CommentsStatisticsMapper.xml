@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="CommentsStatisticsMapper">
+
+	<resultMap id="CommentsStatistics" type="com.wode.factory.model.CommentsStatistics">
+        <result property="id" column="id"/>
+        <result property="good" column="good"/>
+        <result property="medium" column="medium"/>
+        <result property="bad" column="bad"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="datetime" column="datetime"/>
+        <result property="type" column="type"/>
+        <result property="tote" column="tote"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,good,medium,bad,supplier_id,datetime,type,tote
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_comments_statistics (
+        	id ,
+        	good ,
+        	medium ,
+        	bad ,
+        	supplier_id ,
+        	datetime ,
+        	type ,
+        	tote 
+        ) VALUES (
+        	#{id} ,
+        	#{good} ,
+        	#{medium} ,
+        	#{bad} ,
+        	#{supplierId} ,
+        	#{datetime} ,
+        	#{type} ,
+        	#{tote} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_comments_statistics SET
+	        good = #{good} ,
+	        medium = #{medium} ,
+	        bad = #{bad} ,
+	        supplier_id = #{supplierId} ,
+	        datetime = #{datetime} ,
+	        type = #{type} ,
+	        tote = #{tote} 
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_comments_statistics WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <delete id="deleteall">
+    <![CDATA[
+        DELETE FROM t_comments_statistics WHERE
+        type < 2 
+    ]]>
+    </delete>
+    
+    <select id="findbymap" resultMap="CommentsStatistics">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_comments_statistics 
+	        WHERE
+				type = #{type} 
+			AND supplier_id = #{supplier_id} 
+			ORDER BY datetime DESC
+	    ]]>
+	</select>
+    
+    <select id="getById" resultMap="CommentsStatistics">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_comments_statistics 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_comments_statistics 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="CommentsStatistics">
+    	SELECT <include refid="columns" />
+	    FROM t_comments_statistics 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(good)">
+				AND good = #{good}
+			</if>
+	       <if test="@Ognl@isNotEmpty(medium)">
+				AND medium = #{medium}
+			</if>
+	       <if test="@Ognl@isNotEmpty(bad)">
+				AND bad = #{bad}
+			</if>
+	       <if test="@Ognl@isNotEmpty(supplierId)">
+				AND supplier_id = #{supplierId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(datetimeBegin)">
+				AND datetime >= #{datetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(datetimeEnd)">
+				AND datetime &lt;= #{datetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(type)">
+				AND type = #{type}
+			</if>
+	       <if test="@Ognl@isNotEmpty(tote)">
+				AND tote = #{tote}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
+

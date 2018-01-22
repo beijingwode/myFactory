@@ -1,0 +1,107 @@
+<div class="layer">
+	<input type="hidden" id="id" value="${id!}">
+	<input type="hidden" id="checkId" value="${check.id!}">
+	<table id="formUseFeeTable"
+		class="table table-striped table-bordered table-hover nomargin-bottom">
+			<tr>
+				<th class="center">备注</th>
+				<td class="center">
+					<input type="text" id="check_memo" value="${check.memo!}" style="width:70%" />
+				</td>
+			</tr>
+			<tr>
+				<th class="center">再审提醒日</th>
+				<td class="center">
+					<input type="text" id="check_alarm" value="${check.alarmDate!,dateFormat='yyyy-MM-dd'}" />
+				</td>
+			</tr>
+	</table>
+</div>
+
+<div class="width-100 clearfix" tag-save-btn
+	style="bottom: 0px; left: 0px; position: absolute;">
+	<span onclick="deleteMemo()" class="btn btn-yellow btn-sm bigger-110 width-50 pull-right"	>
+		<i class="ace-icon fa fa-times align-top  bigger-125"></i> 删除
+	</span>
+	<span  onclick="setCashDeposit()"  class="btn btn-primary btn-sm bigger-110 width-50  pull-left">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i> 确定
+	</span>
+</div>
+<script type="text/javascript">
+
+function deleteMemo(){
+
+	if($("#checkId").val() == ""){
+		layer.closeAll();
+		return;
+	}
+	
+	$.ajax({
+
+		type: "post",
+		data:{
+			checkId:$("#checkId").val()
+			},
+		url: "${ctxPath}/brand/delMemo",
+		dataType: "json",
+		success: function(data, textStatus){
+			var $form = $("#search-form");
+			var pageNo = 1;
+			var pageNoInput = $form.find('input[name="pageNum"]');
+			if(pageNoInput.size() != 0){
+				pageNo = pageNoInput.val();
+			}
+			
+			//刷新页面
+			paging('search-form',pageNo);
+			layer.closeAll();
+		},
+		error: function(){
+
+		}
+		})
+}
+
+function setCashDeposit(){
+
+	if($("#check_memo").val() == ""){
+		layer.msg('请输入备注！', 2, 2);
+		//alert("请输入审核意见！");
+		return;
+	}
+	
+	$.ajax({
+
+		type: "post",
+		data:{
+			id:$("#id").val(),
+			checkId:$("#checkId").val(),
+			memo:$("#check_memo").val(),
+			alarmDate:$("#check_alarm").val()
+			},
+		url: "${ctxPath}/brand/setMemo",
+		dataType: "json",
+		success: function(data, textStatus){
+			var $form = $("#search-form");
+			var pageNo = 1;
+			var pageNoInput = $form.find('input[name="pageNum"]');
+			if(pageNoInput.size() != 0){
+				pageNo = pageNoInput.val();
+			}
+			
+			//刷新页面
+			paging('search-form',pageNo);
+			layer.closeAll();
+		},
+		error: function(){
+
+		}
+		})
+}
+
+laydate({
+    elem: '#check_alarm',
+    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+});
+
+</script>

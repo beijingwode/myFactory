@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SupplierMapper">
+
+	<resultMap id="Supplier" type="com.wode.factory.model.Supplier">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="comPortraiture" column="com_portraiture"/>
+        <result property="comTel" column="com_tel"/>
+        <result property="comName" column="com_name"/>
+        <result property="comPersonnum" column="com_personnum"/>
+        <result property="comRegisternum" column="com_registernum"/>
+        <result property="status" column="status"/>
+        <result property="space" column="space"/>
+        <result property="comPc" column="com_pc"/>
+        <result property="comState" column="com_state"/>
+        <result property="comCity" column="com_city"/>
+        <result property="comAddress" column="com_address"/>
+        <result property="referee" column="referee"/>
+        <result property="industry" column="industry"/>
+        <result property="property" column="property"/>
+        <result property="busState" column="bus_state"/>
+        <result property="busCity" column="bus_city"/>
+        <result property="busAddress" column="bus_address"/>
+        <result property="registeredCapital" column="registered_capital"/>
+        <result property="registeredCapitalCurrency" column="registered_capital_currency"/>
+        <result property="busScope" column="bus_scope"/>
+        <result property="busBegintime" column="bus_begintime"/>
+        <result property="busEndtime" column="bus_endtime"/>
+        <result property="orgNum" column="org_num"/>
+        <result property="orgBegintime" column="org_begintime"/>
+        <result property="orgEndtime" column="org_endtime"/>
+        <result property="taxNum" column="tax_num"/>
+        <result property="istaxpayer" column="istaxpayer"/>
+        <result property="corCome" column="cor_come"/>
+        <result property="corName" column="cor_name"/>
+        <result property="corNum" column="cor_num"/>
+        <result property="bankPeople" column="bank_people"/>
+        <result property="bankId" column="bankId"/>
+        <result property="bankState" column="bank_state"/>
+        <result property="bankCity" column="bank_city"/>
+        <result property="bankName" column="bank_name"/>
+        <result property="bankNum" column="bank_num"/>
+        <result property="creatTime" column="creat_time"/>
+        <result property="enterType" column="enter_type"/>
+        <result property="shippingFree" column="shipping_free"/>
+        <result property="comAdd" column="com_add"/>
+        <result property="firmLogo" column="firm_logo"/>        
+        <result property="nickName" column="nick_name"/>  
+        <result property="managerId" column="manager_id"/>      
+          
+        
+        <collection property="shopList" ofType="com.wode.factory.model.Shop">
+        	<result property="id" column="ssid"/>
+	        <result property="userId" column="user_id"/>
+	        <result property="logo" column="logo"/>
+	        <result property="shopname" column="shopname"/>
+	        <result property="introduce" column="introduce"/>
+	        <result property="banner" column="banner"/>
+	        <result property="type" column="type"/>
+	        <result property="cusTel" column="cus_tel"/>
+	        <result property="cusPhone" column="cus_phone"/>
+	        <result property="cusEmail" column="cus_email"/>
+	        <result property="cusContact" column="cus_contact"/>
+	        <result property="serTel" column="ser_tel"/>
+	        <result property="serPhone" column="ser_phone"/>
+	        <result property="serEmail" column="ser_email"/>
+	        <result property="serContact" column="ser_contact"/>
+	        <result property="shopTel" column="shop_tel"/>
+	        <result property="shopPhone" column="shop_phone"/>
+	        <result property="shopEmail" column="shop_email"/>
+	        <result property="shopContact" column="shop_contact"/>
+	        <result property="qq" column="qq"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,user_id,com_portraiture,com_tel,com_name,com_personnum,com_registernum,status,space,com_pc,com_state,com_city,com_address,referee,industry,property,bus_state,bus_city,bus_address,registered_capital,bus_scope,bus_begintime,bus_endtime,org_num,org_begintime,org_endtime,tax_num,istaxpayer,cor_come,cor_name,cor_num,bank_people,bankId,bank_state,bank_city,bank_name,bank_num,creat_time,enter_type,com_add
+	    ,firm_logo,nick_name,qq,shipping_free,registered_capital_currency,manager_id ]]>
+	</sql>
+	<select id="findByManagerId" resultMap="Supplier">
+		select 
+			id,
+			com_name 
+		from 
+			t_supplier 
+		<where>
+			<if test="@Ognl@isNotEmpty(comName)">
+				and com_name like CONCAT(CONCAT('%',#{comName}),'%')
+			</if>
+			<if test="@Ognl@isNotEmpty(managerId)">
+				and manager_id = #{managerId} and status != -2
+			</if>
+		</where>
+	</select>
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_supplier SET
+	        user_id = #{userId} ,
+	        com_portraiture = #{comPortraiture} ,
+	        com_tel = #{comTel} ,
+	        com_name = #{comName} ,
+	        com_personnum = #{comPersonnum} ,
+	        com_registernum = #{comRegisternum} ,
+	        status = #{status} ,
+	        space = #{space} ,
+	        com_pc = #{comPc} ,
+	        com_state = #{comState} ,
+	        com_city = #{comCity} ,
+	        com_address = #{comAddress} ,
+	        referee = #{referee} ,
+	        industry = #{industry} ,
+	        property = #{property} ,
+	        bus_state = #{busState} ,
+	        bus_city = #{busCity} ,
+	        bus_address = #{busAddress} ,
+	        registered_capital = #{registeredCapital} ,
+	        bus_scope = #{busScope} ,
+	        bus_begintime = #{busBegintime} ,
+	        bus_endtime = #{busEndtime} ,
+	        org_num = #{orgNum} ,
+	        org_begintime = #{orgBegintime} ,
+	        org_endtime = #{orgEndtime} ,
+	        tax_num = #{taxNum} ,
+	        istaxpayer = #{istaxpayer} ,
+	        cor_come = #{corCome} ,
+	        cor_name = #{corName} ,
+	        cor_num = #{corNum} ,
+	        bank_people = #{bankPeople} ,
+	        bankId = #{bankId} ,
+	        bank_state = #{bankState} ,
+	        bank_city = #{bankCity} ,
+	        bank_name = #{bankName} ,
+	        bank_num = #{bankNum} ,
+	        creat_time = #{creatTime} ,
+	       	enter_type = #{enterType},
+	       	com_add = #{comAdd},
+            registered_capital_currency = #{registeredCapitalCurrency}
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+    
+    <select id="getById" resultMap="Supplier">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_supplier 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+	
+	<select id="getBymap" resultMap="Supplier">
+		SELECT user_id
+	    <![CDATA[
+		    FROM t_supplier 
+	    ]]>
+	    WHERE status = 2
+		    <if test="@Ognl@isNotEmpty(comName)">
+				AND com_name = #{comName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(comRegisternum)">
+				AND com_registernum = #{comRegisternum}
+			</if>
+			<if test="@Ognl@isNotEmpty(taxNum)">
+				AND tax_num = #{taxNum}
+			</if>
+			<if test="@Ognl@isNotEmpty(orgNum)">
+				AND org_num = #{orgNum}
+			</if>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_supplier 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="Supplier">
+    	SELECT <include refid="columns" />
+	    FROM t_supplier 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+    
+    <select id="findAll" resultMap="Supplier">
+    	SELECT <include refid="columns" />
+	    FROM t_supplier 
+    </select>
+    
+    <select id="getByUserId" resultMap="Supplier">
+    	SELECT
+			s.id,
+			s.user_id,
+			s.com_portraiture,
+			s.com_tel,
+			s.com_name,
+			s.com_personnum,
+			s.com_registernum,
+			s. STATUS,
+			s.space,
+			s.com_pc,
+			s.com_state,
+			s.com_city,
+			s.com_address,
+			s.referee,
+			s.industry,
+			s.property,
+			s.bus_state,
+			s.bus_city,
+			s.bus_address,
+			s.registered_capital,
+			s.registered_capital_currency,
+			s.bus_scope,
+			s.bus_begintime,
+			s.bus_endtime,
+			s.org_num,
+			s.org_begintime,
+			s.org_endtime,
+			s.tax_num,
+			s.istaxpayer,
+			s.cor_come,
+			s.cor_name,
+			s.cor_num,
+			s.bank_people,
+			s.bankId,
+			s.bank_state,
+			s.bank_city,
+			s.bank_name,
+			s.bank_num,
+			s.creat_time,
+			s.enter_type,
+			s.com_add,
+			s.shipping_free,
+			ss.cus_tel,
+			ss.cus_phone,
+			ss.cus_email,
+			ss.cus_contact,
+			ss.ser_tel,
+			ss.ser_phone,
+			ss.ser_email,
+			ss.ser_contact,
+			ss.shop_tel,
+			ss.shop_phone,
+			ss.shop_email,
+			ss.shop_contact,
+			ss.id ssid,
+			ss.user_id,
+			ss.logo,
+			ss.shopname,
+			ss.introduce,
+			ss.banner,
+			ss.type,
+			ss.qq
+		FROM
+			t_supplier s
+		LEFT JOIN t_shop ss ON ss.supplier_id = s.user_id
+		WHERE
+			s.user_id = #{userId}
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(userId)">
+				AND user_id = #{userId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(comPortraiture)">
+				AND com_portraiture = #{comPortraiture}
+			</if>
+	       <if test="@Ognl@isNotEmpty(comTel)">
+				AND com_tel = #{comTel}
+			</if>
+	       <if test="@Ognl@isNotEmpty(comName)">
+				AND com_name = #{comName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(comPersonnum)">
+				AND com_personnum = #{comPersonnum}
+			</if>
+	       <if test="@Ognl@isNotEmpty(comRegisternum)">
+				AND com_registernum = #{comRegisternum}
+			</if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(space)">
+				AND space = #{space}
+			</if>
+	       <if test="@Ognl@isNotEmpty(comPc)">
+				AND com_pc = #{comPc}
+			</if>
+	       <if test="@Ognl@isNotEmpty(comState)">
+				AND com_state = #{comState}
+			</if>
+	       <if test="@Ognl@isNotEmpty(comCity)">
+				AND com_city = #{comCity}
+			</if>
+	       <if test="@Ognl@isNotEmpty(comAddress)">
+				AND com_address = #{comAddress}
+			</if>
+	       <if test="@Ognl@isNotEmpty(referee)">
+				AND referee = #{referee}
+			</if>
+	       <if test="@Ognl@isNotEmpty(industry)">
+				AND industry = #{industry}
+			</if>
+	       <if test="@Ognl@isNotEmpty(property)">
+				AND property = #{property}
+			</if>
+	       <if test="@Ognl@isNotEmpty(busState)">
+				AND bus_state = #{busState}
+			</if>
+	       <if test="@Ognl@isNotEmpty(busCity)">
+				AND bus_city = #{busCity}
+			</if>
+	       <if test="@Ognl@isNotEmpty(busAddress)">
+				AND bus_address = #{busAddress}
+			</if>
+	       <if test="@Ognl@isNotEmpty(registeredCapital)">
+				AND registered_capital = #{registeredCapital}
+			</if>
+	       <if test="@Ognl@isNotEmpty(busScope)">
+				AND bus_scope = #{busScope}
+			</if>
+	       <if test="@Ognl@isNotEmpty(busBegintimeBegin)">
+				AND bus_begintime >= #{busBegintimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(busBegintimeEnd)">
+				AND bus_begintime &lt;= #{busBegintimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(busEndtimeBegin)">
+				AND bus_endtime >= #{busEndtimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(busEndtimeEnd)">
+				AND bus_endtime &lt;= #{busEndtimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(orgNum)">
+				AND org_num = #{orgNum}
+			</if>
+	       <if test="@Ognl@isNotEmpty(orgBegintimeBegin)">
+				AND org_begintime >= #{orgBegintimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(orgBegintimeEnd)">
+				AND org_begintime &lt;= #{orgBegintimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(orgEndtimeBegin)">
+				AND org_endtime >= #{orgEndtimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(orgEndtimeEnd)">
+				AND org_endtime &lt;= #{orgEndtimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(taxNum)">
+				AND tax_num = #{taxNum}
+			</if>
+	       <if test="@Ognl@isNotEmpty(istaxpayer)">
+				AND istaxpayer = #{istaxpayer}
+			</if>
+	       <if test="@Ognl@isNotEmpty(corCome)">
+				AND cor_come = #{corCome}
+			</if>
+	       <if test="@Ognl@isNotEmpty(corName)">
+				AND cor_name = #{corName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(corNum)">
+				AND cor_num = #{corNum}
+			</if>
+	       <if test="@Ognl@isNotEmpty(bankPeople)">
+				AND bank_people = #{bankPeople}
+			</if>
+	       <if test="@Ognl@isNotEmpty(bankId)">
+				AND bankId = #{bankId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(bankState)">
+				AND bank_state = #{bankState}
+			</if>
+	       <if test="@Ognl@isNotEmpty(bankCity)">
+				AND bank_city = #{bankCity}
+			</if>
+	       <if test="@Ognl@isNotEmpty(bankName)">
+				AND bank_name = #{bankName}
+			</if>
+	       <if test="@Ognl@isNotEmpty(bankNum)">
+				AND bank_num = #{bankNum}
+			</if>
+	       <if test="@Ognl@isNotEmpty(creatTimeBegin)">
+				AND creat_time >= #{creatTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(creatTimeEnd)">
+				AND creat_time &lt;= #{creatTimeEnd}
+		   </if>
+		</where>
+	</sql>
+	
+</mapper>
+

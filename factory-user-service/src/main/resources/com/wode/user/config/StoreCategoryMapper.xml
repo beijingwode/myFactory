@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="StoreCategoryMapper">
+
+	<resultMap id="StoreCategory" type="com.wode.factory.model.StoreCategory">
+        <id property="id" column="id"/>
+        <result property="orders" column="orders"/>
+        <result property="grade" column="grade"/>
+        <result property="name" column="name"/>
+        <result property="parent" column="parent"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="isExpanding" column="is_expanding"/>
+	</resultMap>
+	<resultMap id="StoreCategories" type="com.wode.factory.model.StoreCategory">
+        <id property="id" column="id"/>
+        <result property="orders" column="orders"/>
+        <result property="grade" column="grade"/>
+        <result property="name" column="name"/>
+        <result property="parent" column="parent"/>
+        <result property="isExpanding" column="is_expanding"/>
+        <collection property="children" ofType="com.wode.factory.model.StoreCategory">
+            <id property="id" column="c_id"/>
+            <result property="name" column="c_name"/>
+            <result property="parent" column="c_parent"/>
+            <result property="orders" column="c_order"/>
+        </collection>
+    </resultMap>
+    <!--<resultMap id="StoreCategories" type="com.wode.factory.model.StoreCategory">
+        <id property="id" column="id"/>
+        <result property="orders" column="orders"/>
+        <result property="grade" column="grade"/>
+        <result property="name" column="name"/>
+        <result property="parent" column="parent"/>
+        <collection property="children" column="id" ofType="com.wode.factory.model.StoreCategory" select="selectChildren"/>
+    </resultMap>-->
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,orders,grade,name,parent,supplierId,createDate,updateDate,is_expanding
+	    ]]>
+	</sql>
+
+    <select id="getStoreCategoriesBySupplierId" resultMap="StoreCategories" parameterType="long">
+      select a.id id, a.name name, a.is_expanding, b.id c_id, b.name c_name from (SELECT id, name, orders, is_expanding FROM t_store_category WHERE supplierId = #{supplierId} and parent is null) a left join t_store_category b on
+      a.id = b.parent order by a.orders, b.orders
+    </select>
+
+    <select id="getProductsByStoreCategory" resultType="com.wode.factory.model.Product">
+      SELECT p.id id, p.full_name fullName, p.image, p.minprice,p.sale_kbn,p.sale_note FROM t_product p LEFT JOIN t_product_store_category c on p.id = c.product_id
+      WHERE c.store_category_id = #{id} AND is_marketable = #{isMarketable}
+    </select>
+</mapper>
+

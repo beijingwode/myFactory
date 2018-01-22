@@ -1,0 +1,95 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<div class="profile-info-row">
+		<input type="hidden" id="id" value="${sr.id}">
+		<div class="profile-info-name">发票号:</div>
+		<div class="profile-info-value">${sr.code}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">开票日期:</div>
+		<div class="profile-info-value">${sr.createDate!,dateFormat="yyyy-MM-dd" }</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">合计金额:</div>
+		<div class="profile-info-value">${sr.amount}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">收款方:</div>
+		<div class="profile-info-value">${s.comName}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">地址:</div>
+		<div class="profile-info-value">${s.comState}${s.comCity}${s.comAddress}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">邮编:</div>
+		<div class="profile-info-value">${s.comPc}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">联系人:</div>
+		<div class="profile-info-value">${sd.contacts}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">电话:</div>
+		<div class="profile-info-value">${sd.phone}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">快递公司:</div>
+		<div class="profile-info-value">
+			<select id="sendExpressType">
+				@for(item in ecs){
+					<option value="${item.id}">${item.abbreviation}</option>
+				@}
+			</select>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">运单号:</div>
+		<div class="profile-info-value">
+		<input type="text" id="sendExpressNo" maxlength="20">
+		</div>
+	</div>
+	<div class="width-100 clearfix" tag-save-btn style="bottom: 0px;left: 0px;position:absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-100  pull-left" id="submit">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>确定
+	</span>
+</div>
+<script type="text/javascript">
+
+$(function(){
+	
+	$("#submit").click(function(){
+		if($("#sendExpressNo").val()==''){
+			layer.msg('请输入运单号', 3, 1);
+		}else{
+			$.ajax({
+					dataType:'json',
+					type:'POST',
+					url:'${ctxPath}/saleBill/sendReceipt?id='+$("#id").val()+'&sendExpressType='+$("#sendExpressType").val()+'&sendExpressNo='+$("#sendExpressNo").val(),
+					contentType: 'application/json',
+					success:function(data){
+						if(data.success){
+							layer.msg('操作成功', 3, 1,function(){
+								location.reload();
+								layer.closeAll();
+							});
+						}else{
+							layer.msg('操作失败', 3, 1,function(){
+								location.reload();
+								layer.closeAll();
+							});
+						}
+					},
+					error:function() {
+						layer.msg('系统异常', 3, 1,function(){
+							location.reload();
+							layer.closeAll();
+						});
+					}
+				});
+		}
+});
+});
+</script>
+</div>
+</div>

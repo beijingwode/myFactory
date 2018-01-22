@@ -1,0 +1,135 @@
+@charset "utf-8";
+/* CSS Document */
+/*个人中心公用*/
+* { margin:0px; padding:0px; font-family:"Microsoft YaHei"; }
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, form, fieldset, input, textarea, p { padding:0; margin:0; }
+body { background:#f5f5f5; min-width:1200px; }
+fieldset, img { border:0px; }
+h1, h2, h3, h4 { font-weight:bold; font-size:100%; }
+
+li { list-style:none; }
+ul, ol, p { line-height:20px; }
+
+.clear:after { content:''; display:block; clear:both; }
+/* 字体样式 */
+body,td, input, select { font:12px Arial,"SimSun"; line-height:24px; }
+a:link { color:#434343; text-decoration:none; }
+a:visited { color:#434343; text-decoration:none; }
+a:hover { color:#ff6161; text-decoration:none; }
+
+h1 { font:18px "Microsoft YaHei"; }
+h2 { font:16px "Microsoft YaHei"; }
+h3 { font:14px "Microsoft YaHei"; }
+h4 { font:12px "Microsoft YaHei"; }
+
+.jp_product{
+	width: 160px;
+    height: 160px;
+    float: left;
+    border: 1px solid #f5f5f5;
+    }
+
+.jp_product img{width: 160px;
+    height: 160px;}
+    
+.mydd_pj_wrap .picon{width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 25px;
+    left: 147px;}
+.jp_th{margin-top:20px;}
+
+.pj_infomation .top_tit{padding:0 62px;height:30px;}
+.pj_infomation .top_tit span{height:30px;display:block;line-height:30px;float:left;font-size:16px;}
+.pj_infomation .top_tit p{height:30px;line-height:30px;float:left;color:#ff4040;}
+
+.vote_list.js_vote_list {
+    padding: 30px 62px 0 62px;
+    font-size: 14px;
+    color: #222;
+}
+.vote_list {
+    margin-top: 20px;
+    color: #222;
+}
+
+.vote_item {
+    margin-bottom: 50px;
+}
+
+.vote_item_hd {
+    padding-bottom: 5px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e7e7eb;
+}
+.vote_title {
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+}
+.vote_option {
+    margin-bottom: 30px;
+}
+.vote_option_msg {
+    margin-bottom: 7px;
+    height: auto;
+    overflow: hidden;
+}
+.vote_option_msg input {
+    float: left;
+    margin: 5px 10px 0 0;
+    cursor:pointer;
+}
+
+.vote_option_msg label {
+    float: left;
+    margin: 0px 10px 0 0;
+    cursor:pointer;
+}
+
+.vote_option_title {
+    font-weight: 400;
+    font-style: normal;
+}
+
+.tool_bar {
+    width: 100%;
+    height: 30px;
+    border-top: 1px solid #e7e7eb;
+    padding-top: 30px;
+}
+.tool_bar a {
+    width: 60px;
+    height: 35px;
+    display: block;
+    font-size:16px;
+    background: #ff4040;
+    color: #fff;
+    line-height: 35px;
+    text-align: center;
+    padding: 0 22px;
+    margin: 0 0 0 62px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.img_panel {
+    display: block;
+    float: left;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    
+}
+.img_panel .preview {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+span.bg_img {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+

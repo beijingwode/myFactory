@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" type="text/css" href="../static_resources/css/public.css" />
+<link rel="stylesheet" type="text/css" href="../static_resources/css/wx_dm.css" />
+<script type="text/javascript" src="../static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="../static_resources/js/h5_exit.js"></script>
+<script type="text/javascript" src="../cart/activityLog?app=app&url=FathersDay"></script>
+<title>我的福利</title>
+</head>
+
+<body  >
+<div class="main-cont" id="main-cont" >
+	<div class="top">
+        <h1><a href="javascript:close();" class="aleft"></a>我的福利</h1>
+    </div>
+	<div class="main_box" style="position:absolute;top:45px;left:0;">
+		<div class="main_one">
+	    	<img src="../static_resources/images/FathersDay/app_banner1.png" />
+	    	<img src="../static_resources/images/FathersDay/app_banner2.png" />	
+	    	<img src="../static_resources/images/FathersDay/app_banner3.png" /> 
+	    </div>	
+	    <div class="tit"><img src="../static_resources/images/FathersDay/app_tit1.png" /></div>    									
+	    <div class="main_three">
+	    	<a href="http://wd-w.com/2188966791317382.html"><img src="../static_resources/images/FathersDay/app_main_pic1.png" /></a>	
+	    </div>
+	    <div class="main_four">
+	    	<a href="http://wd-w.com/2217457943447456.html"><img src="../static_resources/images/FathersDay/app_main_pic2.png" /></a>
+	    	<a href="http://wd-w.com/2075316873889377.html"><img src="../static_resources/images/FathersDay/app_main_pic3.png" /></a>
+	    	<a href="http://wd-w.com/1195716547609621.html"><img src="../static_resources/images/FathersDay/app_main_pic4.png" /></a>
+	    </div>
+        <div class="tit"><img src="../static_resources/images/FathersDay/app_tit2.png" /></div>    									
+	    <div class="main_two">
+	    	<a href="http://wd-w.com/2134931048302011.html"><img src="../static_resources/images/FathersDay/app_main_pic5.png" /></a>
+            <a href="http://wd-w.com/1878062204028168.html"><img src="../static_resources/images/FathersDay/app_main_pic6.png" /></a>
+            <a href="http://wd-w.com/2313996952012097.html"><img src="../static_resources/images/FathersDay/app_main_pic8.png" /></a>
+            <a href="http://wd-w.com/2216973312165211.html"><img src="../static_resources/images/FathersDay/app_main_pic9.png" /></a>	
+	    </div>
+        <div class="tit"><img src="../static_resources/images/FathersDay/app_tit3.png" /></div>    									
+	    <div class="main_two">
+	    	<a href="http://wd-w.com/1198318071907733.html"><img src="../static_resources/images/FathersDay/app_main_pic10.png" /></a>
+            <a href="http://wd-w.com/2135186554652504.html"><img src="../static_resources/images/FathersDay/app_main_pic11.png" /></a>
+            <a href="http://wd-w.com/1434166053537732.html"><img src="../static_resources/images/FathersDay/app_main_pic12.png" /></a>
+            <a href="http://wd-w.com/1869418050848328.html"><img src="../static_resources/images/FathersDay/app_main_pic13.png" /></a>	
+	    </div>
+        <div class="tit"><img src="../static_resources/images/FathersDay/app_tit4.png" /></div>    									
+	    <div class="main_two">
+	    	<a href="http://wd-w.com/2232077672613613.html"><img src="../static_resources/images/FathersDay/app_main_pic14.png" /></a>
+            <a href="http://wd-w.com/1478524230174712.html"><img src="../static_resources/images/FathersDay/app_main_pic15.png" /></a>
+            <a href="http://wd-w.com/2285969489954419.html"><img src="../static_resources/images/FathersDay/app_main_pic16.png" /></a>
+            <a href="http://wd-w.com/2135056707586007.html"><img src="../static_resources/images/FathersDay/app_main_pic17.png" /></a>	
+	    </div>
+        
+	    <div class="main_three"><img src="../static_resources/images/FathersDay/app_footer1.png" /></div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	if(isWeiXinH5()) {
+		$(".top").hide();
+		$(".main_box").css("top","0");
+		
+	    $("a").each(function(i){
+	    	var href = $(this).attr("href");
+	    	if(href.length>21) {
+	    		href =href.substring(16,href.length-5);
+	   			href = "http://api.wd-w.com/productm?productId=" + href;
+	   			
+	   			$(this).attr("href",href);
+            }
+	    });
+	}
+});
+</script>
+</body>
+</html>

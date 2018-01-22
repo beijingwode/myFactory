@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.ProductTrialLimitGroupDao">
+
+    <resultMap id="ProductTrialLimitGroup" type="com.wode.factory.model.ProductTrialLimitGroup">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="remark" column="remark"/>
+        <result property="operatorId" column="operatorId"/>
+        <result property="operator" column="operator"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="limitStart" column="limit_start"/>
+        <result property="limitEnd" column="limit_end"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,name,remark,operatorId,operator,update_time,limit_start,limit_end,status
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_trial_limit_group (
+            id ,
+            name ,
+            remark ,
+            operatorId,
+            operator ,
+            update_time,
+            limit_start,
+            limit_end,
+            status
+        ) VALUES (
+            #{id} ,
+            #{name} ,
+            #{remark} ,
+            #{operatorId},
+            #{operator} ,
+            #{updateTime},
+            #{limitStart},
+            #{limitEnd},
+            #{status}
+        )
+    ]]>
+    </insert>
+    
+    <update id="updateStatus" >
+    <![CDATA[
+        UPDATE t_product_trial_limit_group SET            
+            status = #{status} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+    <update id="editGroupMsg" >
+    <![CDATA[
+        UPDATE t_product_trial_limit_group SET            
+            name = #{name} ,
+            remark = #{remark} ,
+            operatorId = #{operatorId} ,
+            operator = #{operator} ,
+            update_time = #{updateTime}, 
+            limit_start = #{limitStart}, 
+            limit_end = #{limitEnd}, 
+            status = #{status} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+    
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_product_trial_limit_group SET            
+            name = #{name} ,
+            remark = #{remark} ,
+            operatorId = #{operatorId} ,
+            operator = #{operator} ,
+            update_time = #{updateTime}, 
+            limit_start = #{limitStart}, 
+            limit_end = #{limitEnd}, 
+            status = #{status} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_product_trial_limit_group WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <update id="updateGroupStatus">
+    update t_product_trial_limit_group set status = -2 where limit_end &lt; SYSDATE() and status != -2
+    </update>
+    
+    <!-- 查询指定商品是否存在于有效分组中 -->
+    <select id="findGroupIsExsit" resultType="java.lang.Integer">
+    select count(*) from t_product_trial_limit_group lg inner join t_product_trial_limit_item ti on lg.id=ti.groupid 
+   		where lg.status = 0 AND lg.limit_start &lt;= SYSDATE() AND lg.limit_end >= SYSDATE()
+	     <if test="@Ognl@isNotEmpty(productId)">
+         AND ti.productid = #{productId}
+         </if>
+	     <if test="@Ognl@isNotEmpty(groupId)">
+         AND lg.id != #{groupId}
+         </if>
+    </select>
+    
+    <select id="getGroupManageListByMap" resultType="com.wode.factory.model.ProductTrialLimitGroup">
+        select g.id id,g.name name,g.remark remark,g.operatorId operatorId,g.operator operator,g.update_time updateTime,
+        g.limit_start limitStart,g.limit_end limitEnd,g.status status,s.totalCount productCount 
+         from t_product_trial_limit_group g LEFT JOIN
+		(select count(*) totalCount,groupid from t_product_trial_limit_item li 
+		left join (select id from t_product_trial_limit_group)lg on li.groupid = lg.id 
+		group by lg.id) s on g.id=s.groupid
+            WHERE 1=1
+             <if test="@Ognl@isNotEmpty(operatorId)">
+                AND g.operatorId = #{operatorId}
+            </if>
+             <if test="@Ognl@isNotEmpty(id)">
+                AND g.id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(name)">
+                AND g.name like CONCAT(CONCAT('%',#{name}),'%')
+            </if>
+            order by g.update_time desc
+    </select>
+    
+    <select id="getGroupById" resultMap="ProductTrialLimitGroup">
+        SELECT <include refid="columns" />
+            FROM t_product_trial_limit_group lg
+            where lg.status = 0 AND lg.limit_start &lt;= SYSDATE() AND lg.limit_end >= SYSDATE() AND lg.id=#{groupId}
+    </select>
+    
+    <select id="getById" resultMap="ProductTrialLimitGroup">
+        SELECT <include refid="columns" />
+            FROM t_product_trial_limit_group lg
+            where lg.id=#{id}
+    </select>
+    
+    <select id="findGroupOperatorList" resultMap="ProductTrialLimitGroup">
+     SELECT DISTINCT(operatorId),operator FROM t_product_trial_limit_group 
+    </select>
+
+    <select id="selectByModel" resultMap="ProductTrialLimitGroup">
+        SELECT <include refid="columns" /> FROM t_product_trial_limit_group 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(name)">
+                AND name = #{name}
+            </if>
+           <if test="@Ognl@isNotEmpty(remark)">
+                AND remark = #{remark}
+            </if>
+           <if test="@Ognl@isNotEmpty(operatorId)">
+                AND operatorId = #{operatorId}
+            </if>
+           <if test="@Ognl@isNotEmpty(operator)">
+                AND operator = #{operator}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND update_time = #{updateTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitStart)">
+                AND limit_start = #{limitStart}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitEnd)">
+                AND limit_end = #{limitEnd}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

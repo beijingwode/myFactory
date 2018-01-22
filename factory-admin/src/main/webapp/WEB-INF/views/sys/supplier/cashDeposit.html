@@ -1,0 +1,62 @@
+<div class="layer">
+	<input type="hidden" id="id" value="${id}">
+	<table id="cashDepositTable"
+		class="table table-striped table-bordered table-hover nomargin-bottom">
+		<thead>
+			<tr>
+				<th class="center">金额</th>
+				<th class="center">操作</th>
+			</tr>
+		<tbody>
+			<tr class="attrValue_class">
+				<td class="center">
+					<input type="text" id="cashDeposit" value="${cashDeposit}" style="width: 100%" />
+				</td>
+				<td class="center">
+					<div>
+						<label>状态：</label>
+						<#select id="type" name="type" width="35%">
+							<option value="0">补充</option>
+							<option value="1">扣除</option>
+							<option value="2">退还</option>
+						</#select>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="width-100 clearfix" tag-save-btn
+	style="bottom: 0px; left: 0px; position: absolute;">
+	<span id="speVal_submit" onclick="setCashDeposit()" class="btn btn-primary btn-sm bigger-110 width-100  pull-left">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i> 确定
+	</span>
+</div>
+<script type="text/javascript">
+
+function setCashDeposit(){
+	
+	$.ajax({
+
+		type: "post",
+		data:{
+				cashDeposit:$("#cashDeposit").val(),
+				type:$("#type").val(),
+				id:$("#id").val()
+			},
+		url: "${ctxPath}/supplierList/setCashDeposit",
+		dataType: "json",
+		success: function(data, textStatus){
+			//刷新页面
+			location.reload();
+		},
+		error: function(){
+
+		}
+		})
+}
+
+$(document).ready(function() {
+	
+});
+</script>

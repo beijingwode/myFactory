@@ -1,0 +1,139 @@
+@charset "utf-8";
+/* CSS Document */
+
+.thickdiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000001;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    border: 0;
+    filter: alpha(opacity = 15);
+    opacity: .15;
+	display:none;
+    } 
+	
+
+.thickbox {
+	width: 924px;
+    height: 500px;
+    position: fixed;
+	left: 50%;
+    top: 50%;
+	margin:-250px 0 0 -462px;
+    z-index: 10000002;
+    overflow: hidden;
+    padding: 0;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;	
+	background:#fff;
+	display:none;
+}
+.thickbox .thicktitle {
+    padding: 0 10px;
+    text-align: left;
+}
+.thicktitle {
+	width: 922;
+    height: 27px;
+    padding: 0 10px;
+    border: solid #C4C4C4;
+    border-width: 1px 1px 0;
+    background: #F3F3F3;
+    line-height: 27px;
+    font-family: arial, "\5b8b\4f53";
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}	
+	
+.thickclose:link, .thickclose:visited {
+    display: block;
+    position: absolute;
+    z-index: 100000;
+    top: 7px;
+    right: 12px;
+    overflow: hidden;
+    width: 15px;
+    height: 15px;
+    background: url(http://misc.360buyimg.com/201007/skin/df/i/bg_thickbox.gif) no-repeat 0 -18px;
+    font-size: 0;
+    line-height: 100px;
+}
+.thickclose:link, .thickclose:visited {
+    display: block;
+    position: absolute;
+    z-index: 100000;
+    top: 7px;
+    right: 12px;
+    overflow: hidden;
+    width: 15px;
+    height: 15px;
+    background: url(http://misc.360buyimg.com/201007/skin/df/i/bg_thickbox.gif) no-repeat 0 -18px;
+    font-size: 0;
+    line-height: 100px;
+}
+a:link, a:visited {
+    color: #333;
+    text-decoration: none;
+}
+a:link, a:visited {
+    color: #333;
+    text-decoration: none;
+}	
+	
+.thickcon {
+	width: 902px;
+    height: 450px;
+    padding-left: 0px;
+    padding-right: 0px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    overflow: auto;
+    background: #fff;
+    border: solid #C4C4C4;
+    border-width: 1px;
+    padding: 10px;
+}	
+	
+.protocol-con {
+    height: 356px;
+    overflow: auto;
+    padding: 10px 20px 0 10px;
+}	
+
+.btnt {
+    width: 322px;
+    margin: 20px auto 0;
+}
+.btnt .btn-img {
+    width: 322px;
+    height: 34px;
+    line-heiht: 34px;
+    background: #e4393c;
+    color: #FFF;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    font-family: "微软雅黑";
+    font-size: 16px;
+    font-weight: 800;
+	border:none;
+	cursor:pointer;
+	text-align:center;
+}
+	
+.thickcon h2,.thickcon h4{height:40px;width:872px;line-height:40px;text-align:center;font-weight:bold;}
+.thickcon h4{font-size:14px;}
+.thickcon p {margin:10px 0;font-size:12px;line-height:22px;}
+.thickcon p span{font-weight:bold;font-size:12px;}	
+	
+	
+	
+	
+	
+	

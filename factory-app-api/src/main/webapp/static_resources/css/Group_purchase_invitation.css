@@ -1,0 +1,27 @@
+@charset "utf-8";
+/* CSS Document */
+body{background:#eff1f3}
+.main-box{width:80%;height:auto;overflow:hidden;padding: 0 10% 22px 10%;}
+.main-box .p1{margin-top:35px;width:100%;height:auto;}
+.main-box .p2{height:28px;margin-top:12px;font-size:1.8em;text-align:center;}
+.main-box .p2 span{color:#c22936;margin-right:3px;}
+.main-box dl{width:100%;height:auto;background:#fff;margin:0 auto;margin-top:14px;position:relative;}
+.main-box dl span{width:90%;height:32px;display:block;line-height:32px;font-size:1.4em;background:#fafafa;padding:0 5%;color:#797979;}
+.main-box dl dt{width:90%;padding:5%;}
+.main-box dl dt img{width:100%;border:1px solid #000}
+.main-box dl .dd_box{width:70%;height:auto;padding:5%;background:#fff;position:absolute;bottom:-50px;left:50%;margin-left:-40%;}
+.main-box dl .dd1{height:36px;overflow:hidden;font-size:1.5em;color:#333333;line-height:18px;}
+.main-box dl .dd2{font-size:1.4em;color:#797979;line-height:24px;text-decoration:line-through}
+.main-box dl .dd3{color:#c22936;font-size:1.3em;}
+.main-box dl .dd3 em{font-size:1.8em;}
+
+.main-box .p3{width:100%;margin-top:90px;}
+.ewm_box{width:40%;height:auto;overflow:hidden;margin:0 auto;margin-top:13px;border:1px solid #3d3d3e}
+
+.main-box .p4{width:100%;text-align:center;color:#fe6448;margin-top:7px;text-shadow:none;}
+
+
+
+
+
+

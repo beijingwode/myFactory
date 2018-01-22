@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.StatisticalManagerResultDao">
+
+    <resultMap id="StatisticalManagerResult" type="com.wode.factory.model.StatisticalManagerResult">
+        <result property="id" column="id"/>
+        <result property="month" column="month"/>
+        <result property="createTime" column="create_time"/>
+        <result property="managerId" column="manager_id"/>
+        <result property="empOrderCnt" column="emp_order_cnt"/>
+        <result property="empOrderAmount" column="emp_order_amount"/>
+        <result property="exchangeAmount" column="exchange_amount"/>
+        <result property="trailAmount" column="trail_amount"/>
+        <result property="birthDayCnt" column="birth_day_cnt"/>
+        <result property="birthDayAmount" column="birth_day_amount"/>
+        <result property="festivalCnt" column="festival_cnt"/>
+        <result property="festivalAmount" column="festival_amount"/>
+        <result property="orderCnt" column="order_cnt"/>
+        <result property="orderAmount" column="order_amount"/>
+        <result property="orderShipping" column="order_shipping"/>
+        <result property="supplierOrderCnt" column="supplier_order_cnt"/>
+        <result property="supplierOrderAmount" column="supplier_order_amount"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,month,create_time,manager_id,emp_order_cnt,emp_order_amount,exchange_amount,trail_amount,birth_day_cnt,birth_day_amount,festival_cnt,festival_amount,order_cnt,order_amount,order_shipping,supplier_order_cnt,supplier_order_amount
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_statistical_manager_result (
+            month ,
+            create_time ,
+            manager_id ,
+            emp_order_cnt ,
+            emp_order_amount ,
+            exchange_amount ,
+            trail_amount ,
+            birth_day_cnt ,
+            birth_day_amount ,
+            festival_cnt ,
+            festival_amount ,
+            order_cnt ,
+            order_amount ,
+            order_shipping ,
+            supplier_order_cnt ,
+            supplier_order_amount
+        ) VALUES (
+            #{month} ,
+            #{createTime} ,
+            #{managerId} ,
+            #{empOrderCnt} ,
+            #{empOrderAmount} ,
+            #{exchangeAmount} ,
+            #{trailAmount} ,
+            #{birthDayCnt} ,
+            #{birthDayAmount} ,
+            #{festivalCnt} ,
+            #{festivalAmount} ,
+            #{orderCnt} ,
+            #{orderAmount} ,
+            #{orderShipping} ,
+            #{supplierOrderCnt} ,
+            #{supplierOrderAmount}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_statistical_manager_result SET            
+            month = #{month} ,
+            create_time = #{createTime} ,
+            manager_id = #{managerId} ,
+            emp_order_cnt = #{empOrderCnt} ,
+            emp_order_amount = #{empOrderAmount} ,
+            exchange_amount = #{exchangeAmount} ,
+            trail_amount = #{trailAmount} ,
+            birth_day_cnt = #{birthDayCnt} ,
+            birth_day_amount = #{birthDayAmount} ,
+            festival_cnt = #{festivalCnt} ,
+            festival_amount = #{festivalAmount} ,
+            order_cnt = #{orderCnt} ,
+            order_amount = #{orderAmount} ,
+            order_shipping = #{orderShipping} ,
+            supplier_order_cnt = #{supplierOrderCnt} ,
+            supplier_order_amount = #{supplierOrderAmount} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_statistical_manager_result WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="StatisticalManagerResult">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_statistical_manager_result 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="StatisticalManagerResult">
+        SELECT <include refid="columns" /> FROM t_statistical_manager_result 
+        <include refid="find_where"/>
+        <if test="@Ognl@isNotEmpty(sort)">
+			ORDER BY ${sort}
+		</if>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(month)">
+				AND month like CONCAT(#{month},'%')
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerId)">
+                AND manager_id = #{managerId}
+            </if>
+           <if test="@Ognl@isNotEmpty(empOrderCnt)">
+                AND emp_order_cnt = #{empOrderCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(empOrderAmount)">
+                AND emp_order_amount = #{empOrderAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(exchangeAmount)">
+                AND exchange_amount = #{exchangeAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(trailAmount)">
+                AND trail_amount = #{trailAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(birthDayCnt)">
+                AND birth_day_cnt = #{birthDayCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(birthDayAmount)">
+                AND birth_day_amount = #{birthDayAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(festivalCnt)">
+                AND festival_cnt = #{festivalCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(festivalAmount)">
+                AND festival_amount = #{festivalAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(orderCnt)">
+                AND order_cnt = #{orderCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(orderAmount)">
+                AND order_amount = #{orderAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(orderShipping)">
+                AND order_shipping = #{orderShipping}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierOrderCnt)">
+                AND supplier_order_cnt = #{supplierOrderCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierOrderAmount)">
+                AND supplier_order_amount = #{supplierOrderAmount}
+            </if>
+        </where>
+    </sql>
+</mapper>

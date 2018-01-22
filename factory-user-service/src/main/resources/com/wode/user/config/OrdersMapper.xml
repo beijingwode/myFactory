@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="OrdersMapper">
+
+	<resultMap id="Orders" type="com.wode.factory.model.Orders">
+        <result property="orderId" column="orderId"/>
+        <result property="userId" column="userId"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="mobile" column="mobile"/>
+        <result property="address" column="address"/>
+        <result property="totalProduct" column="totalProduct"/>
+        <result property="totalShipping" column="totalShipping"/>
+        <result property="totalAdjustment" column="totalAdjustment"/>
+        <result property="realPrice" column="realPrice"/>
+        <result property="status" column="status"/>
+        <result property="invoiceTitle" column="invoiceTitle"/>
+        <result property="note" column="note"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="selfDelivery" column="self_delivery"/>
+        <result property="invoiceId" column="invoiceId"/>
+	</resultMap>
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		orderId,userId,name,phone,mobile,address,totalProduct,totalShipping,totalAdjustment,realPrice,status,invoiceTitle,
+		note,createTime,updateTime,updateBy,self_delivery,invoiceId
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="orderId">
+    <![CDATA[
+        INSERT INTO t_orders (
+        	orderId ,
+        	userId ,
+        	name ,
+        	phone ,
+        	mobile ,
+        	address ,
+        	totalProduct ,
+        	totalShipping ,
+        	totalAdjustment ,
+        	realPrice ,
+        	status ,
+        	invoiceTitle ,
+        	note ,
+        	createTime ,
+        	updateTime ,
+        	updateBy ,
+        	self_delivery,
+        	invoiceId
+        ) VALUES (
+        	#{orderId} ,
+        	#{userId} ,
+        	#{name} ,
+        	#{phone} ,
+        	#{mobile} ,
+        	#{address} ,
+        	#{totalProduct} ,
+        	#{totalShipping} ,
+        	#{totalAdjustment} ,
+        	#{realPrice} ,
+        	#{status} ,
+        	#{invoiceTitle} ,
+        	#{note} ,
+        	#{createTime} ,
+        	#{updateTime} ,
+        	#{updateBy} ,
+        	#{selfDelivery},
+        	#{invoiceId}
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_orders SET
+	        userId = #{userId} ,
+	        name = #{name} ,
+	        phone = #{phone} ,
+	        mobile = #{mobile} ,
+	        address = #{address} ,
+	        totalProduct = #{totalProduct} ,
+	        totalShipping = #{totalShipping} ,
+	        totalAdjustment = #{totalAdjustment} ,
+	        realPrice = #{realPrice} ,
+	        status = #{status} ,
+	        invoiceTitle = #{invoiceTitle} ,
+	        note = #{note} ,
+	        createTime = #{createTime} ,
+	        updateTime = #{updateTime} ,
+	        updateBy = #{updateBy}  ,
+	        self_delivery = #{selfDelivery},
+	        invoiceId = #{invoiceId}
+        WHERE 
+	        orderId = #{orderId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_orders WHERE
+        orderId = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="Orders">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_orders 
+	        WHERE 
+		        orderId = #{id} 
+	    ]]>
+	</select>
+	<select id="queryOrder" resultMap="Orders" parameterType="com.wode.common.frame.base.BaseQuery">
+		SELECT <include refid="columns" />
+		    FROM t_orders 
+	        WHERE 1=1
+		     <if test="@Ognl@isNotEmpty(orderId)">
+				AND orderId = #{orderId}
+			</if>
+		    <if test="@Ognl@isNotEmpty(userId)">
+				AND userId = #{userId}
+			</if>
+	</select>
+	
+    <select id="findBoughtCount" resultType="Integer">
+        SELECT count(1) FROM t_orders
+         WHERE userId = #{userId} 
+           AND EXISTS (
+         	select 1 FROM t_suborderitem soi
+         	WHERE soi.order_id= t_orders.orderId AND soi.sale_kbn=4
+          	<if test="@Ognl@isNotEmpty(productId)">
+          		AND soi.productId=#{productId}
+         	</if>
+         )
+    </select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_orders 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="Orders">
+    	SELECT <include refid="columns" />
+	    FROM t_orders 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(orderId)">
+				AND orderId = #{orderId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(userId)">
+				AND userId = #{userId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(name)">
+				AND name = #{name}
+			</if>
+	       <if test="@Ognl@isNotEmpty(phone)">
+				AND phone = #{phone}
+			</if>
+	       <if test="@Ognl@isNotEmpty(mobile)">
+				AND mobile = #{mobile}
+			</if>
+	       <if test="@Ognl@isNotEmpty(address)">
+				AND address = #{address}
+			</if>
+	       <if test="@Ognl@isNotEmpty(totalProduct)">
+				AND totalProduct = #{totalProduct}
+			</if>
+	       <if test="@Ognl@isNotEmpty(totalShipping)">
+				AND totalShipping = #{totalShipping}
+			</if>
+	       <if test="@Ognl@isNotEmpty(totalAdjustment)">
+				AND totalAdjustment = #{totalAdjustment}
+			</if>
+	       <if test="@Ognl@isNotEmpty(realPrice)">
+				AND realPrice = #{realPrice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(invoiceTitle)">
+				AND invoiceTitle = #{invoiceTitle}
+			</if>
+	       <if test="@Ognl@isNotEmpty(note)">
+				AND note = #{note}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createTimeBegin)">
+				AND createTime >= #{createTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createTimeEnd)">
+				AND createTime &lt;= #{createTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+				AND updateTime >= #{updateTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+				AND updateTime &lt;= #{updateTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateBy)">
+				AND updateBy = #{updateBy}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
+

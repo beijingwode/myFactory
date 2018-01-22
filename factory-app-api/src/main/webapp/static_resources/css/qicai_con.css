@@ -1,0 +1,60 @@
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, iframe,h1, h2, h3, h4, h5, h6,p,pre,a,del, em, font, ins, q, s, samp,dl, dt, dd, ol, ul, li, form,label, legend, caption,textarea, tbody{ margin:0; padding:0; }
+
+body{font-size:62.5%;font-family:Arial, 'Microsoft YaHei', sans-serif;  width:100%;background:#f3f3f3;}
+
+ol,ul,li {	list-style: none; }
+
+blockquote:before, blockquote:after,q:before, q:after {	content: ""; }
+
+blockquote, q { quotes: "" ""; }
+
+a img {	border: 0; }
+
+article, aside, details, figcaption, figure,
+
+footer, header, hgroup, menu, nav, section { display: block; }
+
+h1,h2,h3,h4,h5,h6{font-weight:700}
+
+strong{font-weight:700}
+
+cite,em{font-style:normal}
+
+i{font-style:italic}
+
+img,objiect{ max-width:100%;vertical-align:middle/* 此样式会控制前端图片属性所以去掉*/ }
+
+a { text-decoration:none;border:none;-webkit-tap-highlight-color:transparent;outline:none;-webkit-touch-callout: none;-webkit-user-select: none; }
+a:focus {outline:none; -moz-outline:none}
+input,textarea{ outline:none; resize:none;-webkit-appearance:none;}
+@font-face{font-family: myFirstFont;src:url('font/hyqihei-45s_0-webfont.ttf'),url('font/hyqihei-45s_0-webfont.eot');}
+
+.main-cont .top .qicai_h1{color:#333333}
+.qicai_main_box{position:absolute;top:45px;left:0;}
+.qicai_con{width:100%;height:auto;overflow:hidden;padding-bottom:30px;}
+.qicai_con ul{width:101%;height:auto;margin-left:-1%;}
+.qicai_con ul li{width:49.5%;float:left;background:#fff;margin:0 0 1px 0.5%;padding:10px 0;}
+.qicai_con ul li a{width:100%;height:auto;display:block;}
+.qicai_con ul li a dl{width:90%;padding:0 5%;}
+.qicai_con ul li a dl dt{width:100%;text-align:center;}
+.qicai_con ul li a dl dd{width:100%;}
+.qicai_con ul li a dl .dd1{height:20px;margin-top:15px;font-size:1.6em;color:#333333;}
+.qicai_con ul li a dl .dd2{line-height:20px;height:40px;overflow:hidden;font-size:1.6em;color:#999999;margin-top:5px;}
+.qicai_con ul li a dl .dd3{height:20px;margin-top:8px;}
+.qicai_con ul li a dl .dd3 span{height:20px;display:block;line-height:20px;float:left;font-size:1.8em;color:#c22936;}
+.qicai_con ul li a dl .dd3 em{height:20px;display:block;line-height:20px;float:right;font-size:1.6em;color:#999999;}
+
+@media screen  and (min-width:320px){
+	.qicai_con ul li a dl dt img{height:144px;}
+ }
+ @media screen  and (min-width:375px){
+	.qicai_con ul li a dl dt img{height:168px;}
+ }
+@media screen  and (min-width:414px){
+	.qicai_con ul li a dl dt img{height:186px;}
+ }
+
+
+

@@ -1,0 +1,147 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<div class="profile-info-row">
+		<div class="profile-info-name">企业</div>
+		<div class="profile-info-value">
+			<select id="acticityId" width="45%" onchange="getEnterpriseName()">
+				@for(item in acticityList){
+					<option value="${item.id! },${item.enterpriseName! }">${item.eventTitle! }</option>
+				 @}
+			</select> 
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name" style="height: 63px">企业名称</div>
+		<div class="profile-info-value">
+			<input type="text" style="width:50%" id="enterpriseName" readonly="readonly" value=""><font color="red">*</font>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			奖品等级
+		</div>
+		<div class="profile-info-value">
+				<select id="prizeGrade" width="45%">
+					<option value="0">0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name" style="height: 63px">等级名称</div>
+		<div class="profile-info-value">
+			<input type="text" style="width:50%" id="gradeName" value=""><font color="red">*</font>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name" style="height: 63px">奖品名称</div>
+		<div class="profile-info-value">
+			<input type="text" style="width:50%" id="prizeName" value=""><font color="red">*</font>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">奖品图片</div>
+		<div class="profile-info-value">
+				<img width="96px" id="firmlogo" height="96px" name="type" src="">
+				<input type="hidden" value="" class="heddenImg" id="image"/>
+				<input type="file" name="type" id="uploadFile" />
+				<input type="button" value="上传" onclick="pageDataUpdateUploadImg()"/>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">总数<br/></div>
+		<div class="profile-info-value">			
+			<input type="text" id="number" style="width:50%" value=""><font color="red">*</font>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">备注<br/></div>
+		<div class="profile-info-value">
+			<textarea rows="5" cols="80" id="note"></textarea>
+		</div>
+	</div>
+</div>
+<div class="width-100 clearfix" tag-save-btn style="bottom: 0px;left: 0px;position:absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-100  pull-left"  onclick="ajaxSave()" id="submit">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>保存
+	</span>
+</div>
+</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script type="text/javascript" src="${ctxPath!}/static/js/manageUploadImg.js"></script>
+<script type="text/javascript" src="${ctxPath!}/static/js/ajaxfileupload.js"></script>
+<script type="text/javascript">
+$("#role-select").chosen({width: "80%",search_contains: true});
+$(document).ready(function(){ 
+	getEnterpriseName();
+}) 
+function getEnterpriseName(){
+	var enterpriseName = $("#acticityId").val();
+	enterpriseName = enterpriseName.substring(enterpriseName.indexOf(",")+1,enterpriseName.length);
+	$("#enterpriseName").val(enterpriseName);
+}
+
+function ajaxSave(){
+	var prizeGrade = $("#prizeGrade").val();
+	var gradeName = $("#gradeName").val();
+	var prizeName = $("#prizeName").val();
+	var enterpriseName = $("#enterpriseName").val();
+	var acticityId = $("#acticityId").val();
+	acticityId = acticityId.substring(0,acticityId.indexOf(","));
+	var number = $("#number").val();
+	var note = $("#note").val();
+	if(acticityId==''){
+		alert("请选择活动");
+		return
+	}
+	if(prizeGrade==''){
+		alert("请选择等级");
+		return
+	}
+	if(gradeName==''){
+		alert("等级名称不能为空");
+		return
+	}
+	if(enterpriseName == ''){
+		alert("企业名称不能为空");
+		return
+	}
+	if(number==''){
+		alert("数量不能为空");
+		return
+	}
+	var startDate = $("#startDate").val();
+	$.ajax({
+		type: "post",
+		data:{"prizeGrade":prizeGrade,"gradeName":gradeName,"enterpriseName":enterpriseName,"prizeName":prizeName,"acticityId":acticityId,"image":$("#image").val(),"number":number,"note":note},
+		url: "${ctxPath}/acticity/addPrizeMsg",
+		success:function(data){
+			if(data.success){
+				var pageNo = 1;
+				//刷新页面
+				paging('search-form',pageNo);
+				layer.closeAll();
+			}else{
+				alert("系统错误");
+			}
+		},
+		error: function(){
+			alert("error")
+		}
+	})
+}
+function pageDataUpdateUploadImg() {
+if($("#uploadFile").val() == ""){
+	alert("请选择上传的图片！")
+}else{ 
+	uploadImg($("#p_updateAppImg"),"uploadFile","${ctxPath}/cmsPage/upload/pic");
+}
+
+}
+</script>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/public.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/sales_return.css" />
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="static_resources/js/h5_exit.js"></script>
+<title>填写退货物流信息</title>
+</head>
+
+<body>
+<div class="main-cont" id="main-cont" >
+	<div class="top">
+        <h1><a href="javascript:close();" class="aleft"></a>填写退货物流信息</h1>
+    </div>
+	<div class="main_box" style="position:absolute;top:45px;left:0;">
+			<div class="return_hit">
+				<img src="static_resources/images/tuikuan_agree.png" />
+				<p>商家同意了您的退货申请，请您发回商品填写物流信息后提交</p>
+			</div>	
+			<div class="refusal_box"><span>拒绝理由</span><p>临期商品，退货后无法销售临期商品，退货后无法销售临期商品，退货后无法销售临期商品，退货后无法销售临期商品，退货后无法销售</p></div>
+			<div class="logistics">
+				<ul>
+					<li class="li1"><span>退回地址</span><p>啊刚开会大辉哥冷热号个人和格里芬滑过后喇磕好几个了还是给</p></li>
+					<li class="li2"><span><i>*</i>物流公司</span><a href="javascript:;">请选择</a></li>
+					<li class="li3"><span><i>*</i>快递单号</span><input type="text" value="" placeholder="请输入快递单号"></li>
+					<li class="li4"><span>查看退货物流</span><a href="javascript:;">点击查看</a></li>
+				</ul>
+			</div>
+			<div class="logistics details_refund">
+				<ul>
+					<li><span>退款类型</span><p>退货退款</p></li>
+					<li><span>退款金额</span><p>￥0.40</p></li>
+					<li><span>申请退款时间</span><p>2017-07-05 11:38:52</p></li>
+					<li><span>退款原因</span><p>商品错发/漏发</p></li>
+					<li class="li3"><span>退款说明</span><p>啊刚开会大辉哥冷热号个人和格里芬滑过后喇磕好几个了还是给</p></li>
+				</ul>
+			</div>
+			<div class="btns"><a href="javascript:;">修改申请</a><a href="javascript:;">联系平台介入</a><a href="javascript:;">取消</a></div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	if(isWeiXinH5()) {
+		$(".top").hide();
+		$(".main_box").css("top","0");
+	}
+});
+</script>
+</body>
+</html>

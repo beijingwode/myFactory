@@ -1,0 +1,64 @@
+@charset "utf-8";
+/* CSS Document */
+body{background:#eff1f3}
+.main-box{width:100%;height:auto;overflow:hidden;}
+/*添加临时商家*/
+.main-box .add_ul{width:92%;margin:0 4%;}
+.main-box .add_ul li{width:100%;padding-top:20px;}
+.main-box .add_ul li span{width:100%;height:auto;font-size:1.3em;color:#333;}
+.main-box .add_ul li span em{color:#c22936;font-size:1.4em;padding-left:2px;}
+.main-box .add_ul li input{width:98%;height:34px;font-size:1.3em;border:none;background:#f4f3f9;border-radius:2px;margin-top:12px;padding-left:2%}
+.add_btn{width:84%;height:40px;margin:20px 8% 0 8%}
+.add_btn a{width:100%;height:40px;display:block;text-align:center;line-height:40px;background:#c22936;color:#fff;font-size:1.6em;border-radius:4px;}
+.ts_p{width:92%;height:40px;line-height:40px;color:#797979;font-size:1.3em;margin:0 4%;}
+
+/*商家二维码*/
+.searchbox{width:92%;height:42px;padding:8px 4% 0 4%;background:#fff;position:fixed;top:0;left:0;z-index:9}
+.search_inp{width:86%;height:32px;float:left;background:#fff url(../images/icon_search.png) no-repeat 4% center;border:1px solid #e8e8e8;background-size:18px 18px;  border-radius:5px;}
+.search_inp input{width:82%;height:32px;margin-left:14%;font-size:1.4em;border:none;background:none;line-height:32px;}
+.search_btn{width:10%;height:34px;float:left;margin-left:3%;}
+.search_btn a{width:100%;height:34px;display:block;line-height:34px;text-align:center;font-size:1.4em;color:#818181;}
+
+.company_name{width:100%;height:auto;overflow:hidden;padding-bottom:60px;}
+.company_name li{width:100%;height:50px;border-bottom:1px solid #E1E1E6;position:relative;background:#fff;}
+.company_name li:last-child{border-bottom:none;}
+.company_name li span{width:35px;height:35px;display:block;position:absolute;top:0;left:0;}
+.company_name li a{width:92%;height:50px;display:block;padding:0 4%;line-height:50px;font-size:1.4em;color:#333}
+
+.add_bus_btn{height:42px;width:98%;background:#fff;position:fixed;bottom:0;left:0;padding:4px 1%;border-top:1px solid #E1E1E6}
+.add_bus_btn a{height:42px;width:100%;display:block;background:#c22936;text-align:center;line-height:42px;font-size:1.8em;color:#fff;}
+
+/*二维码*/
+.code_mess{width:92%;margin:0 4%;}
+.code_mess li{width:100%;height:auto;padding-top:12px;font-size:1.3em;color:#333;}
+.code_mess .li3{font-size:1.2em;color:#797979;padding-top:20px;}
+.code_mess .li4{padding-top:8px;}
+.code_mess .li4 a{font-size:0.8em;color:#576B95;}
+.code_mess .li5{padding-top:20px;}
+
+.code_box{width:64%;height:auto;overflow:hidden;margin:42px 18%;}
+.bottom_btn{width:86%;height:40px;margin:0 7%;}
+.bottom_btn a{width:128px;height:38px;display:block;text-align:center;line-height:38px;font-size:1.6em;border-radius:4px;}
+.bottom_btn .btn1{float:left;color:#333;background:#f5f5f5;border:1px solid #d3d3d3;}
+.bottom_btn .btn2{float:right;color:#fff;background:#c22936;border:1px solid #c22936;}
+
+/*生成二维码*/
+.qr_code_box{width:92%;height:auto;margin:0 4%;padding-bottom:20px;}
+.com_name,.leixing{width:100%;height:auto;font-size:1.3em;color:#333;padding:20px 0;}
+.leixing{padding:0 0 12px 0;}
+.qr_code_box select{width:100%;height:34px;border-radius:2px;padding:0 0 0 2%;}
+.time_end_set{width:100%;height:auto;overflow:hidden;padding:20px 0 0 0;}
+.set_top{width:100%;height:auto;overflow:hidden;}
+.set_top .p1{width:75%;float:left;}
+.set_top p span{font-size:1.4em;color:#333;margin-right:5px;}
+.set_top .p1 em{color:#797979}
+.set_top .p2{width:72px;float:right;} 
+.set_top .p2 em{width:38px;height:20px;display:block;float:right;background:url(../images/TogetherToBuy/time_end_set1.png) no-repeat;background-size:38px 20px;}
+.set_top .p2 em img{width:38px;height:20px;}
+.set_bottom{width:100%;height:auto;overflow:hidden;display:none;margin-top:12px;}
+.set_bottom input{width:96%;height:34px;padding:0 2%;background:#f4f3f9;border:none;border-radius:2px;}
+
+.qr_code_btn{width:84%;height:40px;margin:24px 8% 0 8%;}
+.qr_code_btn a{width:100%;height:40px;display:block;border-radius:4px;text-align:center;line-height:40px;background:#c22936;color:#fff;font-size:1.6em;}
+
+

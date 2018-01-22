@@ -1,0 +1,54 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<div class="profile-info-row">
+		<div class="profile-info-name">快递公司:</div>
+		<div class="profile-info-value">${compInfo.name}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">运单号:</div>
+		<div class="profile-info-value">${expressNo}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">物流信息:</div>
+		<div class="profile-info-value" id="express">
+		</div>
+	</div>
+	<div class="width-100 clearfix" tag-save-btn style="bottom: 0px;left: 0px;position:absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-100  pull-left" id="submit">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>确定
+	</span>
+</div>
+<script type="text/javascript">
+
+$(function(){
+	$("#submit").click(function(){
+		layer.closeAll();
+	});
+	
+	showExpress();
+});
+
+function showExpress() {
+    var content = '"sname":"express.ExpressSearch","com":"${expressCom}","express_no":"${expressNo}","version":"v2"';
+    $.ajax({
+        url: 'http://kuaidi.wo-de.com/express/busJsonp.do?content={' + content + '}&token=',
+        dataType: 'jsonp',
+        jsonp: 'jsonpcallback',
+        success: function (json) {
+            var ary = eval(json.body.history)
+            var lis = "";
+            if (ary.length > 0) {
+                lis = '<p class="cur">' + ary[0].dealDate + '<span>&nbsp;&nbsp;' + ary[0].des + '</span></p>';
+                for (var i = 1; i < ary.length; i++) {
+                    lis += '<p>' + ary[i].dealDate + '<span>&nbsp;&nbsp;' + ary[i].des + '</span></p>';
+                }
+            }
+            $("#express").html(lis);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });
+}
+</script>
+</div>
+</div>

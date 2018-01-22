@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.AttachmentMapper">
+
+	<resultMap id="Attachment" type="com.wode.factory.model.Attachment">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="relatedId" column="relatedId"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="type" column="type"/>
+        <result property="userId" column="userId"/>
+        <result property="createDate" column="createDate"/>
+        <result property="endDate" column="endDate"/>
+        <result property="relatedType" column="relatedType"/>
+        <result property="size" column="size"/>
+        <result property="url" column="url"/>
+	</resultMap>
+	
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,name,relatedId,supplierId,shop_id,type,userId,createDate,endDate,relatedType,size,url
+	    ]]>
+	</sql>
+	 <select id="findByShopId" resultMap="Attachment">
+         SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_attachment 
+            WHERE 
+                shop_id = #{shopId}
+        ]]>
+    </select>
+    
+     <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM t_attachment WHERE
+        id = #{id} 
+    ]]>
+	</delete>
+    
+    	<select id="findByMap" resultMap="Attachment">
+        SELECT <include refid="columns" /> FROM t_attachment
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopId)">
+                AND shop_id = #{shopId}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>        	
+		</where>
+			ORDER BY creat_time DESC
+    </select>
+    
+	<update id="changShop" >
+    <![CDATA[
+        UPDATE t_attachment SET
+	        shop_id = #{shopId}
+        WHERE 
+	        shop_id = #{oldId} 
+    ]]>
+	</update>
+	
+</mapper>
+

@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.PaymentDao">
+
+    <resultMap id="Payment" type="com.wode.factory.model.Payment">
+        <result property="outTradeNo" column="out_trade_no"/>
+        <result property="totalFee" column="totalFee"/>
+        <result property="orderId" column="orderId"/>
+        <result property="subOrderId" column="subOrderId"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="tradeNo" column="trade_no"/>
+        <result property="way" column="way"/>
+        <result property="payType" column="pay_type"/>
+        <result property="payConfirm" column="pay_confirm"/>
+        <result property="payConfirmDate" column="pay_confirm_date"/>
+        <result property="note" column="note"/>
+        <result property="updUser" column="upd_user"/>
+        <result property="exp1" column="exp1"/>
+        <result property="appId" column="app_id"/>
+        <result property="orderType" column="order_type"/>
+    </resultMap>
+	<resultMap id="PaymentList" type="com.wode.factory.vo.PaymentVo">
+        <result property="outTradeNo" column="out_trade_no"/>
+        <result property="totalFee" column="totalFee"/>
+        <result property="orderId" column="orderId"/>
+        <result property="subOrderId" column="subOrderId"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="tradeNo" column="trade_no"/>
+        <result property="way" column="way"/>
+        <result property="payType" column="pay_type"/>
+        <result property="payConfirm" column="pay_confirm"/>
+        <result property="payConfirmDate" column="pay_confirm_date"/>
+        <result property="note" column="note"/>
+        <result property="updUser" column="upd_user"/>
+        <result property="exp1" column="exp1"/>
+        <result property="appId" column="app_id"/>
+        <result property="orderType" column="order_type"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="supplierName" column="supplierName"/>
+    </resultMap>
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        out_trade_no,totalFee,orderId,subOrderId,status,createTime,updateTime,trade_no,way,pay_type,pay_confirm,pay_confirm_date,note,upd_user,exp1,app_id,order_type
+        ]]>
+    </sql>
+
+	<sql id="paycolumns">
+        <![CDATA[
+        out_trade_no,totalFee,orderId,subOrderId,status,createTime,updateTime,trade_no,way,pay_type,pay_confirm,pay_confirm_date,note,upd_user,exp1,app_id,order_type
+       	,supplierId,supplierName
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_payment (
+            out_trade_no ,
+            totalFee ,
+            orderId ,
+            subOrderId ,
+            status ,
+            createTime ,
+            updateTime ,
+            trade_no ,
+            way ,
+            pay_type ,
+            pay_confirm ,
+            pay_confirm_date ,
+            note ,
+            upd_user ,
+            exp1,
+            order_type
+        ) VALUES (
+            #{outTradeNo} ,
+            #{totalFee} ,
+            #{orderId} ,
+            #{subOrderId} ,
+            #{status} ,
+            #{createTime} ,
+            #{updateTime} ,
+            #{tradeNo} ,
+            #{way} ,
+            #{payType} ,
+            #{payConfirm} ,
+            #{payConfirmDate} ,
+            #{note} ,
+            #{updUser} ,
+            #{exp1},
+            #{orderType}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_payment SET
+            pay_confirm = #{payConfirm} ,
+            pay_confirm_date = #{payConfirmDate} ,
+            note = #{note} ,
+            upd_user = #{updUser} ,
+            exp1 = #{exp1} 
+        WHERE 
+            out_trade_no = #{outTradeNo}
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_payment WHERE
+        out_trade_no = #{outTradeNo}
+    ]]>
+    </delete>
+    <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM t_payment WHERE
+        out_trade_no = #{outTradeNo}
+    ]]>
+    </delete>
+    <select id="getById" resultMap="Payment">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_payment 
+            WHERE 
+                out_trade_no = #{outTradeNo}
+        ]]>
+    </select>
+    
+     <select id="findPaymentByOrderId" resultMap="Payment">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_payment 
+            WHERE 
+                orderId = #{orderId}
+            AND
+            	status=2
+            AND
+            	pay_type in (1,4,5)
+        ]]>
+    </select>
+    
+    <select id="findPaymentBySuborderId" resultMap="Payment">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_payment 
+            WHERE 
+                subOrderId = #{subOrderId}
+            AND
+            	status=2
+            AND
+            	pay_type in (1,4,5)
+        ]]>
+    </select>
+    <select id="findPayByGroupOrderId" resultMap="Payment">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_payment 
+            WHERE 
+                orderId = #{orderId}
+            AND
+            	status=2
+            AND
+            	pay_type in (1,4,5)
+        ]]>
+    </select>
+     <select id="findPayByGroupSuborderId" resultMap="Payment">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_payment 
+            WHERE 
+                subOrderId = #{subOrderId}
+            AND
+            	status=2
+            AND
+            	pay_type in (1,4,5)
+        ]]>
+    </select>
+    <select id="findPayLikeGroupSuborderId" resultMap="Payment">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_payment 
+            WHERE 
+            orderId like CONCAT(CONCAT('%',#{subOrderId}),'%')
+            AND
+            	status=2
+            AND
+            	order_type = 4
+        ]]>
+    </select>
+    <select id="findList" resultMap="Payment">
+        SELECT <include refid="columns" /> FROM t_payment 
+        <include refid="find_where"/>
+    </select>
+	
+	<select id="findHistoryData" resultMap="Payment">
+        SELECT <include refid="columns" /> FROM t_payment 
+        WHERE 
+			status &lt; 2
+		AND 
+			pay_type &gt; 0
+		AND 
+			createTime &lt;= #{creatTime}
+    </select>
+	<select id="findBySubOrderId" resultMap="Payment">
+		 SELECT <include refid="columns" /> FROM t_payment 
+         WHERE subOrderId = #{subOrderId}
+	</select>
+	<select id="findByOrderId" resultMap="Payment">
+		 SELECT <include refid="columns" /> FROM t_payment 
+         WHERE orderId = #{orderId}
+	</select>
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(outTradeNo)">
+                AND out_trade_no = #{outTradeNo}
+            </if>
+           <if test="@Ognl@isNotEmpty(totalFee)">
+                AND totalFee = #{totalFee}
+            </if>
+           <if test="@Ognl@isNotEmpty(orderId)">
+                AND orderId = #{orderId}
+            </if>
+           <if test="@Ognl@isNotEmpty(subOrderId)">
+                AND subOrderId = #{subOrderId}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+			<if test="@Ognl@isNotEmpty(startDate)">
+				AND createTime >= #{startDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endDate)">
+				AND createTime &lt;= #{endDate}
+		   </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND updateTime = #{updateTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(tradeNo)">
+				AND trade_no like CONCAT(CONCAT('%',#{tradeNo}),'%')
+            </if>
+           <if test="@Ognl@isNotEmpty(way)">
+                AND way = #{way}
+            </if>
+           <if test="@Ognl@isNotEmpty(payType)">
+                AND pay_type = #{payType}
+            </if>
+           <if test="@Ognl@isNotEmpty(payConfirm)">
+                AND pay_confirm = #{payConfirm}
+            </if>
+           <if test="@Ognl@isNotEmpty(payConfirmDate)">
+                AND pay_confirm_date = #{payConfirmDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(note)">
+                AND note = #{note}
+            </if>
+           <if test="@Ognl@isNotEmpty(updUser)">
+                AND upd_user = #{updUser}
+            </if>
+           <if test="@Ognl@isNotEmpty(exp1)">
+				AND exp1 like CONCAT(CONCAT('%',#{exp1}),'%')
+            </if>
+        </where>
+    </sql>
+    
+     <select id="findPaymentList" resultMap="PaymentList">
+        SELECT <include refid="columns" /> 
+        from t_payment          
+        <include refid="findPayment_where"/>
+        AND ((pay_type in (1,2,3,4,5,11) AND status=2) OR (pay_type in (-1,-2,-3))) AND totalFee>0
+		AND NOT EXISTS (SELECT 1 FROM t_orders where userId in(1665783063840203,1795658443229012) AND (t_orders.orderId=t_payment.orderId) AND t_payment.way='pingtaiyue')
+		AND NOT EXISTS (SELECT 1 FROM t_suborder where user_id in(1665783063840203,1795658443229012) AND (t_suborder.subOrderId=t_payment.subOrderId) AND t_payment.way='pingtaiyue')
+		AND NOT EXISTS (SELECT 1 FROM t_group_orders where userId in(1665783063840203,1795658443229012) AND (t_group_orders.orderId=t_payment.orderId ) AND t_payment.way='pingtaiyue')
+		AND NOT EXISTS (SELECT 1 FROM t_group_suborder where user_id in(1665783063840203,1795658443229012) AND (t_group_suborder.subOrderId=t_payment.subOrderId) AND t_payment.way='pingtaiyue')
+		AND NOT EXISTS (SELECT 1 FROM t_exchange_orders where userId in(1665783063840203,1795658443229012) AND (t_exchange_orders.orderId=t_payment.orderId ) AND t_payment.way='pingtaiyue')
+		AND NOT EXISTS (SELECT 1 FROM t_exchange_suborder where user_id in(1665783063840203,1795658443229012) AND (t_exchange_suborder.subOrderId=t_payment.subOrderId) AND t_payment.way='pingtaiyue')
+        <if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+		<if test="@Ognl@isEmpty(sortColumns)">
+        	Order by IFNULL(orderId,subOrderId) DESC,createTime ASC
+		</if>
+    </select>
+    
+      <sql id="findPayment_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+        	1=1
+           <if test="@Ognl@isNotEmpty(outTradeNo)">
+                AND out_trade_no = #{outTradeNo}
+            </if>
+           <if test="@Ognl@isNotEmpty(totalFee)">
+                AND totalFee = #{totalFee}
+            </if>
+           <if test="@Ognl@isNotEmpty(orderId)">
+                AND orderId = #{orderId}
+            </if>
+           <if test="@Ognl@isNotEmpty(subOrderId)">
+				AND (subOrderId like CONCAT(CONCAT('%',#{subOrderId}),'%')
+                	OR orderId like CONCAT(CONCAT('%',#{subOrderId}),'%') )
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+			<if test="@Ognl@isNotEmpty(startPayTime)">
+				AND createTime >= #{startPayTime}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endPayTime)">
+				AND createTime &lt;= #{endPayTime}
+		   </if>
+			<if test="@Ognl@isNotEmpty(startCancelDate)">
+				AND createTime >= #{startCancelDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endCancelDate)">
+				AND createTime &lt;= #{endCancelDate}
+		   </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND updateTime = #{updateTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(tradeNo)">
+				AND trade_no like CONCAT(CONCAT('%',#{tradeNo}),'%')
+            </if>
+           <if test="@Ognl@isNotEmpty(way)">
+				AND FIND_IN_SET(way,#{way})
+            </if>
+           <if test="@Ognl@isNotEmpty(appId)">
+				AND app_id= #{appId}
+            </if>            
+           <if test="@Ognl@isNotEmpty(payType)">
+				AND FIND_IN_SET(pay_type,#{payType})
+            </if>        
+           <if test="@Ognl@isNotEmpty(orderType)">
+				AND FIND_IN_SET(order_type,#{orderType})
+            </if>
+           <if test="@Ognl@isNotEmpty(payConfirm)">
+                AND pay_confirm = #{payConfirm}
+            </if>
+           <if test="@Ognl@isNotEmpty(payConfirmDate)">
+                AND pay_confirm_date = #{payConfirmDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(note)">
+                AND note = #{note}
+            </if>
+           <if test="@Ognl@isNotEmpty(updUser)">
+                AND upd_user = #{updUser}
+            </if>
+            <!-- 
+			<if test="@Ognl@isNotEmpty(supplierName)">
+			                AND supplierName = #{supplierName}
+			</if>
+			<if test="@Ognl@isNotEmpty(supplierId)">
+			                AND supplierId = #{supplierId}
+			</if> 
+			-->
+           <if test="@Ognl@isNotEmpty(exp1)">
+				AND exp1 like CONCAT(CONCAT('%',#{exp1}),'%')
+            </if>
+           <if test="@Ognl@isNotEmpty(thirdNo)">
+                AND trade_no like CONCAT(CONCAT('%',#{thirdNo}),'%')
+            </if>
+        </where>
+    </sql>
+    
+    
+    <select id="getByTradeNo" resultMap="Payment">
+		SELECT *
+	    <![CDATA[
+		    FROM t_payment 
+	        WHERE way = #{thirdType} 
+		      AND trade_no = #{thirdNo} 
+		      AND status=2
+	    ]]>
+	    LIMIT 1
+	</select>
+    
+    
+    
+    
+    
+</mapper>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ProductQuestionnaireMapper">
+
+    <resultMap id="ProductQuestionnaire" type="com.wode.factory.model.ProductQuestionnaire">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productImg" column="product_img"/>
+        <result property="minprice" column="minprice"/>
+        <result property="maxprice" column="maxprice"/>
+        <result property="empPrice" column="emp_price"/>
+        <result property="productCnt" column="product_cnt"/>
+        <result property="templateTitle" column="template_title"/>
+        <result property="testFlg" column="test_flg"/>
+        <result property="createDate" column="create_date"/>
+        <result property="createUser" column="create_user"/>
+        <result property="status" column="status"/>
+        <result property="endDate" column="end_date"/>
+        <result property="answerCnt" column="answer_cnt"/>
+        <result property="templateId" column="template_id"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,supplier_id,product_id,product_name,product_img,minprice,maxprice,emp_price,product_cnt,template_title,test_flg,create_date,create_user,status,end_date,answer_cnt,template_id
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_questionnaire (
+            id ,
+            supplier_id ,
+            product_id ,
+            product_name ,
+            product_img ,
+            minprice ,
+            maxprice ,
+            emp_price ,
+            product_cnt ,
+            template_title ,
+            test_flg ,
+            create_date ,
+            create_user ,
+            status ,
+            end_date ,
+            answer_cnt ,
+            template_id
+        ) VALUES (
+            #{id} ,
+            #{supplierId} ,
+            #{productId} ,
+            #{productName} ,
+            #{productImg} ,
+            #{minprice} ,
+            #{maxprice} ,
+            #{empPrice} ,
+            #{productCnt} ,
+            #{templateTitle} ,
+            #{testFlg} ,
+            #{createDate} ,
+            #{createUser} ,
+            #{status} ,
+            #{endDate} ,
+            #{answerCnt} ,
+            #{templateId}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_product_questionnaire SET            
+            supplier_id = #{supplierId} ,
+            product_id = #{productId} ,
+            product_name = #{productName} ,
+            product_img = #{productImg} ,
+            minprice = #{minprice} ,
+            maxprice = #{maxprice} ,
+            emp_price = #{empPrice} ,
+            product_cnt = #{productCnt} ,
+            template_title = #{templateTitle} ,
+            test_flg = #{testFlg} ,
+            create_date = #{createDate} ,
+            create_user = #{createUser} ,
+            status = #{status} ,
+            end_date = #{endDate} ,
+            answer_cnt = #{answerCnt} ,
+            template_id = #{templateId} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+    
+    <update id="addAnswer" >
+    <![CDATA[
+        UPDATE t_product_questionnaire SET            
+           answer_cnt=answer_cnt+1
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_product_questionnaire WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="ProductQuestionnaire">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_product_questionnaire 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="getProductById" resultMap="ProductQuestionnaire">
+        SELECT q.*
+        <![CDATA[
+            FROM t_product_questionnaire q
+            INNER JOIN t_product p ON(p.questionnaire_id = q.id)
+            WHERE 
+                p.id = #{productId} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="ProductQuestionnaire">
+        SELECT <include refid="columns" /> FROM t_product_questionnaire 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(productId)">
+                AND product_id = #{productId}
+            </if>
+           <if test="@Ognl@isNotEmpty(productName)">
+                AND product_name = #{productName}
+            </if>
+           <if test="@Ognl@isNotEmpty(productImg)">
+                AND product_img = #{productImg}
+            </if>
+           <if test="@Ognl@isNotEmpty(minprice)">
+                AND minprice = #{minprice}
+            </if>
+           <if test="@Ognl@isNotEmpty(maxprice)">
+                AND maxprice = #{maxprice}
+            </if>
+           <if test="@Ognl@isNotEmpty(empPrice)">
+                AND emp_price = #{empPrice}
+            </if>
+           <if test="@Ognl@isNotEmpty(productCnt)">
+                AND product_cnt = #{productCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(templateTitle)">
+                AND template_title = #{templateTitle}
+            </if>
+           <if test="@Ognl@isNotEmpty(testFlg)">
+                AND test_flg = #{testFlg}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date = #{createDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(createUser)">
+                AND create_user = #{createUser}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(endDate)">
+                AND end_date = #{endDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(answerCnt)">
+                AND answer_cnt = #{answerCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(templateId)">
+                AND template_id = #{templateId}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

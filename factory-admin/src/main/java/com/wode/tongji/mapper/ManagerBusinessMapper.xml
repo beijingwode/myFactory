@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.tongji.mapper.ManagerBusinessMapper">
+
+    <resultMap id="ManagerBusiness" type="com.wode.tongji.model.ManagerBusiness">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="businessId" column="business_id"/>
+        <result property="businessName" column="business_name"/>
+        <result property="businessEmail" column="business_email"/>
+        <result property="businessPhone" column="business_phone"/>
+        <result property="businessMobile" column="business_mobile"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,name,business_id,business_name,business_email,business_phone,business_mobile
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_manager_business (
+            id ,
+            name ,
+            business_id ,
+            business_name ,
+            business_email ,
+            business_phone ,
+            business_mobile
+        ) VALUES (
+            #{id} ,
+            #{name} ,
+            #{businessId} ,
+            #{businessName} ,
+            #{businessEmail} ,
+            #{businessPhone} ,
+            #{businessMobile}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_manager_business SET            
+            name = #{name} ,
+            business_id = #{businessId} ,
+            business_name = #{businessName} ,
+            business_email = #{businessEmail} ,
+            business_phone = #{businessPhone} ,
+            business_mobile = #{businessMobile} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_manager_business WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="ManagerBusiness">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_manager_business 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="ManagerBusiness">
+        SELECT <include refid="columns" /> FROM t_manager_business 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(name)">
+                AND name = #{name}
+            </if>
+           <if test="@Ognl@isNotEmpty(businessId)">
+                AND business_id = #{businessId}
+            </if>
+           <if test="@Ognl@isNotEmpty(businessName)">
+                AND business_name = #{businessName}
+            </if>
+           <if test="@Ognl@isNotEmpty(businessEmail)">
+                AND business_email = #{businessEmail}
+            </if>
+           <if test="@Ognl@isNotEmpty(businessPhone)">
+                AND business_phone = #{businessPhone}
+            </if>
+           <if test="@Ognl@isNotEmpty(businessMobile)">
+                AND business_mobile = #{businessMobile}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

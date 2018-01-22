@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="PaymentMapper">
+
+	<resultMap id="Payment" type="com.wode.factory.model.Payment">
+        <result property="outTradeNo" column="out_trade_no"/>
+        <result property="totalFee" column="totalFee"/>
+        <result property="orderId" column="orderId"/>
+        <result property="subOrderId" column="subOrderId"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="tradeNo" column="trade_no"/>
+        <result property="way" column="way"/>
+        <result property="payType" column="pay_type"/>
+        <result property="payConfirm" column="pay_confirm"/>
+        <result property="payConfirmDate" column="pay_confirm_date"/>
+        <result property="note" column="note"/>
+        <result property="updUser" column="upd_user"/>
+        <result property="exp1" column="exp1"/>
+        <result property="appId" column="app_id"/>
+        <result property="orderType" column="order_type"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		out_trade_no,totalFee,orderId,subOrderId,status,createTime,updateTime,trade_no,way,pay_type,pay_confirm,pay_confirm_date,note,upd_user,exp1,app_id,order_type
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="paymentId">
+    <![CDATA[
+        INSERT INTO t_payment (
+        	out_trade_no ,
+        	totalFee ,
+        	orderId ,
+        	subOrderId ,
+        	status ,
+        	createTime ,
+        	updateTime ,
+        	trade_no ,
+        	way,
+        	pay_type,
+        	exp1,
+        	app_id,
+        	order_type
+        ) VALUES (
+        	#{outTradeNo} ,
+        	#{totalFee} ,
+        	#{orderId} ,
+        	#{subOrderId} ,
+        	#{status} ,
+        	#{createTime} ,
+        	#{updateTime} ,
+        	#{tradeNo}  ,
+        	#{way}  ,
+        	#{payType} ,
+        	#{exp1},
+        	#{appId},
+        	#{orderType}
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_payment SET
+	        totalFee = #{totalFee} ,
+	        orderId = #{orderId} ,
+	        subOrderId = #{subOrderId} ,
+	        status = #{status} ,
+	        createTime = #{createTime} ,
+	        updateTime = #{updateTime} ,
+	        trade_no = #{tradeNo},
+	        app_id = #{appId},
+	        order_type = #{orderType}
+        WHERE 
+	        out_trade_no = #{outTradeNo} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_payment WHERE
+        out_trade_no = #{outTradeNo} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="Payment">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_payment 
+	        WHERE 
+		        out_trade_no = #{outTradeNo} 
+	    ]]>
+	</select>
+		
+    <select id="getByTradeNo" resultMap="Payment">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_payment 
+	        WHERE way = #{way} 
+		      AND trade_no = #{tradeNo} 
+		      AND status=2
+	    ]]>
+	    LIMIT 1
+	</select>
+	
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_payment 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="Payment">
+    	SELECT <include refid="columns" />
+	    FROM t_payment 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(outTradeNo)">
+				AND out_trade_no = #{outTradeNo}
+			</if>
+			 <if test="@Ognl@isNotEmpty(tradeNo)">
+				AND trade_no = #{tradeNo}
+			</if>
+	       <if test="@Ognl@isNotEmpty(totalFee)">
+				AND totalFee = #{totalFee}
+			</if>
+	       <if test="@Ognl@isNotEmpty(orderId)">
+				AND orderId = #{orderId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(subOrderId)">
+				AND subOrderId = #{subOrderId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createTimeBegin)">
+				AND createTime >= #{createTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createTimeEnd)">
+				AND createTime &lt;= #{createTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+				AND updateTime >= #{updateTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+				AND updateTime &lt;= #{updateTimeEnd}
+		   </if>
+		</where>
+	</sql>
+	
+</mapper>
+

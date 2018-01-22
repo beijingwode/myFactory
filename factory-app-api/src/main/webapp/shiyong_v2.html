@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>我的福利</title>
+<link rel="stylesheet" type="text/css" href="static_resources/css/public_m.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/tesheng_v2.css" />
+<script type="text/javascript" src="static_resources/js/common/system_config.js"></script>
+</head> 
+
+<body>
+
+<div class="main-cont" id="main-cont" >
+	<div class="search_box">		
+        <div class="search_inp shiyong_inp">
+        	<a href="javascript:void(0);">搜索换领频道商品</a>
+        </div>
+        
+        <div class="shopping_car">
+        	<img src="static_resources/images/shopping_car_icon.png" />
+        	<span>2</span>
+        </div>
+        
+        <div class="tab_icon"><img src="static_resources/images/company_icon.png" id="company_icon" style="display: none"> <img src="static_resources/images/personage_icon.png"  id="personage_icon"></div>
+        <input type="hidden" id="moreVal" value="0X">
+        <input type="hidden" id="moreKey" value="tagFlg">
+	</div> 
+	
+	<div class="main_con">
+	    <div class="flexslider" id="banner">
+	    	<ul class="slides">
+	    		<!--<li><a href="javascript:go2Search('channel:tesheng')"><img src="http://img2.wo-de.com/upload/regular/1488533899148.png" alt="" class="img-responsive"></a></li>
+	    		 <li><a href="javascript:go2Search('channel:huanling')"><img src="http://img2.wo-de.com/upload/regular/1490089273635.png" alt="" class="img-responsive"></a></li>-->
+	    		<li><a href="javascript:go2Search('channel:shiyong')"><img src="http://img2.wo-de.com/upload/regular/1490089283270.png" alt="" class="img-responsive"></a></li>
+	    		<!--<li><a href="javascript:go2Search('channel:qicai')"><img src="http://img2.wo-de.com/upload/regular/1490145705544.png" alt="" class="img-responsive"></a></li>-->
+	    	</ul>
+	    </div>
+	    <div class="main_one_sy" id="more">
+	    	<ul>
+	    		<li>
+			    	<dl>    		
+			    		<dt><a><img src="static_resources/images/hl_con_pic1.jpg" /></a></dt>
+			    		<dd class="dd1">蓝贵子 天然阿富汗原矿青金石觉得恐慌公交卡</dd>
+			    		<!-- <dd class="dd2">电商价：￥890.00</dd> -->
+			    		<dd class="dd3">¥800.00+90.00券</dd>
+			    		<dd class="dd4">
+			    			<p>限量10份</p>
+			    			<a href="#">立即试用</a>
+			    		</dd>
+			    	</dl>
+	    		</li>
+	    		<li>
+			    	<dl>    		
+			    		<dt><a><img src="static_resources/images/hl_con_pic1.jpg" /></a></dt>
+			    		<dd class="dd1">蓝贵子 天然阿富汗原矿青金石觉得恐慌公交卡</dd>
+			    		<!-- <dd class="dd2">电商价：￥890.00</dd> -->
+			    		<dd class="dd3">¥800.00+<em>90.00券</em></dd>
+			    		<dd class="dd4">
+			    			<p>限量10份</p>
+			    			<a href="#">立即试用</a>
+			    		</dd>
+			    	</dl>
+	    		</li>
+	    		<li>
+			    	<dl>    		
+			    		<dt><a><img src="static_resources/images/hl_con_pic1.jpg" /></a></dt>
+			    		<dd class="dd1">蓝贵子 天然阿富汗原矿青金石觉得恐慌公交卡</dd>
+			    		<!-- <dd class="dd2">电商价：￥890.00</dd> -->
+			    		<dd class="dd3">内购价：¥800.00+90.00券</dd>
+			    		<dd class="dd4">
+			    			<p>限量10份</p>
+			    			<a href="#">立即试用</a>
+			    		</dd>
+			    	</dl>
+	    		</li>
+	    		<li>
+			    	<dl>    		
+			    		<dt><a><img src="static_resources/images/hl_con_pic1.jpg" /></a></dt>
+			    		<dd class="dd1">蓝贵子 天然阿富汗原矿青金石觉得恐慌公交卡</dd>
+			    		<!-- <dd class="dd2">电商价：￥890.00</dd> -->
+			    		<dd class="dd3">内购价：¥800.00+<em>90.00券</em></dd>
+			    		<dd class="dd4">
+			    			<p>限量10份</p>
+			    			<a href="#">立即试用</a>
+			    		</dd>
+			    	</dl>
+	    		</li>
+	    	</ul>
+	    </div>
+	    
+	    
+	   	 
+	 </div> 
+</div>
+
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="static_resources/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="static_resources/js/wxGetUid.js"></script>
+<script type="text/javascript" src="static_resources/js/index_goto.js?122"></script>
+<script type="text/javascript" src="static_resources/js/getCartNum.js"></script>
+<script type="text/javascript" src="static_resources/js/more_2col2.js"></script>
+</body>
+<script>
+$(".shopping_car").click(function(e){//点击进入购物车
+	e.stopPropagation()||(e.cancelBubble = true);
+	go2Cart();
+})
+
+
+//点击编辑
+$(".tab_icon").toggle(
+	  function(){
+		 $("#personage_icon").hide();
+		 $("#company_icon").show();
+		 $("#tagFlg").val("1X");
+		 $("#more ul").html("");
+		  getTsMore(1);
+	  },
+	   function(){
+		  $("#company_icon").hide();
+		  $("#personage_icon").show();
+		  $("#moreVal").val("0X");
+		  $("#more ul").html("");
+		  getTsMore(1);
+	  }
+	  
+	);
+$(".search_box").click(function(e){
+	var moreKey= $("#moreKey").val();
+	var moreVal= $("#moreVal").val();
+	if(moreKey!="" && moreVal!="" ) {
+		go2Search(moreKey +"="+moreVal);
+	} else {
+		go2Search('');
+	}
+}); 
+
+</script>
+</html>

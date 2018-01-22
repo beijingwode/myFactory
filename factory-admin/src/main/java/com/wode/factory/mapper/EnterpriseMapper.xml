@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.EnterpriseDao">
+
+	<resultMap id="Enterprise" type="com.wode.factory.model.Enterprise">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="industry" column="industry"/>
+        <result property="listed" column="listed"/>
+        <result property="turnover" column="turnover"/>
+        <result property="peopleNumber" column="people_number"/>
+        <result property="welfareLevel" column="welfare_level"/>
+        <result property="emailPostfix1" column="email_postfix1"/>
+        <result property="emailPostfix2" column="email_postfix2"/>
+        <result property="emailPostfix3" column="email_postfix3"/>
+        <result property="empDefultAvatar" column="emp_defult_avatar"/>
+        <result property="canSearch" column="can_search"/>
+	</resultMap>
+	
+	<resultMap id="enterpriseVo" type="com.wode.factory.vo.EnterpriseVo">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="industry" column="industry"/>
+        <result property="listed" column="listed"/>
+        <result property="turnover" column="turnover"/>
+        <result property="peopleNumber" column="people_number"/>
+        <result property="welfareLevel" column="welfare_level"/>
+        <result property="typeName" column="typeName"/>
+        <result property="industryName" column="industryName"/>
+        <result property="emailPostfix1" column="email_postfix1"/>
+        <result property="emailPostfix2" column="email_postfix2"/>
+        <result property="emailPostfix3" column="email_postfix3"/>
+        <result property="empDefultAvatar" column="emp_defult_avatar"/>
+        <result property="canSearch" column="can_search"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[ 
+		id,name,type,industry,listed,turnover,people_number,welfare_level,email_postfix1,email_postfix2,email_postfix3,emp_defult_avatar,can_search
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_enterprise (
+        	id ,
+        	name ,
+        	type ,
+        	industry ,
+        	listed ,
+        	turnover ,
+        	people_number ,
+        	welfare_level ,
+        	canSearch
+        ) VALUES (
+        	#{id} ,
+        	#{name} ,
+        	#{type} ,
+        	#{industry} ,
+        	#{listed} ,
+        	#{turnover} ,
+        	#{peopleNumber} ,
+        	#{welfareLevel} ,
+        	'0'
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="updateSelect" >
+        UPDATE t_enterprise
+        <set>
+	       <if test="@Ognl@isNotEmpty(name)">
+				name = #{name}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(type)">
+				type = #{type}
+			</if>
+	       <if test="@Ognl@isNotEmpty(industry)">
+				industry = #{industry}
+			</if>
+	       <if test="@Ognl@isNotEmpty(listed)">
+				listed = #{listed}
+			</if>
+	       <if test="@Ognl@isNotEmpty(turnover)">
+				turnover = #{turnover}
+			</if>
+	       <if test="@Ognl@isNotEmpty(peopleNumber)">
+				people_number = #{peopleNumber}
+			</if>
+	       <if test="@Ognl@isNotEmpty(welfareLevel)">
+				welfare_level = #{welfareLevel} 
+			</if>
+			,email_postfix1 = #{emailPostfix1} 
+			,email_postfix2 = #{emailPostfix2} 
+			,email_postfix3 = #{emailPostfix3} 
+			,emp_defult_avatar = #{empDefultAvatar} 
+			,can_search = #{canSearch} 
+	     </set>
+        WHERE 
+	        id = #{id} 
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_enterprise WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+
+    <select id="findeAllEnterprise" resultMap="Enterprise">
+		SELECT <include refid="columns"/> 
+	    <![CDATA[
+		    FROM t_enterprise 
+	    ]]>
+	</select>
+    
+    <select id="getById" resultMap="enterpriseVo">
+		SELECT <include refid="columns" />,(select `name` from t_ent_param_code where id=type) as typeName, (select  `name` from t_ent_param_code where id=industry) as industryName 
+	    <![CDATA[
+		    FROM t_enterprise 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_enterprise 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="Enterprise">
+    	SELECT <include refid="columns" />
+	    FROM t_enterprise 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(name)">
+				AND name = #{name}
+			</if>
+	       <if test="@Ognl@isNotEmpty(type)">
+				AND type = #{type}
+			</if>
+	       <if test="@Ognl@isNotEmpty(industry)">
+				AND industry = #{industry}
+			</if>
+	       <if test="@Ognl@isNotEmpty(listed)">
+				AND listed = #{listed}
+			</if>
+	       <if test="@Ognl@isNotEmpty(turnover)">
+				AND turnover = #{turnover}
+			</if>
+	       <if test="@Ognl@isNotEmpty(peopleNumber)">
+				AND people_number = #{peopleNumber}
+			</if>
+	       <if test="@Ognl@isNotEmpty(welfareLevel)">
+				AND welfare_level = #{welfareLevel}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
+

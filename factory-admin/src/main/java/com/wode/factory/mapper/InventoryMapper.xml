@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.InventoryDao">
+
+	<resultMap id="Inventory" type="com.wode.factory.model.Inventory">
+        <result property="id" column="id"/>
+        <result property="productSpecificationsId" column="productSpecificationsId"/>
+        <result property="quantity" column="quantity"/>
+        <result property="lockQuantity" column="lockQuantity"/>
+        <result property="warnQuantity" column="warnQuantity"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,productSpecificationsId,quantity,lockQuantity,warnQuantity
+	    ]]>
+	</sql>
+
+	<delete id="deleteBySupplierId">
+	delete from t_inventory where productSpecificationsId in (select id from t_product_specifications where product_id in (SELECT id from t_product where supplier_id = #{supplierId}))
+	</delete>
+
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_inventory 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <select id="findAll" resultMap="Inventory">
+        SELECT id,quantity FROM t_inventory 
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="Inventory">
+    	SELECT <include refid="columns" />
+	    FROM t_inventory 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(productSpecificationsId)">
+				AND productSpecificationsId = #{productSpecificationsId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(quantity)">
+				AND quantity = #{quantity}
+			</if>
+	       <if test="@Ognl@isNotEmpty(lockQuantity)">
+				AND lockQuantity = #{lockQuantity}
+			</if>
+	       <if test="@Ognl@isNotEmpty(warnQuantity)">
+				AND warnQuantity = #{warnQuantity}
+			</if>
+		</where>
+	</sql>
+	
+	<update id="batchUpdate" parameterType="list">
+            update t_inventory
+            <trim prefix="set" suffixOverrides=",">
+             <trim prefix="name =case" suffix="end,">
+                 <foreach collection="list" item="i" index="index">
+                         <if test="i.quantity!=null">
+                          when id=#{i.id} then #{i.quantity}
+                         </if>
+                 </foreach>
+              </trim>
+             </trim>
+            where
+            <foreach collection="list" separator="or" item="i" index="index" >
+              id=#{i.id}
+          </foreach>
+    </update>
+    
+    
+    <update id="update">
+            update t_inventory set quantity=#{quantity}
+            where id=#{id}
+    </update>
+    
+    <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM t_inventory WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <update id="updateBySkuId">
+            update t_inventory set quantity=#{quantity}
+            where productSpecificationsId=#{productSpecificationsId}
+    </update>
+
+    <select id="getById" resultMap="Inventory">
+        SELECT <include refid="columns" />
+        <![CDATA[
+		    FROM t_inventory
+	        WHERE
+		        id = #{id}
+	    ]]>
+    </select>
+   <select id="getByProductId" resultMap="Inventory">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_inventory 
+	        WHERE 
+		        productSpecificationsId = #{id} 
+	    ]]>
+	</select>
+    <select id="getBySku" resultMap="Inventory">
+        SELECT <include refid="columns" />
+        <![CDATA[
+		    FROM t_inventory
+	        WHERE
+		        productSpecificationsId = #{id}
+	    ]]>
+    </select>
+    
+    
+    <sql id="getPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(productSpecificationsId)">
+				AND productSpecificationsId = #{productSpecificationsId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(quantity)">
+				AND quantity = #{quantity}
+			</if>
+	       <if test="@Ognl@isNotEmpty(lockQuantity)">
+				AND lockQuantity = #{lockQuantity}
+			</if>
+		</where>
+	</sql>
+	
+	    <select id="findAllBymap" resultMap="Inventory">
+	    	SELECT <include refid="columns" />
+		    FROM t_inventory 
+			<include refid="getPage_where"/>
+			
+			<if test="@Ognl@isNotEmpty(sortColumns)">
+				ORDER BY ${sortColumns}
+			</if>
+		</select>
+		<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_inventory (
+        	id ,
+        	productSpecificationsId ,
+        	quantity ,
+        	lockQuantity ,
+        	warnQuantity
+        ) VALUES (
+        	#{id} ,
+        	#{productSpecificationsId} ,
+        	#{quantity} ,
+        	#{lockQuantity} ,
+        	#{warnQuantity}
+        )
+    ]]>
+	</insert>
+</mapper>
+

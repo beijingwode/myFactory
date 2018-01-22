@@ -1,0 +1,51 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/exchange/inventedList" method="post" id="search-form" target="list-page" class="center clearfix">
+					<div class="row padding-tb-10 col-sm-12">
+						<div class="col-sm-4">
+							<label>企业名称：</label>
+								<input type="text" name="supplierName" id="">
+						</div>
+						<div class="col-sm-4">
+						<label>招商经理：</label>
+						@if(!isEmpty(mlist)){
+							<select name="managerId" width="45%">
+								<option value="-1">招商经理</option>
+								@for(item in mlist){
+									@if(item.id == uid){
+									<option value="${item.id! }" selected="selected" >${item.name! }</option>
+									@}
+									@if(item.status != 2){
+									<option value="${item.id! }" >${item.name! }</option>
+									@}
+								@}
+							</select>
+						@}
+						</div>
+						<div class="col-sm-4">
+							<label>是否入驻：</label>
+							<input type="radio" name="chekType" value="0" >已入驻
+							<input type="radio" name="chekType" value="1">临时
+						</div>
+					</div>
+					<div class="padding-trb-10 col-sm-12">
+						<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">全部</span>
+						<span class="btn btn-info btn-sm col-sm-6" id="search-btn">查询</span>
+					</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+	</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script>
+$("#role-select").chosen({width: "80%",search_contains: true});
+$("#role-choose").chosen({width: "100%",search_contains: true}); 
+$("#search-form").getPageList({'submitBtnId':'search-btn'});
+</script>

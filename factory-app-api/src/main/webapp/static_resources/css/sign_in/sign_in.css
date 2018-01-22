@@ -1,0 +1,77 @@
+@charset "utf-8";
+body{background:#fff;}
+.sign_in{width:84%;margin:0 auto;padding-top:30px;}
+.sign_in_banner{width:100%;}
+.sign_in ul{with:100%;padding-top:16px;}
+.sign_in ul li{width:100%;height:35px;margin-bottom:8px;}
+.sign_in ul li input{width:100%;height:35px;line-height:35px;background:#f6f1f2;border:none;text-align:center;border-radius:4px;font-size:1.6em;color:#c22936;}
+
+.sign_in ul li input::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #be9da0;font-size:1.0em
+}
+.sign_in ul li input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #be9da0;font-size:1.0em
+}
+.sign_in ul li input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #be9da0;font-size:1.0em
+}
+.sign_in ul li input:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #be9da0;font-size:1.0em
+}
+
+.sign_in_btn{width:50%;height:auto;margin:0 auto;margin-top:12px;}
+.sign_in p{width:100%;text-align:center;color:#cccccc;font-size:1.2em;margin-top:150px;}
+
+.mask {display: none;position: absolute;left: 0;top: 0;right: 0;bottom: 0;background: rgba(0, 0, 0, 0.5);z-index: 98;}
+.hint_show {width: 256px;height: 106px;padding:20px 0 10px 0;position: absolute;left: 50%; top: 35%; margin-left: -128px;z-index: 99;background:#fff;border-radius:6px; display: none;}
+.hint_show p{width:100%;text-align:center;color:#333333;}
+.hint_show .p1{font-size:1.4em;}
+.hint_show .p2{font-size:1.2em;margin-top:6px;}
+
+.btns{width:230px;height:36px;margin:18px 13px 0 13px;}
+.btns a{width:105px;height:34px;display:block;font-size:1.8em;text-align:center;line-height:34px;border-radius:4px;}
+.btns .btn1{float:left;background:#f5f5f5;color:#333333;border:1px solid #d3d3d3;}
+.btns .btn2{float:right;background:#c22936;color:#fff;border:1px solid #c22936;}
+
+/*签到成功*/
+.xh_box,.gj_box{width:100%;position:relative;}
+.xh_box img,.gj_box img{width:100%}
+.xh_box span{width:100%;display:block;text-align:center;position:absolute;top:53%;left:0;font-size:4.6em;color:#ffa800}
+
+.gj_box .content{width:94%;padding:0 3%;position:absolute;top:22%;left:0;}
+.gj_box .content .mask_img_bg{width:92%;height:90%;padding:5% 0;position:absolute;top:0%;left:50%;margin-left:-46%}
+.gj_box .content .redux{width:94%;padding:0 3%;position:absolute;top:0;left:0;display:block;}
+.gj_box .content .mask_img_bg ul{width:40px;height:auto;margin-left:11%;float:left}
+.gj_box .content .mask_img_bg ul li{width:15px;height:auto;float:left;margin-right:5px;font-weight:600;}
+.gj_box .content .mask_img_bg ul li.li1{color:#c22936;font-size:1.4em;margin-top:8px;}
+.gj_box .content .mask_img_bg ul li.li2{color:#333333;font-size:1.0em;}
+.gj_box .content .mask_img_bg span{width:25%;display:block;text-align:center;float:left;font-size:2.8em;color:#ffa800;margin:0 0 0 11%;padding:5% 0 0 0}
+.gj_box .content .mask_img_bg span i{font-style:normal;font-size:12px;font-weight:600;padding-left:5px;}
+
+.hint_show2{display: none;height:242px;width:216px;padding:20px;background:#fff;position:absolute;top:50%;left:50%;margin:-141px 0 0 -128px;border-radius:8px;z-index: 99;}
+.hint_show2 ul{height:242px;width:216px;}
+.hint_show2 ul li{width:216px;text-align:center;font-size:1.2em;margin-bottom:5px;}
+.hint_show2 ul .li1{font-size:1.8em;color:#c22936}
+.hint_show2 ul .li2 span{color:#c22936}
+.hint_show2 ul .li3 {margin:10px 0}
+.hint_show2 ul .li3 img{width:120px;height:120px;}
+.hint_show2 ul .li5{color:#c22936}
+.hint_show2 em{font-style:normal;font-size:16px;position:absolute;top:10px;right:10px;}
+@media screen and (min-width:320px){
+ 	.gj_box .content .mask_img_bg{height:92%;padding:4% 0;}
+ 	.gj_box .content .mask_img_bg span{padding:8% 0 0 0;margin:0 0 0 10%;}
+}
+@media screen and (min-width:360px){
+ 	.gj_box .content .mask_img_bg{height:89%;padding:5.5% 0;}
+ 	.gj_box .content .mask_img_bg span{padding:7.5% 0 0 0;margin:0 0 0 10%;}
+}
+@media screen and (min-width:375px){
+ 	.gj_box .content .mask_img_bg{height:88%;padding:6% 0;}
+ 	.gj_box .content .mask_img_bg span{padding:7% 0 0 0;margin:0 0 0 10%;}
+}
+@media screen and (min-width:412px){
+	.gj_box .content .mask_img_bg{height:84%;padding:8% 0;}
+	.gj_box .content .mask_img_bg span{padding:5% 0 0 0;margin:0 0 0 10%;}
+}
+
+

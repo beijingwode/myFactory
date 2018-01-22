@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="AttributeMapper">
+
+	<resultMap id="Attribute" type="com.wode.factory.model.Attribute">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="ismust" column="ismust"/>
+        <result property="inputtype" column="inputtype"/>
+        <result property="forSearch" column="for_search"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="defaultVal" column="default_val"/>
+        <result property="createTime" column="create_time"/>
+        <result property="orders" column="orders"/>
+        <result property="selectedValue" column="selectedValue"/><!-- 已经选择的那个值，只供显示 -->
+         <!-- 属性list -->
+        <collection property="optionlist" ofType="com.wode.factory.model.AttributeOption">  
+			<result property="id" column="id_opt"/>
+        	<result property="name" column="name_opt"/>
+        	<result property="orders" column="orders_opt"/>
+		</collection>
+		
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,name,ismust,inputtype,for_search,category_id,default_val,create_time,orders
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_attribute (
+        	id ,
+        	name ,
+        	ismust ,
+        	inputtype ,
+        	for_search ,
+        	category_id ,
+        	default_val ,
+        	create_time ,
+        	orders 
+        ) VALUES (
+        	#{id} ,
+        	#{name} ,
+        	#{ismust} ,
+        	#{inputtype} ,
+        	#{forSearch} ,
+        	#{categoryId} ,
+        	#{defaultVal} ,
+        	#{createTime} ,
+        	#{orders} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_attribute SET
+	        name = #{name} ,
+	        ismust = #{ismust} ,
+	        inputtype = #{inputtype} ,
+	        for_search = #{forSearch} ,
+	        category_id = #{categoryId} ,
+	        default_val = #{defaultVal} ,
+	        create_time = #{createTime} ,
+	        orders = #{orders} 
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_attribute WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="Attribute">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_attribute 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_attribute 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="Attribute">
+    	SELECT <include refid="columns" />
+	    FROM t_attribute 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(name)">
+				AND name = #{name}
+			</if>
+	       <if test="@Ognl@isNotEmpty(ismust)">
+				AND ismust = #{ismust}
+			</if>
+	       <if test="@Ognl@isNotEmpty(inputtype)">
+				AND inputtype = #{inputtype}
+			</if>
+	       <if test="@Ognl@isNotEmpty(forSearch)">
+				AND for_search = #{forSearch}
+			</if>
+	       <if test="@Ognl@isNotEmpty(categoryId)">
+				AND category_id = #{categoryId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(defaultVal)">
+				AND default_val = #{defaultVal}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createTimeBegin)">
+				AND create_time >= #{createTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createTimeEnd)">
+				AND create_time &lt;= #{createTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(orders)">
+				AND orders = #{orders}
+			</if>
+		</where>
+	</sql>
+	
+		
+	<!-- 根据类型id获取该类型所有的属性及其属性值 -->
+	<select id="getAttributelistByCategoryid" resultMap="Attribute">
+		SELECT attr.*,
+		opt.id as id_opt,
+		opt.name as name_opt,
+		opt.orders as orders_opt,
+		tpa.value as selectedValue
+		from t_attribute as attr 
+		LEFT JOIN t_attribute_option as opt on opt.attributeId=attr.id
+		LEFT JOIN (SELECT * from t_product_attribute WHERE product_id=#{productid}) as tpa ON tpa.attribute_id = attr.id
+		WHERE attr.category_id=#{categoryid}
+		ORDER BY attr.orders,opt.orders
+    </select>
+</mapper>
+

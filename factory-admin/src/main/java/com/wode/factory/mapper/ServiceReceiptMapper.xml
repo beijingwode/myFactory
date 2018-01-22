@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.ServiceReceiptDao">
+    <resultMap id="ServiceReceipt" type="com.wode.factory.model.ServiceReceipt">
+        <result property="id" column="id"/>
+        <result property="type" column="type"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="code" column="code"/>
+        <result property="title" column="title"/>
+        <result property="financeCode" column="finance_code"/>
+        <result property="amount" column="amount"/>
+        <result property="saleBillIds" column="sale_bill_ids"/>
+        <result property="createDate" column="create_date"/>
+        <result property="createUser" column="create_user"/>
+        <result property="status" column="status"/>
+        <result property="sendDate" column="send_date"/>
+        <result property="sendExpressType" column="send_express_type"/>
+        <result property="sendExpressNo" column="send_express_no"/>
+        <result property="returnDate" column="return_date"/>
+        <result property="returnExpressType" column="return_express_type"/>
+        <result property="returnExpressNo" column="return_express_no"/>
+        <result property="returnNote" column="return_note"/>
+        <result property="returnLimit" column="return_limit"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="rejectNote" column="reject_note"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,type,supplier_id,code,title,finance_code,amount,sale_bill_ids,create_date,create_user,status,send_date,send_express_type,send_express_no,return_date,return_express_type,return_express_no,return_note,return_limit,update_time,update_user,reject_note
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_service_receipt (
+            id ,
+            type ,
+            supplier_id ,
+            code ,
+            title ,
+            finance_code ,
+            amount ,
+            sale_bill_ids ,
+            create_date ,
+            create_user ,
+            status ,
+            send_date ,
+            send_express_type ,
+            send_express_no ,
+            return_date ,
+            return_express_type ,
+            return_express_no ,
+            return_note ,
+            return_limit ,
+            update_time ,
+            update_user ,
+            reject_note
+        ) VALUES (
+            #{id} ,
+            #{type} ,
+            #{supplierId} ,
+            #{code} ,
+            #{title} ,
+            #{financeCode} ,
+            #{amount} ,
+            #{saleBillIds} ,
+            #{createDate} ,
+            #{createUser} ,
+            #{status} ,
+            #{sendDate} ,
+            #{sendExpressType} ,
+            #{sendExpressNo} ,
+            #{returnDate} ,
+            #{returnExpressType} ,
+            #{returnExpressNo} ,
+            #{returnNote} ,
+            #{returnLimit} ,
+            #{updateTime} ,
+            #{updateUser} ,
+            #{rejectNote}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_service_receipt SET            
+            type = #{type} ,
+            supplier_id = #{supplierId} ,
+            code = #{code} ,
+            title = #{title} ,
+            finance_code = #{financeCode} ,
+            amount = #{amount} ,
+            sale_bill_ids = #{saleBillIds} ,
+            create_date = #{createDate} ,
+            create_user = #{createUser} ,
+            status = #{status} ,
+            send_date = #{sendDate} ,
+            send_express_type = #{sendExpressType} ,
+            send_express_no = #{sendExpressNo} ,
+            return_date = #{returnDate} ,
+            return_express_type = #{returnExpressType} ,
+            return_express_no = #{returnExpressNo} ,
+            return_note = #{returnNote} ,
+            return_limit = #{returnLimit} ,
+            update_time = #{updateTime} ,
+            update_user = #{updateUser} ,
+            reject_note = #{rejectNote} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_service_receipt WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="ServiceReceipt">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_service_receipt 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="ServiceReceipt">
+        SELECT <include refid="columns" /> FROM t_service_receipt 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(type)">
+                AND type = #{type}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(code)">
+                AND code = #{code}
+            </if>
+           <if test="@Ognl@isNotEmpty(title)">
+                AND title = #{title}
+            </if>
+           <if test="@Ognl@isNotEmpty(financeCode)">
+                AND finance_code = #{financeCode}
+            </if>
+           <if test="@Ognl@isNotEmpty(amount)">
+                AND amount = #{amount}
+            </if>
+           <if test="@Ognl@isNotEmpty(saleBillIds)">
+                AND sale_bill_ids = #{saleBillIds}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date = #{createDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(createUser)">
+                AND create_user = #{createUser}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(sendDate)">
+                AND send_date = #{sendDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(sendExpressType)">
+                AND send_express_type = #{sendExpressType}
+            </if>
+           <if test="@Ognl@isNotEmpty(sendExpressNo)">
+                AND send_express_no = #{sendExpressNo}
+            </if>
+           <if test="@Ognl@isNotEmpty(returnDate)">
+                AND return_date = #{returnDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(returnExpressType)">
+                AND return_express_type = #{returnExpressType}
+            </if>
+           <if test="@Ognl@isNotEmpty(returnExpressNo)">
+                AND return_express_no = #{returnExpressNo}
+            </if>
+           <if test="@Ognl@isNotEmpty(returnNote)">
+                AND return_note = #{returnNote}
+            </if>
+           <if test="@Ognl@isNotEmpty(returnLimit)">
+                AND return_limit = #{returnLimit}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND update_time = #{updateTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateUser)">
+                AND update_user = #{updateUser}
+            </if>
+           <if test="@Ognl@isNotEmpty(rejectNote)">
+                AND reject_note = #{rejectNote}
+            </if>
+        </where>
+    </sql>
+
+	<!-- 分页条件查询对账单 -->
+	<select id="findPageList" resultMap="ServiceReceipt">
+		SELECT <include refid="columns" />
+	    FROM t_service_receipt 
+	    <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(type)">
+                AND type = #{type}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(code)">
+                AND code = #{code}
+            </if>
+           <if test="@Ognl@isNotEmpty(title)">
+                AND title = #{title}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(financeCode)">
+                AND finance_code = #{financeCode}
+            </if>
+			<if test="@Ognl@isNotEmpty(startCreateDate)">
+				AND create_date &gt;= #{startCreateDate}
+			</if>
+			<if test="@Ognl@isNotEmpty(endCreateDate)">
+				AND create_date &lt;= #{endPayTime}
+			</if>
+	    </where>
+	    ORDER BY create_date DESC
+	</select>
+</mapper>
+

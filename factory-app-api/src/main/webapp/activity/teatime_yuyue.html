@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+
+<link rel="stylesheet" type="text/css" href="../static_resources/css/teatime_yuyue.css" />
+<script type="text/javascript" src="../static_resources/js/jquery1.8.0.js"></script>
+<title>美味下午茶免费申请</title>
+</head>
+
+<body>
+<form id="yuyueform">
+<div class="yuyue_con">
+	<div class="ipt_box"><span class="span1">名字：</span><input type="text" name="username" id="username" placeholder="请输入您的姓名(中文)" /></div>
+	<div class="ipt_box"><span class="span2">公司：</span><input type="text" name="company" id="company" placeholder="请输入您所在公司名称" /></div>
+	<div class="ipt_box"><span class="span3">部门：</span><input type="text" name="department" id="department" placeholder="请输入您所在的部门" /></div>
+	<div class="ipt_box"><span class="span4">电话：</span><input type="text" name="tel" id="tel" placeholder="请输入您的电话" /></div>
+	<p></p>
+	<div class="btn"><a href="javascript:;">提交申请</a></div>
+</div>
+</form>
+</body>
+<script>
+$(function(){
+	$(".btn a").click(function(){
+	    var oName=$("#username").val();
+	    var oTel=$("#tel").val();
+	    var N = $.trim(oName);
+	    var T = $.trim(oTel);	    
+	    
+		var reName=/^[\u4e00-\u9fa5]{2,8}$/i;//验证姓名
+		
+		if(!reName.test(N)){
+          $(".yuyue_con p").html("输入名字有误");
+          $(".ipt_box input").focus(function(){
+        	  $(".yuyue_con p").html("");
+          });
+          return
+        };
+	        
+	    var  reTel=/^1([358]\d|7[23]|77|47)\d{8}$/i;//验证手机号
+	     
+	    if(!reTel.test(T)){
+          $(".yuyue_con p").html("请输入正确的手机号码");
+          $(".ipt_box input").focus(function(){
+           $(".yuyue_con p").html("");
+          });
+          return
+        };
+        //提交 
+        $.ajax({
+    	    url: "../teaTime/insert",
+    	    type : "POST",
+    		dataType: "json",  //返回json格式的数据  
+    		data: $("#yuyueform").serialize(),  //返回json格式的数据  
+    	    success:function(data){    	    	   
+    	    	if(data.success) {
+    	    		window.location =  "teatime_yuyue_suc.html";
+    	    	} else {
+    	    		showInfoBox(data.msg);
+    	    	}
+    	    },
+    	 	error:function(){
+    		}
+    	}); 
+     	
+	});
+});
+
+
+
+function displyMsg(msg) {
+    $(".yuyue_con p").html(msg);
+}
+</script>
+</html>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ShopSettingMapper">
+
+	<resultMap id="ShopSetting" type="com.wode.factory.model.Shop">
+        <result property="logo" column="logo"/>
+        <result property="shopname" column="shopname"/>
+        <result property="introduce" column="introduce"/>
+        <result property="banner" column="banner"/>
+        <result property="type" column="type"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="topImage" column="top_image"/>
+        <result property="introImage" column="intro_image"/>
+        <result property="brandIntroduce" column="brand_introduce"/>
+       <result property="qq" column="qq"/>
+       <result property="cusTel" column="cus_tel"/>
+       <result property="cusPhone" column="cus_phone"/>
+       <result property="cusEmail" column="cus_email"/>
+       <result property="cusContact" column="cus_contact"/>
+       <result property="serTel" column="ser_tel"/>
+       <result property="serPhone" column="ser_phone"/>
+       <result property="serEmail" column="ser_email"/>
+       <result property="serContact" column="ser_contact"/>
+       <result property="shopTel" column="shop_tel"/>
+       <result property="shopPhone" column="shop_phone"/>
+       <result property="shopEmail" column="shop_email"/>
+       <result property="shopContact" column="shop_contact"/>
+       <result property="shippingFree" column="shippingFree"/>
+       
+	</resultMap>
+	
+	<resultMap id="FLJModel" type="com.wode.factory.model.FLJModel">
+        <result property="logo" column="logo"/>
+        <result property="shopname" column="shopname"/>
+        <result property="introduce" column="introduce"/>
+        <result property="banner" column="banner"/>
+        <result property="type" column="type"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="topImage" column="top_image"/>
+        <result property="introImage" column="intro_image"/>
+        <result property="brandIntroduce" column="brand_introduce"/>
+	        <result property="qq" column="qq"/>
+	        <result property="cusTel" column="cus_tel"/>
+	        <result property="cusPhone" column="cus_phone"/>
+	        <result property="cusEmail" column="cus_email"/>
+	        <result property="cusContact" column="cus_contact"/>
+	        <result property="serTel" column="ser_tel"/>
+	        <result property="serPhone" column="ser_phone"/>
+	        <result property="serEmail" column="ser_email"/>
+	        <result property="serContact" column="ser_contact"/>
+	        <result property="shopTel" column="shop_tel"/>
+	        <result property="shopPhone" column="shop_phone"/>
+	        <result property="shopEmail" column="shop_email"/>
+	        <result property="shopContact" column="shop_contact"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,user_id,supplier_id,logo,shopname,introduce,banner,type,top_image,brand_introduce,intro_image,cus_tel,cus_phone,cus_email,cus_contact,ser_tel,ser_phone,ser_email,ser_contact,shop_tel,shop_phone,shop_email,shop_contact,qq
+	    ]]>
+	</sql>
+	
+ <select id="getById" resultMap="ShopSetting">
+		SELECT <include refid="columns" /> ,(select shipping_free from t_supplier where t_supplier.id=t_shop.supplier_id) shippingFree
+	    <![CDATA[
+		    FROM t_shop
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+	    
+    <select id="findAll" resultMap="FLJModel">
+		SELECT tss.id,tss.user_id,tss.logo,tss.shopname,tss.introduce,tss.supplier_id
+	    <![CDATA[
+		    FROM t_shop tss LEFT JOIN t_supplier ts ON tss.supplier_id = ts.id where `status` = 2 AND enter_type = 5 ;
+	    ]]>
+	</select>
+	
+	<select id="findcount" resultType="Integer">
+		SELECT COUNT(1) FROM t_product WHERE is_marketable = 1 AND supplier_id = #{supplierId} AND shop_id = #{shopId}
+	</select>
+    
+    <select id="getBySupplierId" resultMap="ShopSetting">
+		SELECT <include refid="columns" /> 
+	    <![CDATA[
+		    FROM t_shop
+	        WHERE 
+		        supplier_id = #{supplierId} 
+	    ]]>
+	</select>
+    
+</mapper>
+

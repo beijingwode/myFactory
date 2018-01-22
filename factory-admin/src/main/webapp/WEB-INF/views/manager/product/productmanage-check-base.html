@@ -1,0 +1,115 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/product/productlist" method="post" id="search-form" target="list-page" class="center clearfix">
+					<input type="hidden" name="viewisMarketable" value="${isMarketable!}">
+					<div class="row padding-tb-10 col-sm-12">
+						<div class="col-sm-4">
+								<label>状态：</label>
+								<input type="hidden" name="status" value="2">
+								<select name="isMarketable">
+									<option value="">所有状态</option>
+									<option value="1" selected>上架</option>
+									<option value="-2">手动下架</option>
+									<option value="-1">售完下架</option>
+									<option value="-10">已删除</option>
+								</select>	
+								
+								
+								<input type="checkbox" value="1" name="saleKbn" id="saleKbn1"><label for="saleKbn1">特省</label>
+								<input type="checkbox" value="2" name="saleKbn" id="saleKbn2"><label for="saleKbn2">换领</label>
+								<input type="checkbox" value="5" name="saleKbn" id="saleKbn5"><label for="saleKbn5">试用</label>
+								<input type="checkbox" name="locked" value="1" id="locked"><label for="locked">锁定商品</label>
+								<input type="checkbox" name="Enterpriseprocurement" value="1" id="Enterpriseprocurement"><label for="Enterpriseprocurement">企采</label>
+								<input type="checkbox" name="selfType" value="1" id="selfType1"><label for="selfType1">线下销售</label>
+								<input type="checkbox" name="selfType" value="2" id="selfType2"><label for="selfType2">延时上线</label>
+						</div>
+						<div class="col-sm-4">
+							<label>商品标题：</label>
+							<input type="text" id="name" name="name">
+						</div>
+						<div class="col-sm-4">
+							<label>商品id：</label>
+							<input type="text" id="id" name="id">
+						</div>
+				<div style="width:100px;float: right;margin-right: 40px;margin-top: -30px" onclick="exportExcel()">
+					<span class="btn fa fa-file-excel-o" id="excel-btn">&nbsp;&nbsp;导出SKU</span>
+				</div>
+					</div>
+					<div class="row padding-tb-10 col-sm-12">
+						<div class="col-sm-4">
+							<label>创建日期：</label>
+							<input type="text" id="startDate" name="startDate">
+							<label>-</label>
+							<input type="text" id="endDate" name="endDate">
+							&nbsp;&nbsp;
+							
+						</div>
+						
+						<div class="col-sm-4">
+								<label>商家：</label>
+								<#select name="supplierId" width="45%">
+									<option value="-1">全部</option>
+									@for(item in supplierList){
+									<option value="${item.id! }">${item.comName! }</option>
+									@}
+								</#select>
+								
+								@if(!isEmpty(mlist)){
+								<select name="managerId">
+									<option value="-1">招商经理</option>
+									@for(item in mlist){
+									<option value="${item.id! }">${item.name! }</option>
+									@}
+								</select>
+								@}
+								
+						</div>
+						<div class="col-sm-4">
+							<label>商家名称：</label>
+							<input type="text" id="supplierName" name="supplierName">
+						</div>
+					</div>
+					<div class="padding-trb-10 col-sm-12">
+							<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">全部</span>
+							<span class="btn btn-info btn-sm col-sm-6" id="search-btn">查询</span>
+							
+						</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+	</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script>
+	laydate({
+	    elem: '#startDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#endDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	$("#role-select").chosen({width: "80%",search_contains: true});
+	$("#role-choose").chosen({width: "100%",search_contains: true}); 
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	
+	function exportExcel() {
+		var action,target;
+		var thisform=document.getElementById('search-form');
+		action=thisform.action;
+		target=thisform.target;
+		
+		thisform.action="${ctxPath}/product/exportExcel";
+		thisform.target="_blank";
+		thisform.submit();
+		
+		thisform.action=action;
+		thisform.target=target;
+	}
+</script>

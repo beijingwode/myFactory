@@ -1,0 +1,88 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<input value="${st.id}" type="hidden" id="paymentBox_id">
+	<div class="profile-info-row">
+		<div class="profile-info-name">财务代码</div>
+		<div class="profile-info-value">${st.financeCode}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">商户名称</div>
+		<div class="profile-info-value">${supplier.comName}</div>
+	</div>
+	@if(sd.accountType=='1'){
+	<div class="profile-info-row">
+		<div class="profile-info-name">支付宝账号</div>
+		<div class="profile-info-value">${sd.alipayAccount}</div>
+	</div>
+	@} else {
+	<div class="profile-info-row">
+		<div class="profile-info-name">银行账号</div>
+		<div class="profile-info-value">${supplier.bankNum}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">银行</div>
+		<div class="profile-info-value">${supplier.bankId}&nbsp;&nbsp;${supplier.bankName}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">所在地</div>
+		<div class="profile-info-value">${supplier.bankState}&nbsp;&nbsp;${supplier.bankCity}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">开户人</div>
+		<div class="profile-info-value">${supplier.bankPeople}</div>
+	</div>
+	@} 
+	<div class="profile-info-row">
+		<div class="profile-info-name">应付款</div>
+		<div class="profile-info-value">${st.amount}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">支付流水号</div>
+		<div class="profile-info-value"><input type="text" maxlength="50" id="flowCd" /></div>
+	</div>
+</div>
+	 <div class="red">
+		注意，实际付款流程在线下完成，
+		此操作不可逆，确定吗？
+	</div>
+	<div class="width-100 clearfix" tag-save-btn style="bottom: 0px;left: 0px;position:absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-100  pull-left" id="submit">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>确定
+	</span>
+	</div>
+<script type="text/javascript">
+$(function(){
+	
+	$("#submit").click(function(){
+		//获取id值
+	var id = $("#paymentBox_id").val();
+	if(id==""){
+		layer.msg('系统错误', 3, 1);
+	}else{
+		$.ajax({
+			dataType:'json',
+			type:'POST',
+			url:'${ctxPath}/saleBill/payTransfer?id='+id+"&payFlowCode="+$("#flowCd").val(),
+			contentType: 'application/json',
+			async: true,
+			success:function(data){
+				if(data.success){
+					layer.msg('操作成功', 3, 1,function(){
+						location.reload();
+						layer.closeAll();
+					});
+				}else{
+					layer.msg('操作失败 :'+data.msg, 3, 1,function(){
+						location.reload();
+						layer.closeAll();
+					});
+				}
+			}
+		});
+	}	
+		
+	});
+})
+
+</script>
+</div>

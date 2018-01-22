@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserPrizeTakeMapper">
+
+    <resultMap id="UserPrizeTake" type="com.wode.factory.model.UserPrizeTake">
+        <result property="id" column="id"/>
+        <result property="prizeId" column="prize_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="name" column="name"/>
+        <result property="mobile" column="mobile"/>
+        <result property="address" column="address"/>
+        <result property="email" column="email"/>
+        <result property="status" column="status"/>
+        <result property="sendDate" column="send_date"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="operationName" column="operation_name"/>
+        <result property="createDate" column="create_date"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,prize_id,user_id,name,mobile,address,email,status,send_date,update_date,operation_name,create_date
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_prize_take (
+            id ,
+            prize_id ,
+            user_id ,
+            name ,
+            mobile ,
+            address ,
+            email ,
+            status ,
+            send_date ,
+            update_date ,
+            operation_name ,
+            create_date
+        ) VALUES (
+            #{id} ,
+            #{prizeId} ,
+            #{userId} ,
+            #{name} ,
+            #{mobile} ,
+            #{address} ,
+            #{email} ,
+            #{status} ,
+            #{sendDate} ,
+            #{updateDate} ,
+            #{operationName} ,
+            #{createDate}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_prize_take SET            
+            prize_id = #{prizeId} ,
+            user_id = #{userId} ,
+            name = #{name} ,
+            mobile = #{mobile} ,
+            address = #{address} ,
+            email = #{email} ,
+            status = #{status} ,
+            send_date = #{sendDate} ,
+            update_date = #{updateDate} ,
+            operation_name = #{operationName} ,
+            create_date = #{createDate} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_prize_take WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserPrizeTake">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_prize_take 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="findUserPrizeByMap" resultMap="UserPrizeTake">
+        SELECT <include refid="columns" /> FROM t_user_prize_take 
+        where 1= 1
+         	<if test="@Ognl@isNotEmpty(mobile)">
+                AND mobile = #{mobile}
+            </if>
+            <if test="@Ognl@isNotEmpty(email)">
+                AND email = #{email}
+            </if>
+              <if test="@Ognl@isNotEmpty(prizeId)">
+                AND prize_id = #{prizeId}
+            </if>
+    </select>
+    
+    <select id="selectByModel" resultMap="UserPrizeTake">
+        SELECT <include refid="columns" /> FROM t_user_prize_take 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(prizeId)">
+                AND prize_id = #{prizeId}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(name)">
+                AND name = #{name}
+            </if>
+           <if test="@Ognl@isNotEmpty(mobile)">
+                AND mobile = #{mobile}
+            </if>
+           <if test="@Ognl@isNotEmpty(address)">
+                AND address = #{address}
+            </if>
+           <if test="@Ognl@isNotEmpty(email)">
+                AND email = #{email}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(sendDate)">
+                AND send_date = #{sendDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateDate)">
+                AND update_date = #{updateDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(operationName)">
+                AND operation_name = #{operationName}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date = #{createDate}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

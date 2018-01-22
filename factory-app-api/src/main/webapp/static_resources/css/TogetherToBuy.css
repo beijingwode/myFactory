@@ -1,0 +1,27 @@
+@charset "utf-8";
+/* CSS Document */
+body{background:#f0f0f5}
+.pro-count,.address,.leave_note{width:92%;height:auto;padding:10px 4%;overflow: hidden;background:#fff;margin-top:10px;}
+.part-note-msg { width: 100%;height: 24px;display: inline-block;line-height: 24px;font-size: 14px;color: #020202;}
+.quantity-wrapper {display: inline-block;height: 35px; margin-top:10px;float:left;}
+.quantity-decrease{padding:0;float: left;font-size: 1.6em;text-align: center;height: 35px;background: #fff;border: 1px solid #797979;border-right:none;color: #666;display: block;line-height: 35px;width: 45px;overflow: hidden;-webkit-border-radius: 3px 0 0 3px;-webkit-appearance: none;}
+.quantity{height: 33px;width: 65px;float: left;font-size: 1.6em;text-align: center; color: #797979;border:1px solid #797979;border-radius: 0;-webkit-appearance: none;background:#fff;padding:0;}
+.quantity-increase{padding:0;float: left;font-size: 1.6em;text-align: center;height: 35px;background: #fff;border: 1px solid #797979;border-left:none;color: #666;display: block;line-height: 35px;width: 45px;overflow: hidden;-webkit-border-radius: 0 3px 3px 0;-webkit-appearance: none;}
+.pro-count em{height:35px;display:block;line-height:35px;font-style:normal;float:left;margin-top:10px;margin-left:10px;font-size:1.2em;color:#797979}
+
+.address p{width:100%;height:auto;overflow:hidden;margin:7px 0;display:none;}
+.address .p1{ling-height:28px;font-size:1.4em;color:#333;}
+.address .p1 span{float:left;}
+.address .p1 em{float:right}
+.address .p2{ling-height:22px;font-size:1.2em;color:#333;}
+.address a{width:100%;height:44px;display:block;line-height:44px;text-align:center;font-size:2.0em;color:#797979;}
+
+.leave_note{padding:20px 4%;}
+.leave_note input{width:96%;height:33px;background:#f4f3f9;border:none;border-radius:3px;padding-left:4%}
+
+.TogetherToBuy_btn{width:96%;height:42px;padding:5px 2%;background:#fff;position:fixed;bottom:0;left:0;}
+
+.TogetherToBuy_btn a{width:100%;height:42px;background:#c22936;display:block;line-height:42px;text-align:center;font-size:1.6em;color:#fff}
+
+.TogetherToBuy_help{width:92%;height:50px;padding:0 4%;background:#fff;margin-top:10px;    }
+.TogetherToBuy_help a{width:100%;height:50px;display:block;line-height:50px;color:#333333;font-size:1.4em;background:url(../images/go_next.png) no-repeat right center;background-size: 7px 14px;}

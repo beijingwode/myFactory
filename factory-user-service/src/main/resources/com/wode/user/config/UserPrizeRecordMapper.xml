@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserPrizeRecordMapper">
+
+    <resultMap id="UserPrizeRecord" type="com.wode.factory.model.UserPrizeRecord">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="prizeGrade" column="prize_grade"/>
+        <result property="gradeName" column="grade_name"/>
+        <result property="luckyNumber" column="lucky_number"/>
+        <result property="prizeId" column="prize_id"/>
+        <result property="acticityId" column="acticity_id"/>
+        <result property="status" column="status"/>
+        <result property="createDate" column="create_date"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,user_id,name,phone,prize_grade,grade_name,lucky_number,prize_id,acticity_id,status,create_date
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_prize_record (
+            id ,
+            user_id ,
+            name ,
+            phone ,
+            prize_grade ,
+            grade_name ,
+            lucky_number ,
+            prize_id ,
+            acticity_id ,
+            status ,
+            create_date
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{name} ,
+            #{phone} ,
+            #{prizeGrade} ,
+            #{gradeName} ,
+            #{luckyNumber} ,
+            #{prizeId} ,
+            #{acticityId} ,
+            #{status} ,
+            #{createDate}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_prize_record SET            
+            user_id = #{userId} ,
+            name = #{name} ,
+            phone = #{phone} ,
+            prize_grade = #{prizeGrade} ,
+            grade_name = #{gradeName} ,
+            lucky_number = #{luckyNumber} ,
+            prize_id = #{prizeId} ,
+            acticity_id = #{acticityId} ,
+            status = #{status} ,
+            create_date = #{createDate} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_prize_record WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserPrizeRecord">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_prize_record 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="findGradeByGroup" resultType="com.wode.factory.model.GradeMsgVo">
+          SELECT grade_name gradeName,prize_grade prizeGrade FROM t_user_prize_record 
+          where 1=1
+           <if test="@Ognl@isNotEmpty(acticityId)">
+                AND acticity_id = #{acticityId}
+            </if>
+        group by prize_grade order by prize_grade desc
+    </select>
+    
+    <select id="selectByModel" resultMap="UserPrizeRecord">
+        SELECT <include refid="columns" /> FROM t_user_prize_record 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(name)">
+                AND name = #{name}
+            </if>
+           <if test="@Ognl@isNotEmpty(phone)">
+                AND phone = #{phone}
+            </if>
+           <if test="@Ognl@isNotEmpty(prizeGrade)">
+                AND prize_grade = #{prizeGrade}
+            </if>
+           <if test="@Ognl@isNotEmpty(gradeName)">
+                AND grade_name = #{gradeName}
+            </if>
+           <if test="@Ognl@isNotEmpty(luckyNumber)">
+                AND lucky_number = #{luckyNumber}
+            </if>
+           <if test="@Ognl@isNotEmpty(prizeId)">
+                AND prize_id = #{prizeId}
+            </if>
+           <if test="@Ognl@isNotEmpty(acticityId)">
+                AND acticity_id = #{acticityId}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date = #{createDate}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

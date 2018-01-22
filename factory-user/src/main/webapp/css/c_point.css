@@ -1,0 +1,46 @@
+@charset "utf-8";
+/* CSS Document */
+
+body,h1,h2,h3,h4,h5,h6,p,ul,ol,li,form,img,dl,dt,dd,table,th,td,blockquote,fieldset,div,strong,label,em{margin:0;padding:0;border:0;}
+body{font-size:12px;font-family:"宋体" Georgia, "Times New Roman", Times, serif;}
+ul,ol,li{list-style:none;}
+input{vertical-align:middle;}
+table{border-collapse:collapse;border-spacing:0;}
+input,button,select,textarea{outline:none;}
+
+img{border:none}
+a{text-decoration:none;color:#333;}
+a:hover{cursor:pointer}
+
+
+/*banner*/
+.banner{height:310px;width:1440px;margin:0 auto;}
+/*承诺*/
+.promise{height:312px;width:990px;margin:0 auto;padding-top:58px;overflow:hidden;}
+.promise .tit1{height:38px;width:161px;margin:0 auto;}
+.promise ul{height:158px;width:1100px;margin-top:35px;}
+.promise ul li{height:158px;width:110px;float:left;margin-right:110px;}
+
+/*代收服务流程*/
+.process{height:380px;width:100%;background:#f5f5f5;}
+.process-con{height:342px;width:990px;margin:0 auto;padding-top:38px;}
+.process-con .tit2{height:40px;width:250px;margin:0 auto;}
+.process-con ul{height:240px;width:1060px;margin-top:35px;}
+.process-con ul li{height:240px;width:220px;float:left;margin-right:45px;}
+
+/*疑问解答*/
+.qa{width:890px;height:auto;margin:0 auto;padding:58px 50px 50px 50px;overflow:hidden;}
+.qa .tit2{height:40px;width:165px;margin:0 auto;}
+.qa-con{height:auto;width:890px;margin-top:40px;}
+.qa-con .questions,.qa-con .answers{width:890px;overflow:hidden;}
+.qa-con .questions span{height:40px;width:30px;display:block;float:left;font-size:22px;color:#ff5d5d; font-weight:bold;}
+.qa-con .answers span{height:40px;width:30px;display:block;float:left;font-size:22px;color:#4b5567;font-weight:bold;}
+.qa-con .questions p,.qa-con .answers p{width:850px;float:left;font-size:20px;color:#4b5567; font-family:"微软雅黑";line-height:30px;}
+.qa-con .questions p{color:#ff5d5d;font-weight:bold;}
+.qa-con .answers p a:hover{color:#ff5d5d;}
+
+.qa-con .answers p img{float:left;margin-right:20px;}
+.qa-con .answers p em{font-style:normal;font-size:14px;float:left;margin-top:70px;color:#ff5d5d;}
+
+
+

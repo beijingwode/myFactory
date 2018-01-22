@@ -1,0 +1,97 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<input value="${st.id}" type="hidden" id="stid">
+	<div class="profile-info-row">
+		<div class="profile-info-name">财务代码</div>
+		<div class="profile-info-value">${st.financeCode}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">商户名称</div>
+		<div class="profile-info-value">${supplier.comName}</div>
+	</div>
+	@if(sd.accountType=='1'){
+	<div class="profile-info-row">
+		<div class="profile-info-name">支付宝账号</div>
+		<div class="profile-info-value">${sd.alipayAccount}</div>
+	</div>
+	@} else {
+	<div class="profile-info-row">
+		<div class="profile-info-name">银行账号</div>
+		<div class="profile-info-value">${supplier.bankNum}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">银行</div>
+		<div class="profile-info-value">${supplier.bankId}&nbsp;&nbsp;${supplier.bankName}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">所在地</div>
+		<div class="profile-info-value">${supplier.bankState}&nbsp;&nbsp;${supplier.bankCity}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">开户人</div>
+		<div class="profile-info-value">${supplier.bankPeople}</div>
+	</div>
+	@} 
+	<div class="profile-info-row">
+		<div class="profile-info-name">付款金额</div>
+		<div class="profile-info-value">${st.amount}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">支付流水号</div>
+		<div class="profile-info-value">${st.payFlowCode}</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">转账时间</div>
+		<div class="profile-info-value">${st.payDate!,dateFormat="yyyy-MM-dd" }</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">转账失败原因:</div>
+		<div class="profile-info-value">
+		<input type="text" id="rejectNote" maxlength="80" style="width: 90%">
+		</div>
+	</div>
+</div>
+<div class="width-100 clearfix" tag-save-btn style="bottom: 0px;left: 0px;position:absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-100  pull-left" id="submit">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>确定
+	</span>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	
+	$("#submit").click(function(){
+		if($("#rejectNote").val()==''){
+			layer.msg('请输入转账失败原因', 3, 1);
+		}else{
+			var rejectNote = encodeURI(encodeURI($("#rejectNote").val(),"UTF-8"));
+			$.ajax({
+					dataType:'json',
+					type:'POST',
+					url:'${ctxPath}/saleBill/payFail?id='+$("#stid").val()+'&rejectNote='+rejectNote,
+					contentType: 'application/json;',
+					success:function(data){
+						if(data.success){
+							layer.msg('操作成功', 3, 1,function(){
+								layer.closeAll();
+								document.getElementById("search-form").submit();
+							});
+						}else{
+							layer.msg('操作失败', 3, 1,function(){
+								layer.closeAll();
+								document.getElementById("search-form").submit();
+							});
+						}
+					},
+					error:function() {
+						layer.msg('系统异常', 3, 1,function(){
+							layer.closeAll();
+							document.getElementById("search-form").submit();
+						});
+					}
+				});
+		}
+});
+});
+</script>
+</div>

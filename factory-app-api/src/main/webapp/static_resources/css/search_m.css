@@ -1,0 +1,64 @@
+@charset "utf-8";
+/* CSS Document */
+.top_box {height:86px;position:absolute;z-index:9;left:0}
+.search_box{width:82%;height:45px;float:left;}
+.search_con{width:67%;height:30px;border:1px solid #e8e8e8;float:left;margin:7px 15px 0 0; -moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius:10px;padding-left:35px;background:#efeff3 url(../images/icon_search.png) no-repeat 10px center;background-size:16px 16px}
+.search_con .ipt_text{width:95%;height:28px;border:none;float:left;background:none;}
+.search_con a{width:14px;height:14px;display:block;float:left;margin:8px 0px 8px 10px;background:url(images/cl.png) no-repeat;background-size:14px 14px}
+
+.search_btn{float:left;height:45px;line-height:45px;}
+.search_btn a{font-size:1.4em;color:#c22936; }
+
+.top_box ul{height:40px;width:100%;background:#fff;border-bottom:1px solid #e1e1e1;}
+.top_box ul li{width:24%;height:40px;float:left;}
+.top_box ul li a{width:100%;height:40px;display:block;font-size:1.6em;color:#999999;text-align:center;line-height:40px;}
+.top_box ul .thisone a{color:#c22936;font-weight:600}
+.search_jg1{background:url(../images/jiage_nor.png) no-repeat 80% center;background-size:8px 15px;}
+.search_jg2{background:url(../images/jiage_s.png) no-repeat 80% center;background-size:8px 15px;}
+.search_jg3{background:url(../images/jiage.png) no-repeat 80% center;background-size:8px 15px;}
+
+.search_sx{width:26%;}
+.search_sx1{background:url(../images/filter.png) no-repeat 92% center;background-size:15px 15px;}
+.search_sx2{background:url(../images/filter_down.png) no-repeat 92% center;background-size:15px 15px;}
+
+.main_con{width:100%;padding-top:85px;}
+.main_con ul{width:100%;}
+.main_con ul li{width:100%;height:auto;overflow:hidden;border-top:1px solid #c8c7cc;border-bottom:1px solid #c8c7cc;background:#fff;margin-bottom:10px;}
+.main_con ul li dl{width:94%;height:auto;padding:0 3%;margin-top:3%;}
+.main_con ul li dl dt{width:28%;height:auto;float:left;position:relative;}
+.main_con ul li dl dt .picon{position:absolute;right:5px;top:5px;}
+.main_con ul li dl dd{width:65%;float:right;margin-bottom:5px;}
+.main_con ul li dl .dd1{height:40px;font-size:1.4em;line-height:20px;overflow:hidden;}
+.main_con ul li dl .dd1 a{color:#333333;}
+.main_con ul li dl .dd2{line-height:20px;}
+.main_con ul li dl .dd2 span{font-size:1.2em;color:#a3a3a3;}
+.main_con ul li dl .dd2 .span1 {max-width:40%;display:block;float:left;}
+.main_con ul li dl .dd2 .span1 em{font-style:normal;color:#c22936}
+.main_con ul li dl .dd2 .span2{float:left}
+.main_con ul li dl .dd3{text-align:left;color:#c22936;font-size:1.2em;}
+
+.back_top{width:40px;position:fixed;bottom:20px;right:10px;}
+#bottom a{font-size:1.4em;color:#269de9;}
+#bottom p{font-size:1.4em;}
+
+.thickdiv {position: fixed;top: 0;left: 0;z-index: 10000001;width: 100%;height: 100%;background: #000;border: 0;filter: alpha(opacity = 15);opacity: .15;display:none;} 
+.thickbox {width: 85%;height: 100%;position: fixed;right: 0;top: 0;z-index: 10000002;overflow: hidden;background:#fff;display:none;}
+.price_inp{height:30px;width:100%;margin-top:15px;}
+.price_inp input{width:30%;height:28px;border:none;background:#e1e1e1;text-align:center;line-height:30px;float:left;}
+.price_inp em{width:20%;height:30px;display:block;margin:0 5%; text-decoration:line-through;float:left;line-height:30px;text-align:center;background:url(../images/price_embg.png) repeat-x center}
+/*.price_inp .price_rt{float:right;}*/
+
+.pro-color,.price_range {width:92%;padding:10px 4% 0 4%;margin-top: 13px;overflow:hidden;}
+.pro-color span,.price_range span{font-size:1.4em;}
+.pro-color p{width:100%;margin-top:15px;max-height:350px;overflow-y:auto;overflow-x:hidden;}
+.pro-color p a{height: 25px;border: 1px solid #d7d7d7;border-radius: 4px;line-height: 23px;
+font-size: 13px;color: #686868;float: left; margin-right: 10px;padding-left: 15px;padding-right: 15px;margin-bottom: 10px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
+max-width: 100%;box-sizing: border-box;}
+.pro-color p a.selected{border: 1px solid #c22936;color: #c22936;}
+
+.thickbox_bottom{width:85%; height:45px;overflow:hidden;    position:fixed;z-index:1;right:0;bottom:0;border-top:1px solid #ccc}
+.thickbox_bottom a{width:50%;height:45px;display:block;float:left;line-height:45px;text-align:center;font-size:1.4em;}
+.thickbox_bottom .cz_btn{background:#fff;color:#555555;}
+.thickbox_bottom .qd_btn{background:#ff7766; color:#fff;}
+.thickclose{position:absolute;top:10px;right:10px;}
+

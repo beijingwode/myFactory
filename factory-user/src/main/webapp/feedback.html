@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>我的福利-用户反馈</title>
+    <link rel="stylesheet" type="text/css" href="css/help.css"/>
+    <link rel="stylesheet" type="text/css" href="css/footer.css" />
+    <script type="text/javascript" src="/resources/js/jquery1.8.0.js"></script>
+    <script type="text/javascript" src="/resources/js/application.js"></script>
+    
+</head>
+
+<body>
+<!--top begin-->
+<div id="top">
+	<div class="roof_bg">
+    	<div class="roof R_wid">
+        	<div class="roof_left">
+            	<span>您好，欢迎来到我的网</span>
+                <ul class="roof_left_list">
+                	<li><a href="/login.html">登录</a><em>|</em></li>
+                    <li><a href="/register.html">免费注册</a></li>
+                </ul>
+            </div>
+            <div class="roof_right">
+            	<ul class="roof_right_list">
+                    <li><a href="/index.html">我的网</a></li>
+                    <li class="bg_li"></li>
+                    <li><a href="/member/myorders">我的订单</a></li>
+                    <li class="bg_li"></li>
+                    <li class="hand_life_li "><a href="http://www.wd-w.com/app.html" target="_blank">掌上生活</a><em></em>
+                    	<div class="ewm_inner">
+                    		<a href="http://www.wd-w.com/app.html" target="_blank"><img src="/images/top_ewm.png" /></a>
+                    		<p>扫一扫，下载<span>我的福利</span>客户端</p>
+                    	</div>
+                    </li>
+                    <li class="bg_li"></li>
+                    <li><a href="http://supplier.wd-w.com">我是商家</a></li>
+                    <li class="bg_li"></li>
+                    <li class="bg_none"><a href="http://www.wd-w.com/help-center.html?from=lxwm" target="_blank">联系我的</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="head R_wid">
+    <div class="logo"><a href="/index.html"><img src="/images/logo.png" alt="logo"></a></div>
+    <div class="search R_margin">
+        <div class="searchbox">
+             <form action="/product/search" method="get" id="search_form" target="_blank">
+                <input class="searchinput" type="text" name="key" value="" onBlur="if($.trim(value)==''){value=defaultValue;}" onFocus="if(value==defaultValue){value='';}">
+                <input  class="search_btn" id="search_btn" type="submit" value="搜索" />
+            </form>
+        </div>
+        <div class="search_list">
+            <ul>
+               <li><a href="http://wd-w.com/product/search?key=%E5%AE%B6%E7%94%A8%E7%94%B5%E5%99%A8&amp;page=1#orders" target="_blank">电器</a></li>
+               <li><a href="http://wd-w.com/product/search?key=%E6%A2%B5%E7%94%B0" target="_blank">家居</a></li>
+               <li class="curr"><a href="http://wd-w.com/product/search?key=%E6%80%9D%E5%87%AF%E4%B9%90" target="_blank">思凯乐</a></li>
+                <!-- <li><a href="http://wd-w.com/product/search?key=%E9%9F%A9%E5%A6%99" target="_blank">韩妙</a></li> -->
+           </ul>
+        </div>
+    </div>
+    
+</div>
+
+<!--top end-->
+<div class="nav" style="height:6px;">
+    
+</div>
+<!--主体布局开始-->
+<div class="mainbody">
+    <div class="main-box">
+        <div class="tx"><img src="/images/f-tx.png" width="80" height="80"/></div>
+        <div class="main-con main-con-one">
+            <div class="sj"></div>
+            <p>尊敬的用户：<br/> 您好！为了给您提供更好的服务，我们希望收集您使用我的时的看法或建议。<br/> 对您的配合和支持表示衷心感谢！</p>
+        </div>
+    </div>
+    <form action="/feedback/create" method="post" id="feedbackForm">
+        <div class="main-box main-box-two">
+            <div class="tx"><img src="images/f-tx.png" width="80" height="80"/></div>
+            <div class="main-con main-con-two">
+                <div class="sj"></div>
+                <p>如果您在使用我的网时，有什么好或不好的地方，请大声说出来！我们会关注您的反馈，不断优化产品， 为您提供更好的服务！</p>
+
+                <div class="text-box">
+                    <textarea id="txt" name="content"></textarea>
+                </div>
+                <p>您对我的网整体满意度如何？<span>(必选项)</span></p>
+
+                <div class="myd-con">
+                    <ul>
+                        <li><label><input type="radio" name="score" value="5" checked="checked"><span>非常满意</span></label></li>
+                        <li><label><input type="radio" name="score" value="4"><span>满意</span></label></li>
+                        <li><label><input type="radio" name="score" value="3"><span>一般</span></label></li>
+                        <li><label><input type="radio" name="score" value="2"><span>不满意</span></label></li>
+                        <li><label><input type="radio" name="score" value="1"><span>非常不满意</span></label></li>
+                    </ul>
+                </div>
+                <p>我们会不定期邀请用户参与面对面的交流。如果您有意参与，请填写如下信息，方便我们与您联系，谢谢！ （信息仅作为内部资料绝不外泄）<span>(必选项)</span></p>
+
+                <p class="p2">由于我们的体验中心在北京，访谈活动仅限北京地区用户参加，给您带来的不便还请谅解。 </p>
+
+                <div class="name-tel-box">
+                    <div class="name-tel"><span>姓名</span>
+
+                        <div class="ipt-con"><input type="text" id="name" name="name" value=""/></div>
+                    </div>
+                    <div class="name-tel"><span>手机</span>
+
+                        <div class="ipt-con"><input type="text" id="phone" name="phone" value=""/></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+    <div class="tj-btn"><a href="javascript:void(0);" id="subutton">提交</a></div>
+</div>
+<!--主体布局结束--><!--公用底部信息开始-->
+<div id="footer">
+    <div class="footer_box">
+        <ul class="footer_list">
+           <li><a href="http://www.wo-de.com/about.html" target="_blank">关于我的</a></li>
+            <li><a href="http://www.wd-w.com/help-center.html?from=lxwm" target="_blank">联系我的</a></li>
+            <li><a href="http://www.wo-de.com/index.html" target="_blank">友情链接</a></li>
+            <li><a href="http://www.wo-de.com/about.html" target="_blank">人才招聘</a></li>
+            <li><a href="http://www.wd-w.com/help-center.html" target="_blank">帮助中心</a></li>
+            <li><a href="http://supplier.wd-w.com/" target="_blank">商家平台</a></li>
+            <li><a href="http://www.wd-w.com/app.html" target="_blank">掌上生活</a></li>
+            <li><a href="http://www.wd-w.com/legal-notice.html" target="_blank">法律申明</a></li>
+            <li><a href="http://www.wd-w.com/feedback.html" target="_blank">用户反馈</a></li>
+            <li><a href="http://www.wd-w.com/union_rules.html" target="_blank">平台交易规则</a></li>
+        </ul>
+        <div class="foter">
+            <span>京ICP证150591号</span>
+            <span><a href="http://www.miitbeian.gov.cn/"  target="_blank">京ICP备14054543号-1</a></span>  
+            <span>京公网安备11010802017481号</span>
+            <span>我的旗下网站：我的团  我的美  我的码 我的快递</span>
+        </div>
+        <div class="foter">
+            <span>北京我的科技有限公司</span>
+            <span>地址：北京市朝阳区来广营诚盈中心5号楼1601</span>
+            <span>电话：010-57746487</span>
+            <ul class="footer_info">
+                <li><a href="#">经营性网站<br>备案信息</a></li>
+                <li><a href="#">可信网站<br>信用评价</a></li>
+                <li><a href="#">朝阳区网络<br>警察提醒您</a></li>
+                <li><a href="#" style="line-height:38px;">诚信网站</a></li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<!--公用底部信息结束-->
+<script type="text/javascript" src="/resources/js/search_list.js"></script>
+<script>
+    $(function () {
+        $("#subutton").click(function () {
+            var phone = $.trim($("#phone").val()), phoneReg = /^[1][0-9]{10}$/, name = $.trim($("#name").val());
+            if (name == "" || name.length > 50) {
+                alert("请输入正确的姓名!");
+                $("#name").focus();
+                return;
+            }
+            if (phone == "" || !phoneReg.test(phone)) {
+                alert("请输入正确手机号码!");
+                $("#phone").focus();
+                return;
+            }
+            $("#phone").val(phone);
+            $("#name").val(name);
+            $("#feedbackForm").submit();
+        });
+        $.ajax({
+            type: "POST",
+            url: "/user/checkLogin",
+            success: function (ret) {
+                if (ret.success) {
+                    $(".login").hide();
+                    $(".roof_left_list").html("<li class=\"li-01\"><a href=\"/member/center\">" + ret.data + "</a><em>|</em></li><li><a href=\"/user/loginOut\">注销</a></li>");
+                }
+            }
+        });
+    });
+</script>
+<script type="text/javascript" src="resources/js/top_ewm.js"></script>
+</body>
+</html>

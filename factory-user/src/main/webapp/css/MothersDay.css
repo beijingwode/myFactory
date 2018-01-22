@@ -1,0 +1,66 @@
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, iframe,h1, h2, h3, h4, h5, h6,p,pre,a,del, em, font, ins, q, s, samp,dl, dt, dd, ol, ul, li, form,label, legend, caption,textarea, tbody{ margin:0; padding:0; }
+
+body{font-size:62.5%;font-family:Arial, 'Microsoft YaHei', sans-serif;  width:100%;background:#f4f5e0;}
+
+ol,ul,li {	list-style: none; }
+
+blockquote:before, blockquote:after,q:before, q:after {	content: ""; }
+
+blockquote, q { quotes: "" ""; }
+
+a img {	border: 0; }
+
+article, aside, details, figcaption, figure,
+
+footer, header, hgroup, menu, nav, section { display: block; }
+
+h1,h2,h3,h4,h5,h6{font-weight:700}
+
+strong{font-weight:700}
+
+cite,em{font-style:normal}
+
+i{font-style:italic}
+
+img,objiect{ max-width:100%;vertical-align:middle/* 此样式会控制前端图片属性所以去掉*/ }
+img{width:100%;}
+a { text-decoration:none; }
+
+input,textarea{ outline:0; resize:none;}
+map area {
+    outline: none;
+}
+.main{width:100%;height:auto;overflow:hidden;}
+.main1{background:url(../images/MothersDay/banner_bg.jpg) no-repeat top center;}
+.main3{background:url(../images/MothersDay/bg1.jpg) no-repeat top center;}
+.main4{background:url(../images/MothersDay/bg2.jpg) no-repeat top center;}
+.main5{background:url(../images/MothersDay/bg3.jpg) no-repeat top center;}
+.main6{background:url(../images/MothersDay/bg4.jpg) no-repeat top center;}
+.main7{background:url(../images/MothersDay/bg5.jpg) no-repeat top center;}
+.main8{background:url(../images/MothersDay/bg6.jpg) no-repeat top center;}
+.main9{background:url(../images/MothersDay/bg7.jpg) no-repeat top center;}
+.main10{background:url(../images/MothersDay/bg8.jpg) no-repeat top center;}
+.main11{background:url(../images/MothersDay/bg9.jpg) no-repeat top center;}
+.main12{background:url(../images/MothersDay/bg10.jpg) no-repeat top center;}
+.main13{background:url(../images/MothersDay/bg11.jpg) no-repeat top center;}
+.main14{height:277px;background:url(../images/MothersDay/bg12.jpg) no-repeat top center;}
+
+.main_con{width:1200px;margin:0 auto;}
+.main14 .footer{width:431px;height:86px;margin:0 auto;margin-top:94px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

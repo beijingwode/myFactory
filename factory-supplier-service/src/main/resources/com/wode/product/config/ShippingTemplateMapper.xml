@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ShippingTemplateMapper" >
+  <resultMap id="BaseResultMap" type="com.wode.factory.model.ShippingTemplate" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="supplier_id" property="supplierId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="send_time_des" property="sendTimeDes" jdbcType="VARCHAR" />
+    <result column="count_type" property="countType" jdbcType="CHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="version" property="version" jdbcType="SMALLINT" />
+    <result column="is_audit" property="isAudit" jdbcType="SMALLINT" />
+    <!-- 模板规则list -->
+    <collection property="rulelist" ofType="com.wode.factory.model.ShippingTemplateRule">  
+	    <id column="rule_id" property="id" jdbcType="BIGINT" />
+	    <result column="rule_template_id" property="templateId" jdbcType="BIGINT" />
+	    <result column="rule_count_type" property="countType" jdbcType="CHAR" />
+	    <result column="rule_send_type" property="sendType" jdbcType="CHAR" />
+	    <result column="rule_sort" property="sort" jdbcType="INTEGER" />
+	    <result column="rule_areas_name" property="areasName" jdbcType="VARCHAR" />
+	    <result column="rule_areas_code" property="areasCode" jdbcType="VARCHAR" />
+	    <result column="rule_first_cnt" property="firstCnt" jdbcType="DECIMAL" />
+	    <result column="rule_first_price" property="firstPrice" jdbcType="DECIMAL" />
+	    <result column="rule_plus_cnt" property="plusCnt" jdbcType="DECIMAL" />
+	    <result column="rule_plus_price" property="plusPrice" jdbcType="DECIMAL" />
+	</collection>
+    <!-- 包邮list -->
+    <collection property="freelist" ofType="com.wode.factory.model.ShippingFreeRule">  
+	    <id column="free_id" property="id" jdbcType="BIGINT" />
+	    <result column="free_template_id" property="templateId" jdbcType="BIGINT" />
+	    <result column="free_count_type" property="countType" jdbcType="CHAR" />
+	    <result column="free_send_type" property="sendType" jdbcType="CHAR" />
+	    <result column="free_sort" property="sort" jdbcType="INTEGER" />
+	    <result column="free_areas_name" property="areasName" jdbcType="VARCHAR" />
+	    <result column="free_areas_code" property="areasCode" jdbcType="VARCHAR" />
+	    <result column="free_count_type_des" property="countTypeDes" jdbcType="CHAR" />
+	    <result column="free_param1" property="param1" jdbcType="DECIMAL" />
+	    <result column="free_param2" property="param2" jdbcType="DECIMAL" />
+	</collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, supplier_id, name, send_time_des, count_type, create_user, create_time, update_user, 
+    update_time,version,is_audit
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    SELECT st.*, 
+    str.id rule_id, str.template_id rule_template_id, str.count_type rule_count_type,str.send_type rule_send_type, 
+     	str.sort rule_sort, str.areas_name rule_areas_name, str.areas_code rule_areas_code, 
+     	str.first_cnt rule_first_cnt, str.first_price rule_first_price, str.plus_cnt rule_plus_cnt,str.plus_price rule_plus_price,
+    sfr.id free_id, sfr.template_id free_template_id, sfr.count_type free_count_type,sfr.send_type free_send_type, 
+     	sfr.sort free_sort, sfr.areas_name free_areas_name, sfr.areas_code free_areas_code, 
+     	sfr.count_type_des free_count_type_des, sfr.param1 free_param1, sfr.param2 free_param2
+    FROM t_shipping_template st 
+    LEFT JOIN t_shipping_template_rule str ON st.id = str.template_id
+    LEFT JOIN t_shipping_free_rule sfr ON st.id = sfr.template_id
+    WHERE st.id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from t_shipping_template
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wode.factory.model.ShippingTemplate" >
+    insert into t_shipping_template (id, supplier_id, name, 
+      send_time_des, count_type, create_user, 
+      create_time, update_user, update_time,version,is_audit
+      )
+    values (#{id,jdbcType=BIGINT}, #{supplierId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{sendTimeDes,jdbcType=VARCHAR}, #{countType,jdbcType=CHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},#{version,jdbcType=SMALLINT},#{isAudit,jdbcType=SMALLINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wode.factory.model.ShippingTemplate" >
+    insert into t_shipping_template
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sendTimeDes != null" >
+        send_time_des,
+      </if>
+      <if test="countType != null" >
+        count_type,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+       <if test="isAudit != null">
+        is_audit,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTimeDes != null" >
+        #{sendTimeDes,jdbcType=VARCHAR},
+      </if>
+      <if test="countType != null" >
+        #{countType,jdbcType=CHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=SMALLINT},
+      </if>
+       <if test="isAudit != null">
+        #{isAudit,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wode.factory.model.ShippingTemplate" >
+    update t_shipping_template
+    <set >
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTimeDes != null" >
+        send_time_des = #{sendTimeDes,jdbcType=VARCHAR},
+      </if>
+      <if test="countType != null" >
+        count_type = #{countType,jdbcType=CHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isAudit != null">
+        is_audit = #{isAudit,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="update" parameterType="com.wode.factory.model.ShippingTemplate" >
+    update t_shipping_template
+    set supplier_id = #{supplierId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      send_time_des = #{sendTimeDes,jdbcType=VARCHAR},
+      count_type = #{countType,jdbcType=CHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      is_audit = #{isAudit,jdbcType=SMALLINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+	<select id="selectByModel" resultMap="BaseResultMap">
+		select 
+    	<include refid="Base_Column_List" />
+    	from t_shipping_template
+	    <where>	
+	    	1=1
+		  <if test="id != null" >
+        	and id = #{id,jdbcType=BIGINT} 
+	      </if>
+		  <if test="supplierId != null" >
+        	and supplier_id = #{supplierId,jdbcType=BIGINT} 
+	      </if>
+	      <if test="name != null" >
+	        and name = #{name,jdbcType=VARCHAR}
+	      </if>
+	      <if test="sendTimeDes != null" >
+	        and send_time_des = #{sendTimeDes,jdbcType=VARCHAR}
+	      </if>
+	      <if test="countType != null" >
+	        and count_type = #{countType,jdbcType=CHAR}
+	      </if>
+	      <if test="createUser != null" >
+	        and create_user = #{createUser,jdbcType=VARCHAR}
+	      </if>
+	      <if test="updateUser != null" >
+	        and update_user = #{updateUser,jdbcType=VARCHAR}
+	      </if>
+	      <if test="version != null">
+            and version = #{version,jdbcType=SMALLINT}
+          </if>
+          <if test="isAudit != null and isAudit == 0">
+            and is_audit = #{isAudit,jdbcType=SMALLINT}
+          </if>
+          <if test="isAudit != null and isAudit == 1">
+            and is_audit != 0
+          </if>
+          <if test="isAudit != null and isAudit == 2">
+            and is_audit = 2
+          </if>
+	    </where>
+	    ORDER BY update_time DESC
+	</select>
+	
+	<select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_shipping_template 
+	    <where>	
+	    	1=1
+		  <if test="id != null" >
+        	and id = #{id,jdbcType=BIGINT} 
+	      </if>
+		  <if test="supplierId != null" >
+        	and supplier_id = #{supplierId,jdbcType=BIGINT} 
+	      </if>
+	    </where>
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="BaseResultMap">
+		select 
+    	<include refid="Base_Column_List" />
+    	from t_shipping_template
+	    <where>	
+	    	1=1
+		  <if test="id != null" >
+        	and id = #{id,jdbcType=BIGINT} 
+	      </if>
+		  <if test="supplierId != null" >
+        	and supplier_id = #{supplierId,jdbcType=BIGINT} 
+	      </if>
+	      <if test="name != null" >
+	        and name = #{name,jdbcType=VARCHAR}
+	      </if>
+	      <if test="version != null">
+            and version = #{version,jdbcType=SMALLINT}
+          </if>
+          <if test="isAudit != null">
+            and is_audit = #{isAudit,jdbcType=SMALLINT}
+          </if>
+	    </where>
+	    ORDER BY update_time DESC
+    </select>
+</mapper>

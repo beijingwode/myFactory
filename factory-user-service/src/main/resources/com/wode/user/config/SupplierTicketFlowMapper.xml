@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SupplierTicketFlowMapper">
+
+    <resultMap id="SupplierTicketFlow" type="com.wode.factory.model.SupplierTicketFlow">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="ticketId" column="ticket_id"/>
+        <result property="ticketType" column="ticket_type"/>
+        <result property="opDate" column="op_date"/>
+        <result property="opCode" column="op_code"/>
+        <result property="amount" column="amount"/>
+        <result property="balance" column="balance"/>
+        <result property="note" column="note"/>
+        <result property="keyId" column="key_id"/>
+        <result property="updName" column="upd_name"/>
+        <result property="key2" column="key2"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,supplier_id,ticket_id,ticket_type,op_date,op_code,amount,balance,note,key_id,upd_name,key2
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_supplier_ticket_flow (
+            id ,
+            supplier_id ,
+            ticket_id ,
+            ticket_type ,
+            op_date ,
+            op_code ,
+            amount ,
+            balance ,
+            note ,
+            key_id ,
+            upd_name ,
+            key2
+        ) VALUES (
+            #{id} ,
+            #{supplierId} ,
+            #{ticketId} ,
+            #{ticketType} ,
+            #{opDate} ,
+            #{opCode} ,
+            #{amount} ,
+            #{balance} ,
+            #{note} ,
+            #{keyId} ,
+            #{updName} ,
+            #{key2}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_supplier_ticket_flow SET            
+            supplier_id = #{supplierId} ,
+            ticket_id = #{ticketId} ,
+            ticket_type = #{ticketType} ,
+            op_date = #{opDate} ,
+            op_code = #{opCode} ,
+            amount = #{amount} ,
+            balance = #{balance} ,
+            note = #{note} ,
+            key_id = #{keyId} ,
+            upd_name = #{updName} ,
+            key2 = #{key2} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_supplier_ticket_flow WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="SupplierTicketFlow">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_supplier_ticket_flow 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="SupplierTicketFlow">
+        SELECT <include refid="columns" /> FROM t_supplier_ticket_flow 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticketId)">
+                AND ticket_id = #{ticketId}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticketType)">
+                AND ticket_type = #{ticketType}
+            </if>
+           <if test="@Ognl@isNotEmpty(opDate)">
+                AND op_date = #{opDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(opCode)">
+                AND op_code = #{opCode}
+            </if>
+           <if test="@Ognl@isNotEmpty(amount)">
+                AND amount = #{amount}
+            </if>
+           <if test="@Ognl@isNotEmpty(balance)">
+                AND balance = #{balance}
+            </if>
+           <if test="@Ognl@isNotEmpty(note)">
+                AND note = #{note}
+            </if>
+           <if test="@Ognl@isNotEmpty(keyId)">
+                AND key_id = #{keyId}
+            </if>
+           <if test="@Ognl@isNotEmpty(updName)">
+                AND upd_name = #{updName}
+            </if>
+           <if test="@Ognl@isNotEmpty(key2)">
+                AND key2 = #{key2}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

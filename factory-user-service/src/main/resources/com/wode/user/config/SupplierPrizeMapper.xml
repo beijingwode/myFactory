@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SupplierPrizeMapper">
+
+    <resultMap id="SupplierPrize" type="com.wode.factory.model.SupplierPrize">
+        <result property="id" column="id"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="acticityId" column="acticity_id"/>
+        <result property="acticityTheme" column="acticity_theme"/>
+        <result property="prizeGrade" column="prize_grade"/>
+        <result property="gradeName" column="grade_name"/>
+        <result property="prizeName" column="prize_name"/>
+        <result property="image" column="image"/>
+        <result property="type" column="type"/>
+        <result property="link" column="link"/>
+        <result property="number" column="number"/>
+        <result property="cash" column="cash"/>
+        <result property="ticket" column="ticket"/>
+        <result property="note" column="note"/>
+        <result property="limitStart" column="limit_start"/>
+        <result property="limitEnd" column="limit_end"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,enterprise_id,enterprise_name,acticity_id,acticity_theme,prize_grade,grade_name,prize_name,image,type,link,number,cash,ticket,note,limit_start,limit_end
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_supplier_prize (
+            id ,
+            enterprise_id ,
+            enterprise_name ,
+            acticity_id ,
+            acticity_theme ,
+            prize_grade ,
+            grade_name,
+            prize_name ,
+            image ,
+            type ,
+            link ,
+            number ,
+            cash ,
+            ticket ,
+            note ,
+            limit_start ,
+            limit_end
+        ) VALUES (
+            #{id} ,
+            #{enterpriseId} ,
+            #{enterpriseName} ,
+            #{acticityId} ,
+            #{acticityTheme} ,
+            #{prizeGrade} ,
+            #{gradeName} ,
+            #{prizeName} ,
+            #{image} ,
+            #{type} ,
+            #{link} ,
+            #{number} ,
+            #{cash} ,
+            #{ticket} ,
+            #{note} ,
+            #{limitStart} ,
+            #{limitEnd}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_supplier_prize SET            
+            enterprise_id = #{enterpriseId} ,
+            enterprise_name = #{enterpriseName} ,
+            acticity_id = #{acticityId} ,
+            acticity_theme = #{acticityTheme} ,
+            prize_grade = #{prizeGrade} ,
+            grade_name = #{gradeName} ,
+            prize_name = #{prizeName} ,
+            image = #{image} ,
+            type = #{type} ,
+            link = #{link} ,
+            number = #{number} ,
+            cash = #{cash} ,
+            ticket = #{ticket} ,
+            note = #{note} ,
+            limit_start = #{limitStart} ,
+            limit_end = #{limitEnd} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_supplier_prize WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="SupplierPrize">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_supplier_prize 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="findPrizeListByMap" resultMap="SupplierPrize">
+    	SELECT <include refid="columns" /> FROM t_supplier_prize 
+        <include refid="find_where"/>
+        order by prize_grade desc
+    </select>
+    
+    <select id="findPrizeByMap" resultMap="SupplierPrize">
+    	SELECT <include refid="columns" /> FROM t_supplier_prize 
+        <include refid="find_where"/>
+    </select>
+
+    <select id="selectByModel" resultMap="SupplierPrize">
+        SELECT <include refid="columns" /> FROM t_supplier_prize 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(enterpriseId)">
+                AND enterprise_id = #{enterpriseId}
+            </if>
+           <if test="@Ognl@isNotEmpty(enterpriseName)">
+                AND enterprise_name = #{enterpriseName}
+            </if>
+           <if test="@Ognl@isNotEmpty(acticityId)">
+                AND acticity_id = #{acticityId}
+            </if>
+           <if test="@Ognl@isNotEmpty(acticityTheme)">
+                AND acticity_theme = #{acticityTheme}
+            </if>
+           <if test="@Ognl@isNotEmpty(prizeGrade)">
+                AND prize_grade = #{prizeGrade}
+            </if>
+           <if test="@Ognl@isNotEmpty(gradeName)">
+                AND grade_name = #{gradeName}
+            </if>
+           <if test="@Ognl@isNotEmpty(prizeName)">
+                AND prize_name = #{prizeName}
+            </if>
+           <if test="@Ognl@isNotEmpty(image)">
+                AND image = #{image}
+            </if>
+           <if test="@Ognl@isNotEmpty(type)">
+                AND type = #{type}
+            </if>
+           <if test="@Ognl@isNotEmpty(link)">
+                AND link = #{link}
+            </if>
+           <if test="@Ognl@isNotEmpty(number)">
+                AND number = #{number}
+            </if>
+           <if test="@Ognl@isNotEmpty(cash)">
+                AND cash = #{cash}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticket)">
+                AND ticket = #{ticket}
+            </if>
+           <if test="@Ognl@isNotEmpty(note)">
+                AND note = #{note}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitStart)">
+                AND limit_start = #{limitStart}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitEnd)">
+                AND limit_end = #{limitEnd}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

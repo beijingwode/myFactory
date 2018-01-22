@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SupplierSkuImageMapper">
+
+	<resultMap id="SupplierSkuImage" type="com.wode.factory.model.SupplierSkuImage">
+        <result property="id" column="id"/>
+        <result property="image1" column="image1"/>
+        <result property="image2" column="image2"/>
+        <result property="image3" column="image3"/>
+        <result property="image4" column="image4"/>
+        <result property="image5" column="image5"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="introduce" column="introduce"/>
+        <result property="createTime" column="create_time"/>
+        <result property="status" column="status"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,image1,image2,image3,image4,image5,supplier_id,introduce,create_time,status
+	    ]]>
+	</sql>
+    
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	INSERT INTO t_supplier_sku_image 
+	<trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="image1 != null" >
+        image1,
+      </if>
+      <if test="image2 != null" >
+        image2,
+      </if>
+      <if test="image3 != null" >
+        image3,
+      </if>
+      <if test="image4 != null" >
+        image4,
+      </if>
+      <if test="image5 != null" >
+        image5,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="introduce != null" >
+        introduce,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="status != null" >
+        status
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     <if test="id != null" >
+        #{id},
+      </if>
+      <if test="image1 != null" >
+        #{image1},
+      </if>
+      <if test="image2 != null" >
+        #{image2},
+      </if>
+      <if test="image3 != null" >
+        #{image3},
+      </if>
+      <if test="image4 != null" >
+        #{image4},
+      </if>
+      <if test="image5 != null" >
+        #{image5},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId},
+      </if>
+      <if test="introduce != null" >
+        #{introduce},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+      <if test="status != null" >
+        #{status}
+      </if>
+    </trim>
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_supplier_sku_image SET
+	        image1 = #{image1} ,
+	        image2 = #{image2} ,
+	        image3 = #{image3} ,
+	        image4 = #{image4} ,
+	        image5 = #{image5} ,
+	        supplier_id = #{supplierId} ,
+	        introduce = #{introduce} ,
+	        create_time = #{createTime} ,
+	        status = #{status} 
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_supplier_sku_image WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="SupplierSkuImage">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_supplier_sku_image 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_supplier_sku_image 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="SupplierSkuImage">
+    	SELECT <include refid="columns" />
+	    FROM t_supplier_sku_image 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+		<if test="@Ognl@isNotEmpty(supplierId)">
+			ORDER BY create_time DESC
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(image1)">
+				AND image1 = #{image1}
+			</if>
+	       <if test="@Ognl@isNotEmpty(image2)">
+				AND image2 = #{image2}
+			</if>
+	       <if test="@Ognl@isNotEmpty(image3)">
+				AND image3 = #{image3}
+			</if>
+	       <if test="@Ognl@isNotEmpty(image4)">
+				AND image4 = #{image4}
+			</if>
+	       <if test="@Ognl@isNotEmpty(image5)">
+				AND image5 = #{image5}
+			</if>
+	       <if test="@Ognl@isNotEmpty(supplierId)">
+				AND supplier_id = #{supplierId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(introduce)">
+				AND introduce = #{introduce}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createTime)">
+				AND create_time = #{createTime}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
+

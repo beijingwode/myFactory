@@ -1,0 +1,123 @@
+@charset "utf-8";
+/* CSS Document */
+.main-cont{padding-bottom:60px;overflow:hidden;}
+
+body{background:#f0f0f5;}
+.top_dl{width:72%;height:auto;padding:33px 14% 24px 14%;background:#fff;margin-bottom:8px;}
+.top_dl dl{width:100%;overflow:hidden;}
+.top_dl dl dt{width:50px;height:50px;float:left;border-radius:3px;margin-right:10px;}
+.top_dl dl dt img{width:50px;height:50px;border-radius:3px;}
+.top_dl dl dd{width:73%;height:25px;line-height:25px;float:left;color:#333333;}
+.top_dl dl .dd1{font-size:1.2em;} 
+.top_dl dl .dd2{font-size:1.4em;} 
+.top_dl dl dd span{color:#c22936;}
+/*团员可购商品*/
+.main-box{width: 100%;height: auto;overflow: hidden;padding-bottom:60px;}
+.order_box{width:100%;height:auto;overflow:hidden;margin-bottom:10px;}
+.order_top{width:96%;height:22px;padding:10px 0 10px 4%;}
+.order_top p{height:22px;padding-right:10px;float:left;line-height:22px;color:#797979;font-size:1.3em;}
+.order_box em{width:20px;height:20px;display:block;float:right;font-style:normal;background:url(../images/TogetherToBuy/can_buy_icon1.png) no-repeat;background-size:20px;}
+.order_top em{margin:4px 10px 0 0}
+
+.order_box ul{width:100%;padding-bottom:10px;}
+.order_box ul li{width:92%;height:auto;padding:20px 4%;overflow:hidden;background:#fff;margin-bottom:8px;position:relative}
+.order_box ul li p{width:50%;height:auto;position:absolute;top:20px;right:4%;text-align:right;color:#c22936}
+.order_box ul li em{width:20px;height:20px;margin:28px 0px 0 0}
+.order_box ul li dl{width:92%;height:auto;float:left;}
+.order_box ul li dl dt{height:70px;width:70px;float:left;margin-right:4%;border:1px solid #e0e0e0;float:left;position:relative;}
+.order_box ul li dl dt span{height:14px;width:46px;color:#fff;display:block;position:absolute;top:0;left:0;}
+.order_box ul li dl dt span img{height:14px;width:46px;}
+.order_box ul li dl dt .kaituan{height:14px;width:46px;background:#c22936;opacity: 0.6;padding:1px;}
+.order_box ul li dl dt .jietijia{height:16px;width:47px;padding-left:1px;background:url(../images/TogetherToBuy/jietijia_icon.png) no-repeat;background-size:48px 16px}
+.order_box ul li dl dt a img{width:70px;height:70px;}
+.order_box ul li dl dt .picon{width:24px;height:24px;position:absolute;top:3px;right:3px;}
+.order_box ul li dl dt .picon img{width:24px;height:24px;}
+.order_box ul li dl dd{width:68%;height:auto;overflow:hidden;float:left;}
+.order_box ul li dl .dd0{font-size:1.2em;color:#797979}
+.order_box ul li dl .dd1{height:20px;line-height:20px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
+.order_box ul li dl .dd1 a{color:#333;font-size:1.3em;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
+.order_box ul li dl .dd2{height:15px;ling-height:15px;font-size:1.2em;color:#797979;overflow: hidden; }
+.order_box ul li dl .dd3{height:15px;ling-height:15px;font-size:1.2em;color:#797979;text-decoration:line-through}
+.order_box ul li dl .dd4 {height:20px;line-height:20px;color:#c22936;font-size:1.2em;}
+.order_box ul li dl .dd4 span{font-size:1.2em;}
+.order_box ul li dl .dd4 i{font-size:0.9em;font-style:normal;}
+
+.bottom_box{width:94%;height:auto;border-top:1px solid #e0e0e0;padding:5px 2% 5px 4%;background:#fff;position:fixed;bottom:0;left:0;}
+.bottom_box1{z-index:99999999;}
+.bottom_box_rt{width:84px;height:38px;height:auto;float:right;}
+
+.bottom_box_rt a{width:84px;height:38px;display:block;float:right;text-align:center;line-height:38px;color:#fff;background:#c22936;font-size:1.6em;}
+.bottom_box_rt a.disable{width:84px;height:38px;display:block;float:right;text-align:center;line-height:38px;color:#fff;background:#686868;-moz-border-radius: 5px;-webkit-border-radius: 5px;  border-radius:5px;font-size:1.4em;margin-top:12px;disabled:disabled;}
+
+.bottom_box dl {width: 70%;height: 38px;float: left; }
+.bottom_box dl dt {height: 38px;width:50px;float: left;position:relative;margin-right:8px;}
+.bottom_box dl dt a{height: 50px;width:50px;display:block;background:url(../images/TogetherToBuy/can_buy_icon3.png) no-repeat;background-size:50px;position:absolute;bottom:0px;left:0; }
+.bottom_box dl dt span{width:20px;height:20px;display:block;text-align:center;line-height:20px;background:#c22936;border-radius:10px;color:#fff;position:absolute;top:-12px;right:0;}
+.bottom_box dl dd {width:70%;float: left;}
+.bottom_box dl .dd1 {height: 18px;color: #c22936;font-size: 1.2em;}
+.bottom_box dl .dd1 span {font-size: 1.2em;}
+.bottom_box dl .dd2 {font-size: 1.2em;color: #797979;}
+
+.thickdiv {position: fixed;top: 0;left: 0;z-index: 3;width: 100%;height: 100%;background: #000;border: 0;filter: alpha(opacity = 15);opacity: .15;display:none;} 
+.thickbox {width: 100%;padding-bottom:60px;position: fixed;right: 0;bottom: 0;z-index:4;background:#fff;display:none;}
+.gg_box{width: 100%;max-height:300px;overflow: scroll;}
+.thickcon ul{padding-bottom:0;}
+.thickcon ul li{border-bottom:1px solid #dcdce1;}
+.thickcon ul li:last-child{border-bottom:none;}
+.thickcon ul li dl{width:100%;}
+.thickcon ul li dl dt{width:80px;height:80px;}
+.thickcon ul li dl dt a img{width:80px;height:80px;}
+
+.prod-spec{width:92%;height: auto;padding:10px 4%;background:#fff;overflow:hidden;}
+
+.spec-desc{width:100%;height:auto;overflow:hidden;background:url(../images/go_next.png) no-repeat right center;background-size:7px 14px;}
+.spec-desc .part-note-msg{line-height: 24px;margin-right: 8px;}
+.part-note-msg {width:100%;margin-right: 8px;white-space: nowrap;overflow: hidden;position: relative;height: 24px;display: inline-block;line-height: 24px;font-size: 1.4em;color: #020202;}
+.pro-color {width:92%;padding:0px 4% 0 4%;margin-top: 10px;overflow:hidden;}
+.pro-color p{width:100%;overflow: hidden;}
+.pro-color p a{height: 32px;border: 1px solid #797979;border-radius: 2px;line-height: 32px;
+font-size: 1.3em;color: #686868;float: left; margin:10px 12px 0 0;padding:0 12px 0 12px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
+max-width: 100%;box-sizing: border-box;}
+.pro-color p a.selected{border: 1px solid #c22936;color: #c22936;}
+.pro-color p a.disable{border: 1px solid #e5e5e5;color: #cfcfcf;background:#fff }
+.pro-count {height:auto;margin-top: 15px;overflow: hidden;position: relative;width:92%;padding:0px 4% 10px 4%;}
+.quantity-wrapper {display: inline-block;height: 30px;border-radius: 5px; margin-top:10px;}
+.quantity-decrease{padding:0;float: left;font-size: 1.8em;text-align: center;height: 33px;background: #fff;border: 1px solid #848689;border-right:none;color: #666;display: block;line-height: 33px;width: 45px;overflow: hidden;-webkit-border-radius: 2px 0 0 2px;background-position: 10px -20px;-webkit-appearance: none;}
+.quantity{height: 33px;width: 65px;float: left;font-size: 1.4em;text-align: center; color: #686868;border:1px solid #686868;border-radius: 0;-webkit-appearance: none;background:#fff;padding:0;}
+.quantity-increase{padding:0;float: left;font-size: 1.8em;text-align: center;height: 33px;background: #fff;border: 1px solid #848689;border-left:none;color: #666;display: block;line-height: 33px;width: 45px;overflow: hidden;-webkit-border-radius: 0 2px 2px 0;-webkit-appearance: none;}
+.thickclose {font-size: 28px;color: #797979;position: absolute;top: 10px;right: 10px;}
+
+.add_buycar{height:40px;width:96%;padding:5px 2%;background:#fff;margin:0 auto;position:fixed;bottom:0;left:0;}
+.add_buycar a{height:40px;width:100%;display:block;font-size:1.5em;line-height:40px;text-align:center;color:#fff;background:#c22936;}
+.add_buycar .no_product{height:40px;width:100%;display:block;font-size:1.5em;line-height:40px;text-align:center;color:#fff;background:#686868;}
+
+.kucun{width:92%;height:20px;padding:0 4%;line-height:20px;color:#020202;font-size:1.3em;}
+.jtj_box{width:96%;height:auto;padding:15px 0;border-bottom:1px solid #dcdce1;margin:0 0 10px 4%;}
+.jtj_box span{height: 24px;width:100%;display:block;line-height: 24px;font-size: 1.4em;color: #020202;}
+.order_box .jtj_box p{color:#333;font-size:1.2em;margin-top:10px;}
+.order_box .jtj_box p i{color:#c22936;font-style:normal;}
+
+.thickbox2{display:none;} 
+.thickbox2 .order_box ul {max-height:300px;overflow: scroll;}
+.thickbox2 .order_box ul li dl{width:60%;float:left;}
+.thickbox2 .order_box ul li dl dd{width:100%;}
+.thickbox2 .order_box ul li dl .dd4 {margin-top:5px;}
+.thickbox2 .order_box ul li dl .dd4 span{font-size:1.4em;}
+.thickbox2 .quantity-wrapper{width:102px;float:right;}
+.thickbox2 .quantity-decrease{width:30px;}
+.thickbox2 .quantity{width:40px;}
+.thickbox2 .quantity-increase{width:30px;}
+
+.thickbox2 .order_box p{width:92%;height:50px;background:#f0f0f5;line-height:50px;padding:0 4%;color:#797979;font-size:1.2em;}
+
+
+
+
+
+
+
+
+
+
+
+

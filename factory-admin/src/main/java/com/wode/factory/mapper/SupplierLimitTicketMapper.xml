@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.SupplierLimitTicketDao">
+
+    <resultMap id="SupplierLimitTicket" type="com.wode.factory.model.SupplierLimitTicket">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="companyName" column="companyName"/>
+        <result property="oneceFlag" column="onece_flag"/>
+        <result property="ticketType" column="ticket_type"/>
+        <result property="limitType" column="limit_type"/>
+        <result property="limitKey" column="limit_key"/>
+        <result property="ticket" column="ticket"/>
+        <result property="cash" column="cash"/>
+        <result property="limitStart" column="limit_start"/>
+        <result property="limitEnd" column="limit_end"/>
+        <result property="ticketNote" column="ticket_note"/>
+        <result property="nextAction" column="next_action"/>
+        <result property="exp1" column="exp1"/>
+        <result property="exp2" column="exp2"/>
+        <result property="exp3" column="exp3"/>
+        <result property="ticketNum" column="ticket_num"/>
+        <result property="receiveNum" column="receive_num"/>
+        <result property="usedNum" column="used_num"/>
+        <result property="status" column="status"/>
+        <result property="createDate" column="create_date"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createUserName" column="create_user_name"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="registeFlg" column="registe_flg"/>
+        <result property="registeNormalPrzie" column="registe_normal_przie"/>
+        <result property="registeAutoPlus" column="registe_auto_plus"/>
+        <result property="registeAction" column="registe_action"/>
+        <result property="wxTempQrUrl" column="wx_temp_qr_url"/>
+        <result property="wxTempLimitEnd" column="wx_temp_limit_end"/>
+    </resultMap>
+     <resultMap id="SupplierLimitTicketVo" type="com.wode.factory.vo.SupplierLimitTicketVo">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="companyName" column="companyName"/>
+        <result property="oneceFlag" column="onece_flag"/>
+        <result property="ticketType" column="ticket_type"/>
+        <result property="limitType" column="limit_type"/>
+        <result property="limitKey" column="limit_key"/>
+        <result property="ticket" column="ticket"/>
+        <result property="cash" column="cash"/>
+        <result property="limitStart" column="limit_start"/>
+        <result property="limitEnd" column="limit_end"/>
+        <result property="ticketNote" column="ticket_note"/>
+        <result property="nextAction" column="next_action"/>
+        <result property="exp1" column="exp1"/>
+        <result property="exp2" column="exp2"/>
+        <result property="exp3" column="exp3"/>
+        <result property="ticketNum" column="ticket_num"/>
+        <result property="receiveNum" column="receive_num"/>
+        <result property="usedNum" column="used_num"/>
+        <result property="status" column="status"/>
+        <result property="createDate" column="create_date"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createUserName" column="create_user_name"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="registeFlg" column="registe_flg"/>
+        <result property="registeNormalPrzie" column="registe_normal_przie"/>
+        <result property="registeAutoPlus" column="registe_auto_plus"/>
+        <result property="registeAction" column="registe_action"/>
+        <result property="wxTempQrUrl" column="wx_temp_qr_url"/>
+        <result property="wxTempLimitEnd" column="wx_temp_limit_end"/>
+        <result property="comType" column="comType"/>
+        <result property="managerName" column="manager_name"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,supplierId,companyName,onece_flag,ticket_type,limit_type,limit_key,ticket,cash,limit_start,limit_end,ticket_note,next_action,exp1,exp2,exp3,ticket_num,receive_num,used_num,status,create_date,create_user,create_user_name,update_date,update_user
+        ,registe_flg,registe_normal_przie,registe_auto_plus,registe_action,wx_temp_qr_url,wx_temp_limit_end
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+         INSERT INTO t_supplier_limit_ticket (
+            id ,
+            supplierId ,
+            companyName ,
+            onece_flag ,
+            ticket_type ,
+            limit_type ,
+            limit_key ,
+            ticket ,
+            cash ,
+            limit_start ,
+            limit_end ,
+            ticket_note ,
+            next_action ,
+            exp1 ,
+            exp2 ,
+            exp3 ,
+            ticket_num ,
+            receive_num ,
+            used_num ,
+            status ,
+            create_date ,
+            create_user ,
+            create_user_name ,
+            update_date ,
+            update_user,
+            registe_flg,
+            registe_normal_przie,
+            registe_auto_plus,
+            registe_action,
+            wx_temp_qr_url,
+            wx_temp_limit_end
+        ) VALUES (
+            #{id} ,
+            #{supplierId} ,
+            #{companyName} ,
+            #{oneceFlag} ,
+            #{ticketType} ,
+            #{limitType} ,
+            #{limitKey} ,
+            #{ticket} ,
+            #{cash} ,
+            #{limitStart} ,
+            #{limitEnd} ,
+            #{ticketNote} ,
+            #{nextAction} ,
+            #{exp1} ,
+            #{exp2} ,
+            #{exp3} ,
+            #{ticketNum} ,
+            #{receiveNum} ,
+            #{usedNum} ,
+            #{status} ,
+            #{createDate} ,
+            #{createUser} ,
+            #{createUserName} ,
+            #{updateDate} ,
+            #{updateUser},
+            #{registeFlg},
+            #{registeNormalPrzie},
+            #{registeAutoPlus},
+            #{registeAction},
+            #{wxTempQrUrl},
+            #{wxTempLimitEnd}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+         UPDATE t_supplier_limit_ticket SET            
+            supplierId = #{supplierId} ,
+            companyName = #{companyName} ,
+            onece_flag = #{oneceFlag} ,
+            ticket_type = #{ticketType} ,
+            limit_type = #{limitType} ,
+            limit_key = #{limitKey} ,
+            ticket = #{ticket} ,
+            cash = #{cash} ,
+            limit_start = #{limitStart} ,
+            limit_end = #{limitEnd} ,
+            ticket_note = #{ticketNote} ,
+            next_action = #{nextAction} ,
+            exp1 = #{exp1} ,
+            exp2 = #{exp2} ,
+            exp3 = #{exp3} ,
+            ticket_num = #{ticketNum} ,
+            receive_num = #{receiveNum} ,
+            used_num = #{usedNum} ,
+            status = #{status} ,
+            create_date = #{createDate} ,
+            create_user = #{createUser} ,
+            create_user_name = #{createUserName} ,
+            update_date = #{updateDate} ,
+            update_user = #{updateUser} ,
+			registe_flg = #{registeFlg},
+            registe_normal_przie = #{registeNormalPrzie},
+            registe_auto_plus = #{registeAutoPlus},
+            registe_action = #{registeAction},
+            wx_temp_qr_url = #{wxTempQrUrl},
+            wx_temp_limit_end = #{wxTempLimitEnd}  
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_supplier_limit_ticket WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="SupplierLimitTicket">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_supplier_limit_ticket 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+	<select id="findInfoPageList" resultMap="SupplierLimitTicketVo">
+		SELECT 
+			slt.id,
+			slt.companyName,
+			slt.ticket,
+			slt.cash,
+			slt.limit_start,
+			slt.limit_end,
+			slt.ticket_num,
+			slt.status,
+			slt.ticket_type,
+			slt.wx_temp_qr_url,
+			slt.wx_temp_limit_end,
+			slt.receive_num,
+			slt.supplierId,
+			CASE WHEN s.id is NULL THEN 1 ELSE 0 END comType,
+			IFNULL(s.manager_name,t.manager_name) manager_name
+		FROM 
+			t_supplier_limit_ticket slt
+			LEFT JOIN t_supplier s ON(slt.supplierId=s.id)
+			LEFT JOIN t_supplier_temp t ON(slt.supplierId=t.id)
+		<where>
+		<if test="chekType==0">
+				and s.id is NOT NULL
+		</if>
+		<if test="chekType==1">
+				and t.id is NOT NULL
+		</if>
+		<if test="@Ognl@isNotEmpty(supplierName)">
+				and slt.companyName like CONCAT(CONCAT('%',#{supplierName}),'%') 
+		</if> 
+		<if test="@Ognl@isNotEmpty(managerId)">
+				and s.manager_id = #{managerId}
+		</if>
+		<if test="@Ognl@isNotEmpty(ticketType)">
+				and slt.ticket_type = #{ticketType}
+		</if>
+         <if test="@Ognl@isNotEmpty(limitType)">
+             AND slt.limit_type = #{limitType}
+         </if>
+	</where>
+	ORDER BY slt.create_date desc
+	</select>
+    <select id="selectByModel" resultMap="SupplierLimitTicket">
+        SELECT <include refid="columns" /> FROM t_supplier_limit_ticket 
+        <include refid="find_where"/>
+    </select>
+    
+    <select id="findInfoByMap" resultMap="SupplierLimitTicket">
+        SELECT <include refid="columns" /> FROM t_supplier_limit_ticket 
+        where 1=1
+        <if test="@Ognl@isNotEmpty(productId)">
+                AND exp1 = #{productId}
+            </if>
+    </select>
+    
+	<select id="getPastTicket" resultMap="SupplierLimitTicket">
+		SELECT <include refid="columns" /> FROM t_supplier_limit_ticket WHERE limit_end <![CDATA[ <  ]]> now()
+	</select>
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplierId = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(companyName)">
+                AND companyName = #{companyName}
+            </if>
+           <if test="@Ognl@isNotEmpty(oneceFlag)">
+                AND onece_flag = #{oneceFlag}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticketType)">
+                AND ticket_type = #{ticketType}
+            </if>
+            <if test="@Ognl@isNotEmpty(limitType)">
+                AND limit_type = #{limitType}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitKey)">
+                AND limit_key = #{limitKey}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticket)">
+                AND ticket = #{ticket}
+            </if>
+           <if test="@Ognl@isNotEmpty(cash)">
+                AND cash = #{cash}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitStart)">
+                AND limit_start = #{limitStart}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitEnd)">
+                AND limit_end = #{limitEnd}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticketNote)">
+                AND ticket_note = #{ticketNote}
+            </if>
+           <if test="@Ognl@isNotEmpty(nextAction)">
+                AND next_action = #{nextAction}
+            </if>
+           <if test="@Ognl@isNotEmpty(exp1)">
+                AND exp1 = #{exp1}
+            </if>
+           <if test="@Ognl@isNotEmpty(exp2)">
+                AND exp2 = #{exp2}
+            </if>
+           <if test="@Ognl@isNotEmpty(exp3)">
+                AND exp3 = #{exp3}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticketNum)">
+                AND ticket_num = #{ticketNum}
+            </if>
+           <if test="@Ognl@isNotEmpty(receiveNum)">
+                AND receive_num = #{receiveNum}
+            </if>
+           <if test="@Ognl@isNotEmpty(usedNum)">
+                AND used_num = #{usedNum}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date = #{createDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(createUser)">
+                AND create_user = #{createUser}
+            </if>
+           <if test="@Ognl@isNotEmpty(createUserName)">
+                AND create_user_name = #{createUserName}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateDate)">
+                AND update_date = #{updateDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateUser)">
+                AND update_user = #{updateUser}
+            </if>
+        </where>
+    </sql>
+
+</mapper>
+

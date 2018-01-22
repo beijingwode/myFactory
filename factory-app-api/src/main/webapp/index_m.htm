@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>我的福利</title>
+<link rel="stylesheet" type="text/css" href="static_resources/css/swiper-3.4.2.min.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/public_m.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/index_m.css" />
+<script type="text/javascript" src="static_resources/js/common/system_config.js"></script>
+
+</head> 
+
+<body>
+
+<div class="main-cont" id="main-cont" >
+	<div class="search_box">
+		<div class="search_lt">
+        	<marquee direction=up   behavior=scroll scrollamount=10 Scrolldelay=1000 loop=-1>员工福利<br />联合内购<br />一起省钱<br />我的也是你的</marquee>
+        </div>
+        <div class="search_rt">
+        	<a href="javascript:void(0);">我想要</a>
+        </div>
+	</div>  
+    <div class="flexslider" id="banner">
+    	<ul class="slides">
+    		<li><a href="javascript:go2Search('channel:tesheng')"><img src="http://img2.wo-de.com/upload/regular/1488533899148.png" alt="" class="img-responsive"></a></li>
+    		<li><a href="javascript:go2Search('channel:huanling')"><img src="http://img2.wo-de.com/upload/regular/1490089273635.png" alt="" class="img-responsive"></a></li>
+    		<li><a href="javascript:go2Search('channel:shiyong')"><img src="http://img2.wo-de.com/upload/regular/1490089283270.png" alt="" class="img-responsive"></a></li>
+    		<li><a href="javascript:go2Search('channel:qicai')"><img src="http://img2.wo-de.com/upload/regular/1490145705544.png" alt="" class="img-responsive"></a></li>
+    	</ul>
+    </div>
+    <div class="main_two_v2" id="top_category">
+    	<a href="javascript:go2Search('channel:shengri')"><img src="static_resources/images/sr.png" alt="生日"></a>
+    	<a href="javascript:go2Search('channel:shiyong')"><img src="static_resources/images/sy.png" alt="试用"></a>
+    	<a href="javascript:go2Search('channel:huanling ')"><img src="static_resources/images/hl.png" alt="换领"></a>
+    	<a href="javascript:go2Search('channel:qicai ')"><img src="static_resources/images/qc.png" alt="企采"></a>
+    	<a href="javascript:go2Search('channel:tesheng ')"><img src="static_resources/images/ts.png" alt="特省"></a>
+    </div>
+    <div class="ad"><a href="javascript:;"><img src="static_resources/images/ad1.png" /></a></div>
+	 <div class="main_three_v2" >
+    	<div class="main_three_con_v2">
+    		 <input type="hidden" id="miaoShaEndDate"  value="2017-06-23-13-38-00" />
+    		<div class="main_three_lt_v2">
+    			<a href="javascript:;"><img src="static_resources/images/three_lt_p1.png" /></a>
+    			<div class="count_down">
+    				<div class="bit" id="hour">00</div>
+					<div class="separator">:</div>
+					<div class="bit" id="min">00</div>
+					<div class="separator">:</div>
+					<div class="bit" id="sec">00</div>
+    			</div>
+    		</div>
+    		<div class="main_three_rt_v2"><a href="javascript:;"><img src="static_resources/images/three_rt_p1.png" /></a><a href="javascript:;" class="three_rt_p2"><img src="static_resources/images/three_rt_p2.png" /></a><a href="javascript:;"  class="three_rt_p3"><img src="static_resources/images/three_rt_p3.png" /></a></div>
+        </div>
+     </div>
+     <div class="main_four_v2">
+     	<div class="four_con"><a href="javascript:;"><img src="static_resources/images/main_ts_pic.png" /></a></div>
+     	<div class="four_con"><a href="javascript:;"><img src="static_resources/images/main_lw_pic.png" /></a></div>
+     	<div class="four_con"><a href="javascript:;"><img src="static_resources/images/main_sy_pic.png" /></a></div>
+     	<div class="four_con"><a href="javascript:;"><img src="static_resources/images/main_hl_pic.png" /></a></div>
+     </div>
+     <div class="main_five_v2">
+     	<div class="tit"><img src="static_resources/images/main_five_tit.png" /></div>
+     	<div class="main_five_con_v2 swiper-container" >
+     		<div class="swiper-wrapper" >
+		        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/five_pic1.png" /></a></div>
+		        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/five_pic2.png" /></a></div>
+		        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/five_pic3.png" /></a></div>      
+		        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/five_pic1.png" /></a></div>
+		        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/five_pic2.png" /></a></div>
+		        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/five_pic3.png" /></a></div>
+				<div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/five_pic1.png" /></a></div>
+		        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/five_pic2.png" /></a></div>
+		        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/five_pic3.png" /></a></div>
+	     	</div>
+	     </div>
+	 </div>
+   	 <!-- 猜你喜欢 -->
+	 <div class="youlike_box">
+	 	<div class="like_tit"><span>猜你喜欢</span></div>
+	 	<div class="like_con">
+	 		<ul id="like_li">
+	 		</ul>
+	 		<input type="hidden" id="pageNum" value="0" autocomplete="off">
+	 	</div>
+	 	<p>正在加载更多数据</p>
+	 </div>
+</div>
+
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+
+<script type="text/javascript" src="static_resources/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="static_resources/js/index.js?1"></script>
+<script type="text/javascript" src="static_resources/js/wxGetUid.js"></script>
+<script type="text/javascript" src="static_resources/js/index_goto.js?122"></script>
+<script type="text/javascript" src="static_resources/js/swiper-3.4.2.jquery.min.js"></script>
+<script type="text/javascript" src="static_resources/js/miaoShaEndDate.js"></script>
+</body>
+
+</html>

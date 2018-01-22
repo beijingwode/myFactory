@@ -1,0 +1,47 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.wode.factory</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../factory-parent/pom.xml</relativePath>
+    </parent>
+    <artifactId>user-service</artifactId>
+    <packaging>jar</packaging>
+
+    <properties>
+        <!-- 编译 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <compile.java.version>1.8</compile.java.version>
+        <!-- maven插件版本号 -->
+        <maven-resources.version>2.7</maven-resources.version>
+        <maven-jar.version>2.6</maven-jar.version>
+        <maven-compiler.version>3.3</maven-compiler.version>
+        <maven-release.version>2.3.2</maven-release.version>
+        <maven-war.version>2.6</maven-war.version>
+    </properties>
+    
+    <dependencies>
+
+        <dependency>
+            <groupId>com.wode.factory</groupId>
+            <artifactId>factory-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.wode</groupId>
+            <artifactId>search</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.wode.factory</groupId>
+            <artifactId>outside-client</artifactId>
+            <version>3.1.5</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/lib/outside_client-3.1.5.jar</systemPath>
+        </dependency>
+        
+    </dependencies>
+</project>

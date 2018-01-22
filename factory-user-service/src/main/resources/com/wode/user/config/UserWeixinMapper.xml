@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserWeixinMapper">
+
+    <resultMap id="UserWeixin" type="com.wode.factory.model.UserWeixin">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="openId" column="open_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="appId" column="app_id"/>
+        <result property="logout" column="logout"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,user_id,open_id,create_time,app_id,logout,update_time
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_weixin (
+            id ,
+            user_id ,
+            open_id ,
+            app_id
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{openId} ,
+            #{appId}
+        )
+    ]]>
+    </insert>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_weixin WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_weixin SET            
+            logout = #{logout} ,
+            update_time = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+    
+    <select id="getById" resultMap="UserWeixin">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_weixin 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="UserWeixin">
+        SELECT <include refid="columns" /> FROM t_user_weixin 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(openId)">
+                AND open_id = #{openId}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(appId)">
+                AND app_id = #{appId}
+            </if>
+           <if test="@Ognl@isNotEmpty(logout)">
+                AND logout = #{logout}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

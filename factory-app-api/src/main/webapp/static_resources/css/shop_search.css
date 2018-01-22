@@ -1,0 +1,28 @@
+.search_box {
+    width: 92%;
+    height: 47px;
+    padding: 8px 4% 0 4%;
+    background: #fff;
+    position: fixed;
+    top: 0px;
+    left: 0;
+    z-index: 9;
+}
+.search_inp {
+    width: 86%;
+    height: 34px;
+    float: left;
+}
+.search_inp a {
+    width: 100%;
+    height: 34px;
+    display: block;
+    padding-left: 14%;
+    font-size: 1.4em;
+    line-height: 34px;
+    background: #eeeeee url(../images/icon_search.png) no-repeat 4% center;
+    background-size: 18px 18px;
+    color: #999999;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.ProductHiddenDao">
+
+    <resultMap id="ProductHidden" type="com.wode.factory.model.ProductHidden">
+        <result property="id" column="id"/>
+        <result property="productName" column="product_name"/>
+        <result property="hiddenDate" column="hidden_date"/>
+        <result property="internalPurchasePrice" column="internal_purchase_price"/>
+        <result property="lastPrice" column="last_price"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,product_name,hidden_date,internal_purchase_price,last_price,update_time
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_hidden (
+            id ,
+            product_name ,
+            hidden_date ,
+            internal_purchase_price ,
+            last_price ,
+            update_time
+        ) VALUES (
+            #{id} ,
+            #{productName} ,
+            #{hiddenDate} ,
+            #{internalPurchasePrice} ,
+            #{lastPrice} ,
+            #{updateTime}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_product_hidden SET            
+            product_name = #{productName} ,
+            hidden_date = #{hiddenDate} ,
+            internal_purchase_price = #{internalPurchasePrice} ,
+            last_price = #{lastPrice} ,
+            update_time = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_product_hidden WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="ProductHidden">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_product_hidden 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="ProductHidden">
+        SELECT <include refid="columns" /> FROM t_product_hidden 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(productName)">
+                AND product_name = #{productName}
+            </if>
+           <if test="@Ognl@isNotEmpty(hiddenDate)">
+                AND hidden_date = #{hiddenDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(internalPurchasePrice)">
+                AND internal_purchase_price = #{internalPurchasePrice}
+            </if>
+           <if test="@Ognl@isNotEmpty(lastPrice)">
+                AND last_price = #{lastPrice}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND update_time &lt;= #{updateTime}
+            </if>
+        </where>
+    </sql>
+
+</mapper>
+
+

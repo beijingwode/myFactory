@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" type="text/css" href="../static_resources/css/public.css" />
+<link rel="stylesheet" type="text/css" href="../static_resources/css/wx_dm.css" />
+<script type="text/javascript" src="../static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="../static_resources/js/h5_exit.js"></script>
+<script type="text/javascript" src="../cart/activityLog?app=app&url=ChildrensDay"></script>
+<title>我的福利</title>
+</head>
+
+<body  style="background:#f6b117;">
+<div class="main-cont" id="main-cont" >
+	<div class="top">
+        <h1><a href="javascript:close();" class="aleft"></a>我的福利</h1>
+    </div>
+	<div class="main_box" style="position:absolute;top:45px;left:0;">
+		<div class="main_one">
+	    	<img src="../static_resources/images/ChildrensDay_app/banner1.jpg?2" />
+	    	<img src="../static_resources/images/ChildrensDay_app/banner2.jpg?2" />	
+	    	<img src="../static_resources/images/ChildrensDay_app/banner3.jpg?2" /> 
+	    </div>	
+	    <div class="tit"><img src="../static_resources/images/ChildrensDay_app/tit0.jpg?2" /></div>    									
+	    <div class="main_two">
+	    	<a href="http://wd-w.com/2075694736607065.html"><img src="../static_resources/images/ChildrensDay_app/main_pic1.jpg?2" /></a>
+	    	<a href="http://wd-w.com/2078542191953846.html"><img src="../static_resources/images/ChildrensDay_app/main_pic1_2.jpg?2" /></a>	    	
+	    </div>
+	    <div class="tit"><img src="../static_resources/images/ChildrensDay_app/tit2.jpg?2" /></div>
+	    <div class="main_two">
+	    	<a href="http://wd-w.com/1914162232952316.html"><img src="../static_resources/images/ChildrensDay_app/main_pic2.jpg?2" /></a>
+	    	<a href="http://wd-w.com/1929099948328449.html"><img src="../static_resources/images/ChildrensDay_app/main_pic3.jpg?2" /></a>
+	    	<a href="http://wd-w.com/1948619495573148.html"><img src="../static_resources/images/ChildrensDay_app/main_pic4.jpg?2" /></a>
+	    	<a href="http://wd-w.com/1948731392001775.html"><img src="../static_resources/images/ChildrensDay_app/main_pic5.jpg?2" /></a>
+	    	<a href="http://wd-w.com/1857935529707163.html"><img src="../static_resources/images/ChildrensDay_app/main_pic6.jpg?2" /></a>
+	    	<a href="http://wd-w.com/2234637151962288.html"><img src="../static_resources/images/ChildrensDay_app/main_pic7.jpg?2" /></a>
+	    </div>
+	    
+	    <div class="tit"><img src="../static_resources/images/ChildrensDay_app/tit4.jpg?2" /></div>
+	    <div class="main_two">
+	    	<a href="http://wd-w.com/2234569040200847.html"><img src="../static_resources/images/ChildrensDay_app/main_pic15.jpg?2" /></a>
+	    	<a href="http://wd-w.com/2234506495591502.html"><img src="../static_resources/images/ChildrensDay_app/main_pic16.jpg?2" /></a>
+	    </div>
+	   
+	    <div class="tit"><img src="../static_resources/images/ChildrensDay_app/tit5.jpg?2" /></div>
+	    <div class="main_two" style="padding-bottom:60px;">
+	    	<a href="http://wd-w.com/2188796301084301.html"><img src="../static_resources/images/ChildrensDay_app/main_pic17.jpg?2" /></a>
+	    	<a href="http://wd-w.com/2188784586884716.html"><img src="../static_resources/images/ChildrensDay_app/main_pic18.jpg?2" /></a>
+	    </div>
+	    
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	if(isWeiXinH5()) {
+		$(".top").hide();
+		$(".main_box").css("top","0");
+		
+	    $("a").each(function(i){
+	    	var href = $(this).attr("href");
+	    	if(href.length>21) {
+	    		href =href.substring(16,href.length-5);
+	   			href = "http://api.wd-w.com/productm?productId=" + href;
+	   			
+	   			$(this).attr("href",href);
+            }
+	    });
+	}
+});
+</script>
+</body>
+</html>

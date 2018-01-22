@@ -1,0 +1,100 @@
+<table class="table table-striped table-bordered table-hover nomargin-bottom">
+	<thead>
+		<tr>
+			<th class="center">商标注册号</th>
+			<th class="center">品牌名称(英文)</th>
+			<th class="center">级别</th>
+			<th class="center">logo</th>
+			<th class="center">类型</th>
+			<th class="center">TM/R</th>
+			<th class="center">有效期</th>
+			<th class="center">店铺名称</th>
+			<th class="center">授权有效期</th>
+			<th class="center">商家名称</th>
+			<th class="center">招商经理</th>
+			<th class="center">商品首次上传日</th>
+			<th class="center">上架商品数</th>
+			<th class="center" style="width:100px;">创建时间</th>
+			<th class="center">关联分类</th>
+			@if(uid==37){
+			<th class="center">操作</th>
+			@}
+		</tr>
+	</thead>
+	<tbody>
+		@for(item in page.list){
+			<tr>
+				<td class="center">${item.brandNo!}</td>
+				<td class="center">
+				@if(!isEmpty(item.nameEN)){
+					${item.name!}(${item.nameEN!})
+				@}
+				@if(isEmpty(item.nameEN)){
+					${item.name!}
+				@}
+				</td>
+				<td class="center">
+					@if(item.categoryId==1){
+					一类
+					@}else if(item.categoryId==2){
+					二类
+					@}else if(item.categoryId==3){
+					三类
+					@}else if(item.categoryId==4){
+					四类
+					@}else if(item.categoryId==0){
+					未知
+					@}else {
+					未设置
+					@}
+				</td>
+				<td class="center"><img src="${item.logo!}" style="height:60px" /></td>
+				 <td class="center">
+					@if(item.natural=='0'){
+					自有
+					@}else if(item.natural=='1'){
+					代理
+					@}
+				</td>
+				<td class="center">
+					@if(item.brandType=='0'){
+					TM标
+					@}else if(item.brandType=='1'){
+					R标
+					@}
+				</td>
+				<td class="center">
+					@if(item.brandType=='0'){
+					${item.brandcreatedTM!,dateFormat="yyyy-MM-dd"}
+					@}else if(item.brandType=='1'){
+					${item.begintimeR!,dateFormat="yyyy-MM-dd"}~${item.endtimeR!,dateFormat="yyyy-MM-dd"}
+					@}
+				</td>
+				<td class="center">${item.shopName!}</td>
+				<td class="center">
+					${item.begintimeAuth!,dateFormat="yyyy-MM-dd"}~${item.endtimeAuth!,dateFormat="yyyy-MM-dd"}
+				</td>
+				<td class="center">${item.supplierName!}</td>
+				<td class="center">${item.managerName!}</td>
+				<td class="center">${item.firstCreate!,dateFormat="yyyy-MM-dd"}</td>
+				<td class="center">${item.proCnt!}</td>
+				<td class="center">${item.createDate!,dateFormat="yyyy-MM-dd"}</td>
+				<td class="center">${item.categorys!}</td>
+				@if(uid==37){
+				<td class="center">
+					<a class="green" href="javascript:void(0);" title="设置级别"
+						data-mode="page" data-title="${item.name!} 设置级别"
+						data-url="${ctxPath}/brand/toSetLevel"
+						data-data="{id:'${item.id}'}" 
+						data-width="40%"
+						data-height="40%">
+						<i class="green ace-icon  fa fa-list-alt bigger-120"></i> 设置级别
+					</a>
+				</td>
+				@}
+			</tr>
+		@}
+	</tbody>
+</table>
+<div class="space-8"></div>
+<#paginate page="${page}" />

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="CollectionProductMapper">
+
+	<resultMap id="CollectionProduct" type="com.wode.factory.model.CollectionProduct">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="creatTime" column="creat_time"/>
+	</resultMap>
+	<resultMap id="Product" type="com.wode.factory.model.Product">
+        <result property="id" column="id"/>
+        <result property="brandId" column="brand_id"/>
+        <result property="partnumber" column="partnumber"/>
+        <result property="fullName" column="full_name"/>
+        <result property="name" column="name"/>
+        <result property="promotion" column="promotion"/>
+        <result property="keyword" column="keyword"/>
+        <result property="unit" column="unit"/>
+        <result property="weight" column="weight"/>
+        <result property="type" column="type"/>
+        <result property="model" column="model"/>
+        <result property="showPrice" column="show_price"/>
+        <result property="introduction" column="introduction"/>
+        <result property="image" column="image"/>
+        <result property="isMarketable" column="is_marketable"/>
+        <result property="isRecomment" column="is_recomment"/>
+        <result property="status" column="status"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="marque" column="marque"/>
+        <result property="barcode" column="barcode"/>
+        <result property="roughWeight" column="rough_weight"/>
+        <result property="netWeight" column="net_weight"/>
+        <result property="length" column="length"/>
+        <result property="width" column="width"/>
+        <result property="height" column="height"/>
+        <result property="bulk" column="bulk"/>
+        <result property="province" column="province"/>
+        <result property="town" column="town"/>
+        <result property="county" column="county"/>
+        <result property="produceaddress" column="produceaddress"/>
+        <result property="hasSku" column="has_sku"/>
+        <result property="carriage" column="carriage"/>
+        <result property="storeId" column="storeId"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="afterService" column="categoryId"/>
+        <result property="stockLockType" column="stock_lock_type"/>
+        <result property="sendProvince" column="sendProvince"/>
+        <result property="sendTown" column="sendTown"/>
+        <result property="sendCounty" column="sendCounty"/>
+        <result property="sendAddress" column="sendAddress"/>
+        <result property="minprice" column="minprice"/>
+        <result property="maxprice" column="maxprice"/>
+        <result property="allnum" column="allnum"/>
+        <result property="categoryName" column="categoryName"/><!-- 科目名称 --> 
+        <result property="saleKbn" column="sale_kbn"/>
+        <result property="saleNote" column="sale_note"/>
+        <result property="limitKbn" column="limit_kbn"/>   
+        <result property="empLevel" column="emp_level"/>   
+        <result property="empPrice" column="emp_price"/>   
+        <result property="empCash" column="emp_cash"/>   
+	</resultMap>
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,user_id,product_id,creat_time
+	    ]]>
+	</sql>
+	
+		<!-- 用于select查询公用抽取的列 -->
+	<sql id="productColumns">
+	    <![CDATA[
+		product.id,product.name,product.full_name,product.show_price,product.image,product.sale_kbn,product.supplier_id,product.emp_level,product.emp_cash,product.emp_price
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_collection_product (
+        	id ,
+        	user_id ,
+        	product_id ,
+        	creat_time 
+        ) VALUES (
+        	#{id} ,
+        	#{userId} ,
+        	#{productId} ,
+        	#{creatTime} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_collection_product SET
+	        user_id = #{userId} ,
+	        product_id = #{productId} ,
+	        creat_time = #{creatTime} 
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_collection_product WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="CollectionProduct">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_collection_product 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_collection_product 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="Product">
+    	SELECT <include refid="productColumns" />
+	    FROM t_collection_product a ,t_product product
+		<include refid="findPage_where"/>
+		ORDER BY a.creat_time DESC
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>
+			a.product_id = product.id
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND a.id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(userId)">
+				AND a.user_id = #{userId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(productId)">
+				AND a.product_id = #{productId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(creatTimeBegin)">
+				AND a.creat_time >= #{creatTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(creatTimeEnd)">
+				AND a.creat_time &lt;= #{creatTimeEnd}
+		   </if>
+		</where>
+	</sql>
+	<select id="findOne" resultMap="CollectionProduct" parameterType="Map">
+    	SELECT <include refid="columns" />
+	    FROM t_collection_product 
+		where user_id=#{userId} and product_id=#{productId}
+    </select>
+    <!-- 根据userId查询收藏总数 -->
+	<select id="findProductCount" parameterType="long" resultType="Integer">
+		select count(*) from t_collection_product where user_id=#{userId}
+	</select>
+	<!-- 根据usreId查询相关收藏商品 -->
+	<select id="findProduct" parameterType="String" resultMap="Product">
+		${value}
+	</select>
+	<!-- 根据usreId取消收藏商品 -->
+	<delete id="cancel">
+    <![CDATA[
+        DELETE FROM t_collection_product WHERE
+        user_id = #{userId} and product_id in (#{productId})
+    ]]>
+    </delete>
+    
+    <!-- 批量取消收藏商品 -->
+	<delete id="batchDelete" >
+    <![CDATA[
+        DELETE FROM t_collection_product WHERE user_id = #{userId} and 
+        product_id in 
+         ]]>
+	 <foreach item="item" index="index"  collection="productId"  open="(" separator="," close=")">  
+	  #{item}  
+	 </foreach>  
+   
+    </delete>
+</mapper>
+

@@ -1,0 +1,83 @@
+
+<div class="layer" id="proCateUpdate">
+	<form name="FormPost" id="productcategory-save" class="FormGrid"  method="post"
+		action="${ctxPath}/productCategory/save">
+		<!-- 自己的id -->
+		<input type="hidden" value="${productCategory.id!}" name="id"/>
+		<!-- 父级id -->
+		<input type="hidden" value="${productCategory.parentId!}" name="oldParentIds" /><!-- sysResource.parentIds -->
+		<table class="EditTable" width="100%">
+			<tbody>
+				<tr style="display: none;">
+					<td class="ui-state-error" id="FormError"></td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">名称:</td>
+					<td class="DataTD width-100"><input type="text"
+						name="name"  nullmsg="请输入名称！" maxlength="20" errormsg="至少2个字符,最多20个字符！" nullmsg="请输入菜单名称！"
+						class="FormElement ui-widget-content ui-corner-all"
+						value="${productCategory.name!}"></td><!-- 菜单名称 -->
+				</tr>
+				<tr  class="FormData">
+					<td class="CaptionTD">链接:</td>
+					<td class="DataTD"><span class="red" style="width:30%">${ctxPath!}/</span>
+						<input type="text" style="width:58%" id="name" name="url" role="textbox"
+						class="FormElement ui-widget-content ui-corner-all"
+						value="${productCategory.url!}" 
+						placeholder=""></td><!-- 菜单链接 -->
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">父级分类:</td>
+					<td class="DataTD">
+					 @if(isEmpty(productCategory.parentName)){
+						<span class='pink'>无</span>
+					@}else{
+						${productCategory.parentName}
+					@}
+					</td>
+				</tr>
+				 
+				<tr class="FormData">
+					<td class="CaptionTD">图标:</td>
+					<td class="DataTD">
+					<img alt="" class="Img" src="${productCategory.icon!}" style="height: 40px;width: 40px">
+					<input type="hidden" class="heddenImg" name="image"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">上传图片:</td>
+					<td class="">
+						<input type="file" name="type" id="uploadProCateFile_update"/>
+						<input type="button" value="上传" onclick="proCateUpdateUploadImg()"/>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">排序:</td><!-- 菜单序号 -->
+					<td class="DataTD">
+						<input class="FormElement"
+						id="id_g" type="text" name="orders" value="${productCategory.orders!}"
+						datatype='n' 
+						>
+					</td><!-- 排序 -->
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">佣金比例:</td><!-- 菜单序号 -->
+					<td class="DataTD">
+						<input class="FormElement"
+						id="commissionScale" type="text" name="commissionScale" value="${productCategory.commissionScale!}"
+						>
+					</td><!-- 佣金比例-->
+				</tr>
+				 
+			</tbody>
+		</table>
+	</form>
+</div>
+<#save formId="productcategory-save" reloadPage="true"/>
+<script type="text/javascript" src="${ctxPath!}/static/js/ajaxfileupload.js"></script>
+<script type="text/javascript" src="${ctxPath!}/static/js/manageUploadImg.js"></script>
+<script type="text/javascript">
+function proCateUpdateUploadImg() {
+	uploadImg($("#proCateUpdate"),"uploadProCateFile_update","productCategory/upload");
+}
+</script>

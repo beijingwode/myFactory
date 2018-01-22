@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SupplierProductExcelMapper">
+
+	<resultMap id="SupplierProductExcel" type="com.wode.factory.model.SupplierProductExcel">
+        <result property="id" column="id"/>
+        <result property="excelUrl" column="excel_url"/>
+        <result property="createTime" column="create_time"/>
+        <result property="introduce" column="introduce"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="status" column="status"/>
+        <result property="totalNumber" column="total_number"/>
+        <result property="successNumber" column="success_number"/>
+        <result property="processingResult" column="processing_result"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,excel_url,create_time,introduce,supplier_id,status,total_number,success_number,processing_result
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_supplier_product_excel (
+        	id ,
+        	excel_url ,
+        	create_time ,
+        	introduce ,
+        	supplier_id ,
+        	status 
+        ) VALUES (
+        	#{id} ,
+        	#{excelUrl} ,
+        	#{createTime} ,
+        	#{introduce} ,
+        	#{supplierId} ,
+        	#{status} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_supplier_product_excel SET
+	        excel_url = #{excelUrl} ,
+	        create_time = #{createTime} ,
+	        introduce = #{introduce} ,
+	        supplier_id = #{supplierId} ,
+	        total_number = #{totalNumber},
+	        success_number= #{successNumber},
+	        status = #{status},
+	        processing_result = #{processingResult}
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_supplier_product_excel WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    
+    <select id="getUndisposedByTimeAsc" resultMap="SupplierProductExcel">
+		SELECT <include refid="columns" /> FROM `t_supplier_product_excel` where status = 0 or status is null order by create_time asc limit 0,1
+	</select>
+    <select id="getById" resultMap="SupplierProductExcel">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_supplier_product_excel 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_supplier_product_excel 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="SupplierProductExcel">
+    	SELECT <include refid="columns" />
+	    FROM t_supplier_product_excel 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+		<if test="@Ognl@isNotEmpty(supplierId)">
+			ORDER BY create_time DESC
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(excelUrl)">
+				AND excel_url = #{excelUrl}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createTime)">
+				AND create_time = #{createTime}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(introduce)">
+				AND introduce = #{introduce}
+			</if>
+	       <if test="@Ognl@isNotEmpty(supplierId)">
+				AND supplier_id = #{supplierId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
+

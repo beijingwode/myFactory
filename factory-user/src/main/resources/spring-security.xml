@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:b="http://www.springframework.org/schema/beans" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<http pattern="/resources/**" security="none" />
+
+	<!-- 权限模块设置 -->
+	<beans:bean id="webInvocationFilter"
+		class="org.springframework.security.web.access.DefaultWebInvocationPrivilegeEvaluator">
+		<beans:constructor-arg ref="adminResourceFilter" />
+	</beans:bean>
+	<http pattern="/logout/success.html" security="none"></http>
+	<http auto-config="true" use-expressions="true"
+		disable-url-rewriting="true">
+		<!-- <intercept-url pattern="/login.html" access="permitAll" /> -->
+		<!-- <intercept-url pattern="/logout.html" access="permitAll" /> -->
+		<!-- <intercept-url pattern="/denied.html" access="hasRole('ROLE_USER')" 
+			/> -->
+		<!-- <intercept-url pattern="/" access="hasRole('ROLE_USER')" /> -->
+		<!-- <intercept-url pattern="/user.html" access="hasRole('ROLE_USER')" 
+			/> -->
+		<!-- <intercept-url pattern="/admin.html" -->
+		<!-- access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" /> -->
+
+		<form-login login-page="/login.html"
+			always-use-default-target="true" authentication-failure-url="/login/failure.html"
+			default-target-url="/" />
+
+		<access-denied-handler error-page="/denied.html" />
+
+		<logout invalidate-session="true" logout-success-url="/logout/success.html"
+			logout-url="/logout.html" />
+
+		<custom-filter position="LAST" ref="adminResourceFilter" />
+		<!-- <custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="adminResourceFilter" 
+			/> -->
+		<!-- 控制session的数据 一个账户只可一个人登录 防止一个帐号可同时登录多个。 -->
+		<session-management invalid-session-url="/admin/maxSessionExpired.html"
+			session-fixation-protection="none">
+			<concurrency-control max-sessions="1"
+				expired-url="/session.html" error-if-maximum-exceeded="false" />
+		</session-management>
+	</http>
+
+	<authentication-manager alias="am">
+		<authentication-provider user-service-ref="adminUserDetailService">
+			<password-encoder hash="md5" />
+		</authentication-provider>
+	</authentication-manager>
+
+	<beans:bean id="daoAuthenticationProvider"
+		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<beans:property name="userDetailsService" ref="adminUserDetailService" />
+	</beans:bean>
+
+	<beans:bean id="authenticationManager"
+		class="org.springframework.security.authentication.ProviderManager">
+		<beans:property name="providers">
+			<beans:list>
+				<beans:ref local="daoAuthenticationProvider" />
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="adminResourceFilter"
+		class="com.palm360.airport.web.security.AdminFilterSecurityInterceptor">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="accessDecisionManager" ref="accessDecisionManager" />
+		<beans:property name="securityMetadataSource" ref="adminSecurityMetadataSource" />
+	</beans:bean>
+
+	<beans:bean id="accessDecisionManager"
+		class="com.palm360.airport.service.impl.AdminAccessDecisionManager" />
+
+</beans:beans>   

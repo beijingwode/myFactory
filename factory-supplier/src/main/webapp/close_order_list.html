@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/transaction_management.css" />
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+
+<title>选择关闭订单原因</title>
+</head>
+
+<body>
+<div class="main_box">   
+ 	<div class="close_list_con">
+    	<ul>
+        	<li><span>未及时付款</span><em></em></li>
+            <li><span>买家不想买</span><em></em></li>
+            <li><span>买家重新拍</span><em></em></li>
+            <li><span>恶意买家/同行捣乱</span><em></em></li>
+            <li><span>缺货</span><em></em></li>
+            <li><span>其它原因</span><em></em></li>
+        </ul>
+    </div>
+    <div class="fh_btn" style="position:absolute;left:4%;bottom:0;"><a href="javascript:;">确认关闭订单</a></div>
+</div>
+</body>
+<script>
+$(function(){
+	$(".close_list_con ul li em").each(function(index){
+		$(this).click(function(){//先把所有的隐藏掉
+			
+			$(".close_list_con ul li em").removeClass("em1");
+			$(this).addClass("em1");
+		});
+	});	
+})
+</script>
+</html>

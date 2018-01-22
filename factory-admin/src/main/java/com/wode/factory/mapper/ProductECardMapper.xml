@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.ProductECardDao">
+
+    <resultMap id="ProductECard" type="com.wode.factory.model.ProductECard">
+        <result property="id" column="id"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="sendType" column="send_type"/>
+        <result property="cardPage" column="card_page"/>
+        <result property="cardPws" column="card_pws"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,product_id,product_name,send_type,card_page,card_pws,create_time,create_by
+        ]]>
+    </sql>
+    
+    <delete id="deleteBySupplierId">
+    delete from t_product_e_card where product_id in (SELECT id from t_product where supplier_id = #{supplierId})
+    </delete>
+    
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_product_e_card (
+            id ,
+            product_id ,
+            product_name ,
+            send_type ,
+            card_page ,
+            card_pws ,
+            create_time ,
+            create_by
+        ) VALUES (
+            #{id} ,
+            #{productId} ,
+            #{productName} ,
+            #{sendType} ,
+            #{cardPage} ,
+            #{cardPws} ,
+            #{createTime} ,
+            #{createBy}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_product_e_card SET            
+            product_id = #{productId} ,
+            product_name = #{productName} ,
+            send_type = #{sendType} ,
+            card_page = #{cardPage} ,
+            card_pws = #{cardPws} ,
+            create_time = #{createTime} ,
+            create_by = #{createBy} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_product_e_card WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="ProductECard">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_product_e_card 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="ProductECard">
+        SELECT <include refid="columns" /> FROM t_product_e_card 
+        <include refid="find_where"/>
+    </select>
+    	
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(productId)">
+                AND product_id = #{productId}
+            </if>
+           <if test="@Ognl@isNotEmpty(productName)">
+                AND product_name = #{productName}
+            </if>
+           <if test="@Ognl@isNotEmpty(sendType)">
+                AND send_type = #{sendType}
+            </if>
+           <if test="@Ognl@isNotEmpty(cardPage)">
+                AND card_page = #{cardPage}
+            </if>
+           <if test="@Ognl@isNotEmpty(cardPws)">
+                AND card_pws = #{cardPws}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(createBy)">
+                AND create_by = #{createBy}
+            </if>
+        </where>
+    </sql>
+</mapper>

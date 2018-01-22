@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.ProductBrandMapper">
+
+	<resultMap id="ProductBrand" type="com.wode.factory.model.ProductBrand">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="logo" column="logo"/>
+        <result property="url" column="url"/>
+        <result property="orders" column="orders"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="introduction" column="introduction"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="nameEn" column="nameEN"/>
+        <result property="natural" column="natural"/>
+        <result property="importFlg" column="import_flg"/>
+        <result property="brandType" column="brand_type"/>
+        <result property="brandNo" column="brandNo"/>
+        <result property="brandcreatedTm" column="brandcreatedTM"/>
+        <result property="begintimeR" column="begintimeR"/>
+        <result property="endtimeR" column="endtimeR"/>
+        <result property="brandurl" column="brandurl"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="status" column="status"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="begintimeAuth" column="begintimeAuth"/>
+        <result property="endtimeAuth" column="endtimeAuth"/>
+	</resultMap>
+
+	<resultMap id="ProductBrandVo" type="com.wode.factory.vo.ProductBrandVo">
+        <result property="id" column="id"/>
+        <result property="brandNo" column="brandNo"/>
+        <result property="logo" column="logo"/>
+        <result property="name" column="name"/>
+        <result property="nameEN" column="nameEN"/>
+        <result property="natural" column="natural"/>
+        <result property="brandType" column="brand_type"/>
+        <result property="importFlg" column="import_flg"/>
+        <result property="brandcreatedTM" column="brandcreatedTM"/>
+        <result property="begintimeR" column="begintimeR"/>
+        <result property="endtimeR" column="endtimeR"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="createDate" column="createDate"/>
+        <result property="supId" column="sup_id"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="managerId" column="manager_id"/>
+        <result property="managerName" column="manager_name"/>
+        <result property="shopName" column="shop_name"/>
+        <result property="proCnt" column="p_cnt"/>
+        <result property="firstCreate" column="firstCreate"/>
+        <result property="categorys" column="categorys"/>
+        <result property="checkId" column="checkId"/>
+        <result property="checkMemo" column="checkMemo"/>
+        <result property="checkAlarmDate" column="checkAlarmDate"/>
+        <result property="begintimeAuth" column="begintimeAuth"/>
+        <result property="endtimeAuth" column="endtimeAuth"/>
+	</resultMap>
+	
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,name,logo,url,orders,category_id,introduction,createDate,updateDate,updateBy,nameEN,`natural`,import_flg,brand_type,brandNo,brandcreatedTM,begintimeR,endtimeR,brandurl,supplier_id,shop_id,status,is_delete,begintimeAuth,endtimeAuth
+	    ]]>
+	</sql>
+    
+    <delete id="deleteBySupplierId">
+    delete from t_product_brand where supplier_id = #{supplierId}
+    </delete>
+    
+    <select id="findByShopId" resultMap="ProductBrand">
+         SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_product_brand 
+            WHERE 
+                shop_id = #{shopId}
+        ]]>
+    </select>
+    
+    <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM t_product_brand WHERE
+        id = #{id} 
+    ]]>
+	</delete>
+    
+	<select id="findByMap" resultMap="ProductBrand">
+        SELECT <include refid="columns" /> FROM t_product_brand
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(shopId)">
+                AND shop_id = #{shopId}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>        	
+		</where>
+			ORDER BY createDate DESC
+    </select>
+    
+    <select id="findList" resultMap="ProductBrandVo">
+        SELECT pb.id,pb.brandNo,pb.logo,pb.name,pb.nameEN,pb.`natural`,pb.brand_type,pb.import_flg,pb.brandcreatedTM,pb.begintimeR,pb.endtimeR,pb.category_id,pb.createDate ,pb.begintimeAuth,pb.endtimeAuth
+        ,sup.id sup_id,sup.com_name supplier_name,sup.manager_id,sup.manager_name
+        ,shop.shopname shop_name,p.p_cnt,p.firstCreate
+        FROM t_product_brand pb 
+        INNER JOIN t_supplier sup ON (pb.supplier_id = sup.id AND sup.status > -2)
+        INNER JOIN t_shop shop ON (shop.supplier_id = pb.supplier_id AND shop.id=pb.shop_id)
+		LEFT JOIN (select supplier_id,brand_id,count(1) p_cnt,min(createDate) firstCreate FROM t_product where is_marketable=1 GROUP BY supplier_id,brand_id) p ON (p.brand_id=pb.id AND p.supplier_id=pb.supplier_id)
+		<where>	
+		    pb.is_delete =0
+            <if test="@Ognl@isNotEmpty(natural)">
+                AND pb.`natural` = #{natural}
+             </if>
+			<if test="@Ognl@isNotEmpty(importFlg)">
+				AND pb.import_flg = #{importFlg}
+			</if>
+			<if test="@Ognl@isNotEmpty(name)">
+				AND pb.name like CONCAT(CONCAT('%',#{name}),'%')
+			</if>
+			<if test="@Ognl@isNotEmpty(id)">
+				AND pb.id like CONCAT(CONCAT('%',#{id}),'%')
+			</if>
+			<if test="@Ognl@isNotEmpty(startDate)">
+				AND pb.createDate >= #{startDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endDate)">
+				AND pb.createDate &lt;= #{endDate}
+		   </if>
+			<if test="@Ognl@isNotEmpty(startUldDate)">
+				AND p.firstCreate >= #{startUldDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endUldDate)">
+				AND p.firstCreate &lt;= #{endUldDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(managerId)">
+				AND sup.manager_id= #{managerId}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(categoryId) and categoryId!=-1">
+				AND pb.category_id= #{categoryId}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(categoryId) and categoryId==-1">
+				AND pb.category_id IS NULL
+		   </if>
+		   <if test="@Ognl@isNotEmpty(supplierId)">
+				AND pb.supplier_id= #{supplierId}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(supplierName)">
+				AND sup.com_name like CONCAT(CONCAT('%',#{supplierName}),'%')
+		   </if>
+		</where>
+		ORDER BY pb.createDate DESC
+    </select>
+    
+    
+    <select id="findListLawyer" resultMap="ProductBrandVo">
+        SELECT pb.id,pb.brandNo,pb.logo,pb.name,pb.nameEN,pb.`natural`,pb.brand_type,pb.import_flg,pb.brandcreatedTM,pb.begintimeR,pb.endtimeR,pb.category_id,pb.createDate  ,pb.begintimeAuth,pb.endtimeAuth
+        ,sup.id sup_id,sup.com_name supplier_name,sup.manager_id,sup.manager_name
+        ,shop.shopname shop_name
+        ,cr.id checkId,cr.memo checkMemo,cr.alarm_date checkAlarmDate
+        FROM t_product_brand pb 
+        INNER JOIN t_supplier sup ON (pb.supplier_id = sup.id)
+        INNER JOIN t_shop shop ON (shop.supplier_id = pb.supplier_id AND shop.id=pb.shop_id)
+        LEFT JOIN t_check_review cr ON ( cr.obj_key=pb.id AND cr.is_delete=0)
+		<where>	
+		    pb.is_delete =0
+            <if test="@Ognl@isNotEmpty(natural)">
+                AND pb.`natural` = #{natural}
+             </if>
+			<if test="@Ognl@isNotEmpty(importFlg)">
+				AND pb.import_flg = #{importFlg}
+			</if>
+			<if test="@Ognl@isNotEmpty(name)">
+				AND pb.name like CONCAT(CONCAT('%',#{name}),'%')
+			</if>
+			<if test="@Ognl@isNotEmpty(id)">
+				AND pb.id like CONCAT(CONCAT('%',#{id}),'%')
+			</if>
+			<if test="@Ognl@isNotEmpty(startDate)">
+				AND pb.createDate >= #{startDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endDate)">
+				AND pb.createDate &lt;= #{endDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(managerId)">
+				AND sup.manager_id= #{managerId}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(categoryId) and categoryId!=-1">
+				AND pb.category_id= #{categoryId}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(categoryId) and categoryId==-1">
+				AND pb.category_id IS NULL
+		   </if>
+		   <if test="@Ognl@isNotEmpty(supplierName)">
+				AND sup.com_name like CONCAT(CONCAT('%',#{supplierName}),'%')
+		   </if>
+			<if test="@Ognl@isNotEmpty(startDate)">
+				AND cr.alarm_date >= #{startDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endDate)">
+				AND cr.alarm_date &lt;= #{endDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(rdMemo) and rdMemo==1">
+				AND cr.id is not null
+		   </if>
+		   <if test="@Ognl@isNotEmpty(rdMemo) and rdMemo==-1">
+				AND cr.id is null
+		   </if>
+			<if test="@Ognl@isNotEmpty(startDateAuth)">
+				AND pb.endtimeAuth >= #{startDateAuth}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endDateAuth)">
+				AND pb.endtimeAuth &lt;= #{endDateAuth}
+		   </if>
+		</where>
+		ORDER BY pb.createDate DESC
+    </select>
+    
+	  <!-- 查看企业的人数（未注销） -->
+	  <select id="getCategorysByBrand" resultType="java.lang.String">
+        select GROUP_CONCAT(pc2.name SEPARATOR ' ') categorys
+        FROM t_product_category pc2 where id IN (
+				select pc.pid FROM t_product_category pc 
+				INNER JOIN t_brand_producttype bp ON (bp.brand_id=#{brandId} AND bp.supplier_id=#{supplierId} AND pc.id = bp.category_id)
+		)
+	  </select>
+	  
+	<update id="changShop" >
+    <![CDATA[
+        UPDATE t_product_brand SET
+	        shop_id = #{shopId}
+        WHERE 
+	        shop_id = #{oldId} 
+    ]]>
+	</update>
+	
+	<update id="setLevel" >
+    <![CDATA[
+        UPDATE t_product_brand SET
+	        category_id = #{categoryId},
+	        updateBy = #{updateBy},
+	        updateDate = #{updateDate}
+        WHERE 
+	        id = #{brandId} 
+    ]]>
+	</update>
+	
+	<update id="setCreateDate" >
+    <![CDATA[
+        UPDATE t_product_brand SET
+	        createDate = #{createDate}
+        WHERE shop_id = #{shopId} 
+	      AND old_id IS NULL
+    ]]>
+	</update>
+	
+	  <!-- 查看企业的人数（未注销） -->
+	  <select id="getCountBySupplier" resultType="java.lang.Integer">
+	    select count(1) from t_product_brand where is_delete = 0 and  supplier_id = #{supplierId} and shop_id in (select id from t_shop where supplier_id=#{supplierId})
+	  </select>
+	  
+	  <!-- 查看企业的人数（未注销） -->
+	  <select id="getCountBySupplierForSale" resultType="java.lang.Integer">
+	    select count(1) from t_product_brand pb 
+		INNER JOIN t_shop s ON (s.supplier_id=pb.supplier_id and pb.shop_id=s.id) 
+		where pb.is_delete = 0 and  pb.supplier_id = #{supplierId} 
+		and EXISTS (select 1 from t_product p WHERE p.brand_id=pb.id AND p.is_marketable=1)
+	  </select>
+	  
+	  <!-- 查看企业的人数（未注销） -->
+	  <select id="getCountBySupplierForSaleDate" resultType="java.lang.Integer">
+	    select count(1) from t_product_brand pb 
+		INNER JOIN t_shop s ON (s.supplier_id=pb.supplier_id and pb.shop_id=s.id) 
+		where pb.is_delete = 0 and  pb.supplier_id = #{supplierId} 
+		and EXISTS (select 1 from t_product p WHERE p.brand_id=pb.id AND p.is_marketable=1)
+		and pb.createDate BETWEEN #{startDate} AND #{endDate} 
+	  </select>
+</mapper>
+

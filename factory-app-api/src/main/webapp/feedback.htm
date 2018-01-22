@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=divice-width,initial-scale=1,user-scalable=no">
+<title>意见反馈</title>
+<link rel="stylesheet" type="text/css" href="static_resources/css/public.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/font.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/help_center.css" />
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="static_resources/js/h5_exit.js"></script>
+</head>
+
+<body style="background:#eaeaee">
+<div class="main-cont" id="main-cont">
+	<div class="top">
+        <h1><a href="help_center.htm" class="aleft"></a>意见反馈</h1>
+    </div>
+    <div class="main-box">
+    	<div class="box_con">
+            <div class="text_box">
+            	<textarea placeholder="请输入产品意见，我们将不断优化体验"  id="txt"></textarea>  
+                <div class="num">0/100</div>
+            </div>
+            <div class="inp_box"><span><img src="static_resources/images/con_icon1.png" /></span><input type="text" placeholder="请输入您的姓名" id="name"/></div>
+            <div class="inp_box"><span><img src="static_resources/images/con_icon2.png" /></span><input type="text" placeholder="请输入您的手机号" id="phone"/></div>
+            <span class="button error" style="display:none;"></span>
+            <div class="inp_sub"><button type="submit" class="button">提交</button></div>
+        </div>
+    </div>
+</div>
+
+<script>
+	$(function(){
+		$(".button").click(function(){
+			var phone = /^(1[3|4|5|7|8][0-9])\d{8}$/;//手机号码验证
+			if($("#txt").val().trim("").length<1 || $("#phone").val().trim("").length<1 ||$("#name").val().trim("").length<1){
+				$(".error").html("请完善填写信息");
+				$(".error").show();
+				setTimeout("display()",6000);
+				return;
+			}
+			if(!phone.test($("#phone").val())){
+				$(".error").html("请填写正确的手机号码");
+				$(".error").show();
+				setTimeout("display()",6000);
+				return;
+			}
+			$.ajax({
+				dataType:"json",
+				url:"feedback/create",
+				type:"POST",
+				data:{
+					content:$("#txt").val(),
+					phone:$("#phone").val(),
+					name:$("#name").val()
+				},
+				success:function(data){
+					if(data.success){
+						if (isWeiXinH5()) {
+							//window.location="help_center.htm";
+							history.back();
+						}else{
+						//评论成功  Android修改成功
+						try{
+							Toast.show(true);
+						} catch(e) {
+							window.location = "success";
+						}
+						}
+					}else{
+						//评论失败  Android修改失败
+						try{
+							Toast.show(false)
+						} catch(e) {
+							window.location = "error";
+						}
+					}
+				},
+				error:function(XMLHttpRequest, textStatus, errorThrown){
+					//评论失败  Android修改失败
+					try{
+						Toast.show(false)
+					} catch(e) {
+						window.location = "error";
+					}
+				}
+			});
+		});
+	});
+	function display(){
+		$(".error").fadeOut("slow");
+	}
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+	if(isWeiXinH5()) {
+		$(".top").hide();
+		$(".main-box").css("top","5px");
+	}
+});
+</script>
+</body>
+</html>

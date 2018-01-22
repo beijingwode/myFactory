@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.PageTemplateDao">
+
+    <resultMap id="PageTemplate" type="com.wode.factory.model.PageTemplate">
+        <result property="id" column="id"/>
+        <result property="channel" column="channel"/>
+        <result property="title" column="title"/>
+        <result property="ftlFile" column="ftl_file"/>
+        <result property="htmlPath" column="html_path"/>
+        <result property="note" column="note"/>
+        <result property="snapshot" column="snapshot"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="ex1Name" column="ex1_name"/>
+        <result property="ex2Name" column="ex2_name"/>
+        <result property="ex3Name" column="ex3_name"/>
+        <result property="ex4Name" column="ex4_name"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,channel,title,ftl_file,html_path,note,snapshot,create_time,update_time,ex1_name,ex2_name,ex3_name,ex4_name
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_page_template (
+            channel ,
+            title ,
+            ftl_file ,
+            html_path ,
+            note ,
+            snapshot ,
+            create_time ,
+            update_time ,
+            ex1_name ,
+            ex2_name ,
+            ex3_name ,
+            ex4_name
+        ) VALUES (
+            #{channel} ,
+            #{title} ,
+            #{ftlFile} ,
+            #{htmlPath} ,
+            #{note} ,
+            #{snapshot} ,
+            #{createTime} ,
+            #{updateTime},
+            #{ex1Name},
+            #{ex2Name},
+            #{ex3Name},
+            #{ex4Name}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_page_template SET            
+            channel = #{channel} ,
+            title = #{title} ,
+            ftl_file = #{ftlFile} ,
+            html_path = #{htmlPath} ,
+            note = #{note} ,
+            snapshot = #{snapshot} ,
+            create_time = #{createTime} ,
+            update_time = #{updateTime}  ,
+            ex1_name = #{ex1Name} ,
+            ex2_name = #{ex2Name} ,
+            ex3_name = #{ex3Name} ,
+            ex4_name = #{ex4Name}
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_page_template WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+     <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM t_page_template WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="PageTemplate">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_page_template 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="PageTemplate">
+        SELECT <include refid="columns" /> FROM t_page_template 
+        <include refid="find_where"/>
+    </select>
+	
+	 <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findTemplateList" resultMap="PageTemplate">
+    	SELECT <include refid="columns" />
+	    FROM t_page_template
+		<include refid="find_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+	
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(channel)">
+                AND channel = #{channel}
+            </if>
+           <if test="@Ognl@isNotEmpty(title)">
+                AND title = #{title}
+            </if>
+           <if test="@Ognl@isNotEmpty(ftlFile)">
+                AND ftl_file = #{ftlFile}
+            </if>
+           <if test="@Ognl@isNotEmpty(htmlPath)">
+                AND html_path = #{htmlPath}
+            </if>
+           <if test="@Ognl@isNotEmpty(note)">
+                AND note = #{note}
+            </if>
+           <if test="@Ognl@isNotEmpty(snapshot)">
+                AND snapshot = #{snapshot}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND update_time = #{updateTime}
+            </if>
+        </where>
+    </sql>
+</mapper>

@@ -1,0 +1,90 @@
+
+<div class="tabbable">
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active">
+		<a data-toggle="tab" href="#task_home"> 
+			<i class="green ace-icon fa fa-users bigger-120"></i> 任务列表
+		</a>
+		</li>
+
+		<li class=""><a data-toggle="tab" href="#task_profile"> 
+		<i class="green ace-icon fa fa-plus bigger-120"></i> 添加
+		</a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="task_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/task/list" method="post" id="search-form" 
+				target="list-page" class="center clearfix">
+				
+				<div class="row padding-tb-10">
+					<div class="col-sm-6">
+						<label class="inline">class name：</label>
+						<input type="text" class="width-80"  name="beanClass"/>
+					</div>
+					<div class="col-sm-6">
+						<label class="inline">bean  name：</label>
+						<input type="text" class="width-80"  name="beanName"/>
+					</div>
+				</div>
+				<div class="padding-trb-10 col-sm-12">
+					<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">全部查询 </span>
+					<span class="btn btn-info btn-sm col-sm-6" id="search-btn">条 件 查 询</span>
+				</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+
+		<div id="task_profile" class="tab-pane">
+			<form action="${ctxPath!}/task/save" method="post" id="task-save-form">
+				<div class="center padding-10">
+					<label>class：</label>
+					<input type="text" class="width-50" name="beanClass" id="beanClass" datatype="*"  nullmsg="请输入class！" />
+				</div>
+				<div class="center padding-10">
+					<label>方法名：</label>
+					<input type="text" class="width-50" name="methodName" id="methodName" datatype="*"  nullmsg="请输入方法名！"/>
+				</div>
+				<div class="center padding-10">
+					<label>cron：</label>
+					<input type="text" class="width-50" name="cron" id="cron" datatype="*"   nullmsg="请输入定时设置！" />
+				</div>
+				<div class="center padding-10">
+					<label>bean name：</label>
+					<input type="text" class="width-50" name="beanName" datatype="*"  nullmsg="请输入bean name！"/>
+				</div>
+				<div class="center padding-10" >
+					<label style="vertical-align: top;">描述：</label>
+					<textarea type="text" class="width-50" name="description"></textarea>
+				</div>
+				
+				<div class="margin-t15">
+					<span class="btn btn-info btn-block bigger-120" id="task-save-btn">保 存</span>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<#save isHide="yes" subBtnId="task-save-btn" formId="task-save-form" 
+validId="taskForm" config="true">
+	taskForm.config({
+		
+		beforeSubmit:function(curform){
+		   
+			if($.trim($("#cron").val())=="" ){
+				tip.errorTip("请填写定时条件",$("#cron"));
+				return false;
+			}
+		}
+	});
+</#save>
+<script>
+	
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+</script>

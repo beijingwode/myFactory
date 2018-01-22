@@ -1,0 +1,848 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>我的福利</title>
+<link rel="stylesheet" type="text/css" href="css/index_style.css" />
+<script type="text/javascript" src="resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="resources/js/jquery.SuperSlide2.js"></script>
+<script type="text/javascript" src="resources/js/index_banner.js"></script>
+<script type="text/javascript" src="resources/js/index_new_pro.js"></script>
+<script type="text/javascript" src="resources/js/application.js"></script>
+
+</head>
+
+<body>
+<div class="header">
+	<div class="top"><p>我&nbsp;的&nbsp;福&nbsp;利&nbsp;&nbsp;&nbsp;&nbsp;也&nbsp;是&nbsp;你&nbsp;的&nbsp;福&nbsp;利</p></div>
+    <div class="logo"><img src="images/index_logo.png" /></div>
+	
+    <div class="search_fixed">
+    	<div class="search_fixed_con">
+            <ul class="ul1">
+                <li class="li1"><a href="/index_new.html">首页</a></li>
+                <li><a href="/index.html">福利商城</a></li>
+            </ul>
+            <div class="searchbox">
+                <div class="inp_box">
+                    <form action="/product/search" method="get" id="search_form" target="_blank">
+                        <input class="searchinput" autocomplete="off" type="text" name="key" value="" >
+                        <input  class="search_btn" id="search_btn" type="submit" value="" />
+                    </form>
+                </div>
+                
+            </div>
+            <ul class="ul2">
+                <li class="buycar">
+                    <em><img src="images/index_shopping_car_icon.png" /></em>
+                    <span class="shopping_amount"></span>
+                    <a href="javascript:;" class="fff_show"></a>
+                    <div class="box buycar_box dis">
+                        
+                        <div class="buycar_con">
+                            <div class="tit">最近加入的商品</div>
+                            <div class="buycar_list">
+                                <div class="list_con">
+                                   
+                                </div>
+                            </div>
+                            
+                            <div class="buycar_bottom">
+                                <div class="buycar_bottom_con"><i class="span1"></i>件商品 共计<i class="span2"></i></div>
+                                <a href="cart/list">去购物车结算</a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </li>
+                <li class="details_box">
+                    <em><img src="images/index_center_icon.png" /></em>
+                    <a href="javascript:;"  class="fff_show"></a>
+                    <div class="box personal_details_box dis">
+                        <a href="/member/myorders">我的交易</a>
+                        <a href="/member/personalStore">我的关注</a>
+                        <a href="member/personalInformation">个人中心</a>
+                        <a href="/user/loginOut">退出登录</a>
+                    </div>
+                </li>
+                <li class="tel">
+                    <em><img src="images/index_tell_icon.png" /></em>
+                    <a href="javascript:;"  class="fff_show"></a>
+                    <div class="box ewm_img dis">
+                        <img src="images/app_download_ewm.png" />
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    
+</div>
+
+<div class="mainbody">	
+	<!--banner开始-->
+    <div class="banner">
+        <div class="banner_box" id="banner">
+            <a href="javascript:;" class="d1" style="background:url(images/index_banner1.png) center no-repeat;"></a>
+            <a href="javascript:;" class="d1" style="background:url(images/index_banner1.png) center no-repeat;"></a>
+            <a href="javascript:;" class="d1" style="background:url(images/index_banner1.png) center no-repeat;"></a>
+            <a href="javascript:;" class="d1" style="background:url(images/index_banner1.png) center no-repeat;"></a>
+            <div class="d2" id="banner_id">
+                <ul>
+                   <li></li>
+                   <li></li>
+                   <li></li>
+                   <li></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--banner结束--> 
+    <div class="wrap">
+        <!--自家专享开始-->
+        <div class="exclusive">
+          
+        </div>
+        <!--自家专享结束-->  
+        <!--厂商联盟开始-->
+        <div class="alliance">
+            <!-- <div class="tit1">
+                <p><img src="images/new_index_tit2.png" /></p>
+                <div class="btns1"><em class="btn_left prev"></em><em class="btn_middle">|</em><em class="btn_right next"></em></div>
+            </div>
+            <div class="alliance_con">
+                <ul>
+                    <li><a href="javascript:;"><img src="images/index_brand1.png" /></a></li>
+                    <li><a href="javascript:;"><img src="images/index_brand2.png" /></a></li>
+                    <li><a href="javascript:;"><img src="images/index_brand3.png" /></a></li>
+                    <li><a href="javascript:;"><img src="images/index_brand4.png" /></a></li>
+                    <li><a href="javascript:;"><img src="images/index_brand5.png" /></a></li>
+                    <li><a href="javascript:;"><img src="images/index_brand6.png" /></a></li>
+                </ul>
+            </div> -->
+        </div>
+        <!--厂商联盟结束-->
+        <!--现金券专区开始--> 
+        <div class="main_box" id="pro_if1">
+           <!--  <div class="tit2">
+                <p class="p1">现金券专区</p>
+                <p class="p2">减到0元，现金券就 当现金花</p>
+                <a href="javascript:;">更多减免>></a>
+                <span><img src="images/new_index_tit2_spanbg.png" /></span>
+            </div>
+            
+            <div class="main_con">
+                <ul>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>+内购券:1699.00 <br />+现金券:1181.00 <br />比对价:￥2880.00</p>
+                                    <em></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>+内购券:1699.00 <br />+现金券:1181.00 <br />比对价:￥2880.00</p>
+                                    <em></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>+内购券:1699.00 <br />+现金券:1181.00 <br />比对价:￥2880.00</p>
+                                    <em></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>+内购券:1699.00 <br />+现金券:1181.00 <br />比对价:￥2880.00</p>
+                                    <em></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+             -->
+        </div> 
+        <!--现金券专区结束-->
+        <!--答题领好物开始--> 
+        <div class="main_box" id="pro_if2">
+            <!-- <div class="tit2">
+                <p class="p1">答题领好物</p>
+                <p class="p2">一份问卷“等于”一件商品，我的意见有价值</p>
+                <a href="javascript:;">更多试用>></a>
+                <span><img src="images/new_index_tit2_spanbg.png" /></span>
+            </div>
+            
+            <div class="main_con">
+                <ul>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>+内购券:1699.00 <br />+现金券:1181.00 <br />比对价:￥2880.00</p>
+                                    <em><img src="images/new_index_icon1.png" /></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>+内购券:1699.00 <br />+现金券:1181.00 <br />比对价:￥2880.00</p>
+                                    <em><img src="images/new_index_icon1.png" /></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>+内购券:1699.00 <br />+现金券:1181.00 <br />比对价:￥2880.00</p>
+                                    <em><img src="images/new_index_icon1.png" /></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>+内购券:1699.00 <br />+现金券:1181.00 <br />比对价:￥2880.00</p>
+                                    <em><img src="images/new_index_icon1.png" /></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+             -->
+        </div> 
+        <!--答题领好物结束-->
+         <!--福利随心换开始--> 
+        <div class="main_box" id="pro_if3">
+            <!-- <div class="tit2">
+                <p class="p1">福利随心换</p>
+                <p class="p2">各取所需，各家福利换起来</p>
+                <a href="javascript:;">更多换领>></a>
+                <span><img src="images/new_index_tit2_spanbg.png" /></span>
+            </div>
+            
+            <div class="main_con">
+                <ul>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>换领币:1181.00 <br />比对价:￥2880.00</p>
+                                    <em><img src="images/new_index_icon.png" /></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>换领币:1181.00 <br />比对价:￥2880.00</p>
+                                    <em><img src="images/new_index_icon.png" /></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>换领币:1181.00 <br />比对价:￥2880.00</p>
+                                    <em><img src="images/new_index_icon.png" /></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>换领币:1181.00 <br />比对价:￥2880.00</p>
+                                    <em><img src="images/new_index_icon.png" /></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div> -->
+            
+        </div> 
+        <!--福利随心换结束-->  
+        <!--不止特省开始--> 
+        <div class="main_box" id="pro_if4">
+           <!--  <div class="tit2">
+                <p class="p1">不止特省</p>
+                <p class="p2">价格超低，质量如一，能有多省有多省</p>
+                <a href="javascript:;">更多特省>></a>
+                <span><img src="images/new_index_tit2_spanbg.png" /></span>
+            </div>
+            
+            <div class="main_con">
+                <ul>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>+内购券:1699.00 <br />+现金券:1181.00 <br />比对价:￥2880.00</p>
+                                    <em><img src="images/new_index_icon2.png" /></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>+内购券:1699.00 <br />+现金券:1181.00 <br />比对价:￥2880.00</p>
+                                    <em><img src="images/new_index_icon2.png" /></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>+内购券:1699.00 <br />+现金券:1181.00 <br />比对价:￥2880.00</p>
+                                    <em><img src="images/new_index_icon2.png" /></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>+内购券:1699.00 <br />+现金券:1181.00 <br />比对价:￥2880.00</p>
+                                    <em><img src="images/new_index_icon2.png" /></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div> -->
+            
+        </div> 
+        <!--不止特省结束-->
+        <!--优享内购价开始--> 
+        <div class="main_box" id="pro_if5">
+           <!--  <div class="tit2">
+                <p class="p1">优享内购价</p>
+                <p class="p2">一样的品质，不一样的价格，我的福利不一样</p>
+                <a href="javascript:;">更多内购>></a>
+                <span><img src="images/new_index_tit2_spanbg.png" /></span>
+            </div>
+            
+            <div class="main_con">
+                <ul>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>+内购券:1699.00 <br />+现金券:1181.00 <br />比对价:￥2880.00</p>
+                                    <em></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>+内购券:1699.00 <br />+现金券:1181.00 <br />比对价:￥2880.00</p>
+                                    <em></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>+内购券:1699.00 <br />+现金券:1181.00 <br />比对价:￥2880.00</p>
+                                    <em></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <dl>
+                                <dt>
+                                    <img src="images/con_pic1.png" width="260" height="260" />
+                                    <span></span>
+                                    <p>+内购券:1699.00 <br />+现金券:1181.00 <br />比对价:￥2880.00</p>
+                                    <em></em>
+                                </dt>
+                                <dd class="dd1">ECOVACS 科沃斯</dd>
+                                <dd class="dd2">钢铁侠 扫地机器 扫地机器人 扫地机器人人 D80I</dd>
+                                <dd class="dd3"><em>￥</em><span>0.00</span></dd>
+                                <dd class="dd4">                           	
+                                    <div class="pro_bar">
+                                        <div class="bar_con" width="30" style="width:0px;"></div>
+                                    </div>
+                                    <p>仅剩16件</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div> -->
+            
+        </div> 
+        <!--优享内购价结束-->   
+        <div class="my_stamps">
+            <ul>
+            	<li class="li1">内购券：300.00</li>
+                <li class="li2">现金券：280.00</li>
+                <li class="li3">换领币：2350.00</li>
+            </ul>
+        </div>
+    </div> 
+</div>
+
+<div class="footer"></div>
+<script language="javascript">
+
+$(function () {	
+
+	//搜索框吸顶
+
+    var a = $('.search_fixed'),  
+        b =a.offset(); 
+  
+    $(document).on('scroll',function(){  
+      var c = $(document).scrollTop();  
+  
+      if(b.top<=c){  
+        a.addClass("fixed") ; 
+        }else{  
+        a.removeClass("fixed");  
+        }  
+     })  
+  
+
+//搜索框右侧交互效果
+	$(".search_fixed_con .ul2 li .fff_show").each(function(index){
+		$(this).hover(function(){//先把所有的隐藏掉
+			//$(".box").addClass("dis");
+	 		//$(".box:eq("+index+")").removeClass("dis");//在把对应的索引的显示				
+			$(".search_fixed_con .ul2 li .fff_show").removeClass("a2");
+			$(".search_fixed_con .ul2 li .fff_show").addClass("a1");
+			$(this).addClass("a2");
+		})	
+	});
+	$('.search_fixed_con .ul2 li ').hover(function(){ 		        	
+		 var timer = $(this).data("timer");
+			var lit = $(this);
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                lit.find('.box').fadeIn(500);
+            }, 300);
+            $(this).data("timer", timer);				
+	},function(){ 
+		 var timer = $(this).data("timer");
+            clearTimeout(timer);
+			$(this).find('.box').fadeOut("fast");
+			$(".search_fixed_con .ul2 li .fff_show").addClass("a2");	
+	}); 
+
+//进度条	
+	
+		
+
+//厂商联盟
+$(".alliance").slide({
+	titCell:"",
+	mainCell:".alliance_con ul",
+	autoPage:true,
+	effect:"leftLoop",
+	autoPlay:false,
+	vis:6,
+	scroll:6,
+	//delayTime:4000
+});
+
+$(".btns1 .btn_left").mouseover(function(){
+	$(this).css({"background":"url(images/btn_icon_left2.png) no-repeat",})	
+});
+$(".btns1 .btn_left").mouseout(function(){
+	$(this).css({"background":"url(images/btn_icon_left1.png) no-repeat",})	
+});
+$(".btns1 .btn_right").mouseover(function(){
+	$(this).css({"background":"url(images/btn_icon_right2.png) no-repeat",})	
+});
+$(".btns1 .btn_right").mouseout(function(){
+	$(this).css({"background":"url(images/btn_icon_right1.png) no-repeat",})	
+});
+
+//我的券显示效果（页面滑动到现金券专区时，我的券显示）
+$(window).scroll(function(){
+    var h=$(this).scrollTop();//获得滚动条距top的高度
+    //alert(h); 
+    if(h>1100){
+        $(".my_stamps").fadeIn();
+    }else{
+        $(".my_stamps").fadeOut();
+    }
+});
+
+//显示到相应区域对应的我的券变红
+
+    var if1_height = $("#pro_if1").offset().top-210;
+    var if2_height = $("#pro_if2").offset().top-210;
+    var if3_height = $("#pro_if3").offset().top-210;
+    var if4_height = $("#pro_if4").offset().top-210;
+    var if5_height = $("#pro_if5").offset().top-210;
+    $(window).scroll(function(){
+        var this_scrollTop = $(this).scrollTop();
+        
+        if(this_scrollTop>if5_height ){
+        	$(".my_stamps ul li").removeClass("col");
+        	$(".my_stamps ul li.li1").addClass("col");
+            $(".my_stamps ul li.li2").addClass("col");           
+        }else if(this_scrollTop>if4_height){
+        	$(".my_stamps ul li").removeClass("col");
+        	$(".my_stamps ul li.li1").addClass("col");
+            $(".my_stamps ul li.li2").addClass("col");
+        }else if(this_scrollTop>if3_height){
+        	$(".my_stamps ul li").removeClass("col");
+        	$(".my_stamps ul li.li3").addClass("col");
+        }else if(this_scrollTop>if2_height){
+        	$(".my_stamps ul li").removeClass("col");
+        	$(".my_stamps ul li.li1").addClass("col");
+            $(".my_stamps ul li.li2").addClass("col");
+        }else if(this_scrollTop>if1_height){
+        	$(".my_stamps ul li").removeClass("col");
+        	$(".my_stamps ul li.li1").addClass("col");
+            $(".my_stamps ul li.li2").addClass("col");
+        }
+        
+        
+    });
+
+    shopping();
+
+});
+function shopping(){
+	$.ajax({
+		   type: "POST",
+		   url: "/user/getCartNum",
+		   success: function(ret){
+		   		if(ret.success){
+		   			var obj = ret.data;
+		   			$(".shopping_amount").text(obj.num);
+		   			if(obj.num == 0){
+		   				$(".buycar_con").html("<div class='tit'>购物车中还没有商品，赶紧选购吧！</div>");
+		   				return;
+		   			}
+		   			var cartItems = obj.cartItems;
+		   			var cartInfo = "";
+		   			var totalPrice = 0;
+		   			for(var i = 0; i < cartItems.length; i++){
+		   				var cartItem = cartItems[i];
+                        
+		   				cartInfo += ' <dl>';
+		   				cartInfo += '     <dt><a href="javascript:;"><img src="'+cartItem.imagePath+'" width="50" height="50" /></a></dt>';
+		   				cartInfo += '     <dd class="dd1"><a href="javascript:;">'+cartItem.productName+'</a></dd>';
+		   				cartInfo += '     <dd class="dd2">';
+		   				for(var j = 0; j<cartItem.specificationList.length; j++){
+	                		cartInfo += cartItem.specificationList[j];
+	                	}
+		   				cartInfo += ' </dd>';
+		   				cartInfo += '     <dd class="dd3">￥'+cartItem.price+'<i>*'+cartItem.quantity+'</i><a href="#" name="delete">删除</a></dd>';
+		   				cartInfo += '<input type="hidden" name="partNumber" value="'+cartItem.partNumber+'">';
+		   				cartInfo += ' </dl>   ';
+		                totalPrice += cartItem.price *cartItem.quantity;
+		   			}
+		   			
+		   			if(obj.num>0){
+		   				$(".shopping_amount").html(obj.num);
+		   				$(".span1").html(obj.num);
+		   				$(".span2").html("￥ " + totalPrice);
+		   			} 
+		   			$(".list_con").html(cartInfo);
+		   			
+		   			
+					// 删除
+		   			$("a[name='delete']").click(function() {
+							var partNumber = $(this).parent().parent().find("input[name='partNumber']").val();
+							var $shoppingcar_list_cont = $(this).parent().parent().parent().parent();
+							$.ajax({
+								url : "/cart/delete",
+								type : "POST",
+								data : {
+									partNumber : partNumber
+								},
+								dataType : "json",
+								cache : false,
+								beforeSend : function() {
+//									$submit.prop("disabled", true);
+								},
+								success : function(data) {
+									if (data.success) {
+										$shoppingcar_list_cont.remove();
+										var obj = data.data;
+										$(".shopping_amount").text(obj.totalNumber);
+										if(obj.totalNumber>0&&totalPrice>0){
+											$(".span1").html(obj.totalNumber);
+											$(".span2").html(currency(obj.totalPrice, true));
+										}else{
+											//$(".go_account_btn").remove();
+											$(".buycar_bottom").remove();
+											//$('.shoppingcar_cont').hide();
+										}
+									} else {
+										alert(data.msg);
+									}
+								},
+								complete : function() {
+//									$submit.prop("disabled", false);
+								}
+							});
+						return false;
+				});
+		   		}
+		   }
+	}); 
+}
+</script>
+<script type="text/javascript">banner()</script>
+</body>
+</html>

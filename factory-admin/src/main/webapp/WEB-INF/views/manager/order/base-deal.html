@@ -1,0 +1,90 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/orderList/listDeal" method="post" id="search-form" target="list-page" class="center clearfix">
+					<input type="hidden" name="viewStatus" value="${status!}">
+					<div class="row padding-tb-10 col-sm-12">
+						<div class="col-sm-4">
+							<label>订单状态：</label>
+								<input type="checkbox" value="0" name="status" id="status0"><label for="status0">未支付</label>
+								<input type="checkbox" value="1" name="status" id="status1" checked="checked"><label for="status1">已支付</label>
+								<input type="checkbox" value="2" name="status" id="status2"><label for="status2">已发货</label>
+								<input type="checkbox" value="4" name="status" id="status4"><label for="status4">已收货</label> <br />
+								<input type="checkbox" value="3" name="status" id="status3"><label for="status3">申请退货</label>
+								<input type="checkbox" value="5" name="status" id="status5"><label for="status5">申请退款</label>
+								<input type="checkbox" value="11" name="status" id="status11"><label for="status11">已退货</label>
+								<input type="checkbox" value="12" name="status" id="status12"><label for="status12">已退款</label>
+								<input type="checkbox" value="-1" name="status" id="status-1"><label for="status-1">已取消</label>
+						</div>
+						<div class="col-sm-4">
+							<label>订单id：</label>
+							<input type="text" id="subOrderId" name="subOrderId">
+							<label>电话：</label>
+							<input type="text" id="mobile" name="mobile">
+						</div>
+						<div class="col-sm-4">
+							<label>下单日期：</label>
+							<input type="text" id="startDate" name="startDate">
+							<label>-</label>
+							<input type="text" id="endDate" name="endDate">
+							&nbsp;&nbsp;
+						</div>
+					</div>
+					<div class="row padding-tb-10 col-sm-12">
+						<div class="col-sm-4">
+							<label>商家：</label>
+							<#select name="supplierId" width="70%">
+								<option value="">全部</option>
+								@for(item in supplierList){
+								<option value="${item.id! }">${item.comName! }</option>
+								@}
+							</#select>							
+						</div>
+						
+						<div class="col-sm-4">
+							<label>招商经理：</label>
+							<select name="managerId">
+								<option value="">全部</option>
+								@for(item in mlist){
+									<option value="${item.id! }" >${item.name! }</option>
+								@}
+							</select>								
+						</div>
+						<div class="col-sm-4">
+							<label>账单：</label>
+							<select name="closeFlg">
+								<option value="">全部</option>
+								<option value="0">未出账</option>
+								<option value="2">已出账</option>
+							</select>
+						</div>
+					</div>
+					<div class="padding-trb-10 col-sm-12">
+						<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">全部</span>
+						<span class="btn btn-info btn-sm col-sm-6" id="search-btn">查询</span>
+					</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+	</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script>
+	laydate({
+	    elem: '#startDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	laydate({
+	    elem: '#endDate',
+	    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	});
+	$("#role-select").chosen({width: "80%",search_contains: true});
+	$("#role-choose").chosen({width: "100%",search_contains: true}); 
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	
+</script>

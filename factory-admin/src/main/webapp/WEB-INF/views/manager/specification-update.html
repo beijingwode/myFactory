@@ -1,0 +1,44 @@
+<div class="layer" id="updateAppImg">
+	<form name="FormPost" id="specification-update" class="FormGrid"  method="post"
+		action="${ctxPath}/specification/update">
+		
+		<input type="hidden" value="${speVoInfo.id!}" name="id"/>
+		<!-- 类别id -->
+		<input type="hidden" value="${speVoInfo.categoryId!}" name="categoryId" />
+		<table class="EditTable" width="100%">
+			<tbody>
+				<tr style="display: none;">
+					<td class="ui-state-error" id="FormError"></td>
+				</tr>
+				 
+				<tr class="FormData">
+					<td class="CaptionTD">名称:</td>
+					<td class="DataTD width-100">
+						 <input type="text" value="${speVoInfo.name!}" maxlength="50" datatype="*"  nullmsg="名称不能为空！！" name="name"/>
+				    </td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">类别:</td>
+					<td class="DataTD">
+					<#productcategorytreeselect nameId="specification_tree" url="productCategory/tree" modelNameValue="${speVoInfo.specificationType!}"
+					modelIdValue="${speVoInfo.categoryId!}" selectIds="${speVoInfo.categoryId!}"
+					curId="${speVoInfo.categoryId!}" scenario="category"/><!-- 就curId是自己的信息 -->
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">排序</td>
+					<td class="DataTD">
+						<input type="text" value="${speVoInfo.orders!}" name="orders"/>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+<#save formId="specification-update" />
+<script type="text/javascript">
+
+//描述框自动扩张高度
+$('textarea[class*=autosize]').autosize({append: "\n"});
+
+</script>

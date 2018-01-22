@@ -1,0 +1,143 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			商家:
+		</div>
+
+		<div class="profile-info-value">
+			<input id="closeType" type="hidden" value="${act.data.closeType}">
+			@if(act.data.closeType == 2) {
+				结算运费
+			@} else if(act.data.closeType == 1) {
+				结算佣金
+			@}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			结算类型:
+		</div>
+
+		<div class="profile-info-value">
+			${act.data.name}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			财务代码:
+		</div>
+		<div class="profile-info-value">
+			${sd.financeCode}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			对账单标题:
+		</div>
+
+		<div class="profile-info-value">
+			<input type="text" id="title" maxlength="50" value="${act.data.title}" style="width: 80%">
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			结算周期:
+		</div>
+		<div class="profile-info-value">
+			${act.data.startTime!,dateFormat="MM-dd" }--${act.data.endTime!,dateFormat="MM-dd" }
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			金额合计:
+		</div>
+		<div class="profile-info-value">
+		${act.data.payPrice,numberFormat="##.##"}
+		<input id="ids" type="hidden" value='${ids}'>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			结算方式:
+		</div>
+
+		<div class="profile-info-value">
+			<select id="payType" onchange="chagePayType()">
+				<option value="1">结算到商家现金账户</option>
+				<option value="2">其他方式结算</option>
+			</select>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			其他方式结算:
+		</div>
+
+		<div class="profile-info-value">
+			<input type="text" id="payNote" maxlength="80" value="" placeholder="填写收款方式，账号，收款人" style="width: 80%" disabled="disabled">
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			备注:
+		</div>
+
+		<div class="profile-info-value">
+			<input type="text" id="closeNote" maxlength="50" value="${act.data.closeNote}" style="width: 80%">
+		</div>
+	</div>
+	<div class="width-100 clearfix" tag-save-btn style="bottom: 0px;left: 0px;position:absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-100  pull-left" id="submit">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>确定
+	</span>
+</div>
+<script type="text/javascript">
+
+$(function(){
+	
+	$("#submit").click(function(){
+		if($("#payType").val() == 2) {
+			if($("#payNote").val() == "") {
+				alert("请填写收款方式，账号，收款人。或选择结算到商家现金账户");
+				return;
+			}
+		}
+		$.ajax({
+			"type":'POST',
+			"url":'${ctxPath}/saleBill/doMakeSailBill?idc='+$("#ids").val(),
+			data:{
+				"closeType":$("#closeType").val(),
+				"title":$("#title").val(),
+				"closeNote":$("#closeNote").val(),
+				"payType":$("#payType").val(),
+				"payNote":$("#payNote").val()
+			},
+			"success":function(data,response){
+				if(data.success){
+					layer.msg('操作成功', 3, 1,function(){
+						location.reload();
+						layer.closeAll();
+					});
+				}else{
+					layer.msg('修改失败', 3, 1,function(){
+						location.reload();
+						layer.closeAll();
+					});
+				}
+			}
+		});
+	});
+})
+
+function chagePayType() {
+	if($("#payType").val() == 2) {
+		$("#payNote").prop("disabled",false);
+	} else {
+		$("#payNote").val("");
+		$("#payNote").prop("disabled",true);
+	}
+}
+</script>
+</div>
+</div>

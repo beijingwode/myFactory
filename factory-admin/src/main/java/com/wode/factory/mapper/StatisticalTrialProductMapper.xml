@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.StatisticalTrialProductDao">
+
+    <resultMap id="StatisticalTrialProduct" type="com.wode.factory.model.StatisticalTrialProduct">
+        <result property="id" column="id"/>
+        <result property="month" column="month"/>
+        <result property="createTime" column="create_time"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="supplierManager" column="supplier_manager"/>
+        <result property="productTypeCnt" column="product_type_cnt"/>
+        <result property="productCnt" column="product_cnt"/>
+        <result property="avgOnlinePrice" column="avg_online_price"/>
+        <result property="avgRealPrice" column="avg_real_price"/>
+        <result property="avgShipping" column="avg_shipping"/>
+        <result property="onlineAmoung" column="online_amoung"/>
+        <result property="realAmount" column="real_amount"/>
+        <result property="breakAmount" column="break_amount"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,month,create_time,supplier_id,supplier_name,supplier_manager,product_type_cnt,product_cnt,avg_online_price,avg_real_price,avg_shipping,online_amoung,real_amount,break_amount
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_statistical_trial_product (
+            month ,
+            create_time ,
+            supplier_id ,
+            supplier_name ,
+            supplier_manager ,
+            product_type_cnt ,
+            product_cnt ,
+            avg_online_price ,
+            avg_real_price ,
+            avg_shipping ,
+            online_amoung ,
+            real_amount ,
+            break_amount
+        ) VALUES (
+            #{month} ,
+            #{createTime} ,
+            #{supplierId} ,
+            #{supplierName} ,
+            #{supplierManager} ,
+            #{productTypeCnt} ,
+            #{productCnt} ,
+            #{avgOnlinePrice} ,
+            #{avgRealPrice} ,
+            #{avgShipping} ,
+            #{onlineAmoung} ,
+            #{realAmount} ,
+            #{breakAmount}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_statistical_trial_product SET            
+            month = #{month} ,
+            create_time = #{createTime} ,
+            supplier_id = #{supplierId} ,
+            supplier_name = #{supplierName} ,
+            supplier_manager = #{supplierManager} ,
+            product_type_cnt = #{productTypeCnt} ,
+            product_cnt = #{productCnt} ,
+            avg_online_price = #{avgOnlinePrice} ,
+            avg_real_price = #{avgRealPrice} ,
+            avg_shipping = #{avgShipping} ,
+            online_amoung = #{onlineAmoung} ,
+            real_amount = #{realAmount} ,
+            break_amount = #{breakAmount} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_statistical_trial_product WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="StatisticalTrialProduct">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_statistical_trial_product 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="StatisticalTrialProduct">
+        SELECT <include refid="columns" /> FROM t_statistical_trial_product 
+        <include refid="find_where"/>
+    </select>
+
+    <select id="selectByModelEmpty" resultMap="StatisticalTrialProduct">
+        SELECT s.id supplier_id,s.com_name supplier_name,s.manager_id supplier_manager, c.month,c.product_type_cnt,c.product_cnt,c.break_amount
+    	FROM t_supplier s 
+    	LEFT JOIN (
+    	SELECT month,supplier_id,product_type_cnt,product_cnt,break_amount
+    	FROM t_statistical_trial_product 
+        <include refid="find_where"/>
+    	) c ON (c.supplier_id=s.id)
+    	<where>
+           <if test="@Ognl@isNotEmpty(supplierManager)">
+                AND s.manager_id = #{supplierManager}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND s.id = #{supplierId}
+            </if>
+        </where>        
+    </select>
+    
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(month)">
+				AND month like CONCAT(#{month},'%')
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierName)">
+                AND supplier_name = #{supplierName}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierManager)">
+                AND supplier_manager = #{supplierManager}
+            </if>
+           <if test="@Ognl@isNotEmpty(productTypeCnt)">
+                AND product_type_cnt = #{productTypeCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(productCnt)">
+                AND product_cnt = #{productCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(avgOnlinePrice)">
+                AND avg_online_price = #{avgOnlinePrice}
+            </if>
+           <if test="@Ognl@isNotEmpty(avgRealPrice)">
+                AND avg_real_price = #{avgRealPrice}
+            </if>
+           <if test="@Ognl@isNotEmpty(avgShipping)">
+                AND avg_shipping = #{avgShipping}
+            </if>
+           <if test="@Ognl@isNotEmpty(onlineAmoung)">
+                AND online_amoung = #{onlineAmoung}
+            </if>
+           <if test="@Ognl@isNotEmpty(realAmount)">
+                AND real_amount = #{realAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(breakAmount)">
+                AND break_amount = #{breakAmount}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

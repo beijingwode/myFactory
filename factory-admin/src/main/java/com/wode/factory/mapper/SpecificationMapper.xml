@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.SpecificationDao">
+	
+
+	<resultMap id="Specification" type="com.wode.factory.vo.SpecificationVo">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="orders" column="orders"/>
+        <result property="memo" column="memo"/>
+        <result property="type" column="type"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="createdDate" column="createdDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="specificationType" column="specificationType"/>
+	</resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+		id,name,orders,memo,type,categoryId,createdDate,updateDate
+	    ]]>
+	</sql>
+	
+	<!-- 查询规格信息-->
+	<select id="selectSpecification" resultMap="Specification" parameterType="map">
+       select spe.id,spe.name,spe.orders,spe.memo,spe.type,spe.category_id,spe.createdDate,spe.updateDate,pro.name as specificationType from  t_specification spe  left join t_product_category pro on pro.id=spe.category_id
+       <if test="categoryId!=null" >
+	      where spe.category_id = #{categoryId}
+	   </if>
+       order by spe.orders asc
+	</select>
+	<!-- 根据主键id查询-->
+	<select id="selectById" resultMap="Specification" resultType="java.lang.Long">
+       select spe.id,spe.name,spe.orders,spe.memo,spe.type,spe.category_id,spe.createdDate,spe.updateDate,pro.name as specificationType from  t_specification spe  left join t_product_category pro on pro.id=spe.category_id where spe.id=#{id}
+	</select>
+	
+	<!-- 查询规格的类别 -->
+	<select id="selectSpecificationCategory" resultMap="Specification">
+		select distinct(pro.name) as specificationType,pro.id as category_id from t_specification spe  left join t_product_category pro on pro.id = spe.category_id
+	</select>
+	
+	<!-- 删除数据 -->
+	<delete id = "deleteById">
+	     delete from t_specification where id =#{id}
+	</delete>
+	
+	
+	<!-- 添加频道页所属频道信息  -->
+	<insert id="insertSpecification" useGeneratedKeys="true" keyProperty="id">
+		insert into t_specification
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="@Ognl@isNotEmpty(name)" >
+	        name,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(orders)" >
+	        orders,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(memo)" >
+	        memo,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(type)" >
+	        type,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(categoryId)" >
+	        category_id,
+	      </if>
+	      <if test="@Ognl@isNotEmpty(createdDate)" >
+	        createdDate,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	      <if test="@Ognl@isNotEmpty(name)" >
+	        #{name},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(orders)" >
+	        #{orders},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(memo)" >
+	        #{memo},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(type)" >
+	        #{type},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(categoryId)" >
+	        #{categoryId},
+	      </if>
+	      <if test="@Ognl@isNotEmpty(createdDate)" >
+	        #{createdDate},
+	      </if>
+	    </trim>
+	</insert>
+	<!-- 修改频道页所属频道信息-->
+	<update id="updateById">
+    update t_specification set
+	        name = #{name},
+	        orders = #{orders},
+	        memo = #{memo},
+	        type = #{type},
+	        category_id = #{categoryId},
+	        updateDate = #{updateDate}
+    		where id = #{id}
+  </update>
+	
+	
+</mapper>
+

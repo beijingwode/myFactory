@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserDeviceMapper">
+
+	<resultMap id="UserDevice" type="com.wode.factory.model.UserDevice">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="deviceType" column="device_type"/>
+        <result property="deviceName" column="device_name"/>
+        <result property="asname" column="asname"/>
+        <result property="channelId" column="channel_id"/>
+        <result property="status" column="status"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="ticket" column="ticket"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,user_id,device_id,device_type,device_name,asname,channel_id,status,update_time,ticket
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_device (
+        	id,
+        	user_id,
+        	device_id,
+        	device_type,
+        	device_name,
+        	asname,
+        	channel_id,
+        	status,
+        	update_time,
+        	ticket
+        ) VALUES (
+			#{id},
+			#{userId},
+			#{deviceId},
+			#{deviceType},
+			#{deviceName},
+			#{asname},
+			#{channelId},
+			#{status},
+			#{updateTime},
+			#{ticket}
+        )
+    ]]>
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_user_device SET
+			user_id = #{userId},
+			device_id = #{deviceId},
+			device_type = #{deviceType},
+			device_name = #{deviceName},
+			asname = #{asname},
+			channel_id = #{channelId},
+			status = #{status},
+			update_time = #{updateTime},
+			ticket = #{ticket}
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_device WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="UserDevice">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_user_device 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+	<select id="getByAttribute" resultMap="UserDevice">
+		SELECT <include refid="columns" /> FROM t_user_device 
+	    <include refid="findPage_where"/>
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(userId)">
+				AND user_id = #{userId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(deviceId)">
+				AND device_id = #{deviceId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(deviceType)">
+				AND device_type = #{deviceType}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(asname)">
+				AND asname = #{asname}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(ticket)">
+				AND ticket = #{ticket}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
+

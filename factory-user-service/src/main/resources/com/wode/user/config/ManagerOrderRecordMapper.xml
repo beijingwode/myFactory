@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ManagerOrderRecordMapper">
+
+    <resultMap id="ManagerOrderRecord" type="com.wode.factory.model.ManagerOrderRecord">
+        <result property="id" column="id"/>
+        <result property="subOrderId" column="subOrderid"/>
+        <result property="productName" column="productName"/>
+        <result property="itemValues" column="itemValues"/>
+        <result property="skuNumber" column="skuNumber"/>
+        <result property="userName" column="userName"/>
+        <result property="operationStatus" column="operationStatus"/>
+        <result property="orderType" column="orderType"/>
+        <result property="userId" column="userid"/>
+        <result property="createDate" column="create_date"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,subOrderid,productName,itemValues,skuNumber,userName,operationStatus,orderType,userid,create_date
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_manager_order_record (
+            id ,
+            subOrderid,
+            productName,
+            itemValues,
+            skuNumber,
+            userName,
+            operationStatus,
+            orderType,
+            userid,
+            create_date
+        ) VALUES (
+            #{id} ,
+            #{subOrderId} ,
+            #{productName} ,
+            #{itemValues} ,
+            #{skuNumber} ,
+            #{userName} ,
+            #{operationStatus} ,
+            #{orderType} ,
+            #{userId} ,
+            #{createDate}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_manager_order_record SET            
+            subOrderid = #{subOrderId} ,
+            productName = #{productName} ,
+            itemValues = #{itemValues} ,
+            skuNumber = #{skuNumber} ,
+            userName = #{userName} ,
+            operationStatus = #{operationStatus} ,
+            orderType = #{orderType} ,
+            userid = #{userId} ,
+            create_date = #{createDate} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_manager_order_record WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getManagerOrderRecordList" resultMap="ManagerOrderRecord">
+        select <include refid="columns" /> FROM t_manager_order_record 
+            WHERE 1=1
+            <if test="userId != null">
+              and  userid = #{userId} 
+            </if>
+            <if test="createDate != null">
+              and  TO_DAYS(create_Date) = TO_DAYS(#{createDate}) 
+            </if>
+              order by create_date desc
+    </select>
+    <select id="getById" resultMap="ManagerOrderRecord">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_manager_order_record 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="ManagerOrderRecord">
+        SELECT <include refid="columns" /> FROM t_manager_order_record 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(subOrderId)">
+                AND subOrderid = #{subOrderId}
+            </if>
+           <if test="@Ognl@isNotEmpty(productId)">
+                AND productid = #{productId}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND userid = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(operationStatus)">
+                AND operationStatus = #{operationStatus}
+            </if>
+           <if test="@Ognl@isNotEmpty(orderType)">
+                AND orderType = #{orderType}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date = #{createDate}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+
+<link rel="stylesheet" type="text/css" href="../static_resources/css/wx_dm.css" />
+<link rel="stylesheet" type="text/css" href="../static_resources/css/alert.css" />
+<script type="text/javascript" src="../static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="../static_resources/js/wxGetUid.js"></script>
+<script type="text/javascript" src="../cart/activityLog?app=wx&url=DragonBoatDay"></script>
+<title>我的福利</title>
+<style type="text/css">
+.theme-poptit{font-size:1.4em}
+</style>
+</head>
+
+<body style="background:#16b09e;">
+
+	<input type="hidden" id="firstLoad" value="1">
+	<div class="main_box">
+	    <div class="main_one">
+	    	<img src="../static_resources/images/DragonBoatDay/a_banner1.png" />
+	    	<img src="../static_resources/images/DragonBoatDay/a_banner2.png" />	
+	    	<img src="../static_resources/images/DragonBoatDay/a_banner3.png" /> 
+	    </div>	
+	   	     
+	    <div class="main_three">
+	    	<a href="http://api.wd-w.com/productm?productId=2291490487632902"><img src="../static_resources/images/DragonBoatDay/a_main_pic5.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2288227408644001"><img src="../static_resources/images/DragonBoatDay/a_main_pic6.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2288242837227439"><img src="../static_resources/images/DragonBoatDay/a_main_pic7.png" /></a>	    	
+	    </div>
+	    <div class="tit"><img src="../static_resources/images/DragonBoatDay/a_tit2.png" /></div> 
+	    <div class="main_two">	    	
+	    	<a href="http://api.wd-w.com/productm?productId=1356329469477954"><img src="../static_resources/images/DragonBoatDay/a_main_pic8.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=1356374037005495"><img src="../static_resources/images/DragonBoatDay/a_main_pic9.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2228461505971615"><img src="../static_resources/images/DragonBoatDay/a_main_pic10.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2228301695550756"><img src="../static_resources/images/DragonBoatDay/a_main_pic11.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2075316873889377"><img src="../static_resources/images/DragonBoatDay/a_main_pic12.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2257640403961609"><img src="../static_resources/images/DragonBoatDay/a_main_pic13.png" /></a>
+	    </div>
+	    
+	    <div class="tit"><img src="../static_resources/images/DragonBoatDay/a_tit3.png" /></div>
+	    <div class="main_two">
+	    	<a href="http://api.wd-w.com/productm?productId=1224023745201340"><img src="../static_resources/images/DragonBoatDay/a_main_pic14.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2149767230948840"><img src="../static_resources/images/DragonBoatDay/a_main_pic15.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=1482484902396938"><img src="../static_resources/images/DragonBoatDay/a_main_pic16.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2158199715726838"><img src="../static_resources/images/DragonBoatDay/a_main_pic17.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2188903403718464"><img src="../static_resources/images/DragonBoatDay/a_main_pic18.png" /></a>
+	    	<a href="http://api.wd-w.com/productm?productId=2050014841112320"><img src="../static_resources/images/DragonBoatDay/a_main_pic19.png" /></a>
+	    </div>
+	    
+	   
+	    <div class="main_three"><a href="http://api.wd-w.com/index_m.htm"><img src="../static_resources/images/DragonBoatDay/a_footer.png" /></a></div>
+	</div>
+
+<div class="theme-popover" id="msgShowDiv" style="display: none">
+     <div class="theme-poptit"></div>
+     <div class="theme-popbod1" >
+        <a href="javascript:void(0);">确定</a>
+     </div>
+</div>
+<div class="theme-popover-mask" style="display: none"></div>
+<script type="text/javascript">
+function closeMsg(){ 
+	$(".theme-popover-mask").hide();
+	$("#msgShowDiv").hide();
+}
+
+function msgShow(){
+	$(".theme-popover-mask").show();
+	$("#msgShowDiv").show();
+}
+
+function goIndex(){
+	window.location = "/index_m.htm?wxOpen=1";
+}
+
+
+function showInfoBox(msg,act){
+	$(".theme-popover .theme-poptit").html(msg);
+	$(".theme-popover .theme-popbod1").show();
+	if(act != null && act!="") {
+		$(".theme-popbod1 a").attr("onclick",act + ";closeMsg();");
+	} else {
+		$(".theme-popbod1 a").attr("onclick","closeMsg();");		
+	}
+	msgShow();
+}
+
+
+
+function offLine() {
+	showInfoBox("线下内购会专供");
+}
+
+$(document).ready(function() {	
+	var uid=GetUidCookie();
+	if(uid=='') {
+		goIndex();
+	} else {
+		if($("#firstLoad").val() == "1") {
+			$("#firstLoad").val("0");
+			var msg = window.location.href;
+			var i=msg.indexOf("msg=");
+			if(i>-1) {
+				msg = msg.substring(i+4);
+				if(msg.indexOf("&")>-1) {
+					msg = msg.substring(0,msg.indexOf("&"));
+				}
+				
+				showInfoBox(decodeURI(msg));	
+			}
+		}
+	}
+});
+
+
+</script>
+</body>
+</html>

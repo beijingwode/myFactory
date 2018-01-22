@@ -1,0 +1,58 @@
+<div class="layer" >
+	<form name="FormPost" id="group_add" class="FormGrid"  method="post" action="${ctxPath}/productTrial/addGroupMsg">
+		<table class="addTable" width="100%">
+			<tbody>
+				<tr class="FormData">
+					<td class="CaptionTD">状态</td>
+					<td class="DataTD">
+					正常
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">商品数</td>
+					<td class="DataTD">
+					0
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">标题</td>
+					<td class="DataTD">
+					<input type="text"  name="name" style="width:60%"  datatype="*" />
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">描述</td>
+					<td class="DataTD">
+					<textarea rows="5"  style="width:60%" name="remark"></textarea>
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">开始日期</td>
+					<td class="DataTD">
+					<input type="text"  style="width:40%" id="limitStart" name="limitStart" datatype="*" >
+					</td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">结束日期</td>
+					<td class="DataTD">
+					<input type="text"  style="width:40%" id="limitEnd" name="limitEnd" datatype="*" >
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+<#save formId="group_add"  reloadPage="true"/>
+<script type="text/javascript">
+laydate({
+    elem: '#limitStart',
+    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+});
+laydate({
+    elem: '#limitEnd',
+    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+});
+//描述框自动扩张高度
+$('textarea[class*=autosize]').autosize({append: "\n"});
+$("#user-role-update").chosen({width: "100%",search_contains: true}); 
+</script>

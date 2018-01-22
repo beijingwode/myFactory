@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="PageTypeSettingMapper">
+
+	<resultMap id="PageTypeSetting" type="com.wode.factory.model.PageTypeSetting">
+        <result property="pageTypeId" column="pageTypeId"/>
+        <result property="title" column="title"/>
+        <result property="name" column="name"/>
+        <result property="page" column="page"/>
+        <result property="orders" column="orders"/>
+        <result property="maxNum" column="maxNum"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="channelId" column="channelId"/>
+	</resultMap>
+	
+	<resultMap id="PageTypeSettingVo" type="com.wode.factory.user.vo.PageTypeSettingVo">
+        <result property="title" column="title"/>
+        <result property="name" column="name"/>
+        
+        <collection property="pageDataList" resultMap="PageDataVo"/>
+        
+	</resultMap>
+	
+	<resultMap id="PageDataVo" type="com.wode.factory.user.vo.PageDataVo">
+        <result property="title" column="pd_title"/>
+        <result property="imagePath" column="pd_imagePath"/>
+        <result property="link" column="pd_link"/>
+	</resultMap>
+	
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		pageTypeId,title,name,page,orders,max_num maxNum,createDate,updateDate,channelId
+	    ]]>
+	</sql>
+	
+	<!-- 根据页面id和位置id查询数据,位置id为空则查询该页面全部的信息 -->
+	<select id="findPageDataInfo" resultMap="PageTypeSettingVo" >
+		SELECT pts.title,pts.name,pd.title as pd_title,pd.imagePath as pd_imagePath,pd.link as pd_link FROM t_page_type_setting pts left join t_page_data pd on pts.pageTypeId=pd.pageTypeId 
+		<![CDATA[ WHERE pts.channelId = #{channelId} and pts.page=#{page} AND pts.name<>'guessLike' ]]>
+		<if test="@Ognl@isNotEmpty(type)">
+			and pts.name=#{type}
+		</if>
+		order by pts.orders asc,pd.orders asc
+	</select>
+
+	<select id="findPageDataProducts" resultMap="PageTypeSettingVo" >
+		SELECT pts.title,pts.name,pd.title as pd_title,pd.imagePath as pd_imagePath,pd.link as pd_link FROM t_page_type_setting pts left join t_page_data pd on pts.pageTypeId=pd.pageTypeId 
+		 WHERE pts.channelId = #{channelId} and pts.page=#{page}  AND EXISTS (select 1 from t_product pro where pro.id=pd.link AND pro.is_marketable = 1)
+		<if test="@Ognl@isNotEmpty(type)">
+			and pts.name=#{type}
+		</if>
+		order by pts.orders asc,pd.orders asc
+	</select>
+
+
+	
+</mapper>
+

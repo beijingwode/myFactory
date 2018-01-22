@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="EmpBenefitFlowMapper" >
+  <resultMap id="BaseResultMap" type="com.wode.factory.model.EmpBenefitFlow" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="emp_id" property="empId" jdbcType="BIGINT" />
+    <result column="op_date" property="opDate" jdbcType="TIMESTAMP" />
+    <result column="op_code" property="opCode" jdbcType="CHAR" />
+    <result column="ticket" property="ticket" jdbcType="DECIMAL" />
+    <result column="ticket_balance" property="ticketBalance" jdbcType="DECIMAL" />
+    <result column="cash" property="cash" jdbcType="DECIMAL" />
+    <result column="cash_balance" property="cashBalance" jdbcType="DECIMAL" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="key_id" property="keyId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="enterprise_id" property="enterpriseId" jdbcType="BIGINT" />
+    <result column="emp_name" property="empName" jdbcType="VARCHAR" />
+    <result column="ex_benefit_type" property="exBenefitType" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="EmpTradeFlowVo" type="com.wode.factory.company.query.EmpTradeFlowVo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="emp_id" property="empId" jdbcType="BIGINT" />
+    <result column="op_date" property="opDate" jdbcType="TIMESTAMP" />
+    <result column="op_code" property="opCode" jdbcType="CHAR" />
+    <result column="ticket" property="ticket" jdbcType="DECIMAL" />
+    <result column="ticket_balance" property="ticketBalance" jdbcType="DECIMAL" />
+    <result column="cash" property="cash" jdbcType="DECIMAL" />
+    <result column="cash_balance" property="cashBalance" jdbcType="DECIMAL" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="key_id" property="keyId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="enterprise_id" property="enterpriseId" jdbcType="BIGINT" />
+    <result column="emp_name" property="empName" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="name" property="opName" jdbcType="VARCHAR" />
+    <result column="realPrice" property="realPrice" jdbcType="VARCHAR" />
+    <result column="totalProduct" property="totalProduct" jdbcType="VARCHAR" />
+    <result column="ex_benefit_type" property="exBenefitType" jdbcType="CHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, emp_id, op_date, op_code, ticket, ticket_balance, cash, cash_balance, note, key_id, 
+    user_name, enterprise_id, emp_name,ex_benefit_type
+  </sql>
+  <!-- 根据订单id查询订单实付金额 -->
+  <select id="selectOrderRealPrice" resultType="java.math.BigDecimal">
+	  SELECT realPrice 
+	  FROM t_orders
+	  WHERE orderId = #{id}
+  </select>
+  <!-- 根据订单查询订单总额 -->
+  <select id="selectOrderTotalProduct" resultType="java.math.BigDecimal">
+	  SELECT totalProduct+totalShipping 
+	  FROM t_orders
+	  WHERE orderId = #{id}
+  </select>
+  
+  <!-- 分页查询员工交易流水 -->
+  <select id="selectPageInfo" resultMap="EmpTradeFlowVo">
+	  SELECT t.* ,null `name`,null `value`,t2.realPrice,t2.totalProduct
+	  FROM `t_emp_benefit_flow` t LEFT JOIN t_suborder t2 on t.key_id = t2.subOrderId 
+	  <where>
+	  		<!-- code分组为010 -->
+	  		<if test="1==1">
+	  			(t.op_code ='203' or  t.op_code ='202')
+	  		</if>	
+	    	<!-- 根据企业id-->
+		     <if test="enterpriseId!=null" >
+		       and t.enterprise_id = #{enterpriseId,jdbcType=BIGINT}   
+		     </if>
+	    	<!-- 根据员工(用户)id-->
+		     <if test="empId!=null" >
+		       and t.emp_id = #{empId,jdbcType=BIGINT}   
+		     </if>
+			<!-- 根据操作代码进行查找 -->
+		     <if test="opCode !=null &amp;&amp;opCode!=''" >
+		       and t.op_code = #{opCode,jdbcType=VARCHAR} 
+		     </if>
+		     <!-- 根据操作时间进行查找 区间查找-->
+		     <if test="startDate != null&amp;&amp;startDate!=''&amp;&amp;endDate!=null&amp;&amp;endDate!=''" >
+		        and t.op_date &gt;= #{startDate,jdbcType=TIMESTAMP} and t.op_date &lt;=#{endDate,jdbcType=TIMESTAMP}
+		     </if>
+		     <!-- 根据操作时间进行查找 精确查找-->
+		     <if test="startDate != null&amp;&amp;startDate!=''&amp;&amp;endDate==null" >
+		        and t.op_date &gt;= #{startDate,jdbcType=TIMESTAMP}
+		     </if>
+		     <if test="endDate != null&amp;&amp;endDate!=''&amp;&amp;startDate==null" >
+		        and t.op_date &lt;= #{endDate,jdbcType=TIMESTAMP}
+		     </if>
+		     
+		     ORDER BY t.op_date DESC 
+	</where>
+	
+  </select>
+  
+  <!-- 分页查询员工全部的交易流水 -->
+  <select id="selectPageInfoAll" resultMap="EmpTradeFlowVo">
+	  SELECT t.* ,t1.`name`,t1.`value` 
+	  FROM `t_emp_benefit_flow` t LEFT JOIN t_ent_param_code t1 
+	  on (t.op_code =t1.`code` AND t1.group_cd='010')
+	  <where>
+	    	<!-- 根据企业id-->
+		     <if test="enterpriseId!=null" >
+		       t.enterprise_id = #{enterpriseId,jdbcType=BIGINT}   
+		     </if>
+	    	<!-- 根据员工(用户)id-->
+		     <if test="empId!=null" >
+		       and t.emp_id = #{empId,jdbcType=BIGINT}   
+		     </if>
+			<!-- 根据操作代码进行查找 -->
+		     <if test="opCode !=null &amp;&amp;opCode!=''" >
+		       and t.op_code = #{opCode,jdbcType=VARCHAR} 
+		     </if>
+		     <!-- 根据操作时间进行查找 区间查找-->
+		     <if test="startDate != null&amp;&amp;startDate!=''&amp;&amp;endDate!=null&amp;&amp;endDate!=''" >
+		        and t.op_date &gt;= #{startDate,jdbcType=TIMESTAMP} and t.op_date &lt;=#{endDate,jdbcType=TIMESTAMP}
+		     </if>
+		     <!-- 根据操作时间进行查找 精确查找-->
+		     <if test="startDate != null&amp;&amp;startDate!=''&amp;&amp;endDate==null" >
+		        and t.op_date = #{startDate,jdbcType=TIMESTAMP}
+		     </if>
+		     
+		     ORDER BY t.op_date DESC 
+	</where>
+	
+  </select>
+  
+  
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_emp_benefit_flow
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_emp_benefit_flow
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wode.factory.model.EmpBenefitFlow" >
+    insert into t_emp_benefit_flow (id, emp_id, op_date, 
+      op_code, ticket, ticket_balance, 
+      cash, cash_balance, note, 
+      key_id, user_name, enterprise_id, 
+      emp_name,ex_benefit_type)
+    values (#{id,jdbcType=BIGINT}, #{empId,jdbcType=BIGINT}, #{opDate,jdbcType=TIMESTAMP}, 
+      #{opCode,jdbcType=CHAR}, #{ticket,jdbcType=DECIMAL}, #{ticketBalance,jdbcType=DECIMAL}, 
+      #{cash,jdbcType=DECIMAL}, #{cashBalance,jdbcType=DECIMAL}, #{note,jdbcType=VARCHAR}, 
+      #{keyId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{enterpriseId,jdbcType=BIGINT}, 
+      #{empName,jdbcType=VARCHAR}, #{exBenefitType})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wode.factory.model.EmpBenefitFlow" >
+    insert into t_emp_benefit_flow
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="empId != null" >
+        emp_id,
+      </if>
+      <if test="opDate != null" >
+        op_date,
+      </if>
+      <if test="opCode != null" >
+        op_code,
+      </if>
+      <if test="ticket != null" >
+        ticket,
+      </if>
+      <if test="ticketBalance != null" >
+        ticket_balance,
+      </if>
+      <if test="cash != null" >
+        cash,
+      </if>
+      <if test="cashBalance != null" >
+        cash_balance,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+      <if test="keyId != null" >
+        key_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="enterpriseId != null" >
+        enterprise_id,
+      </if>
+      <if test="empName != null" >
+        emp_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="empId != null" >
+        #{empId,jdbcType=BIGINT},
+      </if>
+      <if test="opDate != null" >
+        #{opDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="opCode != null" >
+        #{opCode,jdbcType=CHAR},
+      </if>
+      <if test="ticket != null" >
+        #{ticket,jdbcType=DECIMAL},
+      </if>
+      <if test="ticketBalance != null" >
+        #{ticketBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="cash != null" >
+        #{cash,jdbcType=DECIMAL},
+      </if>
+      <if test="cashBalance != null" >
+        #{cashBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="keyId != null" >
+        #{keyId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseId != null" >
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="empName != null" >
+        #{empName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wode.factory.model.EmpBenefitFlow" >
+    update t_emp_benefit_flow
+    <set >
+      <if test="empId != null" >
+        emp_id = #{empId,jdbcType=BIGINT},
+      </if>
+      <if test="opDate != null" >
+        op_date = #{opDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="opCode != null" >
+        op_code = #{opCode,jdbcType=CHAR},
+      </if>
+      <if test="ticket != null" >
+        ticket = #{ticket,jdbcType=DECIMAL},
+      </if>
+      <if test="ticketBalance != null" >
+        ticket_balance = #{ticketBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="cash != null" >
+        cash = #{cash,jdbcType=DECIMAL},
+      </if>
+      <if test="cashBalance != null" >
+        cash_balance = #{cashBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="keyId != null" >
+        key_id = #{keyId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseId != null" >
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="empName != null" >
+        emp_name = #{empName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wode.factory.model.EmpBenefitFlow" >
+    update t_emp_benefit_flow
+    set emp_id = #{empId,jdbcType=BIGINT},
+      op_date = #{opDate,jdbcType=TIMESTAMP},
+      op_code = #{opCode,jdbcType=CHAR},
+      ticket = #{ticket,jdbcType=DECIMAL},
+      ticket_balance = #{ticketBalance,jdbcType=DECIMAL},
+      cash = #{cash,jdbcType=DECIMAL},
+      cash_balance = #{cashBalance,jdbcType=DECIMAL},
+      note = #{note,jdbcType=VARCHAR},
+      key_id = #{keyId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      emp_name = #{empName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

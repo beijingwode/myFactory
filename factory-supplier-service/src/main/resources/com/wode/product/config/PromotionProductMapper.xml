@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="PromotionProductMapper">
+
+	<resultMap id="PromotionProduct" type="com.wode.factory.model.PromotionProduct">
+        <result property="id" column="id"/>
+        <result property="promotionId" column="promotion_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="skuId" column="sku_id"/>
+        <result property="bigImage" column="big_image"/>
+        <result property="smallImage" column="small_image"/>
+        <result property="joinQuantity" column="join_quantity"/>
+        <result property="joinStart" column="join_start"/>
+        <result property="joinEnd" column="join_end"/>
+        <result property="maxQuantity" column="max_quantity"/>
+        <result property="price" column="price"/>
+        <result property="currency" column="currency"/>
+        <result property="plusPrice" column="plus_price"/>
+        <result property="status" column="status"/>
+        <result property="reviewingUserId" column="reviewing_userId"/>
+        <result property="reviewingDate" column="reviewing_date"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="canReturn" column="can_return"/>
+        <result property="canReplace" column="can_replace"/>
+        <result property="canRepair" column="can_repair"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="preferentialNum" column="preferential_num"/>
+        <result property="preferentialType" column="preferential_type"/>
+        <result property="reviewedUserId" column="reviewed_userId"/>
+        <result property="reviewedDate" column="reviewed_date"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,promotion_id,product_id,sku_id,big_image,small_image,join_quantity,join_start,join_end,max_quantity,price,currency,plus_price,status,reviewing_userId,reviewing_date,shop_id,can_return,can_replace,can_repair,create_date,modify_date,preferential_num,preferential_type,reviewed_userId,reviewed_date
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_promotion_product (
+        	id ,
+        	promotion_id ,
+        	product_id ,
+        	sku_id ,
+        	big_image ,
+        	small_image ,
+        	join_quantity ,
+        	join_start ,
+        	join_end ,
+        	max_quantity ,
+        	price ,
+        	currency ,
+        	plus_price ,
+        	status ,
+        	reviewing_userId ,
+        	reviewing_date ,
+        	shop_id ,
+        	can_return ,
+        	can_replace ,
+        	can_repair ,
+        	create_date ,
+        	modify_date ,
+        	preferential_num,
+        	preferential_type
+        ) VALUES (
+        	#{id} ,
+        	#{promotionId} ,
+        	#{productId} ,
+        	#{skuId} ,
+        	#{bigImage} ,
+        	#{smallImage} ,
+        	#{joinQuantity} ,
+        	#{joinStart} ,
+        	#{joinEnd} ,
+        	#{maxQuantity} ,
+        	#{price} ,
+        	#{currency} ,
+        	#{plusPrice} ,
+        	#{status} ,
+        	#{reviewingUserId} ,
+        	#{reviewingDate} ,
+        	#{shopId} ,
+        	#{canReturn} ,
+        	#{canReplace} ,
+        	#{canRepair} ,
+        	#{createDate} ,
+        	#{modifyDate} ,
+        	#{preferentialNum} ,
+        	#{preferentialType}
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_promotion_product SET
+	        promotion_id = #{promotionId} ,
+	        product_id = #{productId} ,
+	        sku_id = #{skuId} ,
+	        big_image = #{bigImage} ,
+	        small_image = #{smallImage} ,
+	        join_quantity = #{joinQuantity} ,
+	        join_start = #{joinStart} ,
+	        join_end = #{joinEnd} ,
+	        max_quantity = #{maxQuantity} ,
+	        price = #{price} ,
+	        currency = #{currency} ,
+	        plus_price = #{plusPrice} ,
+	        status = #{status} ,
+	        reviewing_userId = #{reviewingUserId} ,
+	        reviewing_date = #{reviewingDate} ,
+	        shop_id = #{shopId} ,
+	        can_return = #{canReturn} ,
+	        can_replace = #{canReplace} ,
+	        can_repair = #{canRepair} ,
+	        create_date = #{createDate} ,
+	        modify_date = #{modifyDate} ,
+	        preferential_num = #{preferentialNum} ,
+        	preferential_type = #{preferentialType}
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_promotion_product WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="PromotionProduct">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_promotion_product 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_promotion_product 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="PromotionProduct">
+    	SELECT <include refid="columns" />
+	    FROM t_promotion_product 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(promotionId)">
+				AND promotion_id = #{promotionId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(productId)">
+				AND product_id = #{productId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(skuId)">
+				AND sku_id = #{skuId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(bigImage)">
+				AND big_image = #{bigImage}
+			</if>
+	       <if test="@Ognl@isNotEmpty(smallImage)">
+				AND small_image = #{smallImage}
+			</if>
+	       <if test="@Ognl@isNotEmpty(joinQuantity)">
+				AND join_quantity = #{joinQuantity}
+			</if>
+	       <if test="@Ognl@isNotEmpty(joinStartBegin)">
+				AND join_start >= #{joinStartBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(joinStartEnd)">
+				AND join_start &lt;= #{joinStartEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(joinEndBegin)">
+				AND join_end >= #{joinEndBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(joinEndEnd)">
+				AND join_end &lt;= #{joinEndEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(maxQuantity)">
+				AND max_quantity = #{maxQuantity}
+			</if>
+	       <if test="@Ognl@isNotEmpty(price)">
+				AND price = #{price}
+			</if>
+	       <if test="@Ognl@isNotEmpty(currency)">
+				AND currency = #{currency}
+			</if>
+	       <if test="@Ognl@isNotEmpty(plusPrice)">
+				AND plus_price = #{plusPrice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reviewingUserId)">
+				AND reviewing_userId = #{reviewingUserId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(reviewingDateBegin)">
+				AND reviewing_date >= #{reviewingDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(reviewingDateEnd)">
+				AND reviewing_date &lt;= #{reviewingDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(shopId)">
+				AND shop_id = #{shopId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(canReturn)">
+				AND can_return = #{canReturn}
+			</if>
+	       <if test="@Ognl@isNotEmpty(canReplace)">
+				AND can_replace = #{canReplace}
+			</if>
+	       <if test="@Ognl@isNotEmpty(canRepair)">
+				AND can_repair = #{canRepair}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createDateBegin)">
+				AND create_date >= #{createDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createDateEnd)">
+				AND create_date &lt;= #{createDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(modifyDateBegin)">
+				AND modify_date >= #{modifyDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(modifyDateEnd)">
+				AND modify_date &lt;= #{modifyDateEnd}
+		   </if>
+		</where>
+	</sql>
+	<select id="findPromotionProductBySKU" resultMap="PromotionProduct">
+			select tpp.*
+				from t_promotion_product tpp
+				inner join t_promotion tp on tpp.promotion_id = tp.id
+				and tp.end_date >= date(now())
+				inner join t_promotion_type tpy on tp.type = tpy.id
+			where tpp.status in (0, 1, 2)
+				and tpp.join_end >= date(now())
+				and tpp.sku_id = #{skuId}
+	</select>
+</mapper>
+

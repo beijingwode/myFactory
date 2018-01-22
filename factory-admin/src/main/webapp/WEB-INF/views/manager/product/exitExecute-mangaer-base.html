@@ -1,0 +1,42 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/supplierExit/exitlist" method="post" id="search-form" target="list-page" class="center clearfix">
+					<input type="hidden" name="viewStatus" value="${viewStatus!}">
+					<div class="row col-sm-12">
+						<div class="col-sm-4">
+							<label>状态：</label>
+							<select name="status" width="45%">
+								<option value="">全部</option>
+								<option value="1">审核驳回</option>
+								<option value="2">待运营审核</option>
+								<option value="3">待财务审核</option>
+								<option value="4"  selected="selected" >待退出执行</option>
+								<option value="5">已退出</option>
+								<option value="-1">已取消</option>
+							</select>
+						</div>
+						
+					</div>
+					<div class="padding-trb-10 col-sm-12">
+							<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">全部</span>
+							<span class="btn btn-info btn-sm col-sm-6" id="search-btn">查询</span>
+							
+						</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+	</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script>
+	$("#role-select").chosen({width: "80%",search_contains: true});
+	$("#role-choose").chosen({width: "100%",search_contains: true}); 
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	
+</script>

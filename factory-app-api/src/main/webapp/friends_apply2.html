@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>添加亲友</title>
+<link rel="stylesheet" type="text/css" href="static_resources/css/details.css" />
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+</head>
+
+<body style="background:#fff;">
+<div class="main-cont" id="main-cont">	
+    <div class="main-box" style="top:3px;">
+       <div class="friend_box">
+        	<div class="li1 li11">
+            	<div class="a_box">
+                    <a href="javascript:go2ShareProduct();" class="a1"><img src="static_resources/images/friend_tit1.png" /></a>
+                    <a href="javascript:void(0);" class="a2"><img src="static_resources/images/friend_tit12.png" /></a>
+            	</div>
+                <p><img src="static_resources/images/friend_tit1_con.png" /></p>    
+            </div>
+            <div class="li1 li12">
+            	<div class="a_box">
+                    <a href="javascript:go2MyShare();" class="a1"><img src="static_resources/images/friend_tit2.png" /></a>
+                    <a href="javascript:void(0);" class="a2"><img src="static_resources/images/friend_tit12.png" /></a>
+            	</div>
+            	<p><img src="static_resources/images/friend_tit2_con.png" /></p>    
+            </div>
+            <div class="li1 li13"><a href="http://wd-w.com/app.htm?d=1"><img src="static_resources/images/friend_tit3.png" /></a></div>
+        </div>
+    </div>   
+</div>
+</body>
+<script>
+$(function(){
+	 $(".main-box .friend_box .li11 .a2").toggle(function(){
+	        $(this).html("<img src='static_resources/images/friend_tit1_1.png' />");
+			$(".main-box .friend_box .li11 p").hide();
+	    },function(){
+	        $(this).html("<img src='static_resources/images/friend_tit12.png' />");
+			$(".main-box .friend_box .li11 p").show();
+	    });
+	    
+		$(".main-box .friend_box .li12 .a2").toggle(function(){
+	        $(this).html("<img src='static_resources/images/friend_tit1_1.png' />");
+			$(".main-box .friend_box .li12 p").hide();
+	    },function(){
+	        $(this).html("<img src='static_resources/images/friend_tit12.png' />");
+			$(".main-box .friend_box .li12 p").show();
+	    });
+     
+});
+</script>
+<script type="text/javascript" src="static_resources/js/wxGetUid.js?222"></script>
+<script type="text/javascript">
+	var uid = GetUidCookie();
+	function go2ShareProduct(){
+		window.location ='pSearch/page';
+	}
+	function go2MyShare(){
+		window.location ='userShare/page.user?uid='+uid;
+	}
+</script>
+</script>
+</html>

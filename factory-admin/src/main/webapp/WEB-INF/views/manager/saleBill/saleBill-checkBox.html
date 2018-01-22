@@ -1,0 +1,58 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<input type="hidden" value="${id}" id="checkBox_id"/>
+	<div class="profile-info-row">
+		<div class="profile-info-value">
+			<input type="radio" value="1" class="checkBox_payStatus" checked="true" name="payStatus" id="ck1"><label for="ck1">审核通过</label>
+		</div>
+
+		<div class="profile-info-value" style="width: 100px">
+			<input type="radio" value="-1" class="checkBox_payStatus" name="payStatus" id="ck0"><label for="ck0">审核不通过</label>
+		</div>
+	</div>
+
+	<div class="red">
+		@if(pstatus==0){
+			注意，需核实是否到账，是否和账面相符
+		@}else if(pstatus==1){
+			注意，需核对商家名称、佣金比例，实收佣金、返佣是否是交佣金的一半
+		@}else if(pstatus==2){
+			注意，审核通过将进入财务打款流程！此操作不可逆，确认吗？
+		@}
+	</div>
+	<div class="width-100 clearfix" tag-save-btn style="bottom: 0px;left: 0px;position:absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-100  pull-left" id="submit">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>确定
+	</span>
+</div>
+<script type="text/javascript">
+
+$(function(){
+	
+	$("#submit").click(function(){
+		//获取id值
+	var id = $("#checkBox_id").val();
+	var pstatus = $("#pstatus").val();
+		//获取审核状态值
+	var payStatus = $("input[name='payStatus']:checked").val();
+	if(id==""||payStatus==""){
+		layer.msg('系统错误', 3, 1);
+	}else{
+		var array = new Array();
+		var obj = {};
+		obj.id=id;
+		obj.payStatus=payStatus;
+		
+		array.push(obj);
+		
+		updateSaleBillStatus(array,'${ctxPath}/saleBill/updateSaleBillStatus?pstatus=${pstatus}');
+		
+	}
+		
+		
+	});
+})
+
+</script>
+</div>
+</div>

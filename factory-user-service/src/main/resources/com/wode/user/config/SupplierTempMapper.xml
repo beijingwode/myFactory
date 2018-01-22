@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SupplierTempMapper">
+
+    <resultMap id="SupplierTemp" type="com.wode.factory.user.model.SupplierTemp">
+        <result property="id" column="id"/>
+        <result property="comName" column="com_name"/>
+        <result property="brandName" column="brand_name"/>
+        <result property="addres" column="addres"/>
+        <result property="contact" column="contact"/>
+        <result property="phone" column="phone"/>
+        <result property="createTime" column="create_time"/>
+        <result property="managerId" column="manager_id"/>
+        <result property="status" column="status"/>
+        <result property="managerName" column="manager_name"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,com_name,brand_name,addres,contact,phone,create_time,manager_id,status,manager_name
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_supplier_temp (
+            id ,
+            com_name ,
+            brand_name ,
+            addres ,
+            contact ,
+            phone ,
+            create_time ,
+            manager_id ,
+            status,
+            manager_name
+        ) VALUES (
+            #{id} ,
+            #{comName} ,
+            #{brandName} ,
+            #{addres} ,
+            #{contact} ,
+            #{phone} ,
+            #{createTime} ,
+            #{managerId} ,
+            #{status},
+            #{managerName}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_supplier_temp SET            
+            com_name = #{comName} ,
+            brand_name = #{brandName} ,
+            addres = #{addres} ,
+            contact = #{contact} ,
+            phone = #{phone} ,
+            create_time = #{createTime} ,
+            manager_id = #{managerId} ,
+            status = #{status},
+            manager_name=#{managerName} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_supplier_temp WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="SupplierTemp">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_supplier_temp 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="SupplierTemp">
+        SELECT <include refid="columns" /> FROM t_supplier_temp 
+        <include refid="find_where"/>
+        order by create_time desc
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(comName)">
+           		AND com_name like CONCAT(CONCAT('%',#{comName}),'%')
+            </if>
+           <if test="@Ognl@isNotEmpty(brandName)">
+                AND brand_name = #{brandName}
+            </if>
+           <if test="@Ognl@isNotEmpty(addres)">
+                AND addres = #{addres}
+            </if>
+           <if test="@Ognl@isNotEmpty(contact)">
+                AND contact = #{contact}
+            </if>
+           <if test="@Ognl@isNotEmpty(phone)">
+                AND phone = #{phone}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerId)">
+                AND manager_id = #{managerId}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

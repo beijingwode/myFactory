@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="EntSeasonActMapper" >
+  <resultMap id="BaseResultMap" type="com.wode.factory.model.EntSeasonAct" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="enterprise_id" property="enterpriseId" jdbcType="BIGINT" />
+    <result column="last_ticket_sum" property="lastTicketSum" jdbcType="DECIMAL" />
+    <result column="current_ticket_sum" property="currentTicketSum" jdbcType="DECIMAL" />
+    <result column="current_transfer_sum" property="currentTransferSum" jdbcType="DECIMAL" />
+    <result column="all_ticket_sum" property="allTicketSum" jdbcType="DECIMAL" />
+    <result column="give_ticket_sum" property="giveTicketSum" jdbcType="DECIMAL" />
+    <result column="transfe_ticket_sum" property="transfeTicketSum" jdbcType="DECIMAL" />
+    <result column="last_cash_sum" property="lastCashSum" jdbcType="DECIMAL" />
+    <result column="current_cash_sum" property="currentCashSum" jdbcType="DECIMAL" />
+    <result column="all_cash_sum" property="allCashSum" jdbcType="DECIMAL" />
+    <result column="give_cash_sum" property="giveCashSum" jdbcType="DECIMAL" />
+    <result column="cur_year" property="curYear" jdbcType="CHAR" />
+    <result column="cur_season" property="curSeason" jdbcType="CHAR" />
+    <result column="use_flg" property="useFlg" jdbcType="CHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, enterprise_id, last_ticket_sum, current_ticket_sum, current_transfer_sum, all_ticket_sum, give_ticket_sum, 
+    transfe_ticket_sum, last_cash_sum, current_cash_sum, all_cash_sum, give_cash_sum, 
+    cur_year, cur_season, use_flg, create_date, update_date, update_user
+  </sql>
+  
+	<select id="selectByModel" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from t_ent_season_act
+	    <where>		
+	      <if test="enterpriseId != null" >
+	        enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+	      </if>
+	      <if test="lastTicketSum != null" >
+	        and last_ticket_sum = #{lastTicketSum,jdbcType=DECIMAL}
+	      </if>
+	      <if test="currentTicketSum != null" >
+	        and current_ticket_sum = #{currentTicketSum,jdbcType=DECIMAL}
+	      </if>
+	      <if test="currentTransferSum != null" >
+	        and current_transfer_sum = #{currentTransferSum,jdbcType=DECIMAL}
+	      </if>
+	      <if test="allTicketSum != null" >
+	        and all_ticket_sum = #{allTicketSum,jdbcType=DECIMAL}
+	      </if>
+	      <if test="giveTicketSum != null" >
+	        and give_ticket_sum = #{giveTicketSum,jdbcType=DECIMAL}
+	      </if>
+	      <if test="transfeTicketSum != null" >
+	        and transfe_ticket_sum = #{transfeTicketSum,jdbcType=DECIMAL}
+	      </if>
+	      <if test="lastCashSum != null" >
+	        and last_cash_sum = #{lastCashSum,jdbcType=DECIMAL}
+	      </if>
+	      <if test="currentCashSum != null" >
+	        and current_cash_sum = #{currentCashSum,jdbcType=DECIMAL}
+	      </if>
+	      <if test="allCashSum != null" >
+	        and all_cash_sum = #{allCashSum,jdbcType=DECIMAL}
+	      </if>
+	      <if test="giveCashSum != null" >
+	        and give_cash_sum = #{giveCashSum,jdbcType=DECIMAL}
+	      </if>
+	      <if test="curYear != null" >
+	        and cur_year = #{curYear,jdbcType=CHAR}
+	      </if>
+	      <if test="curSeason != null" >
+	       and  cur_season = #{curSeason,jdbcType=CHAR}
+	      </if>
+	      <if test="useFlg != null" >
+	        and use_flg = #{useFlg,jdbcType=CHAR}
+	      </if>
+	      <if test="createDate != null" >
+	        create_date = #{createDate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="updateDate != null" >
+	       and  update_date = #{updateDate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="updateUser != null" >
+	        and update_user = #{updateUser,jdbcType=VARCHAR}
+	      </if>
+	    </where>
+	</select>
+	
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ent_season_act
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_ent_season_act
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wode.factory.model.EntSeasonAct" >
+    insert into t_ent_season_act (id, enterprise_id, last_ticket_sum, 
+      current_ticket_sum, current_transfer_sum, all_ticket_sum, give_ticket_sum, 
+      transfe_ticket_sum, last_cash_sum, current_cash_sum, 
+      all_cash_sum, give_cash_sum, cur_year, 
+      cur_season, use_flg, create_date, 
+      update_date, update_user)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{lastTicketSum,jdbcType=DECIMAL}, 
+      #{currentTicketSum,jdbcType=DECIMAL},#{currentTransferSum,jdbcType=DECIMAL}, #{allTicketSum,jdbcType=DECIMAL}, #{giveTicketSum,jdbcType=DECIMAL}, 
+      #{transfeTicketSum,jdbcType=DECIMAL}, #{lastCashSum,jdbcType=DECIMAL}, #{currentCashSum,jdbcType=DECIMAL}, 
+      #{allCashSum,jdbcType=DECIMAL}, #{giveCashSum,jdbcType=DECIMAL}, #{curYear,jdbcType=CHAR}, 
+      #{curSeason,jdbcType=CHAR}, #{useFlg,jdbcType=CHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wode.factory.model.EntSeasonAct" >
+    insert into t_ent_season_act
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="enterpriseId != null" >
+        enterprise_id,
+      </if>
+      <if test="lastTicketSum != null" >
+        last_ticket_sum,
+      </if>
+      <if test="currentTicketSum != null" >
+        current_ticket_sum,
+      </if>
+      <if test="currentTransferSum != null" >
+        current_transfer_sum,
+      </if>
+      <if test="allTicketSum != null" >
+        all_ticket_sum,
+      </if>
+      <if test="giveTicketSum != null" >
+        give_ticket_sum,
+      </if>
+      <if test="transfeTicketSum != null" >
+        transfe_ticket_sum,
+      </if>
+      <if test="lastCashSum != null" >
+        last_cash_sum,
+      </if>
+      <if test="currentCashSum != null" >
+        current_cash_sum,
+      </if>
+      <if test="allCashSum != null" >
+        all_cash_sum,
+      </if>
+      <if test="giveCashSum != null" >
+        give_cash_sum,
+      </if>
+      <if test="curYear != null" >
+        cur_year,
+      </if>
+      <if test="curSeason != null" >
+        cur_season,
+      </if>
+      <if test="useFlg != null" >
+        use_flg,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null" >
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="lastTicketSum != null" >
+        #{lastTicketSum,jdbcType=DECIMAL},
+      </if>
+      <if test="currentTicketSum != null" >
+        #{currentTicketSum,jdbcType=DECIMAL},
+      </if>
+      <if test="currentTransferSum != null" >
+        #{currentTransferSum,jdbcType=DECIMAL},
+      </if>
+      <if test="allTicketSum != null" >
+        #{allTicketSum,jdbcType=DECIMAL},
+      </if>
+      <if test="giveTicketSum != null" >
+        #{giveTicketSum,jdbcType=DECIMAL},
+      </if>
+      <if test="transfeTicketSum != null" >
+        #{transfeTicketSum,jdbcType=DECIMAL},
+      </if>
+      <if test="lastCashSum != null" >
+        #{lastCashSum,jdbcType=DECIMAL},
+      </if>
+      <if test="currentCashSum != null" >
+        #{currentCashSum,jdbcType=DECIMAL},
+      </if>
+      <if test="allCashSum != null" >
+        #{allCashSum,jdbcType=DECIMAL},
+      </if>
+      <if test="giveCashSum != null" >
+        #{giveCashSum,jdbcType=DECIMAL},
+      </if>
+      <if test="curYear != null" >
+        #{curYear,jdbcType=CHAR},
+      </if>
+      <if test="curSeason != null" >
+        #{curSeason,jdbcType=CHAR},
+      </if>
+      <if test="useFlg != null" >
+        #{useFlg,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wode.factory.model.EntSeasonAct" >
+    update t_ent_season_act
+    <set >
+      <if test="enterpriseId != null" >
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="lastTicketSum != null" >
+        last_ticket_sum = #{lastTicketSum,jdbcType=DECIMAL},
+      </if>
+      <if test="currentTicketSum != null" >
+        current_ticket_sum = #{currentTicketSum,jdbcType=DECIMAL},
+      </if>
+      <if test="currentTransferSum != null" >
+        current_transfer_sum = #{currentTransferSum,jdbcType=DECIMAL},
+      </if>
+      <if test="allTicketSum != null" >
+        all_ticket_sum = #{allTicketSum,jdbcType=DECIMAL},
+      </if>
+      <if test="giveTicketSum != null" >
+        give_ticket_sum = #{giveTicketSum,jdbcType=DECIMAL},
+      </if>
+      <if test="transfeTicketSum != null" >
+        transfe_ticket_sum = #{transfeTicketSum,jdbcType=DECIMAL},
+      </if>
+      <if test="lastCashSum != null" >
+        last_cash_sum = #{lastCashSum,jdbcType=DECIMAL},
+      </if>
+      <if test="currentCashSum != null" >
+        current_cash_sum = #{currentCashSum,jdbcType=DECIMAL},
+      </if>
+      <if test="allCashSum != null" >
+        all_cash_sum = #{allCashSum,jdbcType=DECIMAL},
+      </if>
+      <if test="giveCashSum != null" >
+        give_cash_sum = #{giveCashSum,jdbcType=DECIMAL},
+      </if>
+      <if test="curYear != null" >
+        cur_year = #{curYear,jdbcType=CHAR},
+      </if>
+      <if test="curSeason != null" >
+        cur_season = #{curSeason,jdbcType=CHAR},
+      </if>
+      <if test="useFlg != null" >
+        use_flg = #{useFlg,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="update" parameterType="com.wode.factory.model.EntSeasonAct" >
+    update t_ent_season_act
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      last_ticket_sum = #{lastTicketSum,jdbcType=DECIMAL},
+      current_ticket_sum = #{currentTicketSum,jdbcType=DECIMAL},
+      current_transfer_sum = #{currentTransferSum,jdbcType=DECIMAL},
+      all_ticket_sum = #{allTicketSum,jdbcType=DECIMAL},
+      give_ticket_sum = #{giveTicketSum,jdbcType=DECIMAL},
+      transfe_ticket_sum = #{transfeTicketSum,jdbcType=DECIMAL},
+      last_cash_sum = #{lastCashSum,jdbcType=DECIMAL},
+      current_cash_sum = #{currentCashSum,jdbcType=DECIMAL},
+      all_cash_sum = #{allCashSum,jdbcType=DECIMAL},
+      give_cash_sum = #{giveCashSum,jdbcType=DECIMAL},
+      cur_year = #{curYear,jdbcType=CHAR},
+      cur_season = #{curSeason,jdbcType=CHAR},
+      use_flg = #{useFlg,jdbcType=CHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

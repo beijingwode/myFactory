@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.CooperationIdMapper">
+
+	<resultMap id="CooperationId" type="com.wode.factory.model.CooperationId">
+        <result property="id" column="id"/>
+        <result property="registerNumber" column="register_number"/>
+        <result property="status" column="status"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,register_number,status,enterprise_id
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_cooperation_id (
+        	id ,
+        	register_number ,
+        	status ,
+        	enterprise_id 
+        ) VALUES (
+        	#{id} ,
+        	#{registerNumber} ,
+        	#{status} ,
+        	#{enterpriseId} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+	
+	 <insert id="batchInsert" parameterType="java.util.List">
+    INSERT INTO t_cooperation_id (register_number,status)
+    VALUES 
+    <foreach collection="list" item="item" index="index" separator="," >
+        (#{item.registerNumber},#{item.status})
+    </foreach>
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_cooperation_id SET
+	        register_number = #{registerNumber} ,
+	        status = #{status} ,
+	        enterprise_id = #{enterpriseId} 
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_cooperation_id WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="CooperationId">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_cooperation_id 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_cooperation_id 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="CooperationId">
+    	SELECT <include refid="columns" />
+	    FROM t_cooperation_id 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(registerNumber)">
+				AND register_number = #{registerNumber}
+			</if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(enterpriseId)">
+				AND enterprise_id = #{enterpriseId}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
+

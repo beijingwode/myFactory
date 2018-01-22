@@ -1,0 +1,181 @@
+<div class="tabbable">
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active">
+		<a data-toggle="tab" href="#order_home"> 
+			<i class="green ace-icon fa fa-users bigger-120"></i> 对账单列表
+		</a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="order_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/saleBill/list" method="post" id="search-form" 
+				target="list-page" class="center clearfix">
+				<div class="row padding-tb-10">
+					<div class="col-sm-4">
+							<label>发票状态：</label>
+							<#select name="receiptStatus" id="3" width="30%">
+								<option value="">全部</option>
+								<option value="0">未申请</option>
+								<option value="1" selected="selected">已申请</option>
+								<option value="2">已开具</option>
+							</#select>
+							<input type="hidden" name="payStatus" value="4">
+							<input type="hidden" name="confirmStatus" value="1">
+							<input type="hidden" name="startTime">
+							<input type="hidden" name="endTime">
+					</div>
+					<div class="col-sm-4">
+							<label>财务代码：</label>
+							<input type="text" id="financeCode" name="financeCode"  >
+					</div>
+					<div class="col-sm-4">
+						<label>结算时间：</label>
+						<input type="text" id="start" name="startPayTime">
+						<label>-</label>
+						<input type="text" id="end" name="endPayTime">
+					</div>
+				</div>
+				
+				<div class="row padding-tb-10">
+					<div class="padding-trb-10 col-sm-12">
+						<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">对账单列表</span>
+						<span class="btn btn-info btn-sm col-sm-6" id="search-btn">条件查询</span>
+					</div>
+				</div>
+				
+				
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<span class="btn btn-primary btn-sm bigger-110 width-10  pull-left" id="selectAll">
+				<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>全选
+			</span>
+			<span class="btn btn-primary btn-sm bigger-110 width-10  pull-left" id="selectNone">
+				<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>全不选
+			</span>
+			
+			<a href="javascript:;" data-title="合并并开具发票" data-mode="mergeReceipt" data-url="${ctxPath}/saleBill/receiptInfo" data-data="" id="mergeReceipt" >合并并开具发票</a>
+			<!-- <form action="${ctxPath}/saleBill/receiptInfo" id="mergeReceiptSubmit" method="post">
+				<input type="hidden" id="mergeReceiptId" name="id">
+			</form> -->
+			<div id="list-page"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	//全局集合(全选/全不选)
+	var array = new Array();
+	//商家 id
+	var supplierId;
+$(function(){
+	
+	
+
+	//全选
+	$("#selectAll").click(function(){
+		supplierId="";
+		array=[];
+		//所有可用的复选框
+		$("input[name='chk_list']:enabled").each(function(index){
+			
+			//索引0  是id,索引1是商家id
+			var data = $(this).val().split(",");
+			//将id值方入集合中
+			array.push(data[0]);
+			if(index==0){
+				supplierId = data[1];
+			}else{
+				
+				if(data[1]!=supplierId){
+					//商家id不相同，报错提示
+					layer.msg('不能选择不同的商家', 3, 1,function(){
+						location.reload();
+						layer.closeAll();
+					});
+					//需要清空集合中的数据
+					array=[];
+					return false;
+				}
+			}
+			
+		});
+		if(array.length>0){
+			//向标签中添加提交数据
+			$("#mergeReceipt").attr("data-data",'{id:\''+JSON.stringify(array).toString()+'\'}');
+			$("input[name='chk_list']:enabled").prop("checked",true);
+		}
+	});
+
+	//全不选  checked="checked"
+	$("#selectNone").click(function(){
+		//清空array集合
+		array=[];
+		//清空标签中的数据
+		$("#mergeReceipt").attr("data-data",'');
+		$("input[name='chk_list']:enabled").prop("checked",false);
+	});
+	
+	//合并并开具发票
+	/* $("#mergeReceipt").click(function(){
+		var supplierId;
+		var array = new Array();
+		//id,商家id
+		$("input[name='chk_list']:checked").each(function(index){
+			//索引0  是id,索引1是商家id
+			var data = $(this).val().split(",");
+			//将id值方入集合中
+			array.push(data[0]);
+			
+			if(index==0){
+				supplierId = data[1];
+			}else{
+				
+				if(data[1]!=supplierId){
+					//商家id不相同，报错提示
+					layer.msg('不能选择不同的商家', 3, 1,function(){
+						location.reload();
+						layer.closeAll();
+					});
+					//需要清空集合中的数据
+					array=[];
+					return false;
+				}
+			}
+			
+		});
+		
+		if(array.length>0){
+			$("#mergeReceiptId").val(JSON.stringify(array));
+			
+			$("#mergeReceiptSubmit").submit();
+		}
+	}); */
+})
+	
+	var start = {
+		    elem: '#start',
+		    format: 'YYYY-MM-DD',
+		    istime: true,
+		    istoday: false,
+		    choose: function(datas){
+		         end.min = datas; //开始日选好后，重置结束日的最小日期
+		         end.start = datas //将结束日的初始值设定为开始日
+		    }
+		};
+	var end = {
+		    elem: '#end',
+		    format: 'YYYY-MM-DD',
+		    istime: true,
+		    istoday: false,
+		    choose: function(datas){
+		        start.max = datas; //结束日选好后，重置开始日的最大日期
+		    }
+		};
+		laydate(start);
+		laydate(end);
+	</script>
+<script>
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+</script>

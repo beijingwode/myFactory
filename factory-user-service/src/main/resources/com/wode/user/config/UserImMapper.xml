@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserImMapper">
+
+    <resultMap id="UserIm" type="com.wode.factory.model.UserIm">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="openimId" column="openim_id"/>
+        <result property="openimPw" column="openim_pw"/>
+        <result property="createTime" column="create_time"/>
+        <result property="appType" column="app_type"/>
+        <result property="appKey" column="app_key"/>
+    </resultMap>
+
+    <resultMap id="ContactsVo" type="com.wode.factory.user.vo.ContactsVo">
+        <result property="userId" column="userId"/>
+        <result property="nickname" column="nickname"/>
+        <result property="userType" column="userType"/>
+        <result property="relationType" column="relationType"/>
+        <result property="imUser" column="imUser"/>
+        <result property="appType" column="appType"/>
+        <result property="appKey" column="appKey"/>
+        <result property="avatar" column="avatar"/>
+        <result property="birthDay" column="birthday"/>
+        <result property="username" column="username"/>
+        <result property="gender" column="gender"/>
+        <result property="userNote" column="userNote"/>
+        <result property="duty" column="duty"/>
+        <result property="phone" column="phone"/>
+        <result property="workName" column="workName"/>
+        <result property="hideInfo" column="hideInfo"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,user_id,openim_id,openim_pw,create_time,app_type,app_key
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_im (
+            id ,
+            user_id ,
+            openim_id ,
+            openim_pw ,
+            app_type ,
+            app_key
+        ) VALUES (
+            #{id} ,
+            #{userId} ,
+            #{openimId} ,
+            #{openimPw} ,
+            #{appType} ,
+            #{appKey}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_im SET            
+            user_id = #{userId} ,
+            openim_id = #{openimId} ,
+            openim_pw = #{openimPw} ,
+            app_type = #{appType} ,
+            app_key = #{appKey} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_im WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserIm">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_im 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByShop" resultMap="UserIm">
+		SELECT im.* 
+		from t_user_im im
+		INNER JOIN t_user u ON (u.id=im.user_id)
+		where im.app_type='shop' AND EXISTS (select 1 from t_shop ss where ss.ser_phone = u.phone and ss.id=#{shopId})
+    </select>
+    
+    <select id="selectBySupplier" resultMap="UserIm">
+		SELECT im.* from t_user_im im
+		INNER JOIN t_user u ON (u.id=im.user_id)
+		where im.app_type='shop' AND u.type=2 and supplierId=#{supplierId}
+    </select>
+    
+    <select id="selectByModel" resultMap="UserIm">
+        SELECT <include refid="columns" /> FROM t_user_im 
+        <include refid="find_where"/>
+    </select>    
+    
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(openimId)">
+                AND openim_id = #{openimId}
+            </if>
+           <if test="@Ognl@isNotEmpty(openimPw)">
+                AND openim_pw = #{openimPw}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(appType)">
+                AND app_type = #{appType}
+            </if>
+           <if test="@Ognl@isNotEmpty(appKey)">
+                AND app_key = #{appKey}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ParameterGroupMapper">
+	<resultMap id="ParameterGroup" type="com.wode.factory.model.ParameterGroup">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="orders" column="orders"/>
+        <result property="ismust" column="ismust"/>
+        <result property="inputtype" column="inputtype"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="showType" column="showType"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="selectedValue" column="selectedValue"/><!-- 已经选择的那个值，只供显示 -->
+        <!-- 参数值list -->
+        <collection property="parameterlist" ofType="com.wode.factory.model.Parameter">  
+			<result property="id" column="id_para"/>
+        	<result property="name" column="name_para"/>
+        	<result property="orders" column="orders_para"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,name,orders,ismust,inputtype,category_id,showType,createDate,updateDate
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_parameter_group (
+        	id ,
+        	name ,
+        	orders ,
+        	ismust ,
+        	inputtype ,
+        	category_id ,
+        	showType ,
+        	createDate ,
+        	updateDate 
+        ) VALUES (
+        	#{id} ,
+        	#{name} ,
+        	#{orders} ,
+        	#{ismust} ,
+        	#{inputtype} ,
+        	#{categoryId} ,
+        	#{showType} ,
+        	#{createDate} ,
+        	#{updateDate} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_parameter_group SET
+	        name = #{name} ,
+	        orders = #{orders} ,
+	        ismust = #{ismust} ,
+	        inputtype = #{inputtype} ,
+	        category_id = #{categoryId} ,
+	        showType = #{showType} ,
+	        createDate = #{createDate} ,
+	        updateDate = #{updateDate} 
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_parameter_group WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="ParameterGroup">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_parameter_group 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_parameter_group 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="ParameterGroup">
+    	SELECT <include refid="columns" />
+	    FROM t_parameter_group 
+		<include refid="findPage_where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(name)">
+				AND name = #{name}
+			</if>
+	       <if test="@Ognl@isNotEmpty(orders)">
+				AND orders = #{orders}
+			</if>
+	       <if test="@Ognl@isNotEmpty(ismust)">
+				AND ismust = #{ismust}
+			</if>
+	       <if test="@Ognl@isNotEmpty(inputtype)">
+				AND inputtype = #{inputtype}
+			</if>
+	       <if test="@Ognl@isNotEmpty(categoryId)">
+				AND category_id = #{categoryId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(showType)">
+				AND showType = #{showType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createDateBegin)">
+				AND createDate >= #{createDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createDateEnd)">
+				AND createDate &lt;= #{createDateEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateDateBegin)">
+				AND updateDate >= #{updateDateBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateDateEnd)">
+				AND updateDate &lt;= #{updateDateEnd}
+		   </if>
+		</where>
+	</sql>
+	
+	<!-- 根据类型id获取该类型所有的参数及其参数值 -->
+	<select id="getParameterGrouplistByCategoryid" resultMap="ParameterGroup">
+		SELECT tpg.*,
+		para.id as id_para,
+		para.name as name_para,
+		para.orders as orders_para,
+		tpa.parameter_value as selectedValue
+		from t_parameter_group as tpg 
+		LEFT JOIN t_parameter as para on tpg.id = para.parameter_group_id
+		LEFT JOIN (SELECT * from t_product_parameter_value WHERE productId=#{productid}) as tpa ON tpa.parameter_group_id = tpg.id
+		WHERE tpg.category_id=#{categoryid}
+		ORDER BY tpg.orders,para.orders
+    </select>
+</mapper>
+

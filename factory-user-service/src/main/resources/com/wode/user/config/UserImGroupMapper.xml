@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserImGroupMapper">
+
+    <resultMap id="UserImGroup" type="com.wode.factory.model.UserImGroup">
+        <result property="id" column="id"/>
+        <result property="imGroupId" column="im_group_id"/>
+        <result property="groupname" column="groupname"/>
+        <result property="note" column="note"/>
+        <result property="publiced" column="publiced"/>
+        <result property="maxusers" column="maxusers"/>
+        <result property="approval" column="approval"/>
+        <result property="owner" column="owner"/>
+        <result property="ownerId" column="owner_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="op1" column="op1"/>
+        <result property="op2" column="op2"/>
+        <result property="op3" column="op3"/>
+        <result property="op4" column="op4"/>
+        <result property="cnt" column="cnt"/>
+        <result property="relationType" column="relationType"/>
+        
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,im_group_id,groupname,note,publiced,maxusers,approval,owner,owner_id,create_time,op1,op2,op3,op4,cnt,relationType
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_im_group (
+            id ,
+            im_group_id ,
+            groupname ,
+            note ,
+            publiced ,
+            maxusers ,
+            approval ,
+            owner ,
+            owner_id ,
+            create_time ,
+            op1 ,
+            op2,
+            op3 ,
+            op4,
+            cnt,
+            relationType
+        ) VALUES (
+            #{id} ,
+            #{imGroupId} ,
+            #{groupname} ,
+            #{note} ,
+            #{publiced} ,
+            #{maxusers} ,
+            #{approval} ,
+            #{owner} ,
+            #{ownerId} ,
+            #{createTime} ,
+            #{op1} ,
+            #{op2},
+            #{op3} ,
+            #{op4} ,
+            #{cnt},
+            #{relationType}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_im_group SET            
+            im_group_id = #{imGroupId} ,
+            groupname = #{groupname} ,
+            note = #{note} ,
+            publiced = #{publiced} ,
+            maxusers = #{maxusers} ,
+            approval = #{approval} ,
+            owner = #{owner} ,
+            owner_id = #{ownerId} ,
+            create_time = #{createTime} ,
+            op1 = #{op1} ,
+            op2 = #{op2}  ,
+            op3 = #{op3} ,
+            op4 = #{op4} ,
+            cnt = #{cnt} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_im_group WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserImGroup">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_im_group 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="UserImGroup">
+        SELECT <include refid="columns" /> FROM t_user_im_group 
+        <include refid="find_where"/>
+    </select>
+
+    <select id="selectByMember" resultMap="UserImGroup">
+        SELECT g.* 
+        FROM t_user_im_group g
+        INNER JOIN t_user_im_group_member m ON (m.group_id = g.id)
+        WHERE user_id = #{uid}
+    </select>
+    
+    <select id="selectByMemberAndGroupId" resultMap="UserImGroup">
+        SELECT g.* 
+        FROM t_user_im_group g
+        INNER JOIN t_user_im_group_member m ON (m.group_id = g.id)
+        WHERE user_id = #{uid}
+        AND g.id= #{groupId}
+    </select>
+    
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(imGroupId)">
+                AND im_group_id = #{imGroupId}
+            </if>
+           <if test="@Ognl@isNotEmpty(groupname)">
+                AND groupname = #{groupname}
+            </if>
+           <if test="@Ognl@isNotEmpty(note)">
+                AND note = #{note}
+            </if>
+           <if test="@Ognl@isNotEmpty(publiced)">
+                AND publiced = #{publiced}
+            </if>
+           <if test="@Ognl@isNotEmpty(maxusers)">
+                AND maxusers = #{maxusers}
+            </if>
+           <if test="@Ognl@isNotEmpty(approval)">
+                AND approval = #{approval}
+            </if>
+           <if test="@Ognl@isNotEmpty(owner)">
+                AND owner = #{owner}
+            </if>
+           <if test="@Ognl@isNotEmpty(ownerId)">
+                AND owner_id = #{ownerId}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(op1)">
+                AND op1 = #{op1}
+            </if>
+           <if test="@Ognl@isNotEmpty(op2)">
+                AND op2 = #{op2}
+            </if>
+           <if test="@Ognl@isNotEmpty(relationType)">
+                AND relationType = #{relationType}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

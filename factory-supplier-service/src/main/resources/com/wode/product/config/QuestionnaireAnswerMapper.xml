@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="QuestionnaireAnswerMapper">
+
+    <resultMap id="QuestionnaireAnswer" type="com.wode.factory.model.QuestionnaireAnswer">
+        <result property="id" column="id"/>
+        <result property="questionnaireId" column="questionnaire_id"/>
+        <result property="questionId" column="question_id"/>
+        <result property="optionId" column="option_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="createDate" column="create_date"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,questionnaire_id,question_id,option_id,user_id,create_date
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_questionnaire_answer (
+            id ,
+            questionnaire_id ,
+            question_id ,
+            option_id ,
+            user_id ,
+            create_date
+        ) VALUES (
+            #{id} ,
+            #{questionnaireId} ,
+            #{questionId} ,
+            #{optionId} ,
+            #{userId} ,
+            #{createDate}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_questionnaire_answer SET            
+            questionnaire_id = #{questionnaireId} ,
+            question_id = #{questionId} ,
+            option_id = #{optionId} ,
+            user_id = #{userId} ,
+            create_date = #{createDate} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_questionnaire_answer WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="QuestionnaireAnswer">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_questionnaire_answer 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="QuestionnaireAnswer">
+        SELECT <include refid="columns" /> FROM t_questionnaire_answer 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(questionnaireId)">
+                AND questionnaire_id = #{questionnaireId}
+            </if>
+           <if test="@Ognl@isNotEmpty(questionId)">
+                AND question_id = #{questionId}
+            </if>
+           <if test="@Ognl@isNotEmpty(optionId)">
+                AND option_id = #{optionId}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date = #{createDate}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

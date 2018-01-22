@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title>我的网平台商家对账单</title>
+
+		<meta name="description" content="login" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+		<link rel="stylesheet" href="${ctxPath!}/static/bootstrap/bootstrap.min.css" />
+		<link rel="stylesheet" href="${ctxPath!}/static/css/font-awesome.min.css" />
+
+		<link rel="stylesheet" href="${ctxPath!}/static/ace/css/ace.min.css" />
+
+		<link rel="stylesheet" href="${ctxPath!}/static/ace/css/ace-rtl.min.css" />
+	</head>
+
+	<body class="">
+
+<div class="layer">
+<div id="abc">
+<div class="profile-user-info profile-user-info-striped wordbreak">
+	<div class="profile-info-value text-right" >佣金返还ID:${info.refundId!}</div>
+</div>
+<div class="profile-user-info profile-user-info-striped wordbreak">
+		<div class="profile-info-row">
+			<div class="profile-info-name">销售金额:</div>
+			<div class="profile-info-value">${info.saleAmount!}</div>
+		</div>
+		<div class="profile-info-row">
+			<div class="profile-info-name">应付佣金:</div>
+			<div class="profile-info-value">${info.currentCommission!}</div>
+		</div>
+		<div class="profile-info-row">
+			<div class="profile-info-name">购买总金额:</div>
+			<div class="profile-info-value">${info.amount!}</div>
+		</div>
+		<div class="profile-info-row">
+			<div class="profile-info-name">购买含佣金:</div>
+			<div class="profile-info-value">${info.commissionTotal!}</div>
+		</div>
+		<div class="profile-info-row">
+			<div class="profile-info-name">现金券抵扣:</div>
+			<div class="profile-info-value">${info.dedCash!}</div>
+		</div>
+		<div class="profile-info-row">
+			<div class="profile-info-name">累计抵扣:</div>
+			<div class="profile-info-value">${info.dedCashSum!}</div>
+		</div>
+		<div class="profile-info-row">
+			<div class="profile-info-name">累计发放现金:</div>
+			<div class="profile-info-value">${info.giveCashSum!}</div>
+		</div>
+		<div class="profile-info-row">
+			<div class="profile-info-name">返还佣金:</div>
+			<div class="profile-info-value"><B>${info.commissionAmount!}</B></div>
+		</div>
+</div>
+<div class="profile-user-info profile-user-info-striped wordbreak">
+		<div class="profile-info-row">
+			<div class="text-right" style="color: #808080;">结算单位：人民币元</div>
+		</div>
+</div>
+
+<!--  -->
+<table class="table table-striped table-bordered table-hover nomargin-bottom">
+	<thead>
+		<tr>
+			<th class="center">序号</th>
+			<th class="center">用户ID</th>
+			<th class="center">订单ID</th>
+			<th class="center">实付金额</th>
+			<th class="center">运费</th>
+			<th class="center">内购券</th>
+			<th class="center">佣金合计</th>
+			<th class="center">计算时间</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@for(item in list){
+			<tr>
+				<td class="center">
+					${itemLP.index!}
+				</td>
+				<td class="center">
+					${item.userId!}
+				</td>
+				<td class="center">
+					${item.orderId!}
+				</td>
+				<td class="center">
+					${item.paymentAmount!}
+				</td>
+				<td class="center">
+					${item.freight!}
+				</td>
+				<td class="center">
+					${item.fuli!}
+				</td>
+				<td class="center">
+					${item.commissionTotal!}
+				</td>
+				<td class="center">
+					${item.createTime!,dateFormat="yyyy-MM-dd" }
+				</td>
+			</tr>
+		@}
+	</tbody>
+</table>
+</div>
+
+</div>
+	</body>
+</html>

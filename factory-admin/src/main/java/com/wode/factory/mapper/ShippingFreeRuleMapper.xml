@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.ShippingFreeRuleDao">
+	<resultMap id="BaseResultMap" type="com.wode.factory.model.ShippingFreeRule" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="template_id" property="templateId" jdbcType="BIGINT" />
+	    <result column="count_type" property="countType" jdbcType="CHAR" />
+	    <result column="send_type" property="sendType" jdbcType="CHAR" />
+	    <result column="sort" property="sort" jdbcType="INTEGER" />
+	    <result column="areas_name" property="areasName" jdbcType="VARCHAR" />
+	    <result column="areas_code" property="areasCode" jdbcType="VARCHAR" />
+	    <result column="count_type_des" property="countTypeDes" jdbcType="CHAR" />
+	    <result column="param1" property="param1" jdbcType="DECIMAL" />
+	    <result column="param2" property="param2" jdbcType="DECIMAL" />
+	  </resultMap>
+	  <sql id="Base_Column_List" >
+	    id, template_id, count_type,send_type, sort, areas_name, areas_code, count_type_des, param1, 
+	    param2
+	  </sql>
+	  
+	  <delete id="deleteSupplierAppSecurityBySupplierId">
+	  delete from t_supplier_app_security where supplier_id = #{supplierId}
+	  </delete>
+	  
+	  <delete id="deleteSupplierExpressBySupplierId">
+	  delete from t_supplier_express where supplier_id = #{supplierId}
+	  </delete>
+	  
+	  <delete id="deleteSupplierAddressBySupplierId">
+	  delete from t_supplier_address where supplier_id = #{supplierId}
+	  </delete>
+	  
+	  <delete id="deleteBySupplierId">
+	  delete from t_shipping_free_rule where template_id in (SELECT id from t_shipping_template where supplier_id = #{supplierId})
+	  </delete>
+	
+	<select id="getByProductId" resultMap="BaseResultMap">
+	  select 
+	    <include refid="Base_Column_List" />
+	    from t_shipping_free_rule
+	    where template_id in (select template_id from t_product_shipping where product_id=#{productId})
+	    ORDER BY sort
+	</select>
+	
+	 <select id="selectByModel" resultMap="BaseResultMap">
+	  select 
+	    <include refid="Base_Column_List" />
+	    from t_shipping_free_rule
+	    where template_id = #{templateId,jdbcType=BIGINT}
+	      <if test="countType != null" >
+	        and count_type = #{countType,jdbcType=CHAR}
+	      </if>
+	      <if test="sendType != null" >
+	        and send_type = #{sendType,jdbcType=CHAR}
+	      </if>
+	      <if test="sort != null" >
+	        and sort = #{sort,jdbcType=INTEGER}
+	      </if>
+	      <if test="areasName != null" >
+	        and areas_name = #{areasName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="areasCode != null" >
+	        and areas_code = #{areasCode,jdbcType=VARCHAR}
+	      </if>
+	    ORDER BY sort
+	</select>
+	
+	<delete id="deleteByTemplateId">
+	delete 
+	 from t_shipping_free_rule
+	    where template_id = #{templateId,jdbcType=BIGINT}
+	</delete>
+</mapper>
+

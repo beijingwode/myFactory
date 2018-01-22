@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wode.tongji.mapper.AppDayStatisticMapper" >
+  <resultMap id="BaseResultMap" type="com.wode.tongji.model.AppDayStatistic" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="app_code" property="appCode" jdbcType="VARCHAR" />
+    <result column="day" property="day" jdbcType="DATE" />
+    <result column="active_amount" property="activeAmount" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, app_code, day, active_amount
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_app_day_statistic
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <!-- 查询最新统计时间(统计那一天的) -->
+  <select id="selectByLatestTime" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from t_app_day_statistic order by day desc limit 0,1
+  </select>
+  
+  <!-- 查询统计数据，根据日期查询 -->
+  <select id="selectByTime" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_app_day_statistic
+    where 
+    day like CONCAT(#{time},'%') and app_code = #{mark}
+  </select>
+  
+  <!-- 查询统计数据，根据日期查询 -->
+  <select id="selectByCodeDate" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_app_day_statistic
+    where 
+    day = curdate() and app_code = #{appCode}
+  </select>
+  
+  <!-- 根据时间区间查询数据 -->
+  <select id="selectByStartAndEndTime" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_app_day_statistic
+    where 
+    day &gt;= #{start} and day &lt;= #{end} and app_code = #{mark}
+  </select>
+  <!-- 查询app标示，去重后的 -->
+  <select id="selectDistinctApkCode" resultType="java.lang.String">
+    select 
+    distinct(app_code)
+    from t_app_day_statistic
+  </select>
+  <!-- 根据appCode进行查询数据，查询的是最近一个月的数据 -->
+  <select id="selectByCode" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_app_day_statistic where
+    date_format(day,'%Y-%m')=date_format(now(),'%Y-%m') and app_code = #{code}
+  </select>
+  <!-- 更新日活量 -->
+  <update id="updateDayAppStatistics" >
+    <![CDATA[
+        UPDATE t_app_day_statistic SET
+	        active_amount = #{activeAmount}
+        WHERE 
+	        app_code = #{appCode} and
+	        day = curdate()
+    ]]>
+	</update>
+	
+	<insert id="insertSelective" parameterType="com.wode.tongji.model.AppDayStatistic" >
+    insert into t_app_day_statistic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="appCode != null" >
+        app_code,
+      </if>
+      <if test="day != null" >
+        day,
+      </if>
+      <if test="activeAmount != null" >
+        active_amount
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="appCode != null" >
+        #{appCode},
+      </if>
+      <if test="day != null" >
+        curdate(),
+      </if>
+      <if test="activeAmount != null" >
+        #{activeAmount}
+      </if>
+    </trim>
+  </insert>
+</mapper>

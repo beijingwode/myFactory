@@ -1,0 +1,122 @@
+
+<div class="tabbable">
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active">
+		<a data-toggle="tab" href="#app_home"> 
+			<i class="green ace-icon fa fa-users bigger-120"></i> APP列表
+		</a>
+		</li>
+
+		<li class=""><a data-toggle="tab" href="#app_profile"> 
+		<i class="green ace-icon fa fa-plus bigger-120"></i> 添加
+		</a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="app_home" class="tab-pane active clearfix">
+			<#search>
+				<form action="${ctxPath}/app/list" method="post" id="search-form" 
+				target="list-page" class="center clearfix">
+				<div class="row padding-tb-10">
+					<div class="col-sm-6">
+						<label class="inline">App编码：</label>
+						<input type="text" class="width-80"  name="code"/>
+					</div>
+				
+					<div class="col-sm-6">
+						<label class="inline">版本号：</label>
+						<input type="text" class="width-80"  name="version"/>
+					</div>
+				</div>
+				<div class="padding-trb-10 col-sm-12">
+					<span class="btn  btn-primary btn-sm col-sm-6" onclick="$curmenu.trigger('click');">App 列  表</span>
+					<span class="btn btn-info btn-sm col-sm-6" id="search-btn">条 件 查 询</span>
+				</div>
+				</form>
+			</#search>
+			<div class="space-6"></div>
+			<div id="list-page"></div>
+		</div>
+
+		<div id="app_profile" class="tab-pane">
+			<form action="${ctxPath!}/app/save" method="post" id="app-save-form">
+				
+				<div class="center padding-10">
+					<label>上传App：</label>
+					
+					<div id="upFile" class="width-50 col-sm-2 pull-right">
+						<input type="file" id="appFile" name="appFile" />
+					</div>
+					<input type="hidden" name="url" id="app_url" datatype="*" />
+				</div>
+				<div class="center padding-10">
+					<label>App编码：</label>
+					<input type="text" class="width-50" name="code"   datatype="*" nullmsg="请输入App编码！"/>
+				</div>
+				<div class="center padding-10">
+					<label>版 本 号&nbsp;&nbsp;：</label>
+					<input type="text" class="width-50" name="version" id="version"
+					datatype="*" nullmsg="请输入版本号！" readonly="readonly"/>
+				</div>
+				<div class="center padding-10">
+					<label style="vertical-align: top;">更新说明：</label>
+					<textarea class="width-50" name="introduce"></textarea>
+				</div>
+				<div class="margin-t15">
+					<span class="btn btn-info btn-block bigger-120" id="app-save-btn">保 存</span>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<#save isHide="yes" subBtnId="app-save-btn" formId="app-save-form" 
+validId="appForm" config="true">
+appForm.config({
+		beforeCheck:function(curform){
+			var flag = $("#app_url")[0].validform_valid;
+			if($.trim($("#app_url").val()).length<1){
+				 tip.errorTip("请上传文件",$("#appFile"));
+				 return false;
+			}
+		}
+		
+	});
+</#save>
+<script type="text/javascript" src="${ctxPath!}/static/js/ajaxfileupload.js"></script>
+<script>
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+	
+	$("#upFile").delegate("input","change",function(){
+		$("#app_url").val("");
+	    var elementIds=["appFile"]; //flag为id、name属性名
+	    var $target = $("#app_profile");
+	    spinner = new Spinner({color: '#3d9bce',width:20,radius:20}).spin($target[0]);
+	    $.ajaxFileUpload({
+	        url: '${ctxPath!}/upload/apk',
+	        type: 'post',
+	        secureuri: true, //一般设置为false
+	        fileElementId: "appFile", // 上传文件的id、name属性名
+	        dataType: 'json', //返回值类型，一般设置为json、application/json
+	        elementIds: elementIds, //传递参数到服务器
+	        success: function(data, status){
+	        	spinner.spin();
+	        	if(data.success){
+	        		var imgPath = "http://"+data.data[0][0].original;
+	        		var version = data.msg;
+	        		$("#app_url").val(imgPath);
+	        		$("#version").val(version);
+	        	}else{
+	        		alert(data.msg);
+	        		$("#appFile").remove();
+	        		var upFile = "<input type='file' id='appFile' name='appFile' datatype='*' nullmsg='请上传apk文件'/>";
+	        		$("#upFile").append(upFile);
+	        	}
+	        },
+	        error: function(data, status, e){
+	        	spinner.spin(); 
+	        	alert("错误:"+e);
+	        }
+	    });
+	});
+</script>

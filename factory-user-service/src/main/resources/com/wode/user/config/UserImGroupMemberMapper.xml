@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserImGroupMemberMapper">
+
+    <resultMap id="UserImGroupMember" type="com.wode.factory.model.UserImGroupMember">
+        <result property="id" column="id"/>
+        <result property="groupId" column="group_id"/>
+        <result property="imGroupId" column="im_group_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="openimId" column="openim_id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="userCard" column="userCard"/>
+        <result property="op2" column="op2"/>
+        <result property="op3" column="op3"/>
+        
+        <result property="avatar" column="avatar"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,group_id,im_group_id,user_id,openim_id,nickname,userCard,op2,op3
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_im_group_member (
+            id ,
+            group_id ,
+            im_group_id ,
+            user_id ,
+            openim_id ,
+            nickname ,
+            userCard ,
+            op2 ,
+            op3
+        ) VALUES (
+            #{id} ,
+            #{groupId} ,
+            #{imGroupId} ,
+            #{userId} ,
+            #{openimId} ,
+            #{nickname} ,
+            #{userCard} ,
+            #{op2} ,
+            #{op3}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_im_group_member SET            
+            group_id = #{groupId} ,
+            im_group_id = #{imGroupId} ,
+            user_id = #{userId} ,
+            openim_id = #{openimId} ,
+            nickname = #{nickname} ,
+            userCard = #{userCard} ,
+            op2 = #{op2} ,
+            op3 = #{op3} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <update id="updateUserNick" >
+    <![CDATA[
+        UPDATE t_user_im_group_member SET
+            nickname = #{nickname}
+        WHERE 
+            user_id = #{userId}
+    ]]>
+    </update>
+    
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_im_group_member WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserImGroupMember">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_im_group_member 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="UserImGroupMember">
+        SELECT gm.id,gm.group_id,gm.im_group_id,gm.user_id,gm.openim_id,IFNULL(uf.nick_name,IFNUll(uf.real_name,uf.user_name))nickname,gm.userCard,gm.op2,gm.op3,uf.avatar FROM t_user_im_group_member gm INNER JOIN t_user uf ON (uf.id=gm.user_id) 
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND gm.id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(groupId)">
+                AND gm.group_id = #{groupId}
+            </if>
+           <if test="@Ognl@isNotEmpty(imGroupId)">
+                AND gm.im_group_id = #{imGroupId}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND gm.user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(openimId)">
+                AND gm.openim_id = #{openimId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectEmployeeDels" resultMap="UserImGroupMember">
+        SELECT m.* FROM t_user_im_group_member m
+        WHERE m.group_id = #{groupId}
+          AND NOT EXISTS (select 1 from t_enterprise_user e where e.enterprise_id=#{groupId} AND e.id=m.user_id)
+    </select>
+    
+    <select id="selectEmployeeAdds" resultMap="UserImGroupMember">
+        SELECT e.id user_id,e.name nickname,e.name userCard,im.openim_id FROM t_enterprise_user e
+		INNER JOIN t_user_im im ON(im.user_id=e.id AND im.app_type='user')
+        WHERE e.enterprise_id = #{groupId}
+          AND NOT EXISTS (select 1 from t_user_im_group_member m where m.group_id=#{groupId} AND e.id=m.user_id)
+    </select>
+    
+    <select id="selectByImIds" resultMap="UserImGroupMember">
+        SELECT im.user_id,u.nick_name nickname,im.openim_id FROM t_user u
+		INNER JOIN t_user_im im ON(im.user_id=u.id)
+        WHERE im.openim_id IN 
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+		  #{item} 
+		</foreach>  
+    </select>
+    
+    <select id="select4delByImIds" resultMap="UserImGroupMember">
+        SELECT <include refid="columns" />
+        FROM t_user_im_group_member
+		WHERE group_id = #{groupId} AND openim_id in
+        <foreach item="item" index="index" collection="imIds" open="(" separator="," close=")">  
+		  #{item} 
+		</foreach>  
+    </select>
+    
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(groupId)">
+                AND group_id = #{groupId}
+            </if>
+           <if test="@Ognl@isNotEmpty(imGroupId)">
+                AND im_group_id = #{imGroupId}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(openimId)">
+                AND openim_id = #{openimId}
+            </if>
+           <if test="@Ognl@isNotEmpty(nickname)">
+                AND nickname = #{nickname}
+            </if>
+           <if test="@Ognl@isNotEmpty(op1)">
+                AND userCard = #{userCard}
+            </if>
+           <if test="@Ognl@isNotEmpty(op2)">
+                AND op2 = #{op2}
+            </if>
+           <if test="@Ognl@isNotEmpty(op3)">
+                AND op3 = #{op3}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

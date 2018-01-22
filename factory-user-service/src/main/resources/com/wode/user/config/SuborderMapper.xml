@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SuborderMapper">
+	<resultMap id="Suborder" type="com.wode.factory.model.Suborder">
+        <result property="subOrderId" column="subOrderId"/>
+        <result property="orderId" column="orderId"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="totalProduct" column="totalProduct"/>
+        <result property="totalShipping" column="totalShipping"/>
+        <result property="totalAdjustment" column="totalAdjustment"/>
+        <result property="realPrice" column="realPrice"/>
+        <result property="status" column="status"/>
+        <result property="expressNo" column="expressNo"/>
+        <result property="expressType" column="expressType"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="afterserviceStatus" column="afterserviceStatus"/>
+        <result property="takeTime" column="takeTime"/>
+        <result property="lasttakeTime" column="lasttakeTime"/>
+        <result property="sendTime" column="sendTime"/>
+        <result property="closeReason" column="closeReason"/>
+        <result property="urgeNumber" column="urgeNumber"/>
+        <result property="urgeTime" column="urgeTime"/>
+        <result property="deleteFlag" column="deleteFlag"/>
+        <result property="returnOrderId" column="returnOrderId"/>
+        <result property="refundOrderId" column="refundOrderId"/>
+        <result property="userExetendCount" column="userExetendCount"/>
+        <result property="commentStatus" column="commentStatus"/>
+        <result property="payTime" column="payTime"/>        
+        <result property="cashPay" column="cashPay"/>
+        <result property="cashNo" column="cashNo"/>
+        <result property="thirdPay" column="thirdPay"/>
+        <result property="thirdType" column="thirdType"/>
+        <result property="thirdNo" column="thirdNo"/>
+        <result property="cancelTime" column="cancelTime"/>
+        <result property="stockUp" column="stock_up"/>
+        <result property="companyTicket" column="companyTicket"/>
+        <result property="benefitType" column="benefit_type"/>
+        <result property="benefitAmount" column="benefit_amount"/>
+        <result property="noto" column="noto"/>
+        <result property="invoiceStatus" column="invoice_status"/>
+        <result property="returnedAddress" column="returnedAddress"/>
+        <result property="sendAddress" column="sendAddress"/>
+        <result property="e_cardInfo" column="e_card_info"/>
+        <result property="orderType" column="order_type"/>
+        <result property="relationId" column="relation_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="limitTicketCnt" column="limit_ticket_cnt"/>
+        <result property="userId" column="user_id"/>
+	</resultMap>
+	
+	<resultMap id="SuborderVo" type="com.wode.factory.user.vo.SubOrderVo">
+        <result property="subOrderId" column="subOrderId"/>
+        <result property="orderId" column="orderId"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="totalProduct" column="totalProduct"/>
+        <result property="totalShipping" column="totalShipping"/>
+        <result property="totalAdjustment" column="totalAdjustment"/>
+        <result property="realPrice" column="realPrice"/>
+        <result property="status" column="status"/>
+        <result property="expressNo" column="expressNo"/>
+        <result property="expressType" column="expressType"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="afterserviceStatus" column="afterserviceStatus"/>
+        <result property="takeTime" column="takeTime"/>
+        <result property="lasttakeTime" column="lasttakeTime"/>
+        <result property="sendTime" column="sendTime"/>
+        <result property="closeReason" column="closeReason"/>
+        <result property="urgeNumber" column="urgeNumber"/>
+        <result property="urgeTime" column="urgeTime"/>
+        <result property="deleteFlag" column="deleteFlag"/>
+        <result property="returnOrderId" column="returnOrderId"/>
+        <result property="refundOrderId" column="refundOrderId"/>
+        <result property="userExetendCount" column="userExetendCount"/>
+        <result property="commentStatus" column="commentStatus"/>
+        <result property="payTime" column="payTime"/>
+        <result property="cashPay" column="cashPay"/>
+        <result property="cashNo" column="cashNo"/>
+        <result property="thirdPay" column="thirdPay"/>
+        <result property="thirdType" column="thirdType"/>
+        <result property="thirdNo" column="thirdNo"/>
+        <result property="cancelTime" column="cancelTime"/>
+        <result property="stockUp" column="stock_up"/>
+        <result property="companyTicket" column="companyTicket"/>
+        <result property="benefitType" column="benefit_type"/>
+        <result property="benefitAmount" column="benefit_amount"/>
+        <result property="noto" column="noto"/>
+        <result property="invoiceStatus" column="invoice_status"/>
+        <result property="returnedAddress" column="returnedAddress"/>
+        <result property="sendAddress" column="sendAddress"/>
+        <result property="e_cardInfo" column="e_card_info"/>
+        <result property="orderType" column="order_type"/>
+        <result property="relationId" column="relation_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="limitTicketCnt" column="limit_ticket_cnt"/>
+        <result property="userId" column="user_id"/>
+        <!-- vo 属性 -->
+       	<result property="supplierName" column="supplierName"/>
+        <result property="shopTel" column="shopTel"/>
+        <result property="shopPhone" column="shopPhone"/>
+        <result property="pointNum" column="pointNum"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+       	<result property="mobile" column="mobile"/>
+        <result property="address" column="address"/>
+        <result property="invoiceTitle" column="invoiceTitle"/>
+       	<result property="note" column="note"/>
+       	<result property="shopId" column="shopId"/>
+        <result property="selfDelivery" column="self_delivery"/>
+       	
+       	<collection property="subOrderItems" column="subOrderId" ofType="com.wode.factory.user.vo.SubOrderItemVo" select="selectSubOrderItemById"/>
+	</resultMap>
+	
+	<resultMap id="Suborderitem" type="com.wode.factory.model.Suborderitem">
+        <result property="subOrderItemId" column="subOrderItemId"/>
+        <result property="subOrderId" column="subOrderId"/>
+        <result property="partNumber" column="partNumber"/>
+        <result property="price" column="price"/>
+        <result property="number" column="number"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="productId" column="productId"/>
+        <result property="skuId" column="skuId"/>
+        <result property="commentFlag" column="commentFlag"/>
+        <result property="promotionId" column="promotion_id"/>
+        <result property="promotionProductId" column="promotion_product_id"/>
+        <result property="realPay" column="real_pay"/>
+        <result property="shipping" column="shipping"/>
+        <result property="orderId" column="order_id"/>
+        <result property="saleBillId" column="sale_bill_id"/>
+        <result property="commissionRatio" column="commissionRatio"/>
+        <result property="companyTicket" column="companyTicket"/>
+        <result property="benefitType" column="benefit_type"/>
+        <result property="benefitAmount" column="benefit_amount"/>
+        <result property="saleKbn" column="sale_kbn"/>
+        <result property="productName" column="productName"/>
+        <result property="empPrice" column="emp_price"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="categoryName" column="categoryName"/>
+        <result property="productCode" column="product_code"/>
+        <result property="itemValues" column="itemValues"/>
+        <result property="image" column="image"/>
+        <result property="benefitTicket" column="benefit_ticket"/>
+        <result property="benefitSelf" column="benefit_self"/>
+        <result property="internalPurchasePrice" column="internal_purchase_price"/>
+        
+	</resultMap>
+	
+	<resultMap id="OrderTypeCountVO" type="com.wode.factory.user.vo.OrderTypeCountVO">
+        <result property="status" column="status"/>
+        <result property="cnt" column="cnt"/>
+	</resultMap>
+	
+	<select id="getOrderCountByUserId" resultMap="OrderTypeCountVO">
+        SELECT sub.status,COUNT(1) cnt
+		FROM t_suborder sub  INNER JOIN t_orders o ON sub.orderId = o.orderId
+		WHERE
+			o.userId = #{userId} AND sub.deleteFlag = 0
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND sub.status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(commentStatus)">
+				AND sub.commentStatus = #{commentStatus}
+			</if>
+		GROUP BY sub.status
+    </select>
+    
+	<select id="selectSubOrderItemById" resultMap="Suborderitem" parameterType="String">
+        SELECT
+			i.subOrderItemId,
+			i.productId productId,
+			i.partNumber,
+			i.productName,
+			i.image,
+			i.price,
+			i.number,
+			i.commentFlag,
+			i.real_pay,
+			i.companyTicket,
+			i.benefit_type,
+			i.benefit_amount,
+			i.sale_kbn,
+			i.itemValues,
+			i.companyTicket,
+			i.benefit_ticket,
+			i.benefit_self,
+			i.internal_purchase_price
+		FROM
+			t_suborderitem i
+		WHERE
+			i.subOrderId = #{subOrderId}
+    </select>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		subOrderId,orderId,supplierId,shop_Id,totalProduct,totalShipping,totalAdjustment,realPrice,status,expressNo,expressType,createTime,updateTime,updateBy,
+		returnOrderId,refundOrderId,userExetendCount,takeTime,afterserviceStatus,lasttakeTime,sendTime,closeReason,urgeNumber,urgeTime,deleteFlag,commentStatus,payTime,
+		cashPay,cashNo,thirdPay,thirdType,thirdNo,cancelTime,stock_up,companyTicket,benefit_type,benefit_amount,invoice_status,e_card_info,order_type,relation_id,product_name,limit_ticket_cnt,
+        user_id
+	    ]]>
+	</sql>
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="subOrderId">
+    <![CDATA[
+        INSERT INTO t_suborder (
+        	subOrderId ,
+        	orderId ,
+        	supplierId,
+        	shop_id,
+        	totalProduct ,
+        	totalShipping ,
+        	totalAdjustment ,
+        	realPrice ,
+        	status ,
+        	expressNo ,
+        	expressType ,
+        	createTime ,
+        	updateTime ,
+        	updateBy ,
+        	afterserviceStatus,
+        	takeTime,
+        	lasttakeTime,
+        	sendTime,
+        	closeReason,
+        	urgeNumber ,
+        	urgeTime ,
+        	deleteFlag,
+        	returnOrderId,
+        	refundOrderId,
+        	userExetendCount,
+        	cashPay,
+        	cashNo,
+        	companyTicket,
+        	benefit_type,
+        	benefit_amount,
+        	noto,
+        	invoice_status,
+        	e_card_info,
+        	order_type,
+        	relation_id,
+        	payTime,
+        	thirdPay,
+        	thirdType,
+        	thirdNo,
+        	product_name,
+        	limit_ticket_cnt,
+        	user_id
+        ) VALUES (
+        	#{subOrderId} ,
+        	#{orderId} ,
+        	#{supplierId} ,
+        	#{shopId} ,
+        	#{totalProduct} ,
+        	#{totalShipping} ,
+        	#{totalAdjustment} ,
+        	#{realPrice} ,
+        	#{status} ,
+        	#{expressNo} ,
+        	#{expressType} ,
+        	#{createTime} ,
+        	#{updateTime} ,
+        	#{updateBy} ,
+        	#{afterserviceStatus},
+        	#{takeTime},
+        	#{lasttakeTime},
+        	#{sendTime},
+        	#{closeReason},
+        	#{urgeNumber} ,
+        	#{urgeTime} ,
+        	#{deleteFlag},
+        	#{returnOrderId},
+        	#{refundOrderId},
+        	#{userExetendCount},
+        	#{cashPay},
+        	#{cashNo},
+        	#{companyTicket},        	
+        	#{benefitType},
+        	#{benefitAmount},
+        	#{noto},
+        	#{invoiceStatus},
+        	#{e_cardInfo},
+        	#{orderType},
+        	#{relationId},
+        	#{payTime},
+        	#{thirdPay},
+        	#{thirdType},
+        	#{thirdNo},
+        	#{productName},
+        	#{limitTicketCnt},
+        	#{userId}
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_suborder SET
+	        orderId = #{orderId},
+	        supplierId = #{supplierId},
+	        shop_id = #{shopId},
+	        totalProduct = #{totalProduct},
+	        totalShipping = #{totalShipping},
+	        totalAdjustment = #{totalAdjustment},
+	        realPrice = #{realPrice},
+	        status = #{status},
+	        expressNo = #{expressNo},
+	        expressType = #{expressType},
+	        createTime = #{createTime},
+	        updateTime = #{updateTime},
+	        updateBy = #{updateBy},
+	        afterserviceStatus=#{afterserviceStatus},
+        	takeTime=#{takeTime},
+        	lasttakeTime=#{lasttakeTime},
+        	sendTime=#{sendTime},
+        	closeReason=#{closeReason},
+	        urgeNumber = #{urgeNumber},
+            urgeTime =#{urgeTime},
+            deleteFlag =#{deleteFlag},
+            commentStatus = #{commentStatus},
+            returnOrderId =#{returnOrderId},
+            refundOrderId =#{refundOrderId},
+            userExetendCount =#{userExetendCount},
+            payTime = #{payTime},
+            cashPay = #{cashPay},
+            cashNo = #{cashNo},
+            thirdPay = #{thirdPay},
+            thirdType = #{thirdType},
+            thirdNo = #{thirdNo},
+            cancelTime = #{cancelTime},
+            companyTicket = #{companyTicket},
+            benefit_type = #{benefitType},
+            benefit_amount = #{benefitAmount},
+            invoice_status =#{invoiceStatus},
+            returnedAddress=#{returnedAddress},
+        	sendAddress = #{sendAddress},
+        	e_card_info = #{e_cardInfo},
+        	product_name = #{productName},
+        	limit_ticket_cnt = #{limitTicketCnt},
+        	user_id = #{userId}
+        WHERE 
+	        subOrderId = #{subOrderId} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_suborder WHERE
+        subOrderId = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="Suborder">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_suborder 
+	        WHERE 
+		        subOrderId = #{id} 
+	    ]]>
+	</select>
+	<select id="findByOrderId" resultMap="Suborder">
+		SELECT <include refid="columns" />
+		    FROM t_suborder 
+	        WHERE 
+		        orderId = #{orderId} 
+	</select>
+	<select id="querySubOrder" resultMap="Suborder" parameterType="com.wode.common.frame.base.QueryModel">
+		select s.* from t_suborder s inner join t_orders o on s.orderId = o.orderId where o.userId = #{userId}  and s.subOrderId = #{subOrderId};
+	</select>
+    <select id="findPage_count" resultType="long" parameterType="com.wode.common.frame.base.QueryModel">
+        select count(*)
+		 	from t_suborder sub inner join t_orders o on sub.orderId = o.orderId inner join t_supplier s on sub.supplierId = s.id 
+		 where o.userId = #{userId} 
+		 <if test="@Ognl@isNotEmpty(status)">
+				AND sub.status = #{status}
+		 </if>
+    </select>
+
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="SuborderVo" parameterType="com.wode.common.frame.base.QueryModel">
+    	select sub.subOrderId,
+				sub.orderId,
+				sub.supplierId,
+				sub.shop_id,
+				sub.totalProduct,
+				sub.totalShipping,
+				sub.totalAdjustment,
+				sub.realPrice,
+				sub.status,
+				sub.expressNo,
+				sub.expressType,
+				sub.createTime,
+				sub.updateTime,
+				sub.updateBy,
+				sub.sendAddress,
+				sub.returnedAddress,
+				sub.afterserviceStatus,
+				sub.commentStatus,
+				sub.takeTime,
+				sub.userExetendCount,
+				sub.lasttakeTime,
+				sub.sendTime,
+				sub.payTime,
+				sub.closeReason,
+				sub.urgeNumber,
+				sub.urgeTime,
+				sub.deleteFlag,
+				sub.returnOrderId,
+				sub.refundOrderId,
+				sub.invoice_status,
+				sub.refuseNote,
+				sub.close_flg,
+				sub.sale_bill_id,
+				s.com_name supplierName,o.`name`,o.phone,o.mobile,o.address,o.invoiceTitle,o.note,o.self_delivery 
+		 		,sub.cashPay
+		 		,sub.thirdPay,sub.thirdType,sub.thirdNo
+		 		,sub.stock_up
+		 		,sub.companyTicket
+		 		,sub.benefit_type
+		 		,sub.benefit_amount
+		 		,sub.cancelTime
+		 		,sub.order_type
+		 		,product_name
+		 		,sub.limit_ticket_cnt
+		 		,sub.user_id
+		 	from t_suborder sub inner join t_orders o on sub.orderId = o.orderId inner join t_supplier s on sub.supplierId = s.id
+		 where o.userId = #{userId}   and sub.deleteFlag = 0
+		 	 <if test="@Ognl@isNotEmpty(status)">
+				AND (sub.status = #{status}
+                 <if test="status == 3">
+                     OR sub.status = 5
+                     OR sub.status = 13
+                     OR sub.status = 14
+                     OR sub.status = 15
+                     OR sub.status = 16
+                 </if>
+                 <if test="status == 11">
+                     OR sub.status = 12
+                 </if>
+                 )
+			</if>
+		 	 <if test="@Ognl@isNotEmpty(commentStatus)">
+				AND sub.commentStatus = #{commentStatus}
+			</if>
+		 	 <if test="@Ognl@isNotEmpty(relationId)">
+				AND sub.relation_id = #{relationId}
+			</if>
+		 	order by sub.createTime desc
+    </select>
+
+	<!-- 查询退款/售后状态下的订单 -->
+	<select id="findRefundOrderByUserId" resultMap="SuborderVo" parameterType="com.wode.common.frame.base.QueryModel">
+		select sub.subOrderId,
+				sub.orderId,
+				sub.supplierId,
+				sub.shop_id,
+				sub.totalProduct,
+				sub.totalShipping,
+				sub.totalAdjustment,
+				sub.realPrice,
+				sub.status,
+				sub.expressNo,
+				sub.expressType,
+				sub.createTime,
+				sub.updateTime,
+				sub.updateBy,
+				sub.sendAddress,
+				sub.returnedAddress,
+				sub.afterserviceStatus,
+				sub.commentStatus,
+				sub.takeTime,
+				sub.userExetendCount,
+				sub.lasttakeTime,
+				sub.sendTime,
+				sub.payTime,
+				sub.closeReason,
+				sub.urgeNumber,
+				sub.urgeTime,
+				sub.deleteFlag,
+				sub.returnOrderId,
+				sub.refundOrderId,
+				sub.refuseNote,
+				sub.close_flg,
+				sub.sale_bill_id,
+				s.com_name supplierName,o.`name`,o.phone,o.mobile,o.address,o.invoiceTitle,o.note,o.self_delivery 
+		 		,sub.cashPay
+		 		,sub.thirdPay,sub.thirdType,sub.thirdNo
+		 		,sub.stock_up
+		 		,sub.companyTicket
+		 		,sub.benefit_type
+		 		,sub.benefit_amount
+		 		,sub.cancelTime
+		 		,sub.order_type
+		 		,sub.product_name
+		 		,sub.limit_ticket_cnt
+		 		,sub.user_id
+		 	from t_suborder sub inner join t_orders o on sub.orderId = o.orderId inner join t_supplier s on sub.supplierId = s.id
+		 INNER JOIN t_refundorder tre on sub.refundOrderId = tre.refundOrderId
+		 where o.userId = #{userId}   and sub.deleteFlag = 0
+				AND sub.status IN (3, 11, 5, 12, -11, -12,13,14,15,16)
+		 	order by tre.createTime desc
+	</select>
+	
+	<!-- 查询不同状态下的订单个数 -->
+	<select id="findOrderByUserIdCount" resultType="Integer" parameterType="String">
+		${value}
+	</select>
+	
+	<select id="findReturnableOrders" resultMap="SuborderVo" parameterType="com.wode.common.frame.base.QueryModel">
+		select sub.subOrderId,
+				sub.orderId,
+				sub.supplierId,
+				sub.shop_id,
+				sub.totalProduct,
+				sub.totalShipping,
+				sub.totalAdjustment,
+				sub.realPrice,
+				sub.status,
+				sub.expressNo,
+				sub.expressType,
+				sub.createTime,
+				sub.updateTime,
+				sub.updateBy,
+				sub.sendAddress,
+				sub.returnedAddress,
+				sub.afterserviceStatus,
+				sub.commentStatus,
+				sub.takeTime,
+				sub.userExetendCount,
+				sub.lasttakeTime,
+				sub.sendTime,
+				sub.payTime,
+				sub.closeReason,
+				sub.urgeNumber,
+				sub.urgeTime,
+				sub.deleteFlag,
+				sub.returnOrderId,
+				sub.refundOrderId,
+				sub.refuseNote,
+				sub.close_flg,
+				sub.sale_bill_id,
+				s.com_name supplierName,o.`name`,o.phone,o.mobile,o.address,o.invoiceTitle,o.note,o.self_delivery
+		 		,sub.cashPay
+		 		,sub.thirdPay,sub.thirdType,sub.thirdNo
+		 		,sub.stock_up
+		 		,sub.companyTicket
+		 		,sub.benefit_type
+		 		,sub.benefit_amount
+		 		,sub.cancelTime
+		 		,sub.order_type
+		 		,product_name
+		 		,sub.limit_ticket_cnt
+		 		,sub.user_id
+		from t_suborder sub inner join t_orders o on sub.orderId = o.orderId inner join t_supplier s on sub.supplierId = s.id
+		where o.userId = #{userId}   and sub.deleteFlag = 0 AND sub.status in (2,4)
+		order by sub.createTime desc
+	</select>
+
+	<select id="findOrderDetailById" parameterType="com.wode.common.frame.base.QueryModel" resultMap="SuborderVo">
+		 select sub.subOrderId,
+				sub.orderId,
+				sub.supplierId,
+				sub.shop_id,
+				sub.totalProduct,
+				sub.totalShipping,
+				sub.totalAdjustment,
+				sub.realPrice,
+				sub.status,
+				sub.expressNo,
+				sub.expressType,
+				sub.createTime,
+				sub.updateTime,
+				sub.updateBy,
+				sub.sendAddress,
+				sub.returnedAddress,
+				sub.afterserviceStatus,
+				sub.commentStatus,
+				sub.takeTime,
+				sub.userExetendCount,
+				sub.lasttakeTime,
+				sub.sendTime,
+				sub.payTime,
+				sub.closeReason,
+				sub.urgeNumber,
+				sub.urgeTime,
+				sub.deleteFlag,
+				sub.returnOrderId,
+				sub.refundOrderId,
+				sub.refuseNote,
+				sub.close_flg,
+				sub.sale_bill_id,
+				sub.noto,
+				sub.invoice_status,
+				0 pointNum,s.com_name supplierName,t.shop_tel shopTel,t.shop_phone shopPhone,o.`name`,o.phone,o.mobile,o.address,o.invoiceTitle,o.note,o.self_delivery,t.id shopId
+		 		,sub.cashPay
+		 		,sub.thirdPay,sub.thirdType,sub.thirdNo
+		 		,sub.stock_up
+		 		,sub.companyTicket
+		 		,sub.benefit_type
+		 		,sub.benefit_amount
+		 		,sub.cancelTime
+		 		,sub.e_card_info
+		 		,sub.order_type
+		 		,sub.relation_id
+		 		,sub.product_name
+		 		,sub.limit_ticket_cnt
+		 		,sub.user_id
+		 	from t_suborder sub 
+		 	inner join t_orders o on sub.orderId = o.orderId 
+		 	inner join t_supplier s on sub.supplierId = s.id 
+		 	inner join t_shop t on t.id = sub.shop_id
+		 where sub.subOrderId=#{subOrderId}
+		  <if test="@Ognl@isNotEmpty(userId)">
+			and o.userId = #{userId}
+		</if>
+	</select>
+	
+	<select id="findSubOrdersByOrderId" parameterType="com.wode.common.frame.base.QueryModel" resultMap="SuborderVo">
+		 select sub.subOrderId,
+				sub.orderId,
+				sub.supplierId,
+				sub.shop_id,
+				sub.totalProduct,
+				sub.totalShipping,
+				sub.totalAdjustment,
+				sub.realPrice,
+				sub.status,
+				sub.expressNo,
+				sub.expressType,
+				sub.createTime,
+				sub.updateTime,
+				sub.updateBy,
+				sub.sendAddress,
+				sub.returnedAddress,
+				sub.afterserviceStatus,
+				sub.commentStatus,
+				sub.takeTime,
+				sub.userExetendCount,
+				sub.lasttakeTime,
+				sub.sendTime,
+				sub.payTime,
+				sub.closeReason,
+				sub.urgeNumber,
+				sub.urgeTime,
+				sub.deleteFlag,
+				sub.returnOrderId,
+				sub.refundOrderId,
+				sub.refuseNote,
+				sub.close_flg,
+				sub.sale_bill_id,
+			s.com_name supplierName,o.`name`,o.phone,o.mobile,o.address,o.invoiceTitle,o.note,o.self_delivery,t.id shopId
+		 		,sub.cashPay
+		 		,sub.thirdPay,sub.thirdType,sub.thirdNo
+		 		,sub.stock_up
+		 		,sub.companyTicket
+		 		,sub.benefit_type
+		 		,sub.benefit_amount
+		 		,sub.cancelTime
+		 		,sub.order_type
+		 		,sub.relation_id
+		 		,sub.product_name
+		 		,sub.limit_ticket_cnt
+		 		,sub.user_id
+		 from t_suborder sub inner join t_orders o on sub.orderId = o.orderId inner join t_supplier s on sub.supplierId = s.id inner join t_shop t on t.id = sub.shop_id
+		 where sub.orderId=#{orderId}
+			and o.userId = #{userId}
+	</select>
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(subOrderId)">
+				AND subOrderId = #{subOrderId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(orderId)">
+				AND orderId = #{orderId}
+			</if>
+			 <if test="@Ognl@isNotEmpty(supplierId)">
+				AND orderId = #{supplierId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(totalProduct)">
+				AND totalProduct = #{totalProduct}
+			</if>
+	       <if test="@Ognl@isNotEmpty(totalShipping)">
+				AND totalShipping = #{totalShipping}
+			</if>
+	       <if test="@Ognl@isNotEmpty(totalAdjustment)">
+				AND totalAdjustment = #{totalAdjustment}
+			</if>
+	       <if test="@Ognl@isNotEmpty(realPrice)">
+				AND realPrice = #{realPrice}
+			</if>
+	       <if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+	       <if test="@Ognl@isNotEmpty(expressNo)">
+				AND expressNo = #{expressNo}
+			</if>
+	       <if test="@Ognl@isNotEmpty(expressType)">
+				AND expressType = #{expressType}
+			</if>
+	       <if test="@Ognl@isNotEmpty(createTimeBegin)">
+				AND createTime >= #{createTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(createTimeEnd)">
+				AND createTime &lt;= #{createTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+				AND updateTime >= #{updateTimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+				AND updateTime &lt;= #{updateTimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(updateBy)">
+				AND updateBy = #{updateBy}
+			</if>
+			<if test="@Ognl@isNotEmpty(returnOrderId)">
+				AND returnOrderId = #{returnOrderId}
+			</if>
+			<if test="@Ognl@isNotEmpty(refundOrderId)">
+				AND refundOrderId = #{refundOrderId}
+			</if>
+			<if test="@Ognl@isNotEmpty(userExetendCount)">
+				AND userExetendCount = #{userExetendCount}
+			</if>
+			<if test="@Ognl@isNotEmpty(productName)">
+				AND product_name = #{productName}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
+

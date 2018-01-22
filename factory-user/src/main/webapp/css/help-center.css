@@ -1,0 +1,76 @@
+@charset "utf-8";
+/* CSS Document */
+body,h1,h2,h3,h4,h5,h6,p,ul,ol,li,form,img,dl,dt,dd,table,th,td,blockquote,fieldset,div,strong,label,em{margin:0;padding:0;border:0;}
+body{font-size:12px;font-family:"微软雅黑";}
+ul,ol,li{list-style:none;}
+input{vertical-align:middle;}
+table{border-collapse:collapse;border-spacing:0;}
+input,button,select,textarea{outline:none;}
+
+img{border:none;}
+a{text-decoration:none;color:#333;}
+a:hover{cursor:pointer}
+
+.dis{display:none;}
+.main-lt-con ul .clr-red a{color:#ff4040;background:url(../images/hc-lt-li-bg-1.png) no-repeat 3px center}
+/*头部样式*/
+.header{height:140px;width:100%;background:#f7f7f7;}
+.top{height:28px;width:990px;margin:0 auto;}
+.top li a{color:#959595;font-size:12px;}
+.top-lt{height:28px;width:300px;float:left;}
+.top-lt p{height:28px;width:155px;float:left;line-height:28px;font-size:12px;color:#959595;}
+.top-lt ul{width:140px;float:left;}
+.top-lt ul li{height:28px;line-height:28px;float:left;padding:0 15px;}
+.top-lt ul .li-01{background:url(../images/li-bg.png) no-repeat right center;} 
+
+.top-rt{height:28px;float:right;}
+.top-rt ul{height:28px;}
+.top-rt ul li{height:28px;line-height:28px;float:left;padding:0 15px;background:url(../images/li-bg.png) no-repeat right center;}
+.top-rt ul .li-05{background:none;padding-right:0;} 
+
+.logo-box{height:112px;width:100%;background:#ff4040;}
+.logo-con{height:112px;width:990px;margin:0 auto;}
+.logo{height:72px;width:406px;padding-top:20px;}
+
+/*主体内容样式*/
+.mainbody{width:990px;height:auto;margin:0 auto;margin-top:28px;}
+/*左侧菜单区样式*/
+.main-left{height:auto;width:238px;float:left;border:1px solid #eeeeee;background:#f8f8f8;}
+.lt-top-tit{height:80px;width:238px;}
+.main-lt-con{height:auto;width:238px;}
+.main-lt-con .tit-t1{height:40px;width:238px;line-height:40px;background:#FFF}
+.main-lt-con .tit-t1 a{width:185px;display:block;font-size:20px;color:#282828;padding-left:42px;background:url(../images/hc-icon3.png) no-repeat right center; cursor:default;}
+.main-lt-con .hc-icon1{background:#FFF url(../images/hc-icon1.png) no-repeat 10px center;}
+.main-lt-con .hc-icon2{background:#FFF url(../images/hc-icon2.png) no-repeat 10px center;}
+.main-lt-con .hc-icon3{background:#FFF url(../images/h-c-icon3.png) no-repeat 10px center;}
+
+.main-lt-con ul{height:auto;width:226px;padding:0 6px 0 6px;}
+.main-lt-con ul li{height:47px;width:226px;line-height:47px;border-bottom:2px dotted #dedede;}
+.main-lt-con ul li a{font-size:16px;color:#616161;padding-left:15px;background:url(../images/hc-lt-li-bg-2.png) no-repeat 3px center}
+/*.main-lt-con ul li a:hover{color:#ff4040;padding-left:15px;background:url(../images/hc-lt-li-bg-1.png) no-repeat 3px center}*/
+
+/*右侧内容区样式*/
+.main-right{height:auto;width:730px;float:right;}
+.table-box{height:auto;width:730px;}
+.rt-con-box{height:auto;width:728px;border:1px solid #eeeeee;border-top:none;background:#f8f8f8;padding-bottom:30px;margin-bottom:20px;}
+.rt-tit{height:39px;width:701px;background:#ffffff url(../images/rt-tit-bg.png) no-repeat 14px center;border-top:2px solid #ff4040;border-bottom:1px solid #e3e3e3;padding-left:27px;line-height:39px;font-size:16px;color:#434343;}
+
+.rt-con-tit{height:47px;width:308px;position:relative;margin-top:10px;}
+.rt-con-tit img{position:absolute;left:-1px;}
+
+.rt-con-box .con-ul{width:712px;height:auto;margin:20px 0 0 18px;overflow:hidden;}
+.rt-con-box .con-ul li{height:40px;float:left;margin-right:30px;font-size:16px;color:#656565;}
+.rt-con-box .con-ul-li1{width:380px;}
+
+.help-center-img01{height:190px;width:530px;margin:16px 0 0 87px;}
+
+.con-ul-img{height:auto;margin:20px 0 0 14px;overflow:hidden;}
+.con-ul-img li{height:200px;width:200px;float:left;margin:0 42px 20px 0;}
+
+.rt-con-box p{height:auto;width:690px;line-height:25px;font-size:16px;color:#656565;margin:10px 0 10px 20px;}
+.help-center-img02{height:auto;width:690px;margin:16px 0 20px 20px;}
+
+.contact-us-con{padding:10px 0 0 0;border-bottom:1px solid #f0f0f0}
+.contact-us-con p{font-size:15px;}
+.contact-us-con p span{color:#000000;}
+.contact-us-con .p1{color:#616161;font-weight:700;font-size:15px;}

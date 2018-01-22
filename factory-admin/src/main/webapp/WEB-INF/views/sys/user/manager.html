@@ -1,0 +1,37 @@
+@var userOffice = office.getUserOfficeList(); //用户持有的机构
+@var userRoles = role.getUserRoleList(); //用户角色
+<div class="tab-content">
+	<div id="home" class="tab-pane active clearfix">
+		<#search>
+			<form action="${ctxPath}/sysuser/listManger" method="post" id="search-form" 
+			target="list-page" class="center clearfix">
+			<input type="hidden" name="roles" value="-108">
+			<div class="row padding-tb-10">
+				<div class="col-sm-6">
+					<label class="inline">归属机构：</label>
+					<#pullDownTree order="one" treeData="${userOffice}" name="officeId" 
+						class="width-80" cName="officeType" >
+						$("#pullDownTreeCurCidone").val(treeNode.type);
+					</#pullDownTree>
+				</div>
+				<div class="col-sm-6">
+					<label class="inline">真实姓名：</label>
+					<input type="text" class="width-80"  name="name"/>
+				</div>
+			</div>
+			<div class="padding-trb-10 col-sm-12">
+				<span class="btn btn-info btn-sm col-sm-6" id="search-btn">条 件 查 询</span>
+			</div>
+			</form>
+		</#search>
+		<div class="space-6"></div>
+		<div id="list-page"></div>
+	</div>
+</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+
+<script>
+	$("#search-form").getPageList({'submitBtnId':'search-btn'});
+</script>

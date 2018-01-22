@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SupplierExpressMapper">
+<resultMap id="SupplierExpress" type="com.wode.factory.model.SupplierExpress">
+        <result property="id" column="id"/>
+        <result property="expressId" column="express_id"/>
+        <result property="name" column="name"/>
+        <result property="supplierId" column="supplier_id"/>
+</resultMap>
+<!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,express_id,name,supplier_id
+        ]]>
+    </sql>
+<!-- 插入数据 -->
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+ <![CDATA[
+        INSERT INTO t_supplier_express (
+        id,
+        express_id,
+        name,
+        supplier_id
+        )VALUES(
+        #{id},
+        #{expressId},
+        #{name},
+        #{supplierId}
+        )
+ ]]>
+ </insert>
+ 
+<!-- 根据商家id删除快递信息 -->
+<delete id="deletebySupplierId">
+    <![CDATA[
+        DELETE FROM t_supplier_express WHERE
+        supplier_id = #{supplierId} 
+    ]]>
+    </delete>
+<!-- 根据商家id查询常用快递信息 -->
+ <select id="getBysupplierId" resultMap="SupplierExpress">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_supplier_express  
+	        WHERE 
+	        supplier_id = #{supplierId} 
+	    ]]>
+	</select>
+</mapper>

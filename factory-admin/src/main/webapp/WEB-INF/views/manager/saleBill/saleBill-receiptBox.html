@@ -1,0 +1,152 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<!-- <div class="profile-info-row">
+		<div class="profile-info-name">
+			付款方:
+		</div>
+
+		<div class="profile-info-value">
+			北京我的网科技有限公司
+		</div>
+	</div> -->
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+				财务代码:
+			</div>
+	
+			<div class="profile-info-value">
+				${sd.financeCode}
+			</div>
+			</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			发票类型:
+		</div>
+
+		<div class="profile-info-value">
+			${sd.billTypeValue}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+				发票抬头:
+		</div>
+
+		<div class="profile-info-value">
+			${receipt.data.supplier}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			纳税人识别号:
+		</div>
+
+		<div class="profile-info-value">
+			${sd.taxpayerNumber}
+		</div>
+	</div>
+		<div class="profile-info-row">
+		<div class="profile-info-name">
+			地址、电话:
+		</div>
+
+		<div class="profile-info-value">
+			${sd.addressNumber}
+		</div>
+	</div>
+		<div class="profile-info-row">
+		<div class="profile-info-name">
+			开户行及账号:
+		</div>
+
+		<div class="profile-info-value">
+			${sd.openingBanNumber}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			开票项目:
+		</div>
+
+		<div class="profile-info-value">
+			<select>
+				<option>技术服务费</option>
+			</select>
+		</div>
+	</div>
+	<!--  -->
+	@for(price in (receipt.data.price)){
+		<input class="receiptBox_id" type="hidden" value="${price.id}">
+	@}
+	
+	@if(receipt.data.price.~size>1){
+		@for(price in (receipt.data.price)){
+			 <div class="profile-info-row">
+				<div class="profile-info-name">
+					金额合计${priceLP.index}:
+				</div>
+		
+				<div class="profile-info-value">
+				${price.commissionPrice-price.refundAmount}
+				</div>
+			</div>
+		@}
+	@}
+	
+	
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			金额合计:
+		</div>
+
+		<div class="profile-info-value">
+		<input type="hidden" id="amount" value="${receipt.data.sumPrice}">
+		${receipt.data.sumPrice}
+		</div>
+	</div>
+
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			发票号码:
+		</div>
+
+		<div class="profile-info-value">
+		<input type="text" id="code" maxlength="10">
+		</div>
+	</div>
+	<div class="width-100 clearfix" tag-save-btn style="bottom: 0px;left: 0px;position:absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-100  pull-left" id="submit">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>确定
+	</span>
+</div>
+<script type="text/javascript">
+
+$(function(){
+	
+	$("#submit").click(function(){
+		//循环获取id值
+		var array = new Array();
+		$(".receiptBox_id").each(function(){
+			var id = $(this).val();
+			var obj = {};
+			obj.id = id;
+			//1 表示已开发票
+			obj.receiptStatus = 2;
+			array.push(obj);
+		});
+	if(array.length<0){
+		layer.msg('系统错误', 3, 1);
+	}else{
+		
+		
+		updateSaleBillStatus(array,'${ctxPath}/saleBill/updateSaleBillStatus?amount='+$("#amount").val()+'&code='+$("#code").val());
+		
+	}
+		
+		
+	});
+})
+
+</script>
+</div>
+</div>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="EntParamCodeMapper" >
+  <resultMap id="BaseResultMap" type="com.wode.factory.model.EntParamCode" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="group_cd" property="groupCd" jdbcType="CHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="descr" property="descr" jdbcType="VARCHAR" />
+    <result column="stop_flg" property="stopFlg" jdbcType="CHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, group_cd, code, value, name, descr, stop_flg, create_date, update_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_ent_param_code
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByModel" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from t_ent_param_code
+	    <where>		
+	      <if test="id != null" >
+	        id = #{id,jdbcType=BIGINT}
+	      </if>
+	      <if test="groupCd != null" >
+	        group_cd = #{groupCd,jdbcType=CHAR}
+	      </if>
+	      <if test="code != null" >
+	        code = #{code,jdbcType=VARCHAR}
+	      </if>
+	      <if test="value != null" >
+	        value = #{value,jdbcType=VARCHAR}
+	      </if>
+	      <if test="name != null" >
+	        name = #{name,jdbcType=VARCHAR}
+	      </if>
+	      <if test="descr != null" >
+	        descr = #{descr,jdbcType=VARCHAR}
+	      </if>
+	      <if test="stopFlg != null" >
+	        stop_flg = #{stopFlg,jdbcType=CHAR}
+	      </if>
+	      <if test="createDate != null" >
+	        create_date = #{createDate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="updateDate != null" >
+	        update_date = #{updateDate,jdbcType=BIGINT}
+	      </if>
+	    </where>
+	</select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_ent_param_code
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wode.factory.model.EntParamCode" >
+    insert into t_ent_param_code (id, group_cd, code, 
+      value, name, descr, 
+      stop_flg, create_date, update_date
+      )
+    values (#{id,jdbcType=BIGINT}, #{groupCd,jdbcType=CHAR}, #{code,jdbcType=VARCHAR}, 
+      #{value,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{descr,jdbcType=VARCHAR}, 
+      #{stopFlg,jdbcType=CHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wode.factory.model.EntParamCode" >
+    insert into t_ent_param_code
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="groupCd != null" >
+        group_cd,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="value != null" >
+        value,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="descr != null" >
+        descr,
+      </if>
+      <if test="stopFlg != null" >
+        stop_flg,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="groupCd != null" >
+        #{groupCd,jdbcType=CHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="descr != null" >
+        #{descr,jdbcType=VARCHAR},
+      </if>
+      <if test="stopFlg != null" >
+        #{stopFlg,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wode.factory.model.EntParamCode" >
+    update t_ent_param_code
+    <set >
+      <if test="groupCd != null" >
+        group_cd = #{groupCd,jdbcType=CHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="descr != null" >
+        descr = #{descr,jdbcType=VARCHAR},
+      </if>
+      <if test="stopFlg != null" >
+        stop_flg = #{stopFlg,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wode.factory.model.EntParamCode" >
+    update t_ent_param_code
+    set group_cd = #{groupCd,jdbcType=CHAR},
+      code = #{code,jdbcType=VARCHAR},
+      value = #{value,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      descr = #{descr,jdbcType=VARCHAR},
+      stop_flg = #{stopFlg,jdbcType=CHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

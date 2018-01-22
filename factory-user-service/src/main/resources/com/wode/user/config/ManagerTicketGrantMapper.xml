@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ManagerTicketGrantMapper">
+
+    <resultMap id="ManagerTicketGrant" type="com.wode.factory.user.model.ManagerTicketGrant">
+        <result property="id" column="id"/>
+        <result property="managerId" column="manager_id"/>
+        <result property="managerName" column="manager_name"/>
+        <result property="createDate" column="create_date"/>
+        <result property="currencyId" column="currency_id"/>
+        <result property="amount" column="amount"/>
+        <result property="status" column="status"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userCompany" column="user_company"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,manager_id,manager_name,create_date,currency_id,amount,status,user_id,user_name,user_company,update_date
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_manager_ticket_grant (
+            id ,
+            manager_id ,
+            manager_name ,
+            create_date ,
+            currency_id ,
+            amount ,
+            status ,
+            user_id ,
+            user_name ,
+            user_company ,
+            update_date
+        ) VALUES (
+            #{id} ,
+            #{managerId} ,
+            #{managerName} ,
+            #{createDate} ,
+            #{currencyId} ,
+            #{amount} ,
+            #{status} ,
+            #{userId} ,
+            #{userName} ,
+            #{userCompany} ,
+            #{updateDate}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_manager_ticket_grant SET
+            manager_id = #{managerId} ,
+            manager_name = #{managerName} ,
+            create_date = #{createDate} ,
+            currency_id = #{currencyId} ,
+            amount = #{amount} ,
+            status = #{status} ,
+            user_id = #{userId} ,
+            user_name = #{userName} ,
+            user_company = #{userCompany} ,
+            update_date = #{updateDate} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_manager_ticket_grant WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="ManagerTicketGrant">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_manager_ticket_grant 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="ManagerTicketGrant">
+        SELECT <include refid="columns" /> FROM t_manager_ticket_grant 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerId)">
+                AND manager_id = #{managerId}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerName)">
+                AND manager_name = #{managerName}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date = #{createDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(currencyId)">
+                AND currency_id = #{currencyId}
+            </if>
+           <if test="@Ognl@isNotEmpty(amount)">
+                AND amount = #{amount}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(userName)">
+                AND user_name = #{userName}
+            </if>
+           <if test="@Ognl@isNotEmpty(userCompany)">
+                AND user_company = #{userCompany}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateDate)">
+                AND update_date = #{updateDate}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

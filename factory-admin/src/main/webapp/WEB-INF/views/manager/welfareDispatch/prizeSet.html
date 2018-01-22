@@ -1,0 +1,38 @@
+<div class="layer">
+    <div>
+      <label>我的福利APP首次使用奖励：&nbsp; 内购券数量</label> <input type="text" id="value" value="${value!}" placeholder="内购券">
+   </div>
+    <div>
+      <label>欢迎语</label> <input type="text" value="${desc!}" id="desc" placeholder="欢迎语" size="80">
+   </div>
+    <div>
+   	  <button type="submit" class="btn btn-info btn-sm " onclick="findList()">${stop!}</button>
+   </div>
+   <br>
+   <br>
+</div>
+
+<script type="text/javascript">
+
+	function findList(){
+		if(Number($("#value").val())<0){
+			alert("内购券数大于0");
+		}else{
+		
+		$.ajax( {  
+		    url:'${ctxPath}/welfareDispatch/saveFirstPrize',
+		    data:{'value':$("#value").val(),"desc":$("#desc").val()},  
+		    type:'post',
+		    cache:false,  
+		    dataType:'json',
+		    success:function() {
+				alert("保存成功");
+		    },  
+		     error : function() {  
+					alert("保存失败");
+		     }  
+		});
+	}
+	}
+
+</script>

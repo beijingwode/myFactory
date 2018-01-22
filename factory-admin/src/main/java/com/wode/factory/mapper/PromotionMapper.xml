@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wode.factory.mapper.PromotionDao">
+    <resultMap id="BaseResultMap" type="com.wode.factory.model.Promotion">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="orders" property="orders" jdbcType="INTEGER"/>
+        <result column="begin_date" property="beginDate" jdbcType="TIMESTAMP"/>
+        <result column="end_date" property="endDate" jdbcType="TIMESTAMP"/>
+        <result column="free_shipping" property="freeShipping" jdbcType="BIT"/>
+        <result column="min_price" property="minPrice" jdbcType="DECIMAL"/>
+        <result column="min_quantity" property="minQuantity" jdbcType="INTEGER"/>
+        <result column="exclusive" property="exclusive" jdbcType="BIT"/>
+        <result column="shop_id" property="shopId" jdbcType="BIGINT"/>
+        <result column="rule" property="rule" jdbcType="VARCHAR"/>
+        <result column="join_total" property="joinTotal" jdbcType="BIGINT"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP"/>
+        <result column="can_return" property="canReturn" jdbcType="TINYINT"/>
+        <result column="can_replace" property="canReplace" jdbcType="TINYINT"/>
+        <result column="can_repair" property="canRepair" jdbcType="TINYINT"/>
+        <result column="introduction" property="introduction" jdbcType="LONGVARCHAR"/>
+        <result column="stockShared" property="stockShared"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name, orders, begin_date, end_date, free_shipping, min_price, min_quantity, exclusive, 
+    shop_id, rule, join_total, status, type, create_date, modify_date, can_return, can_replace, 
+    can_repair, introduction,stockShared
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_promotion
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_promotion
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.wode.factory.model.Promotion">
+    insert into t_promotion (id, name, orders, 
+      begin_date, end_date, free_shipping, 
+      min_price, min_quantity, exclusive, 
+      shop_id, rule, join_total, 
+      status, type, create_date, 
+      modify_date, can_return, can_replace, 
+      can_repair, introduction, stockShared)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{orders,jdbcType=INTEGER}, 
+      #{beginDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{freeShipping,jdbcType=BIT}, 
+      #{minPrice,jdbcType=DECIMAL}, #{minQuantity,jdbcType=INTEGER}, #{exclusive,jdbcType=BIT}, 
+      #{shopId,jdbcType=BIGINT}, #{rule,jdbcType=VARCHAR}, #{joinTotal,jdbcType=BIGINT}, 
+      #{status,jdbcType=TINYINT}, #{type,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{modifyDate,jdbcType=TIMESTAMP}, #{canReturn,jdbcType=TINYINT}, #{canReplace,jdbcType=TINYINT}, 
+      #{canRepair,jdbcType=TINYINT}, #{introduction,jdbcType=LONGVARCHAR}, #{stockShared})
+  </insert>
+    <insert id="insertSelective" parameterType="com.wode.factory.model.Promotion">
+        insert into t_promotion
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="orders != null">
+                orders,
+            </if>
+            <if test="beginDate != null">
+                begin_date,
+            </if>
+            <if test="endDate != null">
+                end_date,
+            </if>
+            <if test="freeShipping != null">
+                free_shipping,
+            </if>
+            <if test="minPrice != null">
+                min_price,
+            </if>
+            <if test="minQuantity != null">
+                min_quantity,
+            </if>
+            <if test="exclusive != null">
+                exclusive,
+            </if>
+            <if test="shopId != null">
+                shop_id,
+            </if>
+            <if test="rule != null">
+                rule,
+            </if>
+            <if test="joinTotal != null">
+                join_total,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="modifyDate != null">
+                modify_date,
+            </if>
+            <if test="canReturn != null">
+                can_return,
+            </if>
+            <if test="canReplace != null">
+                can_replace,
+            </if>
+            <if test="canRepair != null">
+                can_repair,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+            <if test="stockShared != null">
+                stockShared,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="orders != null">
+                #{orders,jdbcType=INTEGER},
+            </if>
+            <if test="beginDate != null">
+                #{beginDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="freeShipping != null">
+                #{freeShipping,jdbcType=BIT},
+            </if>
+            <if test="minPrice != null">
+                #{minPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="minQuantity != null">
+                #{minQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="exclusive != null">
+                #{exclusive,jdbcType=BIT},
+            </if>
+            <if test="shopId != null">
+                #{shopId,jdbcType=BIGINT},
+            </if>
+            <if test="rule != null">
+                #{rule,jdbcType=VARCHAR},
+            </if>
+            <if test="joinTotal != null">
+                #{joinTotal,jdbcType=BIGINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyDate != null">
+                #{modifyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="canReturn != null">
+                #{canReturn,jdbcType=TINYINT},
+            </if>
+            <if test="canReplace != null">
+                #{canReplace,jdbcType=TINYINT},
+            </if>
+            <if test="canRepair != null">
+                #{canRepair,jdbcType=TINYINT},
+            </if>
+            <if test="introduction != null">
+                #{introduction,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="stockShared != null">
+                #{stockShared},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wode.factory.model.Promotion">
+        update t_promotion
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="orders != null">
+                orders = #{orders,jdbcType=INTEGER},
+            </if>
+            <if test="beginDate != null">
+                begin_date = #{beginDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                end_date = #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="freeShipping != null">
+                free_shipping = #{freeShipping,jdbcType=BIT},
+            </if>
+            <if test="minPrice != null">
+                min_price = #{minPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="minQuantity != null">
+                min_quantity = #{minQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="exclusive != null">
+                exclusive = #{exclusive,jdbcType=BIT},
+            </if>
+            <if test="shopId != null">
+                shop_id = #{shopId,jdbcType=BIGINT},
+            </if>
+            <if test="rule != null">
+                rule = #{rule,jdbcType=VARCHAR},
+            </if>
+            <if test="joinTotal != null">
+                join_total = #{joinTotal,jdbcType=BIGINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyDate != null">
+                modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="canReturn != null">
+                can_return = #{canReturn,jdbcType=TINYINT},
+            </if>
+            <if test="canReplace != null">
+                can_replace = #{canReplace,jdbcType=TINYINT},
+            </if>
+            <if test="canRepair != null">
+                can_repair = #{canRepair,jdbcType=TINYINT},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="stockShared != null">
+                stockShared = #{stockShared}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateJoinTotal" parameterType="com.wode.factory.model.Promotion">
+        update t_promotion
+        <set>
+            <if test="status == 2">
+                join_total = join_total+1,
+            </if>
+            <if test="status == -1">
+                join_total = join_total-1,
+            </if>
+            modify_date = #{modifyDate, jdbcType=TIMESTAMP},
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.wode.factory.model.Promotion">
+    update t_promotion
+    set name = #{name,jdbcType=VARCHAR},
+      orders = #{orders,jdbcType=INTEGER},
+      begin_date = #{beginDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      free_shipping = #{freeShipping,jdbcType=BIT},
+      min_price = #{minPrice,jdbcType=DECIMAL},
+      min_quantity = #{minQuantity,jdbcType=INTEGER},
+      exclusive = #{exclusive,jdbcType=BIT},
+      shop_id = #{shopId,jdbcType=BIGINT},
+      rule = #{rule,jdbcType=VARCHAR},
+      join_total = #{joinTotal,jdbcType=BIGINT},
+      status = #{status,jdbcType=TINYINT},
+      type = #{type,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      can_return = #{canReturn,jdbcType=TINYINT},
+      can_replace = #{canReplace,jdbcType=TINYINT},
+      can_repair = #{canRepair,jdbcType=TINYINT},
+      introduction = #{introduction,jdbcType=LONGVARCHAR},
+      stockShared = #{stockShared}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+</mapper>

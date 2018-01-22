@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="UserBlackEnvelopeItemMapper">
+
+    <resultMap id="UserBlackEnvelopeItem" type="com.wode.factory.model.UserBlackEnvelopeItem">
+        <result property="id" column="id"/>
+        <result property="envelopeId" column="envelope_id"/>
+        <result property="allotType" column="allot_type"/>
+        <result property="currencyId" column="currency_id"/>
+        <result property="orders" column="orders"/>
+        <result property="price" column="price"/>
+        <result property="fromId" column="from_id"/>
+        <result property="fromNike" column="from_nike"/>
+        <result property="userId" column="user_id"/>
+        <result property="status" column="status"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="userNike" column="user_nike"/>
+        <result property="userAvatar" column="user_avatar"/>
+        <result property="flowCd" column="flow_cd"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,envelope_id,allot_type,currency_id,orders,price,from_id,from_nike,user_id,status,update_time,user_nike,user_avatar,flow_cd
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_black_envelope_item (
+            id ,
+            envelope_id ,
+            allot_type ,
+            currency_id ,
+            orders ,
+            price ,
+            from_id ,
+            from_nike ,
+            user_id ,
+            status ,
+            update_time ,
+            user_nike ,
+            user_avatar ,
+            flow_cd
+        ) VALUES (
+            #{id} ,
+            #{envelopeId} ,
+            #{allotType} ,
+            #{currencyId} ,
+            #{orders} ,
+            #{price} ,
+            #{fromId} ,
+            #{fromNike} ,
+            #{userId} ,
+            #{status} ,
+            #{updateTime} ,
+            #{userNike} ,
+            #{userAvatar} ,
+            #{flowCd}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_user_black_envelope_item SET            
+            envelope_id = #{envelopeId} ,
+            allot_type = #{allotType} ,
+            orders = #{orders} ,
+            from_id = #{fromId} ,
+            from_nike = #{fromNike} ,
+            user_id = #{userId} ,
+            status = #{status} ,
+            update_time = #{updateTime} ,
+            user_nike = #{userNike} ,
+            user_avatar = #{userAvatar} ,
+            flow_cd = #{flowCd} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_user_black_envelope_item WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="UserBlackEnvelopeItem">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_user_black_envelope_item 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="UserBlackEnvelopeItem">
+        SELECT <include refid="columns" /> FROM t_user_black_envelope_item 
+        <include refid="find_where"/>
+        ORDER BY orders
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(envelopeId)">
+                AND envelope_id = #{envelopeId}
+            </if>
+           <if test="@Ognl@isNotEmpty(allotType)">
+                AND allot_type = #{allotType}
+            </if>
+           <if test="@Ognl@isNotEmpty(orders)">
+                AND orders = #{orders}
+            </if>
+           <if test="@Ognl@isNotEmpty(fromId)">
+                AND from_id = #{fromId}
+            </if>
+           <if test="@Ognl@isNotEmpty(fromNike)">
+                AND from_nike = #{fromNike}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND user_id = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND update_time = #{updateTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(userNike)">
+                AND user_nike = #{userNike}
+            </if>
+           <if test="@Ognl@isNotEmpty(userAvatar)">
+                AND user_avatar = #{userAvatar}
+            </if>
+           <if test="@Ognl@isNotEmpty(flowCd)">
+                AND flow_cd = #{flowCd}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

@@ -1,0 +1,45 @@
+<div class="layer">
+	<form name="FormPost" id="app-save" class="FormGrid"  method="post"
+		action="${ctxPath}/app/save" >
+		<table class="EditTable" width="100%">
+			<input type="hidden" value="${app.id!}" name="id">
+			<tbody>
+				<tr style="display: none;">
+					<td class="ui-state-error" id="FormError"></td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">App编码</td>
+					<td class="DataTD width-100"><input type="text"
+						name="code" datatype="*"  nullmsg="请输入编码！"
+						value="${app.code!}"></td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">下载地址</td>
+					<td class="DataTD width-100"><input type="text"
+						name="url" readonly="readonly"
+						value="${app.url!}"></td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">版本号</td>
+					<td class="DataTD width-100"><input type="text"
+						name="version" datatype="*"  readonly="readonly"
+						value="${app.version!}"></td>
+				</tr>
+				<tr class="FormData">
+					<td class="CaptionTD">更新说明</td>
+					<td class="DataTD width-100">
+						<textarea class="width-100" name="introduce" datatype="*"  nullmsg="请输入更新说明">${app.introduce!}</textarea>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+<#save formId="app-save" />
+
+<script type="text/javascript">
+
+//描述框自动扩张高度
+$('textarea[class*=autosize]').autosize({append: "\n"});
+
+</script>

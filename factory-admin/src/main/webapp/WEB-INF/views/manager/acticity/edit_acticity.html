@@ -1,0 +1,195 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped wordbreak" >
+	<input type="hidden" id="sepId" value="${event.id}">
+	<div class="profile-info-row">
+		<div class="profile-info-name">企业</div>
+		<div class="profile-info-value">
+			<input type="radio" id="temp" name="em" value="0" ${event.enterpriseType == 0?"checked":""} >临时
+					<select id="suppliertemp" width="45%" onchange="getName(0)">
+						@for(item in tempList){
+							@if(item.status == 0){
+								<option value="${item.id! },${item.comName! }" ${event.enterpriseId == item.id?"selected":"" }>${item.comName! }</option>
+							 @} 
+						 @}
+					</select> 
+				<input type="radio" id="temp1" name="em" value="1" ${event.enterpriseType == 1?"checked":""} >已入驻 
+							<#select id="supplier" width="70%">
+								@for(item in supplier){
+								<option value="${item.id! },${item.nickName == null || item.nickName == '' ?item.comName:item.nickName}"  ${event.enterpriseId == item.id?"selected":"" }>
+								${item.nickName == null || item.nickName == '' ?item.comName:item.nickName}
+								</option>
+								@}
+							</#select>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name" style="height: 63px">活动名称</div>
+		<div class="profile-info-value">
+			<input type="text" style="width:90%" id="eventTitle" value="${event.eventTitle}"><font color="red">*</font>
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name" style="height: 63px">公司昵称</div>
+		<div class="profile-info-value">
+			<input type="text" style="width:50%" id="enterpriseName" value="${event.enterpriseName}">(长度最多为4位)
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">
+			预计开始时间
+		</div>
+		<div class="profile-info-value"><input type="text" style="width:50%" id="startDate" value="${event.startDate,'yyyy-MM-dd'}" name="startDate"><font color="red">*</font></div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">PC抽奖背景图</div>
+		<div class="profile-info-value">
+				<img width="96px" id="firmlogo" height="96px" name="type" src="${event.pcPageBg}">
+				<input type="hidden" value="${event.pcPageBg}" class="heddenImg" id="pc_page_bg"/>
+				<input type="file" name="type" id="uploadFile" />
+				<input type="button" value="上传" onclick="pageDataUpdateUploadImg()"/>(背景尺寸是1920*1080)
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">PC抽奖主图</div>
+		<div class="profile-info-value">
+				<img width="96px" id="firmlogo1" height="96px" name="type" src="${event.pcPageBanner}">
+				<input type="hidden" value="${event.pcPageBanner}" class="heddenImg1" id="pc_page_banner"/>
+				<input type="file" name="type" id="uploadPcBannerFile" />
+				<input type="button" value="上传" onclick="pageDataUpdateUploadImg1()"/>(主图尺寸是1000*200)
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">WX签到主图</div>
+		<div class="profile-info-value">
+				<img width="96px" id="firmlogo2" height="96px" name="type" src="${event.wxPageBanner}">
+				<input type="hidden" value="${event.wxPageBanner}" class="heddenImg2" id="wx_page_banner"/>
+				<input type="file" name="type" id="uploadWxBannerFile" />
+				<input type="button" value="上传" onclick="pageDataUpdateUploadImg2()"/>(主图尺寸是534*284)
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">最大内购卷<br/></div>
+		<div class="profile-info-value">			
+			<input type="text" id="maxTicket" style="width:50%" value="${event.maxTicket}">(签到后划奖用10%~100%随机)
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">备注<br/></div>
+		<div class="profile-info-value">
+			<textarea rows="5" cols="80" id="eventNote">${event.eventNote}</textarea>
+		</div>
+	</div>
+</div>
+<div class="width-100 clearfix" tag-save-btn style="bottom: 0px;left: 0px;position:absolute;">
+	<span class="btn btn-primary btn-sm bigger-110 width-100  pull-left"  onclick="ajaxSave()" id="submit">
+		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>保存
+	</span>
+</div>
+</div>
+<style>
+#profile .center>label{width: 100px;text-align: right;}
+</style>
+<script type="text/javascript" src="${ctxPath!}/static/js/acticityUploadImg.js"></script>
+<script type="text/javascript" src="${ctxPath!}/static/js/ajaxfileupload.js"></script>
+<script type="text/javascript">
+laydate({
+    elem: '#startDate',
+    format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+});
+$("#role-select").chosen({width: "80%",search_contains: true});
+$(document).ready(function(){ 
+	$('#supplier').change(function(){ 
+		getName(1)
+	}) 
+}) 
+function getName(type){
+	var enterpriseName = '';
+	var reval = $('input:radio:checked').val();
+	if(type == 0 && reval==0){
+		enterpriseName = $("#suppliertemp").val();
+	}
+	if(type == 1 && reval==1){
+		enterpriseName = $("#supplier").val();
+	}
+	enterpriseName = enterpriseName.substring(enterpriseName.indexOf(",")+1,enterpriseName.length);
+	$("#enterpriseName").val(enterpriseName);
+}
+function ajaxSave(){
+	var supplierId = '';
+	var reval = $('input:radio:checked').val();
+	if(reval==0){
+		 var seval = $("#suppliertemp").val();
+		 supplierId = seval.substring(0,seval.indexOf(","));
+	}else{
+		 var seval1 = $("#supplier").val();
+		 supplierId =seval1.substring(0,seval1.indexOf(","));
+		}
+	var maxTicket = $("#maxTicket").val();
+	var eventNote = $("#eventNote").val();
+	var eventTitle = $("#eventTitle").val();
+	var startDate = $("#startDate").val();
+	var enterpriseName = $("#enterpriseName").val();
+	if(eventTitle == ''){
+		alert("活动名称不能为空");
+		return
+	}
+	if(enterpriseName == ''){
+		alert("公司名称不能为空");
+		return
+	}
+	if(enterpriseName.length > 4){
+		alert("公司名称不符合要求");
+		return
+	}
+	if(startDate == ''){
+		alert("预计开始时间不能为空");
+		return
+	}
+	if(maxTicket==''){
+		alert("最大内购卷不能为空");
+		return
+	}
+	$.ajax({
+		type: "post",
+		data:{"id":$("#sepId").val(),"enterpriseId":supplierId,"enterpriseName":enterpriseName,"enterpriseType":reval,"eventTitle":eventTitle,"startDate":startDate,"pcPageBg":$("#pc_page_bg").val(),"pcPageBanner":$("#pc_page_banner").val(),"wxPageBanner":$("#wx_page_banner").val(),"maxTicket":maxTicket,"eventNote":eventNote},
+		url: "${ctxPath}/acticity/editActicityMsg",
+		success:function(data){
+			if(data.success){
+				var pageNo = 1;
+				//刷新页面
+				paging('search-form',pageNo);
+				layer.closeAll();
+			}else{
+				alert("系统错误");
+			}
+		},
+		error: function(){
+			alert("error")
+		}
+	})
+}
+function pageDataUpdateUploadImg() {
+if($("#uploadFile").val() == ""){
+	alert("请选择上传的图片！")
+}else{ 
+	uploadImg($("#p_updateAppImg"),"uploadFile","${ctxPath}/cmsPage/upload/pic");
+}
+
+}
+function pageDataUpdateUploadImg1() {
+if($("#uploadPcBannerFile").val() == ""){
+	alert("请选择上传的图片！")
+}else{ 
+	uploadImg1($("#p_updateAppImg"),"uploadPcBannerFile","${ctxPath}/cmsPage/upload/pic");
+}
+
+}
+function pageDataUpdateUploadImg2() {
+if($("#uploadWxBannerFile").val() == ""){
+	alert("请选择上传的图片！")
+}else{ 
+	uploadImg2($("#p_updateAppImg"),"uploadWxBannerFile","${ctxPath}/cmsPage/upload/pic");
+}
+
+}
+</script>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="SpecificationValueMapper">
+
+	<resultMap id="SpecificationValue" type="com.wode.factory.model.SpecificationValue">
+        <result property="id" column="id"/>
+        <result property="specificationId" column="specification_id"/>
+        <result property="name" column="name"/>
+        <result property="image" column="image"/>
+        <result property="orders" column="orders"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		id,specification_id,name,image,orders
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_specification_value (
+        	id ,
+        	specification_id ,
+        	name ,
+        	image ,
+        	orders 
+        ) VALUES (
+        	#{id} ,
+        	#{specificationId} ,
+        	#{name} ,
+        	#{image} ,
+        	#{orders} 
+        )
+    ]]>
+    
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+    
+    <insert id="copyFromOther">
+    <![CDATA[
+		INSERT INTO t_specification_value
+		SELECT nextval('t_specification_value') id,
+		       #{nId} specification_id,
+			   vo.`name`,
+			   vo.image,
+			   vo.orders
+		FROM t_specification_value vo 
+		WHERE vo.specification_id=#{oId} 
+		AND NOT EXISTS (SELECT 1 FROM t_specification_value vn where vn.specification_id=#{nId} AND vn.`name`=vo.`name`)
+    ]]>
+	</insert>
+	
+	<update id="update" >
+    <![CDATA[
+        UPDATE t_specification_value SET
+	        specification_id = #{specificationId} ,
+	        name = #{name} ,
+	        image = #{image} ,
+	        orders = #{orders} 
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_specification_value WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="findSpecificationValueOne" resultMap="SpecificationValue" parameterType="map">
+	    select spev.* from
+		t_product_category pro inner join t_specification spe on pro.id=spe.category_id inner join t_specification_value spev on spev.specification_id=spe.id
+		where pro.name=#{categoryName} and spev.name = #{speName} and spe.orders = #{orders}
+    </select>
+    
+    <select id="findSpecificationValueTwo" resultMap="SpecificationValue" parameterType="map">
+	   select spev.* from
+	   t_product_category pro inner join t_supplier_specification suppspe on pro.id=suppspe.category_id inner join t_specification_value spev on spev.specification_id=suppspe.id
+	   where pro.name=#{categoryName} and spev.name = #{speName} and suppspe.supplier_id = #{supplierId}  and suppspe.orders = #{orders} and suppspe.type=2
+    </select>
+    
+    
+    <select id="getById" resultMap="SpecificationValue">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM t_specification_value 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+		
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM t_specification_value 
+		<include refid="findPage_where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="SpecificationValue">
+    	SELECT <include refid="columns" />
+	    FROM t_specification_value 
+		<include refid="findPage_where"/>
+    </select>
+
+	
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(specificationId)">
+				AND specification_id = #{specificationId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(name)">
+				AND name = #{name}
+			</if>
+	       <if test="@Ognl@isNotEmpty(image)">
+				AND image = #{image}
+			</if>
+	       <if test="@Ognl@isNotEmpty(orders)">
+				AND orders = #{orders}
+			</if>
+		</where>
+	</sql>
+	
+</mapper>
+

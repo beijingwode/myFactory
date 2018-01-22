@@ -1,0 +1,638 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<title>我的福利</title>
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+<script type="text/javascript" src="/resources/js/jquery1.8.0.js"></script>
+
+<script type="text/javascript" src="/resources/js/shopping.js"></script>
+<script type="text/javascript" src="/resources/js/application.js"></script>
+<script type="text/javascript" src="/resources/js/img_player.js"></script>
+<script type="text/javascript" src="/resources/js/jquery.SuperSlide2.js"></script>
+</head>
+<body>
+
+<!--top begin-->
+<!--登录弹出框 begin-->
+<div class="popup_bg"></div>
+<div class="login_popup">
+	<div class="L_popupbox">    	
+    	<div class="L_title">
+        	<p>我的网</p>
+            <div class="close_btn"><img src="../images/close.gif" width="14" height="14" alt="close"></div>
+        </div>
+        <div class="L_cont">
+        	<div id="pError"><span id="error"></span></div>
+        	<input class="L_public_input L_txt" type="text" id="userName" placeholder="用户名/邮箱/手机号">
+            <input class="L_public_input P_txt" type="password" id="password" placeholder="登录密码">
+            <div class="L_lrgst">
+            	<span class="ylt"><a href="/user/forgetPassword" target="_blank">忘记密码？</a></span>
+                <span class="yrt"><a href="/register.html" target="_blank">免费注册</a></span>
+            </div>
+            <input class="L_popbtn" type="button" name="" value="立即登录" onclick="wode.doLogin();"/>
+        </div>
+    </div>
+</div>
+<!--登录弹出框 end-->
+<script>
+/**
+ * 监听输入框的回车操作
+ */  
+$(".login_popup").keydown(function(event){ 
+if(event.keyCode == 13){
+	wode.doLogin();
+} 
+});
+</script><div class="roof_bg">
+    	<div class="roof">
+    		
+        	<div class="roof_left">
+            	<span>您好，欢迎来到我的.com</span>
+                <ul class="roof_left_list">
+                	<li><a href="/login.html">登录</a><em>|</em></li>
+                    <li><a href="/register.html">免费注册</a></li>
+                </ul>
+            </div>
+            <div class="roof_right">
+            	<ul class="roof_right_list">
+                    <li><a href="/index.html">我的网</a></li>
+                    <li class="bg_li"></li>
+                    <li><a href="/member/myorders">我的订单</a></li>
+                    <li class="bg_li"></li>
+                    <li class="hand_life_li "><a href="http://www.wd-w.com/app.html" target="_blank">掌上生活</a><em></em>
+                    	<div class="ewm_inner">
+                    		<a href="http://www.wd-w.com/app.html" target="_blank"><img src="/images/top_ewm.png" /></a>
+                    		<p>扫一扫，下载<span>我的福利</span>客户端</p>
+                    	</div>
+                    </li>
+                    <li class="bg_li"></li>
+                    <li><a href="http://supplier.wd-w.com">我是商家</a></li>
+                    <li class="bg_li"></li>
+                    <li class="bg_none"><a href="http://www.wd-w.com/help-center.html?from=lxwm" target="_blank">联系我的</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+	<div class="head">
+    	<div class="logo"><a href="/index.html"><img src="/images/logo.png" alt="logo"></a></div>
+        		<div class="search">
+			<div class="searchbox">
+		            <form action="/product/search" method="get" id="search_form" target="_blank">
+		                <input class="searchinput" type="text" name="key" value="" onBlur="if($.trim(value)==''){value=defaultValue;}" onFocus="if(value==defaultValue){value='';}">
+		                <input  class="search_btn" id="search_btn" type="submit" value="搜索"/>
+		            </form>
+		     </div>
+		     <div class="search_list">
+	                <ul>
+	                    <li><a href="http://wd-w.com/product/search?key=%E5%AE%B6%E7%94%A8%E7%94%B5%E5%99%A8&page=1#orders">电器</a></li>
+	                    <li><a href="http://wd-w.com/product/search?key=%E6%A2%B5%E7%94%B0">家居</a></li>
+	                    <li class="curr"><a href="http://wd-w.com/product/search?key=%E6%80%9D%E5%87%AF%E4%B9%90">思凯乐</a></li>
+	                     <!-- <li><a href="http://wd-w.com/product/search?key=%E9%9F%A9%E5%A6%99" target="_blank">韩妙</a></li> -->
+	                </ul>
+		      </div>
+	    </div>    
+        
+   		<div class="shoppingcar"><span class="shopping_amount">0</span><a href="/cart/list">购物车</a></div>
+    	<div class="shoppingcar_cont">
+        	<h2>最近加入的商品</h2>
+            <div class="shoppingcar_list">
+            </div>            
+        </div>
+    </div><!--top end-->
+<!--content begin-->
+<div id="content">
+	<div class="position">
+    	<a href="index.html">首页</a><em>></em><a href="/channel10000.html">家用电器</a>
+    </div>
+    <div class="shopping_product_wrap">
+    	<div class="shopping_product_left">
+    	<input type="hidden" id="categoryId" value="10000" />
+        	<div class="shopping_list_menu">
+					<ul>
+                		<li class="lt "><a class="hcolor " href="/channel10100.html">大家电</a>
+                    	<div class="shopping_menu_layer" >
+                       	  	<div class="shopping_label_list">
+                            	<ul>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10100,10101">平板电视</a></span>
+                                    		<span><a href="/product/list?cat=10000,10100,10102">空调</a></span>
+                                    		<span><a href="/product/list?cat=10000,10100,10103">冰箱</a></span>
+                                    		<span><a href="/product/list?cat=10000,10100,10104">洗衣机</a></span>
+										</li>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10100,10105">家庭影院</a></span>
+                                    		<span><a href="/product/list?cat=10000,10100,10106">DVD</a></span>
+                                    		<span><a href="/product/list?cat=10000,10100,10107">迷你音响</a></span>
+                                    		<span><a href="/product/list?cat=10000,10100,10108">烟机</a></span>
+										</li>
+                                   		<li>
+                                   			<span><a href="/product/list?cat=10000,10100,10109">灶具</a></span>
+                                   		</li>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10100,10110">热水器</a></span>
+                                    		<span><a href="/product/list?cat=10000,10100,10111">消毒柜</a></span>
+                                    		<span><a href="/product/list?cat=10000,10100,10112">洗碗机</a></span>
+										</li>
+										<li>
+                                    		<span><a href="/product/list?cat=10000,10100,10113">冷柜</a></span>
+                                    		<span><a href="/product/list?cat=10000,10100,10114">冰吧</a></span>
+                               			</li>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10100,10115">酒柜</a></span>
+                                    		<span><a href="/product/list?cat=10000,10100,10116">家电配件</a></span>
+										</li>
+                                </ul>  
+                                <div class="shopping_product_pic"><a href="#"><img src="images/shopping_product.jpg" width="316" height="87"></a></div>
+                            </div>                            
+                        </div>
+                    	</li>
+                    	<li class="pd_40" ><span><a href="/product/list?cat=10000,10200,10201">取电器</a><a href="/product/list?cat=10000,10200,10202">净化器</a>
+                                    		<a href="/product/list?cat=10000,10200,10203">机器人</a></span></li>
+                		<li class="lt"><a class="hcolor" href="/channel10200.html">电器</a>
+                    	<div class="shopping_menu_layer">
+                       	  	<div class="shopping_label_list">
+                            	<ul>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10200,10201">取暖电器</a></span>
+                                    		<span><a href="/product/list?cat=10000,10200,10202">净化器</a></span>
+                                    		<span><a href="/product/list?cat=10000,10200,10203">扫地机器人</a></span>
+                                    		<span><a href="/product/list?cat=10000,10200,10204">吸尘器</a></span>
+										</li>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10200,10205">加湿器</a></span>
+                                    		<span><a href="/product/list?cat=10000,10200,10206">挂烫机/熨斗</a></span>
+                                    		<span><a href="/product/list?cat=10000,10200,10207">电风扇</a></span>
+                                    		<span><a href="/product/list?cat=10000,10200,10208">冷风扇</a></span>
+										</li>
+                                   		<li>
+                                   			<span><a href="/product/list?cat=10000,10200,10209">插座</a></span>
+                               			</li>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10200,10210">电话机</a></span>
+                                    		<span><a href="/product/list?cat=10000,10200,10211">净水器</a></span>
+                                    		<span><a href="/product/list?cat=10000,10200,10212">饮水机</a></span>
+										</li>
+										<li>
+                                    		<span><a href="/product/list?cat=10000,10200,10213">除湿机</a></span>
+                                    		<span><a href="/product/list?cat=10000,10200,10214">干衣机</a></span>
+                               			</li>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10200,10215">清洁机</a></span>
+                                    		<span><a href="/product/list?cat=10000,10200,10216">收录/音机</a></span>
+										</li>
+                                    	<li>
+                                    		<span><a href="/product/list?cat=10000,10200,10217">电器生活</a></span>
+                                    		<span><a href="/product/list?cat=10000,10200,10218">电器配件</a></span>
+                                    		<span><a href="/product/list?cat=10000,10200,10219">其它生活</a></span>
+										</li>
+                                </ul>  
+                                <div class="shopping_product_pic"><a href="#"><img src="images/shopping_product.jpg" width="316" height="87"></a></div>
+                            </div>                            
+                        </div>
+                    	</li>
+                		<li class="lt"><a class="hcolor" href="/channel10300.html">厨房电器</a>
+                    	<div class="shopping_menu_layer">
+                       	  	<div class="shopping_label_list">
+                            	<ul>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10300,10301">电饭煲</a></span>
+                                    		<span><a href="/product/list?cat=10000,10300,10302">微波炉</a></span>
+                                    		<span><a href="/product/list?cat=10000,10300,10303">电烤箱</a></span>
+                                    		<span><a href="/product/list?cat=10000,10300,10304">电磁炉</a></span>
+										</li>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10300,10305">电压力锅</a></span>
+                                    		<span><a href="/product/list?cat=10000,10300,10306">豆浆机</a></span>
+                                    		<span><a href="/product/list?cat=10000,10300,10307">咖啡机</a></span>
+                                    		<span><a href="/product/list?cat=10000,10300,10308">面包机</a></span>
+										</li>
+										<li>
+                                    		<span><a href="/product/list?cat=10000,10300,10309">榨汁机</a></span>
+                               			</li>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10300,10310">料理机</a></span>
+                                    		<span><a href="/product/list?cat=10000,10300,10311">电饼铛</a></span>
+                                    		<span><a href="/product/list?cat=10000,10300,10312">养生壶/煎药壶</a></span>
+										</li>
+										<li>
+                                    		<span><a href="/product/list?cat=10000,10300,10313">酸奶机</a></span>
+                                    		<span><a href="/product/list?cat=10000,10300,10314">电水壶/热水瓶</a></span>
+                               			</li>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10300,10315">电炖锅</a></span>
+                                    		<span><a href="/product/list?cat=10000,10300,10316">多用途锅</a></span>
+										</li>
+										<li>
+                                    		<span><a href="/product/list?cat=10000,10300,10317">电烧烤炉</a></span>
+                                    		<span><a href="/product/list?cat=10000,10300,10318">电热饭盒</a></span>
+                                    		<span><a href="/product/list?cat=10000,10300,10319">其它厨房电器</a></span>
+										</li>
+                                </ul>  
+                                <div class="shopping_product_pic"><a href="#"><img src="images/shopping_product.jpg" width="316" height="87"></a></div>
+                            </div>                            
+                        </div>
+                    	</li>
+                		<li class="lt"><a class="hcolor" href="/channel10400.html">个护健康</a>
+                    	<div class="shopping_menu_layer">
+                       	  	<div class="shopping_label_list">
+                            	<ul>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10400,10401">个护健康</a></span>
+                                    		<span><a href="/product/list?cat=10000,10400,10402">剃须刀剃/脱毛器</a></span>
+                                    		<span><a href="/product/list?cat=10000,10400,10403">口腔护理</a></span>
+                                    		<span><a href="/product/list?cat=10000,10400,10404">电吹风</a></span>
+										</li>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10400,10405">美容器</a></span>
+                                    		<span><a href="/product/list?cat=10000,10400,10406">理发器</a></span>
+                                    		<span><a href="/product/list?cat=10000,10400,10407">卷/直发器</a></span>
+                                    		<span><a href="/product/list?cat=10000,10400,10408">按摩椅</a></span>
+										</li>
+										<li>
+                                    		<span><a href="/product/list?cat=10000,10400,10409">按摩器</a></span>
+                               			</li>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10400,10410">足浴盆</a></span>
+                                    		<span><a href="/product/list?cat=10000,10400,10411">血压计</a></span>
+                                    		<span><a href="/product/list?cat=10000,10400,10412">健康秤/厨房秤</a></span>
+										</li>
+                                    	<li>	
+                                    		<span><a href="/product/list?cat=10000,10400,10413">血糖仪</a></span>
+                                    		<span><a href="/product/list?cat=10000,10400,10414">体温计</a></span>
+                               			</li>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10400,10415">计步器/脂肪检测仪</a></span>
+                                    		<span><a href="/product/list?cat=10000,10400,10416">其它健康电器</a></span>
+										</li>
+                                </ul>  
+                                <div class="shopping_product_pic"><a href="#"><img src="images/shopping_product.jpg" width="316" height="87"></a></div>
+                            </div>                            
+                        </div>
+                    	</li>
+                		<li class="lt"><a class="hcolor" href="/channel10500.html">五金家装</a>
+                    	<div class="shopping_menu_layer">
+                       	  	<div class="shopping_label_list">
+                            	<ul>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10500,10501">电动工具</a></span>
+                                    		<span><a href="/product/list?cat=10000,10500,10502">手动工具</a></span>
+                                    		<span><a href="/product/list?cat=10000,10500,10503">仪器仪表</a></span>
+                                    		<span><a href="/product/list?cat=10000,10500,10504">浴霸/排气扇</a></span>
+										</li>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10500,10505">灯具</a></span>
+                                    		<span><a href="/product/list?cat=10000,10500,10506">LED灯</a></span>
+                                    		<span><a href="/product/list?cat=10000,10500,10507">洁身器</a></span>
+                                    		<span><a href="/product/list?cat=10000,10500,10508">水槽</a></span>
+										</li>
+                                    	<li>
+                                    		<span><a href="/product/list?cat=10000,10500,10509">龙头</a></span>
+                               			</li>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10500,10510">淋浴花洒</a></span>
+                                    		<span><a href="/product/list?cat=10000,10500,10511">厨卫五金</a></span>
+                                    		<span><a href="/product/list?cat=10000,10500,10512">家具五金</a></span>
+										</li>
+                                    	<li>
+                                    		<span><a href="/product/list?cat=10000,10500,10513">门铃</a></span>
+                                    		<span><a href="/product/list?cat=10000,10500,10514">电气开关</a></span>
+                               			</li>
+                               			<li>
+                                    		<span><a href="/product/list?cat=10000,10500,10515">插座</a></span>
+                                    		<span><a href="/product/list?cat=10000,10500,10516">电工电料</a></span>
+										</li>
+										<li>
+                                    		<span><a href="/product/list?cat=10000,10500,10517">监控安防</a></span>
+                                    		<span><a href="/product/list?cat=10000,10500,10518">电线/线缆</a></span>
+										</li>
+                                </ul>  
+                                <div class="shopping_product_pic"><a href="#"><img src="images/shopping_product.jpg" width="316" height="87"></a></div>
+                            </div>                            
+                        </div>
+                    	</li>
+                	</ul>
+            </div>
+        			
+<!--图片轮播 begin-->
+            <div class="shopping_packet" id="shopping_packet">
+                <ol class="shopping_num">
+						<li class="active">1</a></li>
+						<li >2</a></li>
+						<li >3</a></li>
+						<li >4</a></li>
+						<li >5</a></li>
+                </ol>
+                <ul class="shopping_img_list">
+						<li style="display:block;"><a href=""><img src="http://img0.wo-de.com/upload/regular/1463374843322.jpg" width="700" height="307" alt="1"/></a></li>
+						<li ><a href=""><img src="http://img0.wo-de.com/upload/regular/1463374855257.jpg" width="700" height="307" alt="2"/></a></li>
+						<li ><a href=""><img src="http://img0.wo-de.com/upload/regular/1463374869306.jpg" width="700" height="307" alt="3"/></a></li>
+						<li ><a href=""><img src="http://img0.wo-de.com/upload/regular/1463374881725.jpg" width="700" height="307" alt="4"/></a></li>
+						<li ><a href=""><img src="http://img0.wo-de.com/upload/regular/1463374895642.jpg" width="700" height="307" alt="5"/></a></li>
+                </ul>
+            </div>
+            <!--图片轮播 end-->
+            
+            <!--左右按钮图片滚动 begin-->
+                      <div class="shopping_showpro">
+            	<h2>品牌街</h2>
+            	<div class="img-scroll">
+                    <span class="prev" ></span>
+                    <span class="next" ></span>
+                    <div class="img-list" id="ISL_Cont">
+                    	<div class="ScrCont">
+                        <ul id="List1">
+                            <li><a href="http://www.wd-w.com/shop/88336407267003" target="_blank"><img src="newimg/lg01.jpg" width="139" height="121"></a></li>
+                            <li><a href="http://www.wd-w.com/shop/91213165626714" target="_blank"><img src="newimg/lg02.jpg" width="139" height="121"></a></li>
+                            <li><a href="#" target="_blank"><img src="newimg/lg03.jpg" width="139" height="121"></a></li>
+                            <li><a href="#" target="_blank"><img src="newimg/lg04.jpg" width="139" height="121"></a></li>
+                            <li><a href="#" target="_blank"><img src="newimg/lg05.jpg" width="139" height="121"></a></li>
+                            <li><a href="#" target="_blank"><img src="newimg/lg06.jpg" width="139" height="121"></a></li>
+                        </ul>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--左右图片滚动 end-->
+        </div>
+        <div class="shopping_product_right">
+        	<h2>热销排行榜</h2>
+            <div class="shopping_pro_list">
+            	<ul>
+                    <li class="surr"><a href="">今日特价</a></li>
+                    <li ><a href="">人气明星</a></li>
+                    <li ><a href="">智能家电</a></li>
+                </ul>
+            </div>
+
+            <!--hot_sales_1 begin-->
+            <ul class="shopping_hotpro" style="display:block;">
+            	<li>
+                	<div class="
+						num nred	
+					">1</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="/91623686538812.html"><img src="http://img0.wo-de.com/upload/regular/1463375319667.jpg" width="49" height="58" alt="联想(LENOVO)G510AM 15.6英寸笔记本电脑"></a>
+                        <p>联想(LENOVO)G510AM 15.6英寸笔记本电脑</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+            	<li>
+                	<div class="
+						num npink
+					">2</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="/91481923585680.html"><img src="http://img0.wo-de.com/upload/regular/1463375427940.png" width="49" height="58" alt="苹果（Apple）MacBook Pro MF840CH/A 13.3英寸宽屏笔记本电脑 256GB 闪存33"></a>
+                        <p>苹果（Apple）MacBook Pro MF840CH/A 13.3英寸宽屏笔记本电脑 256GB 闪存33</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+            	<li>
+                	<div class="
+						num nlightred
+					">3</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="/107926777824835.html"><img src="http://img0.wo-de.com/upload/regular/1463375518104.jpg" width="49" height="58" alt="联想(Lenovo)M4450A 14英寸笔记本电脑（A10-5750M 4G1T 2G独显 红色） 红色"></a>
+                        <p>联想(Lenovo)M4450A 14英寸笔记本电脑（A10-5750M 4G1T 2G独显 红色） 红色</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+            	<li>
+                	<div class="
+						num ngray
+					">4</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="/91637703214705.html"><img src="http://img0.wo-de.com/upload/regular/1463375561446.jpg" width="49" height="58" alt="联想（Lenovo）Y430p 14.0英寸笔记本电脑（i5-4210M 4G 1T GTX850M 2G独显 全高清屏FHD win8）黑色"></a>
+                        <p>联想（Lenovo）Y430p 14.0英寸笔记本电脑（i5-4210M 4G 1T GTX850M 2G独显 全高清屏FHD win8）黑色</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+            	<li>
+                	<div class="
+						num ngray
+					">5</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="/96578110424670.html"><img src="http://img0.wo-de.com/upload/regular/1463375611382.jpg" width="49" height="58" alt="三星 Galaxy S6（G9200）32G版 雪晶白 移动联通电信4G手机 双卡双待"></a>
+                        <p>三星 Galaxy S6（G9200）32G版 雪晶白 移动联通电信4G手机 双卡双待</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+            </ul>
+            <!--hot_sales_1 end-->
+            
+            <!--hot_sales_2 begin-->
+            <ul class="shopping_hotpro">
+            	<li>
+                	<div class="
+						num nred	
+					">1</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="/91430502630741.html"><img src="http://img0.wo-de.com/upload/regular/1463375649551.jpg" width="49" height="58" alt="小米 红米Note 电信合约版 陶瓷白 电信4G手机 双卡双待 不含合约计划"></a>
+                        <p>小米 红米Note 电信合约版 陶瓷白 电信4G手机 双卡双待 不含合约计划</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+            </ul>
+            <!--hot_sales_2 end-->
+            
+            <!--hot_sales_3 begin-->
+            <ul class="shopping_hotpro">
+            	<li>
+                	<div class="
+						num nred	
+					">1</div>
+                    <div class="shopping_hotinfo">
+                    	<a href="/91304505640703.html"><img src="http://img0.wo-de.com/upload/regular/1463375690609.jpg" width="49" height="58" alt="苹果（Apple）iPhone 6 (A1586) 16GB 金色 移动联通电信4G手机"></a>
+                        <p>苹果（Apple）iPhone 6 (A1586) 16GB 金色 移动联通电信4G手机</p>
+                        <strong>¥3699.00</strong>
+                    </div>
+                </li>
+            </ul>
+            <!--hot_sales_3 end-->
+        </div>
+    </div>
+    
+    <!--1F begin-->
+    <div class="shopping_if">
+    	<div class="shopping_if_title">
+        	<h2><span>1F</span>&nbsp;大家电</h2>
+            <ul class="shoppingif_r_list">
+						<li><a href="">冰箱</a>
+								<em>|</em>
+						</li>
+						<li><a href="">洗衣机</a>
+						</li>
+						<p class="more"><a href="">更多</a></p>
+            </ul>            
+        </div>
+        <div class="shopping_wrap">
+        	<div class="shopping_info"> 
+                <div class="shopping_info_list">
+                	<ul>
+                    		<li>
+                    			<span><a href="">平板电视</a></span>
+										<span><a href="">空调</a></span>	
+                       		 </li>
+                    		<li>
+                    			<span><a href="">冰箱</a></span>
+										<span><a href="">洗衣机</a></span>	
+                       		 </li>
+                    		<li>
+                    			<span><a href="">热水器</a></span>
+										<span><a href="">家庭影院</a></span>	
+                       		 </li>
+                    </ul>
+                </div>
+					<div class="shopping_info_img"><img src="http://img0.wo-de.com/upload/regular/1463375832240.jpg" width="203" height="204" alt="1"></div>
+            </div>
+            <div class="shopping_list_wrap">
+            	<div class="shopping_list">
+                	<ul>
+								<li>
+									
+                        			<a href="/114264170005591.html"><img src="http://img0.wo-de.com/upload/regular/1463376084965.jpg" width="104" height="104" alt="容声(Ronshen) 439WKK1FYM 439升 多门冰箱(金属色)"></a>
+                           			<p class="p3"><a href="/107782529418451.html">Haier海尔 48L 卡萨帝系列 单门半导体冷藏冰箱 DCA-48C 红色</a></p>                            		
+			                		<p class="p1"><span>内购价：￥799</span><em>4.5折</em></p>
+			                		<p  class="p2">电商价：￥899</p>
+                       			 </li>
+								<li>
+									<div class="picon"><img src="images/picon1.png" /></div>
+                        			<a href="/107782529418451.html"><img src="http://img0.wo-de.com/upload/regular/1463376119574.jpg" width="104" height="104" alt="Haier海尔 48L 卡萨帝系列 单门半导体冷藏冰箱 DCA-48C 红色"></a>
+                           			<p class="p3"><a href="/107782529418451.html">Haier海尔 48L 卡萨帝系列 单门半导体冷藏冰箱 DCA-48C 红色</a></p>                            		
+			                		<p class="p1"><span>内购价：￥799</span><em>4.5折</em></p>
+			                		<p  class="p2">电商价：￥899</p>
+                            		
+                       			 </li>
+								<li>
+                        			<a href="/96929373717663.html"><img src="http://img0.wo-de.com/upload/regular/1463376163227.jpg" width="104" height="104" alt="容声(Ronshen) BCD-378WPMB 378升 多门冰箱(黑色)"></a>
+                           			<p><a href="/96929373717663.html">容声(Ronshen) BCD-378WPMB 378升 多门冰箱(黑色)</a></p>
+                            		<strong>¥ 2949</strong>
+                       			 </li>
+								<li>
+                        			<a href="/94296982422900.html"><img src="http://img0.wo-de.com/upload/regular/1463376205631.jpg" width="104" height="104" alt="容声冷柜BD/BC-100N"></a>
+                           			<p><a href="/94296982422900.html">容声冷柜BD/BC-100N</a></p>
+                            		<strong>¥ 2949</strong>
+                       			 </li>
+								<li>
+                        			<a href="/117219913172692.html"><img src="http://img0.wo-de.com/upload/regular/1463376292759.jpg" width="104" height="104" alt="华为 HUAWEI MediaPad M1 8.0英寸平板电脑（3G+WLAN16GB版）"></a>
+                           			<p><a href="/117219913172692.html">华为 HUAWEI MediaPad M1 8.0英寸平板电脑（3G+WLAN16GB版）</a></p>
+                            		<strong>¥ 2949</strong>
+                       			 </li>
+								<li>
+                        			<a href="/88386360870704.html"><img src="http://img0.wo-de.com/upload/regular/1463376344302.png" width="104" height="104" alt="苹果(Apple) iPhone 5s (A1530) 16GB 金色 移动联通4G手机"></a>
+                           			<p><a href="/88386360870704.html">苹果(Apple) iPhone 5s (A1530) 16GB 金色 移动联通4G手机</a></p>
+                            		<strong>¥ 2949</strong>
+                       			 </li>
+								<li>
+                        			<a href="/108480880412414.html"><img src="http://img0.wo-de.com/upload/regular/1463376411484.jpg" width="104" height="104" alt="戴尔（DELL）游匣Ins14P-1848R 灵越14英寸笔记本电脑（i7-4710HQ 8G 1T+8G 1080p GTX850M 4G独显 Win8）红"></a>
+                           			<p><a href="/108480880412414.html">戴尔（DELL）游匣Ins14P-1848R 灵越14英寸笔记本电脑（i7-4710HQ 8G 1T+8G 1080p GTX850M 4G独显 Win8）红</a></p>
+                            		<strong>¥ 2949</strong>
+                       			 </li>
+								<li>
+                        			<a href="/117199911749290.html"><img src="http://img0.wo-de.com/upload/regular/1463376493222.jpg" width="104" height="104" alt="华为荣耀6 Plus （Pine-TL10）移动/联通双4G版（黑色） 32GB机身存储"></a>
+                           			<p><a href="/117199911749290.html">华为荣耀6 Plus （Pine-TL10）移动/联通双4G版（黑色） 32GB机身存储</a></p>
+                            		<strong>¥ 2949</strong>
+                       			 </li>
+								<li>
+                        			<a href="/116743815071271.html"><img src="http://img0.wo-de.com/upload/regular/1463376551355.jpg" width="104" height="104" alt="小米 4 移动合约版 白色 移动4G手机 不含合约计划"></a>
+                           			<p><a href="/116743815071271.html">小米 4 移动合约版 白色 移动4G手机 不含合约计划</a></p>
+                            		<strong>¥ 2949</strong>
+                       			 </li>
+								<li>
+                        			<a href="/88368255370993.html"><img src="http://img0.wo-de.com/upload/regular/1463376599645.png" width="104" height="104" alt="苹果（Apple）iPhone 6 Plus (A1524) 16GB 金色 移动联通电信4G手机"></a>
+                           			<p><a href="/88368255370993.html">苹果（Apple）iPhone 6 Plus (A1524) 16GB 金色 移动联通电信4G手机</a></p>
+                            		<strong>¥ 2949</strong>
+                       			 </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--1F end-->
+    
+    <!--2F begin-->
+   
+    <!--2F end-->
+    
+    <!--3F begin-->
+    
+    <!--3F end-->
+    
+    <!--4F begin-->
+    
+    <!--4F end-->
+    
+    <!--5F begin-->    
+    
+    <!--5F end-->
+    
+    <!--6F begin-->
+    
+    <!--6F end-->
+    
+</div>
+<!--content end-->
+<!--footer begin-->
+<link rel="stylesheet" href="/css/global.css" type="text/css"/>
+
+<div id="footer">
+	<div class="footer_box">
+    	<ul class="footer_list">
+             <li><a href="http://www.wo-de.com/about.html" target="_blank">关于我的</a></li>
+            <li><a href="http://www.wd-w.com/help-center.html?from=lxwm" target="_blank">联系我的</a></li>
+            <li><a href="http://www.wo-de.com/index.html" target="_blank">友情链接</a></li>
+            <li><a href="http://www.wo-de.com/about.html" target="_blank">人才招聘</a></li>
+            <li><a href="http://www.wd-w.com/help-center.html" target="_blank">帮助中心</a></li>
+            <li><a href="http://supplier.wd-w.com/" target="_blank">商家平台</a></li>
+            <li><a href="http://www.wd-w.com/app.html" target="_blank">掌上生活</a></li>
+            <li><a href="http://www.wd-w.com/legal-notice.html" target="_blank">法律申明</a></li>
+            <li><a href="http://www.wd-w.com/feedback.html" target="_blank">用户反馈</a></li>
+            <li><a href="http://www.wd-w.com/union_rules.html" target="_blank">平台交易规则</a></li>
+        </ul>
+        <div class="foter">
+        	<span>京ICP证150591号</span>              
+            <span><a href="http://www.miitbeian.gov.cn/"  target="_blank">京ICP备14054543号-1</a></span>  
+            <span>京公网安备11010802017481号</span>            
+            <span>我的旗下网站：我的团  我的美  我的码 我的快递</span>
+        </div>
+        <div class="foter">
+            <span>北京我的科技有限公司</span>
+        	<span>地址：北京市朝阳区来广营诚盈中心5号楼1601</span>
+        	<span>电话：010-57746487</span>
+	        <ul class="footer_info">
+	        	<li><a href="#">经营性网站<br>备案信息</a></li>
+	            <li><a href="#">可信网站<br>信用评价</a></li>
+	            <li><a href="#">朝阳区网络<br>警察提醒您</a></li>
+	            <li><a style="line-height:38px;" href="#">诚信网站</a></li>
+	        </ul>
+        </div>
+    </div>
+    <div class="floatwrap">
+		<a href="javascript:" class="cd-top"></a>
+		<a href="feedback.html" target="_blank" class="cd-help"></a>
+		<a href="http://www.wd-w.com/apk/MyO2O.apk" class="cd-app"><span class="toolbar-layer"></span></a>
+	</div>
+</div><!--footer end-->
+<script type="text/javascript">
+//带按钮的图片左右滚动效果
+
+$(".img-scroll").slide({
+	titCell:"",
+	mainCell:".img-list ul",
+	autoPage:true,
+	effect:"leftLoop",
+	autoPlay:true,
+	delayTime:3000,
+	interTime:8000,
+	vis:6,
+	scroll:6
+});
+</script>
+<script type="text/javascript" src="/resources/js/top_ewm.js"></script>
+</body>
+</html>

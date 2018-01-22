@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.EntBenefitFlowDao">
+
+    <resultMap id="EntBenefitFlow" type="com.wode.factory.model.EntBenefitFlow">
+        <result property="id" column="id"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="opDate" column="op_date"/>
+        <result property="opCode" column="op_code"/>
+        <result property="ticket" column="ticket"/>
+        <result property="ticketBalance" column="ticket_balance"/>
+        <result property="cash" column="cash"/>
+        <result property="cashBalance" column="cash_balance"/>
+        <result property="note" column="note"/>
+        <result property="keyId" column="key_id"/>
+        <result property="userName" column="user_name"/>
+    </resultMap>
+
+    <resultMap id="entBenefitFlowVo" type="com.wode.factory.vo.EntBenefitFlowVo">
+        <result property="id" column="id"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="opDate" column="op_date"/>
+        <result property="opCode" column="op_code"/>
+        <result property="ticket" column="ticket"/>
+        <result property="ticketBalance" column="ticket_balance"/>
+        <result property="cash" column="cash"/>
+        <result property="cashBalance" column="cash_balance"/>
+        <result property="note" column="note"/>
+        <result property="keyId" column="key_id"/>
+        <result property="userName" column="user_name"/> 
+        
+        <result property="supplierName" column="supplierName"/> 
+        <result property="financeCode" column="financeCode"/> 
+        <result property="transferType" column="transferType"/> 
+        <result property="tradeNo" column="tradeNo"/> 
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,enterprise_id,op_date,op_code,ticket,ticket_balance,cash,cash_balance,note,key_id,user_name
+        ]]>
+    </sql>
+    
+    <select id="getById" resultMap="EntBenefitFlow">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_ent_benefit_flow 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+	<select id="findList" resultMap="entBenefitFlowVo">
+		SELECT flow.*,s.com_name supplierName,sd.finance_code financeCode,
+		CASE WHEN flow.op_code = 112 THEN pay.trade_no WHEN flow.op_code = 116 OR flow.op_code = 117 OR flow.op_code = 120 THEN key_id WHEN flow.op_code = 123 THEN st.pay_flow_code ELSE '' END tradeNo,
+		CASE WHEN flow.op_code = 112 THEN pay.way WHEN flow.op_code = 123 THEN CASE sd.account_type WHEN 0 THEN 'unionpay' WHEN 1 THEN 'zhifubao' ELSE '' END ELSE 'pingtaiyue' END transferType
+		FROM t_ent_benefit_flow flow
+		INNER JOIN t_supplier s ON (s.id=flow.enterprise_id)
+		INNER JOIN t_supplier_duration sd ON (sd.supplierId=flow.enterprise_id)
+		LEFT JOIN t_payment pay ON (pay.orderId=flow.id AND pay.status=2)
+		LEFT JOIN t_supplier_transfer st ON (st.supplier_id=flow.enterprise_id AND st.id=flow.key_id AND st.`status`=3)
+        <where>
+        	<![CDATA[
+			flow.op_code NOT IN (100,101,102,110,118,119) AND flow.cash >0
+		      AND s.id <> 88550328206355 AND s.id <> 700321969341826
+       		]]>
+           <if test="@Ognl@isNotEmpty(financeCode)">
+                AND sd.finance_code = #{financeCode}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND s.id = #{supplierId}
+            </if>
+            <if test="@Ognl@isNotEmpty(opCode)">
+				AND FIND_IN_SET(flow.op_code,#{opCode})
+             </if>
+	       <if test="@Ognl@isNotEmpty(startDate)">
+				AND flow.op_date >= #{startDate}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(endDate)">
+				AND flow.op_date &lt;= #{endDate}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(cashBegin)">
+				AND flow.cash >= #{cashBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(cashEnd)">
+				AND flow.cash &lt;= #{cashEnd}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(id)">
+				AND flow.id =#{id}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(transferType)">
+				AND CASE WHEN flow.op_code = 112 THEN pay.way WHEN flow.op_code = 123 THEN CASE sd.account_type WHEN 0 THEN 'unionpay' WHEN 1 THEN 'zhifubao' ELSE '' END ELSE 'pingtaiyue' END =#{transferType}
+		   </if>
+		</where>
+		ORDER BY flow.op_date DESC
+    </select>
+    
+    <select id="selectByModel" resultMap="EntBenefitFlow">
+        SELECT <include refid="columns" /> FROM t_ent_benefit_flow 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(enterpriseId)">
+                AND enterprise_id = #{enterpriseId}
+            </if>
+           <if test="@Ognl@isNotEmpty(opDate)">
+                AND op_date = #{opDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(opCode)">
+                AND op_code = #{opCode}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticket)">
+                AND ticket = #{ticket}
+            </if>
+           <if test="@Ognl@isNotEmpty(ticketBalance)">
+                AND ticket_balance = #{ticketBalance}
+            </if>
+           <if test="@Ognl@isNotEmpty(cash)">
+                AND cash = #{cash}
+            </if>
+           <if test="@Ognl@isNotEmpty(cashBalance)">
+                AND cash_balance = #{cashBalance}
+            </if>
+           <if test="@Ognl@isNotEmpty(note)">
+                AND note = #{note}
+            </if>
+           <if test="@Ognl@isNotEmpty(keyId)">
+                AND key_id = #{keyId}
+            </if>
+           <if test="@Ognl@isNotEmpty(userName)">
+                AND user_name = #{userName}
+            </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="com.wode.factory.model.EntBenefitFlow" >
+    insert into t_ent_benefit_flow (id, enterprise_id, op_date, 
+      op_code, ticket, ticket_balance, 
+      cash, cash_balance, note, 
+      key_id, user_name)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{opDate,jdbcType=TIMESTAMP}, 
+      #{opCode,jdbcType=CHAR}, #{ticket,jdbcType=DECIMAL}, #{ticketBalance,jdbcType=DECIMAL}, 
+      #{cash,jdbcType=DECIMAL}, #{cashBalance,jdbcType=DECIMAL}, #{note,jdbcType=VARCHAR}, 
+      #{keyId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR})
+  	</insert>
+</mapper>
+

@@ -1,0 +1,58 @@
+<div class="tabbable" id="refresh">
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active">
+		<a data-toggle="tab" href="#area_home"> 
+			<i class="green ace-icon fa fa-users bigger-120"></i>省市缓存
+		</a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="area_home" class="tab-pane active clearfix">
+				
+				<div class="row padding-tb-10">
+					<div class="padding-trb-10 col-sm-12">
+						<span class="btn  btn-primary btn-sm col-sm-12" id="area_redis">开始缓存</span>
+					</div>
+				</div>
+				
+				
+			
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(function(){
+	
+	$("#area_redis").click(function(){
+		var $target = $("#refresh");
+		var spinner;
+		$.ajax({
+			dataType:'json',
+			type:'GET',
+			url:'${ctxPath}/factoryArea/saveToRedis',
+			async: true,
+			beforeSend : function(){
+				spinner = new Spinner({color: '#3d9bce',width:20,radius:20}).spin($target[0]);
+			},
+			success:function(data){
+				//关闭spinner  
+                spinner.spin();
+				if(data){
+					layer.msg('缓存成功', 3, 1,function(){
+						location.reload();
+						layer.closeAll();
+					});
+				}else{
+					layer.msg('缓存失败', 3, 5,function(){
+						location.reload();
+						layer.closeAll();
+					});
+				}
+			}
+		});
+		
+	});
+	 
+})
+</script>

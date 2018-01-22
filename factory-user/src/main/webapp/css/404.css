@@ -1,0 +1,9 @@
+@charset "utf-8";
+/* CSS Document */
+body{background:#fff;}
+.errorwrap{width:85%;margin:0 auto;margin-top:50px;background:url(../images/cry.jpg) no-repeat center 0;}
+.errorwrap1{background:url(../images/cry.jpg) no-repeat center 30px;}
+.errorwrap .errortext {line-height: 22px;color: #434343;padding-top:120px;}
+.errorwrap .errortitle {font: bold 1.5em/28px "Microsoft YaHei";}
+.errred{color:#ff0000;}
+.errortext a{color:#2b8dff}

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="StoreCategoryMapper">
+
+    <resultMap id="StoreCategory" type="com.wode.factory.model.StoreCategory">
+        <id property="id" column="id"/>
+        <result property="orders" column="orders"/>
+        <result property="grade" column="grade"/>
+        <result property="name" column="name"/>
+        <result property="parent" column="parent"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="createDate" column="createDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="isExpanding" column="is_expanding"/>
+    </resultMap>
+    <!--<resultMap id="StoreCategories" type="com.wode.factory.model.StoreCategory">
+        <id property="id" column="id"/>
+        <result property="orders" column="orders"/>
+        <result property="grade" column="grade"/>
+        <result property="name" column="name"/>
+        <result property="parent" column="parent"/>
+        <collection property="children" ofType="com.wode.factory.model.StoreCategory">
+            <id property="id" column="c_id"/>
+            <result property="name" column="c_name"/>
+            <result property="parent" column="c_parent"/>
+            <result property="orders" column="c_order"/>
+        </collection>
+    </resultMap>-->
+    <resultMap id="StoreCategories" type="com.wode.factory.model.StoreCategory">
+        <id property="id" column="id"/>
+        <result property="orders" column="orders"/>
+        <result property="grade" column="grade"/>
+        <result property="name" column="name"/>
+        <result property="parent" column="parent"/>
+        <result property="isExpanding" column="is_expanding"/>
+        <collection property="children" column="id" ofType="com.wode.factory.model.StoreCategory" select="selectChildren"/>
+    </resultMap>
+    <resultMap id="Product" type="com.wode.factory.model.Product">
+        <id property="id" column="id"/>
+        <result property="partnumber" column="partnumber"/>
+        <result property="fullName" column="full_name"/>
+        <result property="name" column="name"/>
+        <result property="minprice" column="minprice"/>
+        <result property="maxprice" column="maxprice"/>
+        <result property="createDate" column="createDate"/>
+        <result property="status" column="status"/>
+        <result property="isMarketable" column="is_marketable"/>
+        <result property="image" column="image"/>
+        <result property="saleKbn" column="sale_kbn"/>
+        <collection property="storeCategories" column="id" ofType="com.wode.factory.model.StoreCategory" select="selectStoreCategories"/>
+    </resultMap>
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+	    <![CDATA[
+		id,orders,grade,name,parent,supplierId,createDate,updateDate,is_expanding
+        ]]>
+	</sql>
+    <select id="getProductsBySupplier" resultMap="Product">
+
+        SELECT id, partnumber, full_name fullName, name, minprice, maxprice, createDate, status, image, is_marketable,sale_kbn FROM t_product WHERE supplier_id = #{supplierId} AND is_marketable > -10
+            <if test="@Ognl@isNotEmpty(name)">
+                AND name like '%${name}%'
+            </if>
+            <if test="isMarketable != null &amp;&amp; isMarketable == true ">
+                AND is_marketable = 1
+            </if>
+            <if test="isMarketable != null &amp;&amp; isMarketable == false">
+                AND is_marketable in (-1,-2)
+            </if>
+            <if test="@Ognl@isNotEmpty(minprice)">
+                AND minprice >= #{minprice}
+            </if>
+            <if test="@Ognl@isNotEmpty(maxprice)">
+        <![CDATA[AND maxprice <= #{maxprice}]]>
+            </if>
+
+    </select>
+
+    <delete id="deleteProductStoreCategory">
+        DELETE FROM t_product_store_category WHERE product_id = #{id} AND supplier_id = #{supplierId}
+    </delete>
+
+    <insert id="addProductStoreCategory" useGeneratedKeys="true" keyProperty="id">
+        INSERT  INTO t_product_store_category(id,product_id,store_category_id,supplier_id) VALUES (#{id},#{productId},#{storeCategoryId},#{supplierId})
+    </insert>
+
+    <select id="getProductsByStoreCategory" resultMap="Product">
+
+        SELECT tp.id, tp.partnumber, tp.full_name fullName, tp.name, tp.minprice, tp.maxprice, tp.createDate, tp.status, tp.image, tp.is_marketable,tp.sale_kbn FROM t_product tp LEFT JOIN t_product_store_category tpsc  ON tp.id = tpsc.product_id
+        WHERE  tp.is_marketable > -10 AND tp.supplier_id = #{supplierId}
+                <if test="id == null">
+                    AND tpsc.store_category_id is NULL
+                </if>
+            <if test="@Ognl@isNotEmpty(id)">
+               AND tpsc.store_category_id = #{id}
+    </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                AND tp.name like '%${name}%'
+            </if>
+            <if test="isMarketable != null &amp;&amp; isMarketable == true ">
+                AND is_marketable = 1
+            </if>
+            <if test="isMarketable != null &amp;&amp; isMarketable == false">
+                AND is_marketable in (-1,-2)
+            </if>
+            <if test="@Ognl@isNotEmpty(minprice)">
+                AND tp.minprice >= #{minprice}
+            </if>
+            <if test="@Ognl@isNotEmpty(maxprice)">
+            <![CDATA[AND tp.maxprice <= #{maxprice} ]]>
+            </if>
+
+    </select>
+
+    <select id="selectStoreCategories" resultType="com.wode.factory.model.StoreCategory">
+        SELECT tc.id id, tc.name name from t_store_category tc RIGHT JOIN ( SELECT  * FROM t_product_store_category WHERE product_id = #{id}) tpsc on tc.id = tpsc.store_category_id
+    </select>
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+        INSERT INTO t_store_category (
+        	id ,
+        	orders ,
+        	grade ,
+        	name ,
+        	parent ,
+        	supplierId ,
+        	createDate ,
+        	updateDate
+        ) VALUES (
+        	#{id} ,
+        	#{orders} ,
+        	#{grade} ,
+        	#{name} ,
+        	#{parent} ,
+        	#{supplierId} ,
+        	#{createDate} ,
+        	#{updateDate} 
+        )
+    ]]>
+        <!--
+            oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL
+            DB2: order="BEFORE"" values nextval for sequenceName
+        <selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+            SELECT sequenceName.nextval AS ID FROM DUAL
+        </selectKey>
+        -->
+    </insert>
+
+    <update id="update">
+    <![CDATA[
+
+        UPDATE t_store_category SET
+	        orders = #{orders} ,
+	        grade = #{grade} ,
+	        name = #{name} ,
+	        parent = #{parent} ,
+	        supplierId = #{supplierId} ,
+	        createDate = #{createDate} ,
+	        updateDate = #{updateDate} ,
+	        is_expanding = #{isExpanding}
+        WHERE 
+	        id = #{id} 
+
+        ]]>
+	</update>
+
+    <!--<select id="checkProducts" resultType="long">
+        SELECT count(cat.id) FROM t_product_store_category psc LEFT JOIN t_store_category cat ON psc.store_category_id = cat.id RIGHT join  t_product pro on pro.id = psc.product_id WHERE cat.id=#{id} or cat.parent=#{id}
+    </select>-->
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_store_category WHERE
+        id = #{id} 
+
+        ]]>
+    </delete>
+
+    <delete id="deleteRelationships">
+        DELETE FROM  t_product_store_category WHERE store_category_id in (SELECT id from t_store_category where id = #{id} or parent=#{id})
+    </delete>
+    <delete id="deleteIncludeChildren">
+        DELETE FROM  t_store_category WHERE id = #{id} OR parent = #{id}
+    </delete>
+
+    <select id="getById" resultMap="StoreCategory">
+        SELECT
+        <include refid="columns"/>
+        <![CDATA[
+		    FROM t_store_category 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+    </select>
+
+    <select id="findPage_count" resultType="long">
+        SELECT count(1) FROM t_store_category WHERE parent IS NULL
+        <include refid="findPage_where"/>
+    </select>
+
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="StoreCategories">
+        SELECT id id, orders orders, grade grade, name name,is_expanding
+        FROM t_store_category WHERE parent IS NULL
+        <include refid="findPage_where"/>
+        <if test="@Ognl@isNotEmpty(sortColumns)">
+            ORDER BY ${sortColumns}
+        </if>
+    </select>
+
+    <!-- 根据id查询其子类别 -->
+    <select id="selectChildren" resultMap="StoreCategory">
+        select id, name, parent, orders from t_store_category WHERE parent = #{id}
+    </select>
+
+    <sql id="findPage_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="@Ognl@isNotEmpty(id)">
+            AND id = #{id}
+        </if>
+        <if test="@Ognl@isNotEmpty(orders)">
+            AND orders = #{orders}
+        </if>
+        <if test="@Ognl@isNotEmpty(grade)">
+            AND grade = #{grade}
+        </if>
+        <if test="@Ognl@isNotEmpty(name)">
+            AND name = #{name}
+        </if>
+        <if test="@Ognl@isNotEmpty(parent)">
+            AND parent = #{parent}
+        </if>
+        <if test="@Ognl@isNotEmpty(supplierId)">
+            AND supplierId = #{supplierId}
+        </if>
+        <if test="@Ognl@isNotEmpty(createDateBegin)">
+            AND createDate >= #{createDateBegin}
+        </if>
+        <if test="@Ognl@isNotEmpty(createDateEnd)">
+            AND createDate &lt;= #{createDateEnd}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateDateBegin)">
+            AND updateDate >= #{updateDateBegin}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateDateEnd)">
+            AND updateDate &lt;= #{updateDateEnd}
+        </if>
+    </sql>
+    <select id="findAllBymap" resultMap="StoreCategories">
+        SELECT id id, orders orders, grade grade, name name,parent parent
+        FROM t_store_category
+        where 1=1
+        <include refid="findPage_where"/>
+        <if test="@Ognl@isNotEmpty(sortColumns)">
+            ORDER BY ${sortColumns}
+        </if>
+    </select>
+
+</mapper>
+

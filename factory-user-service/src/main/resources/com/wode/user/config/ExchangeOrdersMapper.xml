@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ExchangeOrdersMapper">
+
+    <resultMap id="ExchangeOrders" type="com.wode.factory.model.ExchangeOrders">
+        <result property="orderId" column="orderId"/>
+        <result property="userId" column="userId"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="mobile" column="mobile"/>
+        <result property="address" column="address"/>
+        <result property="totalProduct" column="totalProduct"/>
+        <result property="totalShipping" column="totalShipping"/>
+        <result property="totalAdjustment" column="totalAdjustment"/>
+        <result property="realPrice" column="realPrice"/>
+        <result property="status" column="status"/>
+        <result property="invoiceTitle" column="invoiceTitle"/>
+        <result property="note" column="note"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="selfDelivery" column="self_delivery"/>
+        <result property="aid" column="aid"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        orderId,userId,name,phone,mobile,address,totalProduct,totalShipping,totalAdjustment,realPrice,status,invoiceTitle,note,createTime,updateTime,updateBy,self_delivery,aid
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_exchange_orders (
+            orderId ,
+            userId ,
+            name ,
+            phone ,
+            mobile ,
+            address ,
+            totalProduct ,
+            totalShipping ,
+            totalAdjustment ,
+            realPrice ,
+            status ,
+            invoiceTitle ,
+            note ,
+            createTime ,
+            updateTime ,
+            updateBy ,
+            self_delivery,
+            aid
+        ) VALUES (
+            #{orderId} ,
+            #{userId} ,
+            #{name} ,
+            #{phone} ,
+            #{mobile} ,
+            #{address} ,
+            #{totalProduct} ,
+            #{totalShipping} ,
+            #{totalAdjustment} ,
+            #{realPrice} ,
+            #{status} ,
+            #{invoiceTitle} ,
+            #{note} ,
+            #{createTime} ,
+            #{updateTime} ,
+            #{updateBy} ,
+            #{selfDelivery},
+            #{aid}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_exchange_orders SET 
+            userId = #{userId} ,
+            name = #{name} ,
+            phone = #{phone} ,
+            mobile = #{mobile} ,
+            address = #{address} ,
+            totalProduct = #{totalProduct} ,
+            totalShipping = #{totalShipping} ,
+            totalAdjustment = #{totalAdjustment} ,
+            realPrice = #{realPrice} ,
+            status = #{status} ,
+            invoiceTitle = #{invoiceTitle} ,
+            note = #{note} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} ,
+            updateBy = #{updateBy} ,
+            self_delivery = #{selfDelivery} 
+        WHERE 
+           orderId = #{orderId}
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_exchange_orders WHERE
+        orderId = #{orderId}
+    ]]>
+    </delete>
+    <select id="getById" resultMap="ExchangeOrders">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_exchange_orders 
+            WHERE 
+                orderId = #{orderId} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="ExchangeOrders">
+        SELECT <include refid="columns" /> FROM t_exchange_orders 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(orderId)">
+                AND orderId = #{orderId}
+            </if>
+           <if test="@Ognl@isNotEmpty(userId)">
+                AND userId = #{userId}
+            </if>
+           <if test="@Ognl@isNotEmpty(name)">
+                AND name = #{name}
+            </if>
+           <if test="@Ognl@isNotEmpty(phone)">
+                AND phone = #{phone}
+            </if>
+           <if test="@Ognl@isNotEmpty(mobile)">
+                AND mobile = #{mobile}
+            </if>
+           <if test="@Ognl@isNotEmpty(address)">
+                AND address = #{address}
+            </if>
+           <if test="@Ognl@isNotEmpty(totalProduct)">
+                AND totalProduct = #{totalProduct}
+            </if>
+           <if test="@Ognl@isNotEmpty(totalShipping)">
+                AND totalShipping = #{totalShipping}
+            </if>
+           <if test="@Ognl@isNotEmpty(totalAdjustment)">
+                AND totalAdjustment = #{totalAdjustment}
+            </if>
+           <if test="@Ognl@isNotEmpty(realPrice)">
+                AND realPrice = #{realPrice}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(invoiceTitle)">
+                AND invoiceTitle = #{invoiceTitle}
+            </if>
+           <if test="@Ognl@isNotEmpty(note)">
+                AND note = #{note}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND createTime = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND updateTime = #{updateTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateBy)">
+                AND updateBy = #{updateBy}
+            </if>
+           <if test="@Ognl@isNotEmpty(selfDelivery)">
+                AND self_delivery = #{selfDelivery}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

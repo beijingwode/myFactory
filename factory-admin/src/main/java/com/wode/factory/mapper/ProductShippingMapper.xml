@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wode.factory.mapper.ProductShippingMapper" >
+  <resultMap id="BaseResultMap" type="com.wode.factory.model.ProductShipping" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="template_id" property="templateId" jdbcType="BIGINT" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, product_id, template_id
+  </sql>
+  
+   <select id="getByProductId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_product_shipping
+    where product_id = #{productId,jdbcType=BIGINT}
+  </select>
+  
+  <insert id="insert" parameterType="com.wode.factory.model.ProductShipping" >
+    insert into t_product_shipping (id, product_id, template_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT}, #{templateId,jdbcType=BIGINT}
+      )
+  </insert>
+  
+  <delete id="deleteById">
+    <![CDATA[
+        DELETE FROM t_product_shipping WHERE
+        id = #{id} 
+    ]]>
+  </delete>
+    
+  </mapper>

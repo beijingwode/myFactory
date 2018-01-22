@@ -1,0 +1,97 @@
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, iframe,h1, h2, h3, h4, h5, h6,p,pre,a,del, em, font, ins, q, s, samp,dl, dt, dd, ol, ul, li, form,label, legend, caption,textarea, tbody{ margin:0; padding:0; }
+
+body{font-size:62.5%;font-family:Arial, 'Microsoft YaHei', sans-serif;  width:100%;background:#b7c3ee;}
+
+ol,ul,li {	list-style: none; }
+
+blockquote:before, blockquote:after,q:before, q:after {	content: ""; }
+
+blockquote, q { quotes: "" ""; }
+
+a img {	border: 0; }
+
+article, aside, details, figcaption, figure,
+
+footer, header, hgroup, menu, nav, section { display: block; }
+
+h1,h2,h3,h4,h5,h6{font-weight:700}
+
+strong{font-weight:700}
+
+cite,em{font-style:normal}
+
+i{font-style:italic}
+
+img,objiect{ max-width:100%;vertical-align:middle/* 此样式会控制前端图片属性所以去掉*/ }
+
+a { text-decoration:none;border:none;-webkit-tap-highlight-color:transparent;outline:none;-webkit-touch-callout: none;-webkit-user-select: none; }
+a:focus {outline:none; -moz-outline:none}
+input,textarea{ outline:none; resize:none;-webkit-appearance:none;}
+
+.banner{width:100%;height:auto;overflow:hidden;}
+.main_one_con{width:100%;height:auto;overflow:hidden;background:url(../images/huiyuan/huiyuan_body_bg.png) repeat-y;}
+.main_one_con p{font-size:1.2em;text-align:center;padding:10px 0;line-height:30px;color:#f85275;}
+.main_one_con p i{width:30px;height:21px;padding-right:10px;}
+.main_one_con p i img{width:30px;height:21px;}
+
+.main_one_con ul{width:92%;height:auto;overflow:hidden;padding:0 4%;}
+.main_one_con ul li{width:100%;height:auto;margin-bottom:16px;position:relative;}
+.main_one_con ul li .img_bg{width:100%;height:auto;}
+.main_one_con ul li .img_bg img{width:100%;height:auto;}
+.main_one_con ul li dl{width:92%;height:auto;position:absolute;top:20px;left:4%;}
+.main_one_con ul li dl dt{width:38%;height:auto;float:left;margin-right:3%;}
+.main_one_con ul li dl dd{width:58%;float:left;color:#fff;}
+.main_one_con ul li dl .dd1{height:30px;font-size:1.6em;line-height:30px;overflow:hidden;}
+.main_one_con ul li dl .dd2{font-size:1.4em;line-height:20px;height:40px;overflow:hidden;margin-top:10px;}
+.main_one_con ul li dl .dd3 {margin-top:10px;}
+.main_one_con ul li dl .dd3 a{width:100px;height:23px;display:block;background:url(../images/huiyuan/huiyuan_icon_btn.png) no-repeat;background-size:100px 23px;}
+
+.main_one_con ul li span{width:60px;height:60px;display:block;position:absolute;top:0;right:0;}
+.main_one_con ul li span img{width:100%;}
+
+.tit{height:34px;width:100%;line-height:34px;text-align:center;background:url(../images/huiyuan/huiyuan_tit_bg.png) repeat-x;background-size:1px 34px;color:#fff;font-size:1.6em;}
+.tit_images{height:auto;width:100%;overflow:hidden;}
+.main_two_con{width:100%;height:auto;overflow:hidden;}
+.main_two_con ul{width:101%;height:auto;margin-left:-1%;overflow:hidden;}
+.main_two_con ul li{width:49.5%;float:left;background:#fff;margin:0 0 2px 0.5%;background:#fff;position:relative;}
+.main_two_con ul li dl{width:90%;height:auto;padding:10px 5%;}
+.main_two_con ul li dl dt{width:100%;height:auto;}
+
+@media screen  and (max-width:414px){
+	.main_one_con ul li dl{top:25px;left:4%;}
+	.main_one_con ul li span{width:60px;height:60px;display:block;}
+	.main_one_con ul li dl .dd3 a{width:120px;height:27px;display:block;background-size:120px 27px;}
+	.main_one_con ul li dl .dd3 {margin-top:15px;}
+	
+	.main_two_con ul li dl dt img{height:186px;}
+ }
+ 
+ @media screen  and (max-width:375px){
+    .main_one_con ul li dl{top:23px;left:4%;}
+    .main_one_con ul li span{width:60px;height:60px;display:block;}
+	.main_one_con ul li dl .dd3 a{width:110px;height:25px;display:block;background-size:110px 25px;}
+	.main_one_con ul li dl .dd3 {margin-top:12px;}
+	
+	.main_two_con ul li dl dt img{height:168px;}
+ }
+ @media screen  and (max-width:320px){
+    .main_one_con ul li dl {top:20px;}
+ 	.main_one_con ul li dl .dd2{margin-top:0px;}
+ 	.main_one_con ul li span{width:50px;height:50px;display:block;}
+	.main_one_con ul li dl .dd3 a{width:100px;height:23px;display:block;background-size:100px 23px;}
+	.main_one_con ul li dl .dd3 {margin-top:8px;}
+	
+	.main_two_con ul li dl dt img{height:144px;}
+ }
+
+.main_two_con ul li dl .dd1{width:100%;height:40px;line-height:20px;overflow:hidden;margin-top:5px;}
+.main_two_con ul li dl .dd1 a{color:#616161;font-size:1.4em;}
+.main_two_con ul li dl .dd2{width:100%px;height:auto;line-height:30px;color:#d60000;font-family:"微软雅黑";font-size:1.5em;}
+.main_two_con ul li dl .dd2 em{font-style:normal;font-size:1.3em;}
+.main_two_con ul li dl .dd3{width:100%px;height:auto;display:block;line-height:20px;font-style:normal;color:#7d7d7d;font-family:"微软雅黑";font-size:1.2em;}
+.main_two_con ul li span{width:60px;height:60px;display:block;position:absolute;top:0;right:0;}
+.main_two_con ul li span img{width:100%;}
+.footer{width:100%;height:auto;padding:20px 0;}
+.footer a{width:100%;display:block;margin:0 auto;display:none;}

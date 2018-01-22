@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>反馈信息提示</title>
+<link rel="stylesheet" type="text/css" href="css/signal-style.css" />
+
+</head>
+
+<body>
+<div class="signal-main">您的反馈已记录，感谢您的支持！<br />将在<span id="count">3</span>秒后自动跳转到http://www.wd-w.com<br /><a href="http://www.wd-w.com">http://www.wd-w.com</a></div>
+<script>
+    var countField = document.getElementById("count"), init = 3, start;
+    function countdown() {
+        init -= 1;
+        countField.innerText = init;
+        if(init == 0) {
+            location.href="http://www.wd-w.com";
+        }
+        start =  setTimeout("countdown()", 1000);
+    }
+
+    countdown();
+</script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="PageSectionDataMapper">
+
+    <resultMap id="PageSectionData" type="com.wode.factory.model.PageSectionData">
+        <result property="id" column="id"/>
+        <result property="pageId" column="page_id"/>
+        <result property="channel" column="channel"/>
+        <result property="sectionId" column="section_id"/>
+        <result property="title" column="title"/>
+        <result property="imagePath" column="image_path"/>
+        <result property="orders" column="orders"/>
+        <result property="link" column="link"/>
+        <result property="ex1Value" column="ex1_value"/>
+        <result property="ex2Value" column="ex2_value"/>
+        <result property="ex3Value" column="ex3_value"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="title1" column="title1"/>
+        <result property="title2" column="title2"/>
+        <result property="ex4Value" column="ex4_value"/>
+        <result property="ex5Value" column="ex5_value"/>
+        <result property="ex6Value" column="ex6_value"/>
+        
+        <result property="sectionTitle" column="sectionTitle"/>
+    </resultMap>
+    
+    
+
+    <resultMap id="PageSectionDataVo" type="com.wode.factory.user.vo.PageSectionDataVo" extends="PageSectionData">       
+        <result property="sectionName" column="sectionName"/>     
+        <result property="ex1Name" column="ex1_name"/> 
+        <result property="ex2Name" column="ex2_name"/>      
+        <result property="ex3Name" column="ex3_name"/>      
+        <result property="ex4Name" column="ex4_name"/>      
+        <result property="ex5Name" column="ex5_name"/>      
+        <result property="ex6Name" column="ex6_name"/>      
+    </resultMap>
+
+	
+	<resultMap id="PageTypeSettingVo" type="com.wode.factory.user.vo.PageTypeSettingVo">
+        <result property="title" column="title"/>
+        <result property="name" column="name"/>
+        
+        <collection property="pageDataList" resultMap="PageDataVo"/>
+        
+	</resultMap>
+	
+	<resultMap id="PageDataVo" type="com.wode.factory.user.vo.PageDataVo">
+        <result property="title" column="pd_title"/>
+        <result property="imagePath" column="pd_imagePath"/>
+        <result property="link" column="pd_link"/>
+        <result property="ex1Value" column="ex1_value"/>
+        <result property="ex2Value" column="ex2_value"/>
+        <result property="ex3Value" column="ex3_value"/>
+        <result property="ex4Value" column="ex4_value"/>
+        <result property="ex5Value" column="ex5_value"/>
+        <result property="ex6Value" column="ex6_value"/>
+        <result property="title1" column="pd_title1"/>
+        <result property="title2" column="pd_title2"/>
+	</resultMap>
+	
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,page_id,channel,section_id,title,image_path,orders,link,ex1_value,ex2_value,ex3_value,create_time,update_time,title1,title2,ex4_value,ex5_value,ex6_value
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_page_section_data (
+            page_id ,
+            channel ,
+            section_id ,
+            title ,
+            image_path ,
+            orders ,
+            link ,
+            ex1_value ,
+            ex2_value ,
+            ex3_value ,
+            create_time ,
+            update_time ,
+            title1 ,
+            title2 ,
+            ex4_value ,
+            ex5_value ,
+            ex6_value ,
+        ) VALUES (
+            #{pageId} ,
+            #{channel} ,
+            #{sectionId} ,
+            #{title} ,
+            #{imagePath} ,
+            #{orders} ,
+            #{link} ,
+            #{ex1Value} ,
+            #{ex2Value} ,
+            #{ex3Value} ,
+            #{createTime} ,
+            #{updateTime} ,
+            #{title1} ,
+            #{title2} ,
+            #{ex4Value} ,
+            #{ex5Value} ,
+            #{ex6Value} 
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_page_section_data SET            
+            page_id = #{pageId} ,
+            channel = #{channel} ,
+            section_id = #{sectionId} ,
+            title = #{title} ,
+            image_path = #{imagePath} ,
+            orders = #{orders} ,
+            link = #{link} ,
+            ex1_value = #{ex1Value} ,
+            ex2_value = #{ex2Value} ,
+            ex3_value = #{ex3Value} ,
+            create_time = #{createTime} ,
+            update_time = #{updateTime} ,
+            title1 = #{title1} ,
+            title2 = #{title2} ,
+            ex4_value = #{ex4Value} ,
+            ex5_value = #{ex5Value} ,
+            ex6_value = #{ex6Value} 
+            
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_page_section_data WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="PageSectionData">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_page_section_data 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="PageSectionData">
+        SELECT <include refid="columns" /> FROM t_page_section_data 
+        <include refid="find_where"/>
+    </select>
+
+    <select id="selectByPageId" resultMap="PageSectionDataVo">
+        SELECT d.*,s.title sectionTitle,s.name sectionName,s.ex1_name,s.ex2_name,s.ex3_name,s.ex4_name,s.ex5_name,s.ex6_name
+        FROM t_page_section_data d 
+        INNER JOIN t_page_setting p ON(p.id=d.page_id)
+        INNER JOIN t_page_template_section s ON (s.id = d.section_id AND s.template_id=p.template_id)
+        WHERE page_id=#{pageId}
+		order by s.orders asc,d.orders asc
+    </select>
+        
+	<select id="findPageDataForApp" resultMap="PageTypeSettingVo" >
+        SELECT s.title,s.name,d.title pd_title,d.image_path pd_imagePath,d.link pd_link,d.ex1_value,d.ex2_value,d.ex3_value,d.ex4_value,d.ex5_value,d.ex6_value,d.title1 pd_title1,d.title2 pd_title2
+        FROM t_page_section_data d 
+        INNER JOIN t_page_setting p ON(p.id=d.page_id)
+        INNER JOIN t_page_template_section s ON (s.id = d.section_id AND s.template_id=p.template_id)
+        WHERE page_id=#{pageId}
+		order by s.orders asc,d.orders asc
+	</select>
+    
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(pageId)">
+                AND page_id = #{pageId}
+            </if>
+           <if test="@Ognl@isNotEmpty(channel)">
+                AND channel = #{channel}
+            </if>
+           <if test="@Ognl@isNotEmpty(dChannel)">
+                AND d.channel = #{dChannel}
+            </if>
+           <if test="@Ognl@isNotEmpty(sectionId)">
+                AND section_id = #{sectionId}
+            </if>
+           <if test="@Ognl@isNotEmpty(title)">
+                AND title = #{title}
+            </if>
+           <if test="@Ognl@isNotEmpty(imagePath)">
+                AND image_path = #{imagePath}
+            </if>
+           <if test="@Ognl@isNotEmpty(orders)">
+                AND orders = #{orders}
+            </if>
+           <if test="@Ognl@isNotEmpty(link)">
+				AND link like CONCAT(CONCAT('%',#{link}),'%')
+            </if>
+           <if test="@Ognl@isNotEmpty(ex1Value)">
+                AND ex1_value = #{ex1Value}
+            </if>
+           <if test="@Ognl@isNotEmpty(ex2Value)">
+                AND ex2_value = #{ex2Value}
+            </if>
+           <if test="@Ognl@isNotEmpty(ex3Value)">
+                AND ex3_value = #{ex3Value}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND update_time = #{updateTime}
+            </if>
+        </where>
+    </sql>
+</mapper>

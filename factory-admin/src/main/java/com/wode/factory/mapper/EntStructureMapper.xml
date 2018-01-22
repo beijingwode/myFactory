@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.EnterpriseStructureDao">
+
+	<resultMap id="EnterpriseStructure" type="com.wode.factory.model.EnterpriseStructure">
+        <result property="id" column="id"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="relatedEntId" column="related_ent_id"/>
+        <result property="type" column="type"/>
+	</resultMap>
+	
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[ 
+		id,enterprise_id,related_ent_id,type
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_ent_structure (
+        	id,enterprise_id,related_ent_id,type
+        ) VALUES (
+        	#{id} ,
+        	#{enterpriseId} ,
+        	#{relatedEntId} ,
+        	#{type} 
+        )
+    ]]>
+	</insert>
+
+    <delete id="deleteOld">
+    <![CDATA[
+        DELETE FROM t_ent_structure WHERE id in(
+        select a.* from (
+        select id from t_ent_structure WHERE (enterprise_id = #{id} 
+        and type=1) or (related_ent_id = #{id}  and type=2)) a
+        )
+    ]]>
+    </delete>
+	<select id="selectByModel" resultMap="EnterpriseStructure">
+	select * from t_ent_structure 
+           where 1=1
+          
+            <if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(enterpriseId)">
+				AND enterprise_id = #{enterpriseId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(relatedEntId)">
+				AND related_ent_id = #{relatedEntId}
+			</if>
+	       <if test="@Ognl@isNotEmpty(type)">
+				AND type = #{type}
+			</if>
+	</select>
+</mapper>
+

@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.wode.factory.mapper.SupplierExchangeProductDao">
+  
+    <resultMap id="SupplierExchangeProduct" type="com.wode.factory.model.SupplierExchangeProduct">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="saleKbn" column="sale_kbn"/>
+        <result property="saleNote" column="sale_note"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productImg" column="product_img"/>
+        <result property="productPrice" column="product_price"/>
+        <result property="productCnt" column="product_cnt"/>
+        <result property="empLevel" column="emp_level"/>
+        <result property="empCnt" column="emp_cnt"/>
+        <result property="empAvgCnt" column="emp_avg_cnt"/>
+        <result property="empAvgAmount" column="emp_avg_amount"/>
+        <result property="limitType" column="limit_type"/>
+        <result property="limitStart" column="limit_start"/>
+        <result property="limitEnd" column="limit_end"/>
+        <result property="status" column="status"/>
+        <result property="createDate" column="create_date"/>
+        <result property="createUser" column="create_user"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="sellCnt" column="sell_cnt"/>
+        <result property="distributeCnt" column="distribute_cnt"/>
+        <result property="stopDate" column="stop_date"/>
+        <result property="allSaleAmount" column="all_sale_amount"/>
+        <result property="shareAmount" column="share_amount"/>
+        <result property="notifyFlg" column="notify_flg"/>
+        <result property="clearStatus" column="clear_status"/>
+        <result property="clearDate" column="clear_date"/>
+        <result property="offlineFlg" column="offline_flg"/>
+        <result property="offlineDate" column="offline_date"/>
+        <result property="sampleAmount" column="sample_amount"/>
+        <result property="cashAmount" column="cash_amount"/>
+    </resultMap>
+    <resultMap id="SupplierExchangeProductVo" type="com.wode.factory.vo.SupplierExchangeProductVo">
+        <result property="id" column="id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="saleKbn" column="sale_kbn"/>
+        <result property="saleNote" column="sale_note"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productImg" column="product_img"/>
+        <result property="productPrice" column="product_price"/>
+        <result property="productCnt" column="product_cnt"/>
+        <result property="empLevel" column="emp_level"/>
+        <result property="empCnt" column="emp_cnt"/>
+        <result property="empAvgCnt" column="emp_avg_cnt"/>
+        <result property="empAvgAmount" column="emp_avg_amount"/>
+        <result property="limitType" column="limit_type"/>
+        <result property="limitStart" column="limit_start"/>
+        <result property="limitEnd" column="limit_end"/>
+        <result property="status" column="status"/>
+        <result property="createDate" column="create_date"/>
+        <result property="createUser" column="create_user"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="sellCnt" column="sell_cnt"/>
+        <result property="distributeCnt" column="distribute_cnt"/>
+        <result property="stopDate" column="stop_date"/>
+        <result property="allSaleAmount" column="all_sale_amount"/>
+        <result property="shareAmount" column="share_amount"/>
+        <result property="notifyFlg" column="notify_flg"/>
+        <result property="clearStatus" column="clear_status"/>
+        <result property="clearDate" column="clear_date"/>
+        <result property="offlineFlg" column="offline_flg"/>
+        <result property="offlineDate" column="offline_date"/>
+        <result property="comName" column="com_name"/>
+        <result property="comType" column="comType"/>
+        <result property="managerName" column="manager_name"/>
+        <result property="queryLink" column="queryLink"/>
+        <result property="sampleAmount" column="sample_amount"/>
+        <result property="cashAmount" column="cash_amount"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,supplier_id,sale_kbn,sale_note,product_id,product_name,product_img,product_price,product_cnt,emp_level,emp_cnt,emp_avg_cnt,emp_avg_amount,limit_type,limit_start,limit_end,status,create_date,create_user,update_date,update_user,sell_cnt,distribute_cnt,stop_date,all_sale_amount,share_amount,notify_flg,clear_status,clear_date,offline_flg,offline_date,sample_amount,cash_amount
+        ]]>
+    </sql>
+    
+    <delete id="deleteBySupplierId">
+    delete from t_supplier_exchange_product where supplier_id = #{supplierId}
+    </delete>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_supplier_exchange_product (
+            id ,
+            supplier_id ,
+            sale_kbn ,
+            sale_note ,
+            product_id ,
+            product_name ,
+            product_img ,
+            product_price ,
+            product_cnt ,
+            emp_level ,
+            emp_cnt ,
+            emp_avg_cnt ,
+            emp_avg_amount ,
+            limit_type ,
+            limit_start ,
+            limit_end ,
+            status ,
+            create_date ,
+            create_user ,
+            update_date ,
+            update_user ,
+            sell_cnt ,
+            distribute_cnt ,
+            stop_date ,
+            all_sale_amount ,
+            share_amount ,
+            notify_flg ,
+            clear_status ,
+            clear_date ,
+            offline_flg ,
+            offline_date,
+            sample_amount,
+            cash_amount
+        ) VALUES (
+            #{id} ,
+            #{supplierId} ,
+            #{saleKbn} ,
+            #{saleNote} ,
+            #{productId} ,
+            #{productName} ,
+            #{productImg} ,
+            #{productPrice} ,
+            #{productCnt} ,
+            #{empLevel} ,
+            #{empCnt} ,
+            #{empAvgCnt} ,
+            #{empAvgAmount} ,
+            #{limitType} ,
+            #{limitStart} ,
+            #{limitEnd} ,
+            #{status} ,
+            #{createDate} ,
+            #{createUser} ,
+            #{updateDate} ,
+            #{updateUser} ,
+            #{sellCnt} ,
+            #{distributeCnt} ,
+            #{stopDate} ,
+            #{allSaleAmount} ,
+            #{shareAmount} ,
+            #{notifyFlg} ,
+            #{clearStatus} ,
+            #{clearDate} ,
+            #{offlineFlg} ,
+            #{offlineDate},
+            #{sampleAmount},
+            #{cashAmount}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_supplier_exchange_product SET            
+            supplier_id = #{supplierId} ,
+            sale_kbn = #{saleKbn} ,
+            sale_note = #{saleNote} ,
+            product_id = #{productId} ,
+            product_name = #{productName} ,
+            product_img = #{productImg} ,
+            product_price = #{productPrice} ,
+            product_cnt = #{productCnt} ,
+            emp_level = #{empLevel} ,
+            emp_cnt = #{empCnt} ,
+            emp_avg_cnt = #{empAvgCnt} ,
+            emp_avg_amount = #{empAvgAmount} ,
+            limit_type = #{limitType} ,
+            limit_start = #{limitStart} ,
+            limit_end = #{limitEnd} ,
+            status = #{status} ,
+            create_user = #{createUser} ,
+            update_date = #{updateDate} ,
+            update_user = #{updateUser} ,
+            sell_cnt = #{sellCnt} ,
+            distribute_cnt = #{distributeCnt} ,
+            stop_date = #{stopDate} ,
+            all_sale_amount = #{allSaleAmount} ,
+            share_amount = #{shareAmount} ,
+            notify_flg = #{notifyFlg} ,
+            clear_status = #{clearStatus} ,
+            clear_date = #{clearDate} ,
+            offline_flg = #{offlineFlg} ,
+            offline_date = #{offlineDate} ,
+            sample_amount = #{sampleAmount} ,
+            cash_amount = #{cashAmount} 
+            
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_supplier_exchange_product WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+     <select id="findListByMap" resultMap="SupplierExchangeProduct">
+        SELECT <include refid="columns" /> FROM t_supplier_exchange_product 
+        where 1=1
+        <if test="@Ognl@isNotEmpty(productId)">
+                AND product_id = #{productId}
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                AND FIND_IN_SET(status,#{status})
+            </if>
+             <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+    </select>
+    
+    <select id="getById" resultMap="SupplierExchangeProduct">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_supplier_exchange_product 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="SupplierExchangeProduct">
+        SELECT <include refid="columns" /> FROM t_supplier_exchange_product 
+        <include refid="find_where"/>
+        ORDER BY status
+    </select>
+    <select id="findProductBySupplierId" resultMap="SupplierExchangeProductVo">
+    	SELECT 
+		p.product_name,
+		p.product_id,
+		p.product_price,
+		p.limit_end,
+		p.emp_avg_amount,
+		p.product_cnt,
+		t.wx_temp_qr_url queryLink
+		FROM 
+		t_user_share_ticket t
+		INNER JOIN
+		t_supplier_exchange_product p 
+		ON(p.id=t.ticket_id)
+		INNER JOIN
+		t_user_share s 
+		ON(t.share_id=s.id)
+		WHERE t.share_id = #{id}
+		AND t.wx_temp_limit_end > #{date}
+    </select>
+    
+    <select id="findInfoPageListEx" resultMap="SupplierExchangeProductVo">
+	SELECT 
+		ep.product_name,
+		s.com_name com_name,
+		CASE WHEN s.id is NULL THEN 1 ELSE 0 END comType,
+		s.manager_name manager_name,
+		ep.product_id,
+		ep.product_price,
+		ep.emp_avg_amount,
+		ep.limit_start,
+		ep.limit_end,
+		ep.sell_cnt,
+		ep.emp_cnt,
+		ep.id,
+		ep.supplier_id,
+		ep.status,
+		ep.product_cnt,
+		ep.distribute_cnt,
+		ep.create_date,
+		ep.sample_amount,
+		ep.cash_amount
+	FROM t_supplier_exchange_product ep
+		LEFT JOIN t_supplier s on (ep.supplier_id=s.id)
+	<where>
+		<if test="chekType==0">
+				and s.id is NOT NULL
+		</if>
+		<if test="@Ognl@isNotEmpty(supplierName)">
+				and s.com_name like CONCAT(CONCAT('%',#{supplierName}),'%') 
+		</if> 
+		<if test="@Ognl@isNotEmpty(managerId)">
+				and s.manager_id = #{managerId}
+		</if>
+		and ep.product_id != -1
+	</where>
+	ORDER BY ep.create_date desc
+	</select>
+    
+	<select id="findInfoPageList" resultMap="SupplierExchangeProductVo">
+	SELECT 
+		ep.product_name,
+		IFNULL(s.com_name,t.com_name) com_name,
+		CASE WHEN s.id is NULL THEN 1 ELSE 0 END comType,
+		IFNULL(s.manager_name,t.manager_name) manager_name,
+		ep.product_id,
+		ep.product_price,
+		ep.emp_avg_amount,
+		ep.limit_start,
+		ep.limit_end,
+		ep.sell_cnt,
+		ep.emp_cnt,
+		ep.id,
+		ep.supplier_id,
+		ep.status,
+		ep.product_cnt,
+		ep.distribute_cnt
+	FROM t_supplier_exchange_product ep
+		LEFT JOIN t_supplier s on (ep.supplier_id=s.id)
+		LEFT JOIN t_supplier_temp t on (ep.supplier_id = t.id) 
+	<where>
+		<if test="chekType==0">
+				and s.id is NOT NULL
+		</if>
+		<if test="chekType==1">
+				and t.id is NOT NULL
+		</if>
+		<if test="@Ognl@isNotEmpty(supplierName)">
+				and (s.com_name like CONCAT(CONCAT('%',#{supplierName}),'%') OR t.com_name like CONCAT(CONCAT('%',#{supplierName}),'%'))
+		</if> 
+		<if test="@Ognl@isNotEmpty(managerId)">
+				and (t.manager_id = #{managerId} or s.manager_id = #{managerId})
+		</if> 
+	</where>
+	ORDER BY ep.create_date desc
+	</select>
+	<select id="findPageList" resultMap="SupplierExchangeProduct">
+        SELECT sep.id,sep.supplier_id,sep.sale_kbn,s.com_name sale_note,sep.product_id,sep.product_name,sep.product_img,sep.product_price,sep.product_cnt,sep.emp_level,sep.emp_cnt,sep.emp_avg_cnt,sep.emp_avg_amount,sep.limit_type,sep.limit_start,sep.limit_end,sep.status,sep.create_date,sep.create_user,sep.update_date,sep.update_user,sep.sell_cnt,sep.distribute_cnt,sep.stop_date,sep.all_sale_amount,sep.share_amount,sep.notify_flg,sep.clear_status,sep.clear_date,sep.offline_flg,sep.offline_date
+        FROM t_supplier_exchange_product sep
+        INNER JOIN t_supplier s ON(s.id=sep.supplier_id)
+        <where>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND sep.supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND sep.status = #{status}
+            </if>
+            <if test="@Ognl@isNotEmpty(startDate)">
+                AND sep.limit_end >= #{startDate}
+            </if>
+            <if test="@Ognl@isNotEmpty(endDate)">
+                AND sep.limit_end &lt;= #{endDate}
+            </if>
+        </where>
+    </select>
+	
+    <select id="selectForClear" resultMap="SupplierExchangeProduct">
+        SELECT <include refid="columns" /> FROM t_supplier_exchange_product 
+        <![CDATA[
+        WHERE status IN (3,5,7) AND limit_end < SYSDATE()
+    	]]>
+    </select>
+    
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(saleKbn)">
+                AND sale_kbn = #{saleKbn}
+            </if>
+           <if test="@Ognl@isNotEmpty(saleNote)">
+                AND sale_note = #{saleNote}
+            </if>
+           <if test="@Ognl@isNotEmpty(productId)">
+                AND product_id = #{productId}
+            </if>
+           <if test="@Ognl@isNotEmpty(productName)">
+                AND product_name = #{productName}
+            </if>
+           <if test="@Ognl@isNotEmpty(productImg)">
+                AND DATE_FORMAT(limit_start,'%Y-%m')=#{productImg}
+                <!-- 统计用 -->
+            </if>
+           <if test="@Ognl@isNotEmpty(productPrice)">
+                AND product_price = #{productPrice}
+            </if>
+           <if test="@Ognl@isNotEmpty(productCnt)">
+                AND product_cnt = #{productCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(empLevel)">
+                AND emp_level = #{empLevel}
+            </if>
+           <if test="@Ognl@isNotEmpty(empCnt)">
+                AND emp_cnt = #{empCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(empAvgCnt)">
+                AND emp_avg_cnt = #{empAvgCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(empAvgAmount)">
+                AND emp_avg_amount = #{empAvgAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitType)">
+                AND limit_type = #{limitType}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitStart)">
+                AND limit_start = #{limitStart}
+            </if>
+           <if test="@Ognl@isNotEmpty(limitEnd)">
+                AND limit_end = #{limitEnd}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(createDate)">
+                AND create_date = #{createDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(createUser)">
+                AND create_user = #{createUser}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateDate)">
+                AND update_date = #{updateDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateUser)">
+                AND update_user = #{updateUser}
+            </if>
+           <if test="@Ognl@isNotEmpty(sellCnt)">
+                AND sell_cnt = #{sellCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(distributeCnt)">
+                AND distribute_cnt = #{distributeCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(stopDate)">
+                AND stop_date = #{stopDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(allSaleAmount)">
+                AND all_sale_amount = #{allSaleAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(shareAmount)">
+                AND share_amount = #{shareAmount}
+            </if>
+           <if test="@Ognl@isNotEmpty(notifyFlg)">
+                AND notify_flg = #{notifyFlg}
+            </if>
+           <if test="@Ognl@isNotEmpty(clearStatus)">
+                AND clear_status = #{clearStatus}
+            </if>
+           <if test="@Ognl@isNotEmpty(clearDate)">
+                AND clear_date = #{clearDate}
+            </if>
+           <if test="@Ognl@isNotEmpty(offlineFlg)">
+                AND offline_flg = #{offlineFlg}
+            </if>
+           <if test="@Ognl@isNotEmpty(offlineDate)">
+                AND offline_date = #{offlineDate}
+            </if>
+        </where>
+    </sql>
+
+</mapper>

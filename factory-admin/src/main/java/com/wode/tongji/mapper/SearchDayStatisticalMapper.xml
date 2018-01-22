@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wode.tongji.mapper.SearchDayStatisticalMapper" >
+
+    <resultMap id="SearchDayStatistical" type="com.wode.tongji.model.SearchDayStatistical">
+        <result property="id" column="id"/>
+        <result property="day" column="day"/>
+        <result property="createTime" column="create_time"/>
+        <result property="searchKey" column="search_key"/>
+        <result property="searchCnt" column="search_cnt"/>
+        <result property="hitsCnt" column="hits_cnt"/>
+        <result property="avgScore" column="avg_score"/>
+        <result property="else1Cnt" column="else1_cnt"/>
+        <result property="else2Cnt" column="else2_cnt"/>
+        <result property="else3Cnt" column="else3_cnt"/>
+        <result property="else1" column="else1"/>
+        <result property="else2" column="else2"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,day,create_time,search_key,search_cnt,hits_cnt,avg_score,else1_cnt,else2_cnt,else3_cnt,else1,else2
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_search_day_statistical (
+            day ,
+            create_time ,
+            search_key ,
+            search_cnt ,
+            hits_cnt ,
+            avg_score ,
+            else1_cnt ,
+            else2_cnt ,
+            else3_cnt ,
+            else1 ,
+            else2
+        ) VALUES (
+            #{day} ,
+            #{createTime} ,
+            #{searchKey} ,
+            #{searchCnt} ,
+            #{hitsCnt} ,
+            #{avgScore} ,
+            #{else1Cnt} ,
+            #{else2Cnt} ,
+            #{else3Cnt} ,
+            #{else1} ,
+            #{else2}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_search_day_statistical SET            
+            day = #{day} ,
+            create_time = #{createTime} ,
+            search_key = #{searchKey} ,
+            search_cnt = #{searchCnt} ,
+            hits_cnt = #{hitsCnt} ,
+            avg_score = #{avgScore} ,
+            else1_cnt = #{else1Cnt} ,
+            else2_cnt = #{else2Cnt} ,
+            else3_cnt = #{else3Cnt} ,
+            else1 = #{else1} ,
+            else2 = #{else2} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_search_day_statistical WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="SearchDayStatistical">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_search_day_statistical 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="selectByModel" resultMap="SearchDayStatistical">
+        SELECT <include refid="columns" /> FROM t_search_day_statistical 
+        <include refid="find_where"/>
+    </select>
+
+  
+  <!-- 查询统计数据，根据日期查询 -->
+  <select id="selectByTime" resultMap="SearchDayStatistical" parameterType="map" >
+        SELECT <include refid="columns" /> FROM t_search_day_statistical 
+	    where 
+	    <if test="startTime!=null&amp;&amp;endTime!=null">
+		    day &gt;= #{startTime} and day &lt;= #{endTime}
+	    </if>
+	    <if test="startTime!=null&amp;&amp;endTime==null">
+		    day like CONCAT(#{startTime},'%')
+	    </if>
+            <!-- <if test="@Ognl@isNotEmpty(searchKey)">
+		   		AND search_key like CONCAT('%',CONCAT(#{searchKey},'%'))
+           </if>-->
+           <if test="@Ognl@isNotEmpty(searchKey)">
+		   		AND search_key = #{searchKey}
+           </if>
+	    ORDER BY day
+  </select>
+  
+  
+  <!-- 查询统计数据，根据日期查询 -->
+  <select id="countMonth" resultMap="SearchDayStatistical" parameterType="map" >
+ 		SELECT MIN(day) day,search_key,SUM(search_cnt) search_cnt,AVG(hits_cnt) hits_cnt,AVG(avg_score) avg_score,COUNT(1) else1_cnt
+        FROM t_search_day_statistical 
+        <where>
+           <if test="@Ognl@isNotEmpty(searchKey)">
+		   		AND search_key = #{searchKey}
+           </if>
+	       <if test="startTime!=null&amp;&amp;endTime!=null">
+		    	AND day &gt;= #{startTime} and day &lt;= #{endTime}
+	       </if>
+	       <if test="startTime!=null&amp;&amp;endTime==null">
+		    	AND day like CONCAT(#{startTime},'%')
+	       </if>
+        </where>
+		GROUP BY DATE_FORMAT(day,'%Y-%m'),search_key
+	    ORDER BY day
+  </select>
+  
+  <!-- 查询统计数据，根据日期查询 -->
+  <select id="countNormal" resultMap="SearchDayStatistical" parameterType="map" >
+        SELECT search_key,SUM(search_cnt) search_cnt,AVG(hits_cnt) hits_cnt,AVG(avg_score) avg_score,COUNT(1) else1_cnt
+        FROM t_search_day_statistical 
+        <where>
+           <if test="@Ognl@isNotEmpty(searchKey)">
+		   		AND search_key like CONCAT('%',CONCAT(#{searchKey},'%'))
+           </if>
+	       <if test="@Ognl@isNotEmpty(startDate)">
+		    	AND day &gt;= #{startDate}
+	       </if>
+	       <if test="@Ognl@isNotEmpty(endDate)">
+		    	AND day &lt;= #{endDate}
+	       </if>
+        </where>
+		GROUP BY search_key
+		<if test="@Ognl@isNotEmpty(havingColumns)">
+			HAVING ${havingColumns}
+		</if>
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+  </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(day)">
+                AND day = #{day}
+            </if>
+           <if test="@Ognl@isNotEmpty(createTime)">
+                AND create_time = #{createTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(searchKey)">
+                AND search_key = #{searchKey}
+            </if>
+           <if test="@Ognl@isNotEmpty(searchCnt)">
+                AND search_cnt = #{searchCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(searchCnt)">
+                AND hits_cnt = #{hitsCnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(searchCnt)">
+                AND avg_score = #{avgScore}
+            </if>
+           <if test="@Ognl@isNotEmpty(else1Cnt)">
+                AND else1_cnt = #{else1Cnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(else2Cnt)">
+                AND else2_cnt = #{else2Cnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(else3Cnt)">
+                AND else3_cnt = #{else3Cnt}
+            </if>
+           <if test="@Ognl@isNotEmpty(else1)">
+                AND else1 = #{else1}
+            </if>
+           <if test="@Ognl@isNotEmpty(else2)">
+                AND else2 = #{else2}
+            </if>
+        </where>
+    </sql>
+</mapper>

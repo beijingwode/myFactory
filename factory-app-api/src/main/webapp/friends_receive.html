@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name = "format-detection" content = "telephone=no">
+<title>亲友验证</title>
+<link rel="stylesheet" type="text/css" href="static_resources/css/public_m.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/details.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/alert.css">
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="static_resources/js/wxGetUid.js?222"></script>
+<script type="text/javascript" src="static_resources/js/friends_receive.js"></script>
+
+</head>
+<script type="text/javascript">
+	function GetQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null)
+			return decodeURI(r[2]);
+		return null;
+	}
+	var id = GetQueryString("id");
+	var memo = GetQueryString("memo");
+	var employeeType = GetQueryString("employeeType")
+</script>
+<body>
+<div class="main-cont" id="main-cont">
+	
+    
+    <div class="main-box personal_nc_box"  style="position: absolute;top: 0px;">
+    	<p>为亲友设置备注</p>
+        <div class="personal_nc"><input id="memo" type="text" value="" maxlength="8"/></div>
+    	<div id="save" style="width:92%;height:35px;background:#fe6054;text-align:center;line-height:35px;margin:0 auto;margin-top:10px;-moz-border-radius: 5px;-webkit-border-radius: 5px;  border-radius:5px;"><span style="color:#fff;font-size:1.7em;">保存</span></div> 
+    </div>
+    
+</div>
+<div class="theme-popover" id="msgShowDiv" style="display: none">
+     <div class="theme-poptit"></div>
+     <div class="theme-popbod" style="display: none">       
+        <a href="javascript:closeMsg();">取消</a> 
+        <a href="javascript:void(0);" style="border:none;">确定</a> 
+     </div>
+     <div class="theme-popbod1" >
+        <a href="javascript:void(0);">确定</a>
+     </div>
+</div>
+<div class="theme-popover-mask" style="display: none"></div>
+<script type="text/javascript">
+
+function msgShow(){
+	$(".theme-popover-mask").show();
+	$("#msgShowDiv").show();
+}
+
+function closeMsg(){ 
+	$(".theme-popover-mask").hide();
+	$("#msgShowDiv").hide();
+}
+
+function showInfoBox(msg,act){
+	$(".theme-popover .theme-poptit").html(msg);
+	$(".theme-popover .theme-popbod").hide();
+	$(".theme-popover .theme-popbod1").show();
+	if(act != null && act!="") {
+		$(".theme-popbod1 a").attr("onclick",act + ";closeMsg();");
+	} else {
+		$(".theme-popbod1 a").attr("onclick","closeMsg();");		
+	}
+	msgShow();
+}
+
+function showConfirm(msg,act,act2){
+	//alert(name+"_"+id);
+	$(".popup_bg").show();
+	
+	//alert(name+"_"+id);
+	if(msg != null && msg!=""){
+		$(".theme-popover .theme-poptit").html(msg);
+	}
+	$(".theme-popover .theme-popbod").show();
+	$(".theme-popover .theme-popbod1").hide();
+	$(".theme-popover .theme-popbod a:eq(0)").attr("onclick",act + ";closeMsg();");
+	if(act2 != null && act2!="") {
+		$(".theme-popover .theme-popbod a:eq(1)").attr("onclick",act2 + ";closeMsg();");
+	} else {
+		$(".theme-popover .theme-popbod a:eq(1)").attr("onclick","closeMsg();");
+	}
+	msgShow();
+}
+</script>
+
+</body>
+</html>

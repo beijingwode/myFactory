@@ -1,0 +1,113 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.wode.factory</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../factory-parent/pom.xml</relativePath>
+	</parent>
+	<artifactId>factory-user</artifactId>
+	<packaging>war</packaging>
+
+	<properties>
+		<!-- 编译 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<compile.java.version>1.8</compile.java.version>
+		<!-- maven插件版本号 -->
+		<maven-resources.version>2.7</maven-resources.version>
+		<maven-jar.version>2.6</maven-jar.version>
+		<maven-compiler.version>3.3</maven-compiler.version>
+		<maven-release.version>2.3.2</maven-release.version>
+		<maven-war.version>2.6</maven-war.version>
+
+		<freemarker.version>2.3.23</freemarker.version>
+		<javax-servlet.version>3.1.0</javax-servlet.version>
+		<javax-jstl.version>1.2</javax-jstl.version>
+		<javax-mail.version>1.4.7</javax-mail.version>
+		<druid.version>1.0.16</druid.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>qr</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${pom.basedir}/src/main/webapp/WEB-INF/lib/zxing-3.1.0.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>com.wode.factory</groupId>
+			<artifactId>user-service</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>${freemarker.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.unionpay.acp</groupId>
+			<artifactId>upacp_sdk</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${pom.basedir}/src/main/webapp/WEB-INF/lib/upacp_sdk-1.0.0.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax-servlet.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${javax-jstl.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>${javax-mail.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.alibaba</groupId>
+					<artifactId>jconsole</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.alibaba</groupId>
+					<artifactId>tools</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>user</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<!-- 资源根目录排除各环境的配置，使用单独的资源目录来指定 -->
+				<excludes>
+					<exclude>test/**</exclude>
+					<exclude>production/**</exclude>
+					<exclude>development/**</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources/${env}</directory>
+			</resource>
+		</resources>
+	</build>
+</project>

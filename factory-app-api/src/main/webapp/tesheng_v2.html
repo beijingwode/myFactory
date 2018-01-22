@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>我的福利</title>
+<link rel="stylesheet" type="text/css" href="static_resources/css/swiper-3.4.2.min.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/public_m.css" />
+<link rel="stylesheet" type="text/css" href="static_resources/css/tesheng_v2.css" />
+<script type="text/javascript" src="static_resources/js/common/system_config.js"></script>
+</head> 
+
+<body>
+
+<div class="main-cont" id="main-cont" >
+	<div class="search_box">		
+        <div class="search_inp">
+        	<a href="javascript:void(0);">搜索特省频道商品</a>
+        </div>
+        
+        <div class="shopping_car">
+        	<img src="static_resources/images/shopping_car_icon.png" />
+        	<span></span>
+        </div>
+        
+	</div> 
+	
+	<div class="main_con">
+	    <div class="flexslider" id="banner">
+	    	<ul class="slides">
+	    		<li><a href="javascript:go2Search('channel:tesheng')"><img src="http://img2.wo-de.com/upload/regular/1488533899148.png" alt="" class="img-responsive"></a></li>
+	    		<!-- <li><a href="javascript:go2Search('channel:huanling')"><img src="http://img2.wo-de.com/upload/regular/1490089273635.png" alt="" class="img-responsive"></a></li>
+	    		<li><a href="javascript:go2Search('channel:shiyong')"><img src="http://img2.wo-de.com/upload/regular/1490089283270.png" alt="" class="img-responsive"></a></li>
+	    		<li><a href="javascript:go2Search('channel:qicai')"><img src="http://img2.wo-de.com/upload/regular/1490145705544.png" alt="" class="img-responsive"></a></li>-->
+	    	</ul>
+	    </div>
+	    <div class="main_one">
+	    	<div class="main_one_top">
+	    		<div class="top_lt">
+	    			<a href="javascript:;"><img src="static_resources/images/ts_main_p1.png" /></a>
+	    			<div class="countdown">
+	    				<input type="hidden" id="miaoShaEndDate" value="2017-05-11-15-32-00">
+	    				<div class="bit" id="day0">0</div>
+						<div class="bit" id="day1" style="margin:0">1</div>
+						<div class="separator">:</div>
+	    				<div class="bit" id="hour0">0</div>
+						<div class="bit" id="hour1" style="margin:0">0</div>
+						<div class="separator">:</div>
+						<div class="bit" id="min0">1</div>
+						<div class="bit" id="min1" style="margin:0">6</div>
+						<div class="separator">:</div>
+						<div class="bit red_bg" id="sec0">5</div>
+						<div class="bit red_bg" id="sec1" style="margin:0">0</div> 
+					</div>
+	    		</div>
+	    		<div class="top_rt">
+	    			<a href="javascript:;"><img src="static_resources/images/ts_main_p2.png" /></a>
+	    			<a href="javascript:;"><img src="static_resources/images/ts_main_p3.png" /></a>
+	    		</div>
+	    	</div>
+	    	<div class="main_one_bottom">
+	    		<a href="javascript:;"><img src="static_resources/images/ts_main_p4.png" /></a>
+	    		<a href="javascript:;"><img src="static_resources/images/ts_main_p5.png" /></a>
+	    	</div>
+	    </div>
+	    <div class="hot_brand">
+	    	<div class="tit"><img src="static_resources/images/hot_brand_tit.png" /></div>
+	    	<div class="hot_brand_con swiper-container" >
+	     		<div class="swiper-wrapper" >
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/hot_brand_p1.png" /></a></div>
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/hot_brand_p2.png" /></a></div>
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/hot_brand_p3.png" /></a></div>      
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/hot_brand_p4.png" /></a></div>
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/hot_brand_p1.png" /></a></div>
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/hot_brand_p2.png" /></a></div>
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/hot_brand_p3.png" /></a></div>      
+			        <div class="swiper-slide"><a href="javascript:;"><img src="static_resources/images/hot_brand_p4.png" /></a></div>
+		     	</div>
+		     </div>
+	    </div>
+	    
+	   	 <!-- 省的更多 -->
+		 <div class="youlike_box">
+		 	<div class="like_tit"><span>省的更多</span></div>
+		 	<div class="like_con">
+		 		<ul id="like_li">
+		 		</ul>
+		 		<input type="hidden" id="pageNum" value="0" autocomplete="off">
+		 	</div>
+		 	<p>正在加载更多数据</p>
+		 </div>
+	 </div> 
+</div>
+
+<script type="text/javascript" src="static_resources/js/jquery1.8.0.js"></script>
+<script type="text/javascript" src="static_resources/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="static_resources/js/index.js?1"></script>
+<script type="text/javascript" src="static_resources/js/wxGetUid.js"></script>
+<script type="text/javascript" src="static_resources/js/index_goto.js?122"></script>
+<script type="text/javascript" src="static_resources/js/swiper-3.4.2.jquery.min.js"></script>
+<script type="text/javascript" src="static_resources/js/count_down.js"></script>
+<script type="text/javascript" src="static_resources/js/getCartNum.js"></script>
+<script>
+//左右滑动
+var mySwiper = new Swiper('.swiper-container',{
+slidesPerView : 'auto',//'auto'
+//slidesPerView : 3.7,
+})
+</script>
+</body>
+
+</html>

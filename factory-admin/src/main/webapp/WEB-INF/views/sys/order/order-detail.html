@@ -1,0 +1,202 @@
+<div class="layer">
+<div class="profile-user-info profile-user-info-striped" id="order_home">
+	<div class="profile-info-row">
+		<div class="profile-info-name">创建时间</div>
+		<div class="profile-info-value">
+			${order.createTime!,dateFormat="yyyy-MM-dd HH:mm:ss"}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">修改人</div>
+		<div class="profile-info-value">
+			${order.updateBy!}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">收货人</div>
+		<div class="profile-info-value">
+			${order.name!}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">收货地址</div>
+		<div class="profile-info-value">
+			${order.address!}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">收货人手机</div>
+		<div class="profile-info-value">
+		@if(order.phone!=null){
+			${order.phone!}
+		@}else{
+			${order.mobile!}
+		@}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">订单价</div>
+		<div class="profile-info-value">
+			￥${order.totalProduct!}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">运费</div>
+		<div class="profile-info-value">
+			￥${order.totalShipping!}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">总折扣价</div>
+		<div class="profile-info-value">
+			￥${order.totalAdjustment!}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">需付金额</div>
+		<div class="profile-info-value">
+			￥${order.realPrice!}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">状态</div>
+		<div class="profile-info-value">
+		@if(order.status==-1){
+			已取消
+		@}
+		@if(order.status==0){
+			未支付
+		@}
+		@if(order.status==1){
+			部分支付
+		@}
+		@if(order.status==2){
+			全部支付
+		@}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">发票抬头</div>
+		<div class="profile-info-value">
+		@if(order.invoiceTitle!=null){
+			${order.invoiceTitle!}
+		@}else{
+			不开发票
+		@}
+		</div>
+	</div>
+	<div class="profile-info-row">
+		<div class="profile-info-name">备注</div>
+		<div class="profile-info-value">
+			${order.note!}
+		</div>
+	</div>
+</div>
+	<ul class="nav nav-tabs" id="${item.subOrderId!}">
+	@for(item in order.items){
+		<li
+		@if(itemLP.index==1){
+		 class="active"
+		@}
+		>
+			<a data-toggle="tab" href="#${item.subOrderId!}"> 
+				<i class="green ace-icon fa fa-users bigger-120"></i> ${item.subOrderId!}
+			</a>
+		</li>
+	@}
+	</ul>
+	<div class="tab-content">
+	@for(item in order.items){
+	<div class="profile-user-info profile-user-info-striped tab-pane
+	@if(itemLP.index==1){
+		 active"
+	@}else{
+		"
+	@}
+		 id="${item.subOrderId!}">
+		<div class="profile-info-row">
+			<div class="profile-info-name">状态</div>
+			<div class="profile-info-value">
+			@if(item.status==-1){
+				已取消
+			@}
+			@if(item.status==0){
+				未支付
+			@}
+			@if(item.status==1){
+				已支付
+			@}
+			@if(item.status==2){
+				已发货
+			@}
+			@if(item.status==3){
+				退货申请中
+			@}
+			@if(item.status==4){
+				已收货
+			@}
+			@if(item.status==11){
+				退货完毕
+			@}
+			</div>
+		</div>
+		@if(item.status>1){
+			<div class="profile-info-row">
+				<div class="profile-info-name">发货物流单号</div>
+				<div class="profile-info-value">
+					${item.expressNo!}
+				</div>
+			</div>
+		@}
+		@if(item.status==3||item.status==11){
+			<div class="profile-info-row">
+				<div class="profile-info-name">退货物流单号</div>
+				<div class="profile-info-value">
+					${item.returnorder.expressNo!}
+				</div>
+			</div>
+		@}
+		<table class="table table-striped table-bordered table-hover nomargin-bottom">
+			<thead>
+				<tr>
+					<th class="center">商品名称</th>
+					<th class="center">下单时间</th>
+					<th class="center">商品单价</th>
+					<th class="center">购买数量</th>
+					<th class="center">商品优惠</th>
+				</tr>
+			</thead>
+			@for(subItem in item.suborderItems){
+			<tbody>
+				<tr>
+					<td class="center" title="${subItem.name!}">
+							${subItem.name!}
+					</td>
+					<td class="center">
+						${subItem.createTime!}
+					</td>
+					<td class="center">
+						@if(subItem.promotionId!=null){
+							${item.promotionPrice!}<span style="color: red;">（活动价格）</span>
+						@}else{
+							${subItem.price!}
+						@}
+					</td>
+					<td class="center">
+						${subItem.number!}
+					</td>
+					<td class="center">
+					@if(subItem.description!=null){
+						使用：${subItem.use_num!}${subItem.description!}
+					@}else{
+						无
+					@}
+					</td>
+				</tr>
+			@}
+			</tbody>
+		</table>
+	</div>
+	@}
+</div>
+</div>

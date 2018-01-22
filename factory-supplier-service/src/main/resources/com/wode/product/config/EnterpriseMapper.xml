@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="EnterpriseMapper" >
+  <resultMap id="BaseResultMap" type="com.wode.factory.model.Enterprise" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="BIGINT" />
+    <result column="industry" property="industry" jdbcType="BIGINT" />
+    <result column="listed" property="listed" jdbcType="VARCHAR" />
+    <result column="turnover" property="turnover" jdbcType="VARCHAR" />
+    <result column="people_number" property="peopleNumber" jdbcType="INTEGER" />
+    <result column="welfare_level" property="welfareLevel" jdbcType="INTEGER" />
+        <result property="emailPostfix1" column="email_postfix1"/>
+        <result property="emailPostfix2" column="email_postfix2"/>
+        <result property="emailPostfix3" column="email_postfix3"/>
+        <result property="empDefultAvatar" column="emp_defult_avatar"/>
+        <result property="canSearch" column="can_search"/>
+  </resultMap>
+  
+  <resultMap id="EnterpriseVo" type="com.wode.factory.company.query.EnterpriseVo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="typeId" property="typeId" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="industryId" property="industryId" jdbcType="BIGINT" />
+    <result column="industry" property="industry" jdbcType="VARCHAR" />
+    <result column="listed" property="listed" jdbcType="VARCHAR" />
+    <result column="turnover" property="turnover" jdbcType="VARCHAR" />
+    <result column="people_number" property="peopleNumber" jdbcType="INTEGER" />
+    <result column="welfare_level" property="welfareLevel" jdbcType="INTEGER" />
+        <result property="emailPostfix1" column="email_postfix1"/>
+        <result property="emailPostfix2" column="email_postfix2"/>
+        <result property="emailPostfix3" column="email_postfix3"/>
+        <result property="empDefultAvatar" column="emp_defult_avatar"/>
+        <result property="canSearch" column="can_search"/>
+        <result property="nickName" column="nick_name"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, type, industry, listed, turnover, people_number,welfare_level,email_postfix1,email_postfix2,email_postfix3,emp_defult_avatar,can_search
+  </sql>
+  
+  <!-- 根据企业的名称查询 -->
+  <select id="selectByPrimaryName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enterprise
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectById" resultMap="EnterpriseVo" parameterType="java.lang.Long">
+  	select ent.id, ent.name,ent.listed, ent.turnover, ent.people_number,ent.welfare_level,par1.id as typeId,par1.name as type,par2.id as industryId,par2.name as industry ,email_postfix1,email_postfix2,email_postfix3,emp_defult_avatar,can_search,sup.nick_name
+  	from t_enterprise ent  left join t_ent_param_code par1 on ent.type=par1.id left join t_ent_param_code par2 on ent.industry = par2.id INNER JOIN t_supplier sup on ent.id=sup.id where ent.id=#{id}
+  </select>
+  
+  
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enterprise
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="getFirstShopId" resultType="java.lang.Long" parameterType="java.lang.Long" >
+    select id FROM t_shop 
+    where supplier_id = #{id,jdbcType=BIGINT} limit 1 
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_enterprise
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wode.factory.model.Enterprise" >
+    insert into t_enterprise (id, name, type, 
+      industry, listed, turnover, 
+      people_number)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{industry,jdbcType=VARCHAR}, #{listed,jdbcType=VARCHAR}, #{turnover,jdbcType=VARCHAR}, 
+      #{peopleNumber,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wode.factory.company.query.EnterpriseVo" >
+    insert into t_enterprise
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="industry != null" >
+        industry,
+      </if>
+      <if test="listed != null" >
+        listed,
+      </if>
+      <if test="turnover != null" >
+        turnover,
+      </if>
+      <if test="peopleNumber != null" >
+        people_number,
+      </if>
+      <if test="welfareLevel != null" >
+        welfare_level,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="listed != null" >
+        #{listed,jdbcType=VARCHAR},
+      </if>
+      <if test="turnover != null" >
+        #{turnover,jdbcType=VARCHAR},
+      </if>
+      <if test="peopleNumber != null" >
+        #{peopleNumber,jdbcType=INTEGER},
+      </if>
+      <if test="welfareLevel != null" >
+        #{welfareLevel,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wode.factory.model.Enterprise" >
+    update t_enterprise
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="listed != null" >
+        listed = #{listed,jdbcType=VARCHAR},
+      </if>
+      <if test="turnover != null" >
+        turnover = #{turnover,jdbcType=VARCHAR},
+      </if> 
+      <if test="peopleNumber != null" >
+        people_number = #{peopleNumber,jdbcType=INTEGER},
+      </if>
+      <if test="welfareLevel != null" >
+        welfare_level = #{welfareLevel,jdbcType=INTEGER},
+      </if>
+		email_postfix1 = #{emailPostfix1},
+		email_postfix2 = #{emailPostfix2} ,
+		email_postfix3 = #{emailPostfix3} ,
+		emp_defult_avatar = #{empDefultAvatar}, 
+		can_search = #{canSearch} 
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+  <update id="updateEmpDefultAvatars">
+    update t_user
+    <set >
+      shop_link  = #{shopLink},
+      avatar = #{newAvatar}
+    </set>
+    where supplierId = #{id} AND (avatar IS NULL OR avatar = #{oldAvatar})
+  </update>
+  
+  <select id="findByEmailPostfix" resultMap="BaseResultMap">
+    	SELECT *
+	    FROM t_enterprise 
+		WHERE (email_postfix1 = #{emailPostfix}) OR (email_postfix2 = #{emailPostfix}) OR (email_postfix3 = #{emailPostfix})
+		LIMIT 1
+    </select>
+  <update id="updateByPrimaryKey" parameterType="com.wode.factory.model.Enterprise" >
+    update t_enterprise
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      listed = #{listed,jdbcType=VARCHAR},
+      turnover = #{turnover,jdbcType=VARCHAR},
+      people_number = #{peopleNumber,jdbcType=INTEGER},
+		email_postfix1 = #{emailPostfix1},
+		email_postfix2 = #{emailPostfix2} ,
+		email_postfix3 = #{emailPostfix3} ,
+		emp_defult_avatar = #{empDefultAvatar},
+		can_search = #{canSearch} 
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

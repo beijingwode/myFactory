@@ -1,0 +1,28 @@
+<div >
+			<div class="profile-info-row">
+				<input type="text" id="email" maxlength="50" /> <br />
+				<div style="width:100px;" onclick="activeEmail()">
+					<span class="btn fa fa-angellist" id="excel-btn">&nbsp;&nbsp;激活邮箱</span>
+				</div>
+			</div>
+			<br />
+</div>
+<script>
+
+	function activeEmail() {
+		var email=$("#email").val();
+		if(email=='') {
+			layer.msg('请输商家邮箱！', 3, 3);
+		} else {
+			$.ajax({
+		        type : 'POST',   
+				url: "${ctxPath}/supplierList/activeEmail?email="+email,
+		        dataType:"json",  
+		        contentType : 'application/json;charset=utf-8', //设置请求头信息  
+		        success :  function(data){   
+		        	layer.msg(data.msg, 3, 9);
+		        }
+		    });
+		}
+	}
+</script>

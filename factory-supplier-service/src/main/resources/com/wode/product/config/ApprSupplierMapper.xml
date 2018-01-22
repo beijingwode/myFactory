@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ApprSupplierMapper">
+
+    <resultMap id="ApprSupplier" type="com.wode.factory.model.ApprSupplier">
+        <result property="id" column="id"/>
+        <result property="status" column="status"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="property" column="property"/>
+        <result property="comName" column="com_name"/>
+        <result property="comRegisternum" column="com_registernum"/>
+        <result property="busState" column="bus_state"/>
+        <result property="busCity" column="bus_city"/>
+        <result property="busAddress" column="bus_address"/>
+        <result property="registeredCapital" column="registered_capital"/>
+        <result property="registeredCapitalCurrency" column="registered_capital_currency"/>
+        <result property="busScope" column="bus_scope"/>
+        <result property="busBegintime" column="bus_begintime"/>
+        <result property="busEndtime" column="bus_endtime"/>
+        <result property="busImgUrl" column="bus_img_url"/>
+        <result property="orgNum" column="org_num"/>
+        <result property="orgBegintime" column="org_begintime"/>
+        <result property="orgEndtime" column="org_endtime"/>
+        <result property="orgImgUrl" column="org_img_url"/>
+        <result property="taxNum" column="tax_num"/>
+        <result property="taxImgUrl" column="tax_img_url"/>
+        <result property="istaxpayer" column="istaxpayer"/>
+        <result property="istaxpayerImgUrl" column="istaxpayer_img_url"/>
+        <result property="corCome" column="cor_come"/>
+        <result property="corName" column="cor_name"/>
+        <result property="corNum" column="cor_num"/>
+        <result property="corImgUrl" column="cor_img_url"/>
+        <result property="bankPeople" column="bank_people"/>
+        <result property="bankId" column="bankId"/>
+        <result property="bankState" column="bank_state"/>
+        <result property="bankCity" column="bank_city"/>
+        <result property="bankName" column="bank_name"/>
+        <result property="bankNum" column="bank_num"/>
+        <result property="bankImgUrl" column="bank_img_url"/>
+        <result property="comState" column="com_state"/>
+        <result property="comCity" column="com_city"/>
+        <result property="comAddress" column="com_address"/>
+        <result property="comAdd" column="com_add"/>
+        <result property="comPc" column="com_pc"/>
+        <result property="comTel" column="com_tel"/>
+        <result property="comPortraiture" column="com_portraiture"/>
+        <result property="space" column="space"/>
+        <result property="referee" column="referee"/>
+        <result property="industry" column="industry"/>
+        <result property="comPersonnum" column="com_personnum"/>
+        <result property="creatTime" column="creat_time"/>
+        <result property="creatUser" column="creat_user"/>
+        <result property="creatName" column="creat_name"/>
+        <result property="toEmail" column="to_email"/>
+        <result property="enterType" column="enter_type"/>
+        <result property="cashDeposit" column="cashDeposit"/>
+        <result property="platformUseFee" column="platformUseFee"/>
+        <result property="protocolFile" column="protocol_file"/>
+        <result property="saleDurationKey" column="saleDurationKey"/>
+        <result property="startTime" column="startTime"/>
+        <result property="managerId" column="manager_id"/>
+        <result property="managerName" column="manager_name"/>
+        <result property="managerChkTime" column="manager_chk_time"/>
+        <result property="managerChkId" column="manager_chk_id"/>
+        <result property="managerChkDesc" column="manager_chk_desc"/>
+        <result property="managerChkImg" column="manager_chk_img"/>
+        <result property="lawChkTime" column="law_chk_time"/>
+        <result property="lawChkId" column="law_chk_id"/>
+        <result property="lawChkDesc" column="law_chk_desc"/>
+        <result property="lawChkImg" column="law_chk_img"/>
+        <result property="busChkTime" column="bus_chk_time"/>
+        <result property="busChkId" column="bus_chk_id"/>
+        <result property="busChkDesc" column="bus_chk_desc"/>
+        <result property="busChkImg" column="bus_chk_img"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateName" column="update_name"/>
+        <result property="peopleNumber" column="people_number"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        <![CDATA[
+        id,status,supplier_id,property,com_name,com_registernum,bus_state,bus_city,bus_address,registered_capital,bus_scope,bus_begintime,bus_endtime,bus_img_url,org_num,org_begintime,org_endtime,org_img_url,tax_num,tax_img_url,istaxpayer,istaxpayer_img_url,cor_come,cor_name,cor_num,cor_img_url,bank_people,bankId,bank_state,bank_city,bank_name,bank_num,bank_img_url,com_state,com_city,com_address,com_add,com_pc,com_tel,com_portraiture,space,referee,industry,com_personnum,creat_time,creat_user,creat_name,to_email,enter_type,cashDeposit,platformUseFee,protocol_file,saleDurationKey,startTime,manager_id,manager_name,manager_chk_time,manager_chk_id,manager_chk_desc,manager_chk_img,law_chk_time,law_chk_id,law_chk_desc,law_chk_img,bus_chk_time,bus_chk_id,bus_chk_desc,bus_chk_img,update_time,update_user,update_name,people_number,registered_capital_currency
+        ]]>
+    </sql>
+
+    <!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_appr_supplier (
+            id ,
+            status ,
+            supplier_id ,
+            property ,
+            com_name ,
+            com_registernum ,
+            bus_state ,
+            bus_city ,
+            bus_address ,
+            registered_capital ,
+            bus_scope ,
+            bus_begintime ,
+            bus_endtime ,
+            bus_img_url ,
+            org_num ,
+            org_begintime ,
+            org_endtime ,
+            org_img_url ,
+            tax_num ,
+            tax_img_url ,
+            istaxpayer ,
+            istaxpayer_img_url ,
+            cor_come ,
+            cor_name ,
+            cor_num ,
+            cor_img_url ,
+            bank_people ,
+            bankId ,
+            bank_state ,
+            bank_city ,
+            bank_name ,
+            bank_num ,
+            bank_img_url ,
+            com_state ,
+            com_city ,
+            com_address ,
+            com_add ,
+            com_pc ,
+            com_tel ,
+            com_portraiture ,
+            space ,
+            referee ,
+            industry ,
+            com_personnum ,
+            creat_time ,
+            creat_user ,
+            creat_name ,
+            to_email ,
+            enter_type ,
+            cashDeposit ,
+            platformUseFee ,
+            protocol_file ,
+            saleDurationKey ,
+            startTime ,
+            manager_id ,
+            manager_name ,
+            manager_chk_time ,
+            manager_chk_id ,
+            manager_chk_desc ,
+            manager_chk_img ,
+            law_chk_time ,
+            law_chk_id ,
+            law_chk_desc ,
+            law_chk_img ,
+            bus_chk_time ,
+            bus_chk_id ,
+            bus_chk_desc ,
+            bus_chk_img ,
+            update_time ,
+            update_user ,
+            update_name,
+            people_number,
+            registered_capital_currency
+        ) VALUES (
+            #{id} ,
+            #{status} ,
+            #{supplierId} ,
+            #{property} ,
+            #{comName} ,
+            #{comRegisternum} ,
+            #{busState} ,
+            #{busCity} ,
+            #{busAddress} ,
+            #{registeredCapital} ,
+            #{busScope} ,
+            #{busBegintime} ,
+            #{busEndtime} ,
+            #{busImgUrl} ,
+            #{orgNum} ,
+            #{orgBegintime} ,
+            #{orgEndtime} ,
+            #{orgImgUrl} ,
+            #{taxNum} ,
+            #{taxImgUrl} ,
+            #{istaxpayer} ,
+            #{istaxpayerImgUrl} ,
+            #{corCome} ,
+            #{corName} ,
+            #{corNum} ,
+            #{corImgUrl} ,
+            #{bankPeople} ,
+            #{bankId} ,
+            #{bankState} ,
+            #{bankCity} ,
+            #{bankName} ,
+            #{bankNum} ,
+            #{bankImgUrl} ,
+            #{comState} ,
+            #{comCity} ,
+            #{comAddress} ,
+            #{comAdd} ,
+            #{comPc} ,
+            #{comTel} ,
+            #{comPortraiture} ,
+            #{space} ,
+            #{referee} ,
+            #{industry} ,
+            #{comPersonnum} ,
+            #{creatTime} ,
+            #{creatUser} ,
+            #{creatName} ,
+            #{toEmail} ,
+            #{enterType} ,
+            #{cashDeposit} ,
+            #{platformUseFee} ,
+            #{protocolFile} ,
+            #{saleDurationKey} ,
+            #{startTime} ,
+            #{managerId} ,
+            #{managerName} ,
+            #{managerChkTime} ,
+            #{managerChkId} ,
+            #{managerChkDesc} ,
+            #{managerChkImg} ,
+            #{lawChkTime} ,
+            #{lawChkId} ,
+            #{lawChkDesc} ,
+            #{lawChkImg} ,
+            #{busChkTime} ,
+            #{busChkId} ,
+            #{busChkDesc} ,
+            #{busChkImg} ,
+            #{updateTime} ,
+            #{updateUser} ,
+            #{updateName},
+            #{peopleNumber},
+            #{registeredCapitalCurrency}
+        )
+    ]]>
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE t_appr_supplier SET            
+            status = #{status} ,
+            supplier_id = #{supplierId} ,
+            property = #{property} ,
+            com_name = #{comName} ,
+            com_registernum = #{comRegisternum} ,
+            bus_state = #{busState} ,
+            bus_city = #{busCity} ,
+            bus_address = #{busAddress} ,
+            registered_capital = #{registeredCapital} ,
+            bus_scope = #{busScope} ,
+            bus_begintime = #{busBegintime} ,
+            bus_endtime = #{busEndtime} ,
+            bus_img_url = #{busImgUrl} ,
+            org_num = #{orgNum} ,
+            org_begintime = #{orgBegintime} ,
+            org_endtime = #{orgEndtime} ,
+            org_img_url = #{orgImgUrl} ,
+            tax_num = #{taxNum} ,
+            tax_img_url = #{taxImgUrl} ,
+            istaxpayer = #{istaxpayer} ,
+            istaxpayer_img_url = #{istaxpayerImgUrl} ,
+            cor_come = #{corCome} ,
+            cor_name = #{corName} ,
+            cor_num = #{corNum} ,
+            cor_img_url = #{corImgUrl} ,
+            bank_people = #{bankPeople} ,
+            bankId = #{bankId} ,
+            bank_state = #{bankState} ,
+            bank_city = #{bankCity} ,
+            bank_name = #{bankName} ,
+            bank_num = #{bankNum} ,
+            bank_img_url = #{bankImgUrl} ,
+            com_state = #{comState} ,
+            com_city = #{comCity} ,
+            com_address = #{comAddress} ,
+            com_add = #{comAdd} ,
+            com_pc = #{comPc} ,
+            com_tel = #{comTel} ,
+            com_portraiture = #{comPortraiture} ,
+            space = #{space} ,
+            referee = #{referee} ,
+            industry = #{industry} ,
+            com_personnum = #{comPersonnum} ,
+            creat_time = #{creatTime} ,
+            creat_user = #{creatUser} ,
+            creat_name = #{creatName} ,
+            enter_type = #{enterType} ,
+            cashDeposit = #{cashDeposit} ,
+            platformUseFee = #{platformUseFee} ,
+            protocol_file = #{protocolFile} ,
+            saleDurationKey = #{saleDurationKey} ,
+            startTime = #{startTime} ,
+            manager_id = #{managerId} ,
+            manager_name = #{managerName} ,
+            manager_chk_time = #{managerChkTime} ,
+            manager_chk_id = #{managerChkId} ,
+            manager_chk_desc = #{managerChkDesc} ,
+            manager_chk_img = #{managerChkImg} ,
+            law_chk_time = #{lawChkTime} ,
+            law_chk_id = #{lawChkId} ,
+            law_chk_desc = #{lawChkDesc} ,
+            law_chk_img = #{lawChkImg} ,
+            bus_chk_time = #{busChkTime} ,
+            bus_chk_id = #{busChkId} ,
+            bus_chk_desc = #{busChkDesc} ,
+            bus_chk_img = #{busChkImg} ,
+            update_time = #{updateTime} ,
+            update_user = #{updateUser} ,
+            update_name = #{updateName} ,
+            people_number=#{peopleNumber},
+            registered_capital_currency = #{registeredCapitalCurrency}
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM t_appr_supplier WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    <select id="getById" resultMap="ApprSupplier">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM t_appr_supplier 
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+
+    <select id="getSupplierApprIng" resultMap="ApprSupplier">
+        SELECT <include refid="columns" /> FROM t_appr_supplier 
+        WHERE supplier_id = #{supplierId} AND status &lt; 4
+    </select>
+    
+    <select id="selectByModel" resultMap="ApprSupplier">
+        SELECT <include refid="columns" /> FROM t_appr_supplier 
+        <include refid="find_where"/>
+    </select>
+
+    <sql id="find_where">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <where>
+           <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+           <if test="@Ognl@isNotEmpty(status)">
+                AND status = #{status}
+            </if>
+           <if test="@Ognl@isNotEmpty(supplierId)">
+                AND supplier_id = #{supplierId}
+            </if>
+           <if test="@Ognl@isNotEmpty(property)">
+                AND property = #{property}
+            </if>
+           <if test="@Ognl@isNotEmpty(comName)">
+                AND com_name = #{comName}
+            </if>
+           <if test="@Ognl@isNotEmpty(comRegisternum)">
+                AND com_registernum = #{comRegisternum}
+            </if>
+           <if test="@Ognl@isNotEmpty(busState)">
+                AND bus_state = #{busState}
+            </if>
+           <if test="@Ognl@isNotEmpty(busCity)">
+                AND bus_city = #{busCity}
+            </if>
+           <if test="@Ognl@isNotEmpty(busAddress)">
+                AND bus_address = #{busAddress}
+            </if>
+           <if test="@Ognl@isNotEmpty(registeredCapital)">
+                AND registered_capital = #{registeredCapital}
+            </if>
+           <if test="@Ognl@isNotEmpty(busScope)">
+                AND bus_scope = #{busScope}
+            </if>
+           <if test="@Ognl@isNotEmpty(busBegintime)">
+                AND bus_begintime = #{busBegintime}
+            </if>
+           <if test="@Ognl@isNotEmpty(busEndtime)">
+                AND bus_endtime = #{busEndtime}
+            </if>
+           <if test="@Ognl@isNotEmpty(busImgUrl)">
+                AND bus_img_url = #{busImgUrl}
+            </if>
+           <if test="@Ognl@isNotEmpty(orgNum)">
+                AND org_num = #{orgNum}
+            </if>
+           <if test="@Ognl@isNotEmpty(orgBegintime)">
+                AND org_begintime = #{orgBegintime}
+            </if>
+           <if test="@Ognl@isNotEmpty(orgEndtime)">
+                AND org_endtime = #{orgEndtime}
+            </if>
+           <if test="@Ognl@isNotEmpty(orgImgUrl)">
+                AND org_img_url = #{orgImgUrl}
+            </if>
+           <if test="@Ognl@isNotEmpty(taxNum)">
+                AND tax_num = #{taxNum}
+            </if>
+           <if test="@Ognl@isNotEmpty(taxImgUrl)">
+                AND tax_img_url = #{taxImgUrl}
+            </if>
+           <if test="@Ognl@isNotEmpty(istaxpayer)">
+                AND istaxpayer = #{istaxpayer}
+            </if>
+           <if test="@Ognl@isNotEmpty(istaxpayerImgUrl)">
+                AND istaxpayer_img_url = #{istaxpayerImgUrl}
+            </if>
+           <if test="@Ognl@isNotEmpty(corCome)">
+                AND cor_come = #{corCome}
+            </if>
+           <if test="@Ognl@isNotEmpty(corName)">
+                AND cor_name = #{corName}
+            </if>
+           <if test="@Ognl@isNotEmpty(corNum)">
+                AND cor_num = #{corNum}
+            </if>
+           <if test="@Ognl@isNotEmpty(corImgUrl)">
+                AND cor_img_url = #{corImgUrl}
+            </if>
+           <if test="@Ognl@isNotEmpty(bankPeople)">
+                AND bank_people = #{bankPeople}
+            </if>
+           <if test="@Ognl@isNotEmpty(bankId)">
+                AND bankId = #{bankId}
+            </if>
+           <if test="@Ognl@isNotEmpty(bankState)">
+                AND bank_state = #{bankState}
+            </if>
+           <if test="@Ognl@isNotEmpty(bankCity)">
+                AND bank_city = #{bankCity}
+            </if>
+           <if test="@Ognl@isNotEmpty(bankName)">
+                AND bank_name = #{bankName}
+            </if>
+           <if test="@Ognl@isNotEmpty(bankNum)">
+                AND bank_num = #{bankNum}
+            </if>
+           <if test="@Ognl@isNotEmpty(bankImgUrl)">
+                AND bank_img_url = #{bankImgUrl}
+            </if>
+           <if test="@Ognl@isNotEmpty(comState)">
+                AND com_state = #{comState}
+            </if>
+           <if test="@Ognl@isNotEmpty(comCity)">
+                AND com_city = #{comCity}
+            </if>
+           <if test="@Ognl@isNotEmpty(comAddress)">
+                AND com_address = #{comAddress}
+            </if>
+           <if test="@Ognl@isNotEmpty(comAdd)">
+                AND com_add = #{comAdd}
+            </if>
+           <if test="@Ognl@isNotEmpty(comPc)">
+                AND com_pc = #{comPc}
+            </if>
+           <if test="@Ognl@isNotEmpty(comTel)">
+                AND com_tel = #{comTel}
+            </if>
+           <if test="@Ognl@isNotEmpty(comPortraiture)">
+                AND com_portraiture = #{comPortraiture}
+            </if>
+           <if test="@Ognl@isNotEmpty(space)">
+                AND space = #{space}
+            </if>
+           <if test="@Ognl@isNotEmpty(referee)">
+                AND referee = #{referee}
+            </if>
+           <if test="@Ognl@isNotEmpty(industry)">
+                AND industry = #{industry}
+            </if>
+           <if test="@Ognl@isNotEmpty(comPersonnum)">
+                AND com_personnum = #{comPersonnum}
+            </if>
+           <if test="@Ognl@isNotEmpty(creatTime)">
+                AND creat_time = #{creatTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(creatUser)">
+                AND creat_user = #{creatUser}
+            </if>
+           <if test="@Ognl@isNotEmpty(creatName)">
+                AND creat_name = #{creatName}
+            </if>
+           <if test="@Ognl@isNotEmpty(enterType)">
+                AND enter_type = #{enterType}
+            </if>
+           <if test="@Ognl@isNotEmpty(cashDeposit)">
+                AND cashDeposit = #{cashDeposit}
+            </if>
+           <if test="@Ognl@isNotEmpty(platformUseFee)">
+                AND platformUseFee = #{platformUseFee}
+            </if>
+           <if test="@Ognl@isNotEmpty(protocolFile)">
+                AND protocol_file = #{protocolFile}
+            </if>
+           <if test="@Ognl@isNotEmpty(saleDurationKey)">
+                AND saleDurationKey = #{saleDurationKey}
+            </if>
+           <if test="@Ognl@isNotEmpty(startTime)">
+                AND startTime = #{startTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerId)">
+                AND manager_id = #{managerId}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerName)">
+                AND manager_name = #{managerName}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerChkTime)">
+                AND manager_chk_time = #{managerChkTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerChkId)">
+                AND manager_chk_id = #{managerChkId}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerChkDesc)">
+                AND manager_chk_desc = #{managerChkDesc}
+            </if>
+           <if test="@Ognl@isNotEmpty(managerChkImg)">
+                AND manager_chk_img = #{managerChkImg}
+            </if>
+           <if test="@Ognl@isNotEmpty(lawChkTime)">
+                AND law_chk_time = #{lawChkTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(lawChkId)">
+                AND law_chk_id = #{lawChkId}
+            </if>
+           <if test="@Ognl@isNotEmpty(lawChkDesc)">
+                AND law_chk_desc = #{lawChkDesc}
+            </if>
+           <if test="@Ognl@isNotEmpty(lawChkImg)">
+                AND law_chk_img = #{lawChkImg}
+            </if>
+           <if test="@Ognl@isNotEmpty(busChkTime)">
+                AND bus_chk_time = #{busChkTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(busChkId)">
+                AND bus_chk_id = #{busChkId}
+            </if>
+           <if test="@Ognl@isNotEmpty(busChkDesc)">
+                AND bus_chk_desc = #{busChkDesc}
+            </if>
+           <if test="@Ognl@isNotEmpty(busChkImg)">
+                AND bus_chk_img = #{busChkImg}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateTime)">
+                AND update_time = #{updateTime}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateUser)">
+                AND update_user = #{updateUser}
+            </if>
+           <if test="@Ognl@isNotEmpty(updateName)">
+                AND update_name = #{updateName}
+            </if><if test="@Ognl@isNotEmpty(peopleNumber)">
+                AND people_number = #{peopleNumber}
+            </if>
+        </where>
+    </sql>
+
+</mapper>
